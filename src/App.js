@@ -131,84 +131,84 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Navbar />
       <ToastContainer style={{ fontSize: "12px", fontWeight: "bold" }} />
-      <>
-        <Routes>
-          <Route exact path="/" element={<Home />} />
+      {/* <Container sx={{ pt: 9 }}> */}
+      <Routes>
+        <Route exact path="/" element={<Home />} />
 
-          <Route exact path="/signup" element={<Signup />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/signup/complete" element={<SignupComplete />} />
+        <Route exact path="/signup" element={<Signup />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/signup/complete" element={<SignupComplete />} />
 
-          <Route
-            exact
-            path="/my/dashboard"
-            element={
-              <UserRoute>
-                <Dashboard />
-              </UserRoute>
-            }
-          />
+        <Route
+          exact
+          path="/my/dashboard"
+          element={
+            <UserRoute>
+              <Dashboard />
+            </UserRoute>
+          }
+        />
 
-          <Route
-            exact
-            path="/my/account"
-            element={
-              <UserRoute>
-                <Account />
-              </UserRoute>
-            }
-          />
-          <Route
-            exact
-            path="/my/profile"
-            element={
-              <UserRoute>
-                <Profile />
-              </UserRoute>
-            }
-          />
-          <Route
-            exact
-            path="/email/change"
-            element={
-              <UserRoute>
-                <EmailChange />
-              </UserRoute>
-            }
-          />
+        <Route
+          exact
+          path="/my/account"
+          element={
+            <UserRoute>
+              <Account />
+            </UserRoute>
+          }
+        />
+        <Route
+          exact
+          path="/my/profile"
+          element={
+            <UserRoute>
+              <Profile />
+            </UserRoute>
+          }
+        />
+        <Route
+          exact
+          path="/email/change"
+          element={
+            <UserRoute>
+              <EmailChange />
+            </UserRoute>
+          }
+        />
 
-          <Route
-            exact
-            path="/admin/dashboard"
-            element={
-              <AdminRoute>
-                <AdminDashboard />
-              </AdminRoute>
-            }
-          />
-          <Route
-            exact
-            path="/admin/account"
-            element={
-              <AdminRoute>
-                <AdminAccount />
-              </AdminRoute>
-            }
-          />
-          <Route
-            exact
-            path="/admin/profile"
-            element={
-              <AdminRoute>
-                <AdminProfile />
-              </AdminRoute>
-            }
-          />
+        <Route
+          exact
+          path="/admin/dashboard"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
+        <Route
+          exact
+          path="/admin/account"
+          element={
+            <AdminRoute>
+              <AdminAccount />
+            </AdminRoute>
+          }
+        />
+        <Route
+          exact
+          path="/admin/profile"
+          element={
+            <AdminRoute>
+              <AdminProfile />
+            </AdminRoute>
+          }
+        />
 
-          <Route exact path="*" element={<NotFound />} />
-        </Routes>
-        {/* <Footer /> */}
-      </>
+        <Route exact path="*" element={<NotFound />} />
+      </Routes>
+      {/* <Footer /> */}
+      {/* </Container> */}
     </ThemeProvider>
   );
 };

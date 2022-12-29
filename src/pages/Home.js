@@ -22,14 +22,15 @@ const Home = () => {
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundImage: "url(hero1.webp)",
-        pt: 20,
-        pb: 45,
+        pt: 10,
+        pb: 50,
         px: 5,
       }}
     >
       <Box textAlign="center">
         {/* <PageTitle mt={5} mb={0} title="Wuda Lounge" /> */}
         <Subtitle title="Pork, Chicken and fish meals" />
+        <PageTitle title={`Accra, be ready!`} />
         <Box>
           <Countdown
             date={date1}
@@ -41,7 +42,10 @@ const Home = () => {
                 // Render a countdown
                 return (
                   <Typography color="secondary" my={5}>
-                    <PageTitle title={`${hours}:${minutes}:${seconds}`} />
+                    <PageTitle
+                      title={`${hours}:${minutes}:${seconds}`}
+                      variant="h2"
+                    />
                   </Typography>
                 );
               }

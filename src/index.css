@@ -3,13 +3,12 @@ body {
   font-family: "Ubuntu", sans-serif !important;
   margin: 0;
   padding: 0;
-  /* background-color: #000; */
+  background-color: #000;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
         
   color:#fff;
-  background-image: url('images/hero1.webp'),
   /* background-color: #292929; */
 }
 
