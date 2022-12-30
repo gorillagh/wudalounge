@@ -90,7 +90,33 @@ const Home = () => {
                               </Typography>
                             </div>
                             <div>
-                              {hours}:{minutes}:{seconds}
+                              {hours}
+                              <Typography
+                                component="span"
+                                fontWeight="bold"
+                                color="#fff"
+                                variant="body1"
+                              >
+                                hrs
+                              </Typography>
+                              :{minutes}
+                              <Typography
+                                component="span"
+                                fontWeight="bold"
+                                color="#fff"
+                                variant="body1"
+                              >
+                                mins
+                              </Typography>
+                              :{seconds}
+                              <Typography
+                                component="span"
+                                fontWeight="bold"
+                                color="#fff"
+                                variant="body1"
+                              >
+                                secs
+                              </Typography>
                             </div>
                           </>
                         }
