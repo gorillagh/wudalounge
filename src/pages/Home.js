@@ -4,12 +4,49 @@ import Box from "@mui/material/Box";
 import ActionButton from "../components/Buttons/ActionButton";
 import PageTitle from "../components/Typography/PageTitle";
 import Subtitle from "../components/Typography/Subtitle";
-import { Grid, TextField, Typography } from "@mui/material";
+import { CircularProgress, Grid, TextField, Typography } from "@mui/material";
 import Countdown from "react-countdown";
+import { toast } from "react-toastify";
+import { addToNotificationList } from "../serverFunctions/user";
+
+var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
 const Home = () => {
   const [email, setEmail] = useState("");
-  var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
+  const [loading, setLoading] = useState(false);
+
+  const handleSendNotification = async () => {
+    try {
+      if (
+        !String(email)
+          .toLowerCase()
+          .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          )
+      ) {
+        toast.error("Please enter a valid email");
+        return;
+      }
+      setLoading(true);
+
+      const response = await addToNotificationList(email);
+      if (response.data === "Email exists")
+        toast.success(
+          `You are already on the list. We will send an email to ${email} before and on launch day!`
+        );
+      if (response.data === "Ok")
+        toast.success(
+          `We will send an email to ${email} before and on launch day!`
+        );
+      setEmail("");
+      setLoading(false);
+    } catch (error) {
+      toast.error(error);
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
   return (
     <Grid
       container
@@ -70,6 +107,7 @@ const Home = () => {
           </Typography>
           <Box textAlign="center" bgcolor="#fff" borderRadius={1} p={1}>
             <TextField
+              disabled={loading}
               required
               fullWidth
               size="small"
@@ -81,8 +119,11 @@ const Home = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Box>
-
-          <ActionButton text="Notify me!" />
+          {loading ? (
+            <CircularProgress sx={{ my: 2 }} />
+          ) : (
+            <ActionButton text="Notify me!" onClick={handleSendNotification} />
+          )}
         </Box>
       </Grid>
     </Grid>
