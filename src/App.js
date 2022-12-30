@@ -131,7 +131,6 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Navbar />
       <ToastContainer style={{ fontSize: "12px", fontWeight: "bold" }} />
-      {/* <Container sx={{ pt: 9 }}> */}
       <Routes>
         <Route exact path="/" element={<Home />} />
 
@@ -207,8 +206,7 @@ const App = () => {
 
         <Route exact path="*" element={<NotFound />} />
       </Routes>
-      {/* <Footer /> */}
-      {/* </Container> */}
+      <Footer />
     </ThemeProvider>
   );
 };

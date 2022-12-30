@@ -18,7 +18,7 @@ const footers = [
 const Footer = (props) => {
   return (
     <>
-      <Container maxWidth="lg">
+      {/* <Container maxWidth="lg">
         <Divider sx={{ mt: 10, mb: 3 }} />
         <Grid container justifyContent="left">
           {footers.map((footer) => (
@@ -34,7 +34,7 @@ const Footer = (props) => {
             </Grid>
           ))}
         </Grid>
-      </Container>
+      </Container> */}
       <Typography variant="body2" align="center" sx={{ my: 4 }}>
         {"© "}
         <Link color="#f6a60b" text="Wuda Lounge" to="/" />{" "}

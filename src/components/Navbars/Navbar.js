@@ -28,20 +28,22 @@ import logo from "../../images/logo-32x32.png";
 import Link from "../Links/Link";
 import { Icon, ListItemIcon } from "@mui/material";
 
-const pages = [{ text: "About Us", icon: "info" }];
-const userPages = [
-  { text: "Profile", icon: "" },
-  { text: "My Orders", icon: "" },
-  { text: "Account", icon: "" },
-  { text: "Logout", icon: "" },
+const pages = [
+  { text: "Meals", icon: "dinner_dining", to: "/meals" },
+  { text: "About Us", icon: "info", to: "/about/us" },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const userPages = [
+  { text: "Profile", icon: "person", to: "/my/profile" },
+  { text: "My Orders", icon: "list", to: "/my/orders" },
+  { text: "Account", icon: "manage_accounts", to: "/my/account" },
+  { text: "Logout", icon: "logout", to: "logout" },
+];
 
 function Navbar(props) {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => ({ ...state }));
@@ -62,27 +64,19 @@ function Navbar(props) {
     }
   };
 
-  const handleOpenUserMenu = (event) => {
-    if (anchorElUser !== event.currentTarget) {
-      setAnchorElUser(event.currentTarget);
-    }
-  };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = async (e) => {
-    setAnchorElUser(null);
-    if (e.target.id !== "" && e.target.id !== "Logout")
-      navigate(`/my/${e.target.id.toLowerCase()}`);
+  const handleNavigation = async (to) => {
+    if (to !== "" && to !== "logout") navigate(to);
 
-    e.target.id === "Logout" && handleSignOut();
+    to === "logout" && handleSignOut();
   };
 
   ////////////drawer///////////////////
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    setDrawerOpen(!drawerOpen);
   };
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "left", pt: "4px" }}>
@@ -110,7 +104,11 @@ function Navbar(props) {
           ? userPages.map((item, index) => (
               <>
                 <ListItem key={index} disablePadding>
-                  <ListItemButton key={index} sx={{ textAlign: "left" }}>
+                  <ListItemButton
+                    onClick={() => handleNavigation(item.to)}
+                    key={index}
+                    sx={{ textAlign: "left" }}
+                  >
                     <ListItemIcon>
                       <Icon>{item.icon}</Icon>
                     </ListItemIcon>
@@ -127,7 +125,7 @@ function Navbar(props) {
             <ListItem disablePadding>
               <ListItemButton
                 sx={{ textAlign: "left" }}
-                onClick={handleOpenUserMenu}
+                onClick={() => handleNavigation("/login")}
               >
                 <ListItemIcon>
                   <Icon>person</Icon>
@@ -135,20 +133,25 @@ function Navbar(props) {
                 <ListItemText primary="Sign In" />
               </ListItemButton>
             </ListItem>
-            <hr />
           </>
         )}
-
-        {pages.map((item, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton key={index} sx={{ textAlign: "left" }}>
-              <ListItemIcon>
-                <Icon>{item.icon}</Icon>
-              </ListItemIcon>
-              <ListItemText key={index} primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <Box sx={{ display: { xs: "block", md: "none" } }}>
+          <hr />
+          {pages.map((item, index) => (
+            <ListItem key={index} disablePadding>
+              <ListItemButton
+                onClick={() => handleNavigation(item.to)}
+                key={index}
+                sx={{ textAlign: "left" }}
+              >
+                <ListItemIcon>
+                  <Icon>{item.icon}</Icon>
+                </ListItemIcon>
+                <ListItemText key={index} primary={item.text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </Box>
       </List>
     </Box>
   );
@@ -163,7 +166,7 @@ function Navbar(props) {
         position="fixed"
         color="inherit"
         sx={{
-          background: "rgba(0,0,0, 0.4)",
+          background: "rgba(0,0,0, 0.8)",
         }}
       >
         <Container maxWidth="lg">
@@ -213,15 +216,15 @@ function Navbar(props) {
               sx={{ flexGrow: 1, display: "flex", justifyContent: "flex-end" }}
             >
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                {pages.map((page, index) => (
+                {pages.map((item, index) => (
                   <Button
                     key={index}
-                    onClick={() => handleCloseNavMenu(page.text)}
+                    onClick={() => handleNavigation(item.to)}
                     sx={{
                       mx: 1,
                     }}
                   >
-                    <Link text={page.text} to={`/${page.text}`} />
+                    <Link text={item.text} />
                   </Button>
                 ))}
               </Box>
@@ -247,13 +250,13 @@ function Navbar(props) {
                     anchor="right"
                     container={container}
                     variant="temporary"
-                    open={mobileOpen}
+                    open={drawerOpen}
                     onClose={handleDrawerToggle}
                     ModalProps={{
                       keepMounted: true, // Better open performance on mobile.
                     }}
                     sx={{
-                      display: { xs: "block", md: "none" },
+                      // display: { xs: "block", md: "none" },
                       "& .MuiDrawer-paper": {
                         boxSizing: "border-box",
                         width: drawerWidth,
@@ -265,7 +268,7 @@ function Navbar(props) {
                 </Box>
               </Box>
               <IconButton
-                onClick={handleOpenUserMenu}
+                onClick={handleDrawerToggle}
                 sx={{
                   color: "primary.main",
                   display: {
@@ -281,64 +284,6 @@ function Navbar(props) {
               >
                 <PersonIcon fontSize="medium" />
               </IconButton>
-
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {user === null && (
-                  <Box
-                    sx={{
-                      display: {
-                        xs: user !== null ? "none" : "block",
-                        md: "none",
-                      },
-                    }}
-                  >
-                    <MenuItem>
-                      <NavbarButton
-                        href="/login"
-                        variant="contained"
-                        text="Login"
-                        onClick={handleCloseUserMenu}
-                      />
-                    </MenuItem>
-                    <MenuItem>
-                      <NavbarButton
-                        href="/signup"
-                        variant="outlined"
-                        text="sign up"
-                        onClick={handleCloseUserMenu}
-                      />
-                    </MenuItem>
-                  </Box>
-                )}
-                <Box sx={{ display: { xs: user === null ? "none" : "block" } }}>
-                  {settings.map((setting) => (
-                    <MenuItem
-                      id={setting}
-                      key={setting}
-                      onClick={handleCloseUserMenu}
-                    >
-                      <Typography textAlign="center" id={setting}>
-                        {setting}
-                      </Typography>
-                    </MenuItem>
-                  ))}
-                </Box>
-              </Menu>
               {user === null && (
                 <Box sx={{ display: { xs: "none", md: "block" } }}>
                   <NavbarButton
@@ -358,7 +303,7 @@ function Navbar(props) {
         </Container>
       </AppBar>
 
-      {/* <Toolbar color="inherit" sx={{ background: "rgba(0,0,0, 0.4)" }} /> */}
+      <Toolbar />
     </>
   );
 }

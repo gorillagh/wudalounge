@@ -146,7 +146,7 @@ const SignupComplete = () => {
 
   return (
     <>
-      <Container sx={{ pt: 10 }} component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs">
         <Box
           sx={{
             m: 1,
