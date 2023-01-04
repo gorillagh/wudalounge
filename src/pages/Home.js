@@ -34,7 +34,7 @@ const contactInfo = [
     icon: "location_on",
   },
   {
-    text: "+233240298910",
+    text: "+233244410869",
     icon: "phone",
   },
 ];
@@ -56,7 +56,7 @@ const infoList = [
 const porkDishes = [
   {
     name: "Baked Pork Chops",
-    description: "Grilled and chopped, vegetables",
+    description: "Grilled Chopped Pork | vegetables",
     price: 100,
     discountedPrice: 50,
     image:
@@ -64,7 +64,7 @@ const porkDishes = [
   },
   {
     name: "Pork SandWich",
-    description: "Shredded Pork, toasted Bread, Vegetables",
+    description: "Grilled Shredded Pork | toasted Bread | Vegetables",
     price: 80,
     discountedPrice: 40,
     image:
@@ -289,7 +289,7 @@ const Home = () => {
           )}
         </Box> */}
           <Container maxWidth="xl">
-            <Subtitle mt={0} title="Pork, Chicken and fish meals" />
+            <Subtitle mt={0} title="Pork, Chicken and Tilapia dishes" />
             <List sx={{ p: 0 }} disablePadding>
               {infoList.map((info, index) => (
                 <ListItem disableGutters disablePadding>

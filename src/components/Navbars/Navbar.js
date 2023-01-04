@@ -29,7 +29,7 @@ import Link from "../Links/Link";
 import { Icon, ListItemIcon } from "@mui/material";
 
 const pages = [
-  { text: "Meals", icon: "dinner_dining", to: "/meals" },
+  { text: "Dishes", icon: "dinner_dining", to: "/meals" },
   { text: "About Us", icon: "info", to: "/about/us" },
 ];
 const userPages = [
