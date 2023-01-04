@@ -166,10 +166,10 @@ function Navbar(props) {
         position="fixed"
         color="inherit"
         sx={{
-          background: "rgba(0,0,0, 0.8)",
+          background: "rgba(0,0,0, 1)",
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
               component="a"

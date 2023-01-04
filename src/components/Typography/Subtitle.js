@@ -4,7 +4,7 @@ import React from "react";
 const Subtitle = (props) => {
   return (
     <Box mt={3} mb={2} textAlign={props.textAlign} {...props}>
-      <Typography variant="h5" fontWeight={500} {...props}>
+      <Typography variant="h5" fontWeight={props.fontWeight} {...props}>
         {props.title}
       </Typography>
     </Box>
@@ -12,6 +12,7 @@ const Subtitle = (props) => {
 };
 Subtitle.defaultProps = {
   title: "Sub Title",
+  fontWeight: 500,
 };
 
 export default Subtitle;
