@@ -13,6 +13,7 @@ const ActionButton = (props) => {
       onClick={props.onClick}
       sx={{
         my: props.my,
+        py: props.py,
         borderRadius: 5,
         textTransform: "capitalize",
         color: props.variant !== "contained" ? "" : "#fff",

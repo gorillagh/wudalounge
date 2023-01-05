@@ -4,7 +4,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Subtitle from "../Typography/Subtitle";
 import PageTitle from "../Typography/PageTitle";
-import { AppBar, Chip, Container, Grid, Toolbar } from "@mui/material";
+import { AppBar, Chip, Container, Grid, Icon, Toolbar } from "@mui/material";
 import ActionButton from "../Buttons/ActionButton";
 
 const style = {
@@ -46,6 +46,12 @@ const Dish = (props) => {
             noValidate
           >
             <Box>
+              <Icon
+                color="error"
+                sx={{ position: "absolute", right: 15, top: 15 }}
+              >
+                cancel
+              </Icon>
               <img
                 style={{
                   borderTopRightRadius: "12px",
@@ -57,6 +63,7 @@ const Dish = (props) => {
                 width="100%"
                 src={props.dish.image}
               />
+
               <Box p={2}>
                 <PageTitle
                   mt={0}
@@ -112,20 +119,7 @@ const Dish = (props) => {
             }}
           >
             <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Typography>coming soon...!</Typography>
           </Box>
           <>
             <AppBar
@@ -141,14 +135,49 @@ const Dish = (props) => {
               >
                 <Grid item xs={5}>
                   <Chip
-                    label={<Typography fontWeight={600}>- 1 +</Typography>}
-                    sx={{ width: "100%", height: "100%" }}
+                    variant="outlined"
+                    label={
+                      <Grid
+                        container
+                        justifyContent="space-evenly"
+                        width="100px"
+                      >
+                        <Grid item xs={2}>
+                          <Typography
+                            variant="h4"
+                            textAlign="center"
+                            fontWeight={500}
+                          >
+                            -
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                          <Typography
+                            variant="h4"
+                            textAlign="center"
+                            fontWeight={500}
+                          >
+                            1
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Typography
+                            variant="h4"
+                            textAlign="center"
+                            fontWeight={500}
+                          >
+                            +
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    }
+                    sx={{ width: "100%", height: "100%", p: 0 }}
                     // color="secondary"
                   />
                 </Grid>
                 <Grid item xs={7}>
                   <ActionButton
-                    p={0}
+                    py={0.5}
                     my={0}
                     text={
                       <Box>
@@ -164,7 +193,7 @@ const Dish = (props) => {
                 </Grid>
               </Grid>
             </AppBar>
-            <Toolbar />
+            <Toolbar sx={{ py: 1 }} />
           </>
         </Box>
       </Modal>
