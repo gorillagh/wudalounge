@@ -164,6 +164,7 @@ const Home = () => {
 
   const handleDishSelect = async (d) => {
     setSelectedDish(d);
+    document.body.style.overflow = "hidden";
     setOpenDishModal(true);
   };
 
