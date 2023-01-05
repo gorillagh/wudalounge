@@ -58,18 +58,7 @@ const Dish = (props) => {
                 src={props.dish.image}
               />
               <Box p={2}>
-                <Subtitle my={1} title={props.dish.name} fontWeight={700} />
-                <Typography
-                  my={0.5}
-                  overflow="hidden"
-                  textOverflow="ellipsis"
-                  // whiteSpace="nowrap"
-                  // variant="body2"
-                  color="text.secondary"
-                >
-                  {props.dish.description}
-                </Typography>
-
+                <PageTitle my={1} title={props.dish.name} fontWeight={700} />
                 <Typography
                   sx={{
                     fontWeight: 600,
@@ -91,6 +80,16 @@ const Dish = (props) => {
                   }
                   color="secondary"
                 />
+                <Typography
+                  my={0.5}
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  // whiteSpace="nowrap"
+                  // variant="body2"
+                  color="text.secondary"
+                >
+                  {props.dish.description}
+                </Typography>
               </Box>
 
               {/* <Subtitle title={props.dish.name} fontWeight={700} /> */}
@@ -133,7 +132,11 @@ const Dish = (props) => {
               border: "1px solid rgba(255, 255, 255, 0.3)",
             }}
           > */}
-          {/* <AppBar  position="fixed" color="inherit">
+          <AppBar
+            position="fixed"
+            color="inherit"
+            sx={{ top: "auto", bottom: 0, p: 1 }}
+          >
             <Grid
               container
               spacing={1}
@@ -152,7 +155,7 @@ const Dish = (props) => {
               </Grid>
             </Grid>
           </AppBar>
-        </Box> */}
+          {/* </Box> */}
         </Box>
       </Modal>
     </div>
