@@ -4,7 +4,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Subtitle from "../Typography/Subtitle";
 import PageTitle from "../Typography/PageTitle";
-import { AppBar, Chip, Container, Grid } from "@mui/material";
+import { AppBar, Chip, Container, Grid, Toolbar } from "@mui/material";
 import ActionButton from "../Buttons/ActionButton";
 
 const style = {
@@ -58,7 +58,12 @@ const Dish = (props) => {
                 src={props.dish.image}
               />
               <Box p={2}>
-                <PageTitle my={1} title={props.dish.name} fontWeight={700} />
+                <PageTitle
+                  mt={0}
+                  mb={1}
+                  title={props.dish.name}
+                  fontWeight={700}
+                />
                 <Typography
                   sx={{
                     fontWeight: 600,
@@ -122,40 +127,45 @@ const Dish = (props) => {
             <Subtitle my={1} title="Additions" fontWeight={700} />
             <Subtitle my={1} title="Additions" fontWeight={700} />
           </Box>
-          {/* <Box
-            sx={{
-              p: 1,
-              mt: 1,
-              background: "rgba(255,255,255, 0.6)",
-              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
-              webkitBackdropFilter: "blur(5px)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-            }}
-          > */}
-          <AppBar
-            position="fixed"
-            color="inherit"
-            sx={{ top: "auto", bottom: 0, p: 1 }}
-          >
-            <Grid
-              container
-              spacing={1}
-              justifyContent="center"
-              // sx={{ position: "fixed" }}
+          <>
+            <AppBar
+              position="fixed"
+              color="inherit"
+              sx={{ top: "auto", bottom: 0, p: 1 }}
             >
-              <Grid item xs={5}>
-                <Chip
-                  label={<Typography fontWeight={600}>- 1 +</Typography>}
-                  sx={{ width: "100%", height: "100%" }}
-                  // color="secondary"
-                />
+              <Grid
+                container
+                spacing={1}
+                justifyContent="center"
+                // sx={{ position: "fixed" }}
+              >
+                <Grid item xs={5}>
+                  <Chip
+                    label={<Typography fontWeight={600}>- 1 +</Typography>}
+                    sx={{ width: "100%", height: "100%" }}
+                    // color="secondary"
+                  />
+                </Grid>
+                <Grid item xs={7}>
+                  <ActionButton
+                    p={0}
+                    my={0}
+                    text={
+                      <Box>
+                        <Typography variant="body1" fontWeight={700} p={0}>
+                          Add
+                        </Typography>
+                        <Typography variant="body1" fontWeight={700} p={0}>
+                          GHC{props.dish.discountedPrice}
+                        </Typography>
+                      </Box>
+                    }
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={7}>
-                <ActionButton my={0} text="Add" />
-              </Grid>
-            </Grid>
-          </AppBar>
-          {/* </Box> */}
+            </AppBar>
+            <Toolbar />
+          </>
         </Box>
       </Modal>
     </div>
