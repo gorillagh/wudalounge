@@ -108,6 +108,20 @@ const Dish = (props) => {
             }}
           >
             <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
+            <Subtitle my={1} title="Additions" fontWeight={700} />
           </Box>
           {/* <Box
             sx={{
