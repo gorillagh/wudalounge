@@ -58,8 +58,17 @@ const Dish = (props) => {
                 src={props.dish.image}
               />
               <Box p={2}>
-                <PageTitle my={1} title={props.dish.name} fontWeight={700} />
-                <Subtitle my={0} title={props.dish.description} />
+                <Subtitle my={1} title={props.dish.name} fontWeight={700} />
+                <Typography
+                  my={0.5}
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  // whiteSpace="nowrap"
+                  // variant="body2"
+                  color="text.secondary"
+                >
+                  {props.dish.description}
+                </Typography>
 
                 <Typography
                   sx={{
