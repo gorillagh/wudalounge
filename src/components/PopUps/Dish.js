@@ -10,7 +10,7 @@ import ActionButton from "../Buttons/ActionButton";
 const style = {
   position: "absolute",
   bottom: 0,
-  maxHeight: "93vh",
+  maxHeight: "80vh",
   overflowY: "scroll",
   width: "100%",
   bgcolor: "#EFF3F6",
