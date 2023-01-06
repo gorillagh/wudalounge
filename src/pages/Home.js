@@ -131,10 +131,10 @@ const Home = () => {
   const [openDishModal, setOpenDishModal] = useState(false);
   const [overflowStyle, setOverflowStyle] = useState("inital");
 
-  // useEffect(() => {
-  //   if (openDishModal) document.body.style.overflow = "hidden";
-  //   else document.body.style.overflow = "initial";
-  // }, [openDishModal]);
+  useEffect(() => {
+    if (openDishModal) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "initial";
+  }, [openDishModal]);
 
   const handleSendNotification = async () => {
     try {
@@ -169,12 +169,12 @@ const Home = () => {
   };
   const handleDishSelect = async (d) => {
     setSelectedDish(d);
-    document.body.style.overflow = "hidden";
+    // document.body.style.overflow = "hidden";
     setOpenDishModal(true);
   };
   const handleDishModalClose = async () => {
     setSelectedDish({});
-    document.body.style.overflow = "initial";
+    // document.body.style.overflow = "initial";
     setOpenDishModal(false);
   };
 
