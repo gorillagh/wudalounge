@@ -55,19 +55,21 @@ const Dish = (props) => {
             onSubmit={handleSubmit}
             noValidate
           >
-            <Icon
-              onClick={props.close}
-              sx={{
-                position: "fixed",
-                right: "3%",
-                top: "22%",
-                color: "gray",
-                zIndex: 4,
-              }}
-            >
-              {" "}
-              highlight_off
-            </Icon>
+            <Box position="absolute" sx={{ position: "absolute", top: "3%" }}>
+              <Icon
+                onClick={props.close}
+                sx={{
+                  position: "fixed",
+                  right: "3%",
+                  // top: "22%",
+                  color: "gray",
+                  zIndex: 4,
+                }}
+              >
+                {" "}
+                highlight_off
+              </Icon>
+            </Box>
             <Box sx={{ position: "relative" }}>
               <img
                 style={{
