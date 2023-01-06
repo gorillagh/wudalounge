@@ -47,6 +47,7 @@ const Dish = (props) => {
           >
             <Box>
               <Icon
+                onClick={props.close}
                 color="error"
                 sx={{ position: "absolute", right: 15, top: 15 }}
               >
