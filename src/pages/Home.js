@@ -174,6 +174,7 @@ const Home = () => {
   };
   const handleDishModalClose = async () => {
     setSelectedDish({});
+    document.body.style.overflow = "initial";
     setOpenDishModal(false);
   };
 
