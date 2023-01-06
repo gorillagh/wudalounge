@@ -4,7 +4,16 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Subtitle from "../Typography/Subtitle";
 import PageTitle from "../Typography/PageTitle";
-import { AppBar, Chip, Container, Grid, Icon, Toolbar } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  Button,
+  Chip,
+  Container,
+  Grid,
+  Icon,
+  Toolbar,
+} from "@mui/material";
 import ActionButton from "../Buttons/ActionButton";
 
 const style = {
@@ -40,19 +49,26 @@ const Dish = (props) => {
               boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
               webkitBackdropFilter: "blur(5px)",
               border: "1px solid rgba(255, 255, 255, 0.3)",
+              position: "relative",
             }}
             component="form"
             onSubmit={handleSubmit}
             noValidate
           >
-            <Box>
-              <Icon
-                onClick={props.close}
-                color="error"
-                sx={{ position: "absolute", right: 15, top: 15 }}
-              >
-                cancel
-              </Icon>
+            <Icon
+              onClick={props.close}
+              sx={{
+                position: "fixed",
+                right: "3%",
+                top: "22%",
+                color: "gray",
+                zIndex: 4,
+              }}
+            >
+              {" "}
+              highlight_off
+            </Icon>
+            <Box sx={{ position: "relative" }}>
               <img
                 style={{
                   borderTopRightRadius: "12px",
@@ -135,46 +151,56 @@ const Dish = (props) => {
                 // sx={{ position: "fixed" }}
               >
                 <Grid item xs={5}>
-                  <Chip
+                  {/* <Chip
                     variant="outlined"
-                    label={
-                      <Grid
-                        container
-                        justifyContent="space-evenly"
-                        width="100px"
-                      >
-                        <Grid item xs={2}>
-                          <Typography
-                            variant="h4"
-                            textAlign="center"
-                            fontWeight={500}
-                          >
-                            -
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                          <Typography
-                            variant="h4"
-                            textAlign="center"
-                            fontWeight={500}
-                          >
-                            1
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                          <Typography
-                            variant="h4"
-                            textAlign="center"
-                            fontWeight={500}
-                          >
-                            +
-                          </Typography>
-                        </Grid>
+                    avatar={<Avatar>+</Avatar>}
+                    // icon={<Icon>cancel</Icon>}
+                    label="1"
+                    label={ */}
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      borderRadius: "12px",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      border: 1,
+                      height: "100%",
+                      borderColor: "rgba(0, 0, 0, 0.4)",
+                      px: 2,
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    <Grid container justifyContent="space-evenly">
+                      <Grid item xs={2}>
+                        <Typography
+                          variant="h4"
+                          textAlign="center"
+                          fontWeight={400}
+                        >
+                          -
+                        </Typography>
                       </Grid>
-                    }
-                    sx={{ width: "100%", height: "100%", p: 0 }}
-                    // color="secondary"
-                  />
+                      <Grid item xs={8}>
+                        <Typography
+                          variant="h4"
+                          textAlign="center"
+                          fontWeight={500}
+                        >
+                          1
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Typography
+                          variant="h4"
+                          textAlign="center"
+                          fontWeight={400}
+                        >
+                          +
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Box>
                 </Grid>
                 <Grid item xs={7}>
                   <ActionButton
