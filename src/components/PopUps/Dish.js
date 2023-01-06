@@ -40,7 +40,6 @@ const Dish = (props) => {
         open={props.open}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        keepMounted={true}
       >
         <Box sx={style}>
           <Box
