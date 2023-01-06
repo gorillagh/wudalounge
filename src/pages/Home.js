@@ -132,8 +132,8 @@ const Home = () => {
   const [overflowStyle, setOverflowStyle] = useState("inital");
 
   useEffect(() => {
-    if (openDishModal) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "initial";
+    if (openDishModal) document.body.style.position = "fixed";
+    else document.body.style.overflow = "static";
   }, [openDishModal]);
 
   const handleSendNotification = async () => {
