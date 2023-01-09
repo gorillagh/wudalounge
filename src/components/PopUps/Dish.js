@@ -10,8 +10,18 @@ import {
   Button,
   Chip,
   Container,
+  Divider,
+  FormControl,
+  FormControlLabel,
   Grid,
   Icon,
+  InputBase,
+  List,
+  ListItem,
+  ListItemText,
+  Radio,
+  RadioGroup,
+  TextField,
   Toolbar,
 } from "@mui/material";
 import ActionButton from "../Buttons/ActionButton";
@@ -55,7 +65,7 @@ const Dish = (props) => {
             onSubmit={handleSubmit}
             noValidate
           >
-            <Box position="absolute" sx={{ position: "absolute", top: "3%" }}>
+            <Box sx={{ position: "absolute", top: "3%" }}>
               <Icon
                 onClick={props.close}
                 sx={{
@@ -83,7 +93,7 @@ const Dish = (props) => {
                 src={props.dish.image}
               />
 
-              <Box p={2}>
+              <Box px={2} py={1}>
                 <PageTitle
                   mt={0}
                   mb={1}
@@ -128,7 +138,89 @@ const Dish = (props) => {
           </Box>
           <Box
             sx={{
-              p: 2,
+              px: 2,
+              py: 1,
+              my: 1,
+              borderRadius: "12px",
+              background: "rgba(255,255,255, 0.6)",
+              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+              webkitBackdropFilter: "blur(5px)",
+              border: "1px solid rgba(255, 255, 255, 0.3)",
+            }}
+          >
+            <Subtitle
+              my={1}
+              title="Choose Size"
+              fontWeight={700}
+              chip={
+                <Chip
+                  label="Required"
+                  color="secondary"
+                  size="small"
+                  sx={{ fontWeight: 300 }}
+                />
+              }
+            />
+            <FormControl fullWidth>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue={
+                  props.dish && props.dish.sizes && props.dish.sizes[0].size
+                }
+                name="radio-buttons-group"
+              >
+                {props.dish &&
+                  props.dish.sizes &&
+                  props.dish.sizes.length > 0 &&
+                  props.dish.sizes.map((size, index) => (
+                    <Box>
+                      <Grid container spacing={1}>
+                        <Grid item xs={6}>
+                          <FormControlLabel
+                            value={size.size}
+                            control={<Radio size="small" />}
+                            label={
+                              size.size[0].toUpperCase() +
+                              size.size.substring(1)
+                            }
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Typography
+                            variant="body2"
+                            textAlign="right"
+                            mr={1}
+                            sx={{ textDecoration: "line-through" }}
+                          >
+                            +GHC{size.additionalAmount.toFixed(2)}
+                          </Typography>
+                          <Typography textAlign="right">
+                            <Chip
+                              label={
+                                <Typography variant="body2">
+                                  +GHC{size.additionalAmount.toFixed(2)}
+                                </Typography>
+                              }
+                              color="secondary"
+                            />
+                          </Typography>
+                        </Grid>
+                      </Grid>
+
+                      {index === props.dish.sizes.length - 1 ? (
+                        ""
+                      ) : (
+                        <Divider sx={{ my: 1 }} />
+                      )}
+                    </Box>
+                  ))}
+              </RadioGroup>
+            </FormControl>
+          </Box>
+          <Box
+            sx={{
+              px: 2,
+              py: 1,
               my: 1,
               borderRadius: "12px",
               background: "rgba(255,255,255, 0.6)",
@@ -140,6 +232,23 @@ const Dish = (props) => {
             <Subtitle my={1} title="Additions" fontWeight={700} />
             <Typography>coming soon...!</Typography>
           </Box>
+          <Box
+            sx={{
+              background: "rgba(255,255,255, 0.6)",
+              px: 2,
+              py: 1,
+              borderTopRightRadius: "12px",
+              borderTopLeftRadius: "12px",
+            }}
+          >
+            <InputBase
+              fullWidth
+              multiline
+              placeholder="Leave a note for the kitchen"
+              inputProps={{ "aria-label": "search google maps" }}
+            />
+          </Box>
+
           <>
             <AppBar
               position="fixed"

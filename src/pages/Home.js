@@ -62,6 +62,15 @@ const porkDishes = [
     discountedPrice: 20,
     image:
       "https://images.unsplash.com/photo-1532550907401-a500c9a57435?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80",
+    sizes: [
+      { size: "normal", additionalAmount: 0, description: "" },
+      { size: "large", additionalAmount: 20, description: "" },
+      { size: "family", additionalAmount: 40, description: "" },
+    ],
+    additions: [
+      { item: "ketchup", price: 2 },
+      { item: "vegetables", price: 3 },
+    ],
   },
   {
     name: "Pork SandWich",
@@ -453,7 +462,7 @@ const Home = () => {
                   </Box>
                 </Grid>
               </Grid>
-              <Divider sx={{ my: 2 }} />
+              {i === chickenDishes.length - 1 ? "" : <Divider sx={{ my: 2 }} />}
             </Box>
           ))}
         </Box>
