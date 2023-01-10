@@ -50,6 +50,19 @@ const Dish = (props) => {
         open={props.open}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        slots={{
+          backdrop: () => (
+            <div
+              style={{
+                backgroundColor: "#000",
+                opacity: 0.8,
+                width: "100%",
+                height: "100%",
+              }}
+              onClick={props.close}
+            />
+          ),
+        }}
       >
         <Box sx={style}>
           <Box
@@ -136,43 +149,41 @@ const Dish = (props) => {
               {/* <Subtitle title={props.dish.name} fontWeight={700} /> */}
             </Box>
           </Box>
-          <Box
-            sx={{
-              px: 2,
-              py: 1,
-              my: 1,
-              borderRadius: "12px",
-              background: "rgba(255,255,255, 0.6)",
-              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
-              webkitBackdropFilter: "blur(5px)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-            }}
-          >
-            <Subtitle
-              my={1}
-              title="Choose Size"
-              fontWeight={700}
-              chip={
-                <Chip
-                  label="Required"
-                  color="secondary"
-                  size="small"
-                  sx={{ fontWeight: 300 }}
-                />
-              }
-            />
-            <FormControl fullWidth>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue={
-                  props.dish && props.dish.sizes && props.dish.sizes[0].size
+          {props.dish && props.dish.sizes && props.dish.sizes.length > 0 && (
+            <Box
+              sx={{
+                px: 2,
+                py: 1,
+                my: 1,
+                borderRadius: "12px",
+                background: "rgba(255,255,255, 0.6)",
+                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+                webkitBackdropFilter: "blur(5px)",
+                border: "1px solid rgba(255, 255, 255, 0.3)",
+              }}
+            >
+              <Subtitle
+                my={1}
+                title="Choose Size"
+                fontWeight={700}
+                chip={
+                  <Chip
+                    label="Required"
+                    color="secondary"
+                    size="small"
+                    sx={{ fontWeight: 300 }}
+                  />
                 }
-                name="radio-buttons-group"
-              >
-                {props.dish &&
-                  props.dish.sizes &&
-                  props.dish.sizes.length > 0 &&
-                  props.dish.sizes.map((size, index) => (
+              />
+              <FormControl fullWidth>
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue={
+                    props.dish && props.dish.sizes && props.dish.sizes[0].size
+                  }
+                  name="radio-buttons-group"
+                >
+                  {props.dish.sizes.map((size, index) => (
                     <Box>
                       <Grid container spacing={1}>
                         <Grid item xs={6}>
@@ -189,7 +200,7 @@ const Dish = (props) => {
                           <Typography
                             variant="body2"
                             textAlign="right"
-                            mr={1}
+                            mr={1.5}
                             sx={{ textDecoration: "line-through" }}
                           >
                             +GHC{size.additionalAmount.toFixed(2)}
@@ -214,24 +225,27 @@ const Dish = (props) => {
                       )}
                     </Box>
                   ))}
-              </RadioGroup>
-            </FormControl>
-          </Box>
-          <Box
-            sx={{
-              px: 2,
-              py: 1,
-              my: 1,
-              borderRadius: "12px",
-              background: "rgba(255,255,255, 0.6)",
-              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
-              webkitBackdropFilter: "blur(5px)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-            }}
-          >
-            <Subtitle my={1} title="Additions" fontWeight={700} />
-            <Typography>coming soon...!</Typography>
-          </Box>
+                </RadioGroup>
+              </FormControl>
+            </Box>
+          )}
+          {props.dish && props.dish.extras && props.dish.extras.length > 0 && (
+            <Box
+              sx={{
+                px: 2,
+                py: 1,
+                my: 1,
+                borderRadius: "12px",
+                background: "rgba(255,255,255, 0.6)",
+                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+                webkitBackdropFilter: "blur(5px)",
+                border: "1px solid rgba(255, 255, 255, 0.3)",
+              }}
+            >
+              <Subtitle my={1} title="Additions" fontWeight={700} />
+              <Typography>coming soon...!</Typography>
+            </Box>
+          )}
           <Box
             sx={{
               background: "rgba(255,255,255, 0.6)",
