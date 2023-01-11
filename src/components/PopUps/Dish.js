@@ -8,11 +8,13 @@ import {
   AppBar,
   Avatar,
   Button,
+  Checkbox,
   Chip,
   Container,
   Divider,
   FormControl,
   FormControlLabel,
+  FormGroup,
   Grid,
   Icon,
   InputBase,
@@ -177,14 +179,28 @@ const Dish = (props) => {
               />
               <FormControl fullWidth>
                 <RadioGroup
+                  value={props.dish.selectedSize}
                   aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue={
-                    props.dish && props.dish.sizes && props.dish.sizes[0].size
-                  }
+                  defaultValue={props.dish.sizes[0].size}
                   name="radio-buttons-group"
+                  onChange={(e) =>
+                    props.setDish((prevState) => {
+                      prevState.selectedSize = e.target.value;
+                      return { ...prevState };
+                    })
+                  }
                 >
                   {props.dish.sizes.map((size, index) => (
-                    <Box>
+                    <Box
+                      key={index}
+                      onClick={() =>
+                        props.setDish((prevState) => {
+                          prevState.selectedSize = size.size;
+                          console.log({ ...prevState });
+                          return { ...prevState };
+                        })
+                      }
+                    >
                       <Grid container spacing={1}>
                         <Grid item xs={6}>
                           <FormControlLabel
@@ -243,7 +259,47 @@ const Dish = (props) => {
               }}
             >
               <Subtitle my={1} title="Additions" fontWeight={700} />
-              <Typography>coming soon...!</Typography>
+
+              <FormGroup fullWidth>
+                {props.dish.extras.map((extra, index) => (
+                  <Box key={index}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={6}>
+                        <FormControlLabel
+                          key={index}
+                          control={<Checkbox size="small" />}
+                          label={extra.item}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography
+                          variant="body2"
+                          textAlign="right"
+                          mr={1.5}
+                          sx={{ textDecoration: "line-through" }}
+                        >
+                          +GHC{extra.additionalAmount.toFixed(2)}
+                        </Typography>
+                        <Typography textAlign="right">
+                          <Chip
+                            label={
+                              <Typography variant="body2">
+                                +GHC{extra.additionalAmount.toFixed(2)}
+                              </Typography>
+                            }
+                            color="secondary"
+                          />
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    {index === props.dish.extras.length - 1 ? (
+                      ""
+                    ) : (
+                      <Divider sx={{ my: 1 }} />
+                    )}
+                  </Box>
+                ))}
+              </FormGroup>
             </Box>
           )}
           <Box

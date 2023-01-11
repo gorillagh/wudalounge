@@ -56,20 +56,20 @@ const infoList = [
 
 const porkDishes = [
   {
-    name: "Baked Pork Chops",
-    description: "Grilled Chopped Pork | vegetables",
-    price: 40,
-    discountedPrice: 20,
+    name: "Ribs on Rails",
+    description: "Grilled pork ribs | Vegetables | Yam Chips",
+    price: 30,
+    discountedPrice: 15,
     image:
-      "https://images.unsplash.com/photo-1532550907401-a500c9a57435?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80",
+      "https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80",
     sizes: [
       { size: "normal", additionalAmount: 0, description: "" },
       { size: "large", additionalAmount: 20, description: "" },
       { size: "family", additionalAmount: 40, description: "" },
     ],
-    additions: [
-      { item: "ketchup", price: 2 },
-      { item: "vegetables", price: 3 },
+    extras: [
+      { item: "ketchup", additionalAmount: 2 },
+      { item: "vegetables", additionalAmount: 3 },
     ],
   },
   {
@@ -88,14 +88,6 @@ const porkDishes = [
     image:
       "https://images.unsplash.com/photo-1658925111653-2c08083c08ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
   },
-  {
-    name: "Ribs on Rails",
-    description: "Grilled pork ribs | Vegetables | Yam Chips",
-    price: 30,
-    discountedPrice: 15,
-    image:
-      "https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80",
-  },
 ];
 
 const chickenDishes = [
@@ -107,6 +99,13 @@ const chickenDishes = [
     image:
       "https://images.unsplash.com/photo-1637759079728-3f900db7a782?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80",
   },
+  {
+    name: "Baked Pork Chops",
+    description: "Grilled Chopped Pork | vegetables",
+    price: 40,
+    discountedPrice: 20,
+  },
+
   {
     name: "Chicken Wings",
     description: "Grilled Chicken Wings | Vegetables",
@@ -226,97 +225,100 @@ const Home = () => {
         }}
       >
         <Grid item xs={12}>
-          {/* <Box textAlign="center">
-          <Subtitle title="Pork, Chicken and fish meals" />
-          <PageTitle title={`Accra, be ready!`} />
-          <Box>
-            <Countdown
-              date={date1}
-              renderer={({ hours, minutes, seconds, completed, days }) => {
-                if (completed) {
-                  // Render a completed state
-                  return <Typography color="#fff">Good to go!</Typography>;
-                } else {
-                  // Render a countdown
-                  return (
-                    <Typography color="secondary" my={5}>
-                      <PageTitle
-                        title={
-                          <>
-                            <div>
-                              {days}
-                              <Typography
-                                component="span"
-                                fontWeight="bold"
-                                color="#fff"
-                                variant="body1"
-                              >
-                                days
-                              </Typography>
-                            </div>
-                            <div>
-                              {hours}
-                              <Typography
-                                component="span"
-                                fontWeight="bold"
-                                color="#fff"
-                                variant="body1"
-                              >
-                                hrs
-                              </Typography>
-                              :{minutes}
-                              <Typography
-                                component="span"
-                                fontWeight="bold"
-                                color="#fff"
-                                variant="body1"
-                              >
-                                mins
-                              </Typography>
-                              :{seconds}
-                              <Typography
-                                component="span"
-                                fontWeight="bold"
-                                color="#fff"
-                                variant="body1"
-                              >
-                                secs
-                              </Typography>
-                            </div>
-                          </>
-                        }
-                        variant="h2"
-                      />
-                    </Typography>
-                  );
-                }
-              }}
-            />
+          <Box textAlign="center" p={2}>
+            <Subtitle title="Pork, Chicken and fish meals" />
+            <PageTitle title={`Accra, be ready!`} />
+            <Box>
+              <Countdown
+                date={date1}
+                renderer={({ hours, minutes, seconds, completed, days }) => {
+                  if (completed) {
+                    // Render a completed state
+                    return <Typography color="#fff">Good to go!</Typography>;
+                  } else {
+                    // Render a countdown
+                    return (
+                      <Typography color="secondary" my={5}>
+                        <PageTitle
+                          title={
+                            <>
+                              <div>
+                                {days}
+                                <Typography
+                                  component="span"
+                                  fontWeight="bold"
+                                  color="#fff"
+                                  variant="body1"
+                                >
+                                  days
+                                </Typography>
+                              </div>
+                              <div>
+                                {hours}
+                                <Typography
+                                  component="span"
+                                  fontWeight="bold"
+                                  color="#fff"
+                                  variant="body1"
+                                >
+                                  hrs
+                                </Typography>
+                                :{minutes}
+                                <Typography
+                                  component="span"
+                                  fontWeight="bold"
+                                  color="#fff"
+                                  variant="body1"
+                                >
+                                  mins
+                                </Typography>
+                                :{seconds}
+                                <Typography
+                                  component="span"
+                                  fontWeight="bold"
+                                  color="#fff"
+                                  variant="body1"
+                                >
+                                  secs
+                                </Typography>
+                              </div>
+                            </>
+                          }
+                          variant="h2"
+                        />
+                      </Typography>
+                    );
+                  }
+                }}
+              />
+            </Box>
+            <Typography mt={3} mb={2}>
+              Be the first to hear on launch day.
+            </Typography>
+            <Box textAlign="center" bgcolor="#fff" borderRadius={1} p={1}>
+              <TextField
+                disabled={loading}
+                required
+                fullWidth
+                size="small"
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Box>
+            {loading ? (
+              <CircularProgress sx={{ my: 2 }} />
+            ) : (
+              <ActionButton
+                text="Notify me!"
+                onClick={handleSendNotification}
+              />
+            )}
           </Box>
-          <Typography mt={3} mb={2}>
-            Be the first to hear on launch day.
-          </Typography>
-          <Box textAlign="center" bgcolor="#fff" borderRadius={1} p={1}>
-            <TextField
-              disabled={loading}
-              required
-              fullWidth
-              size="small"
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Box>
-          {loading ? (
-            <CircularProgress sx={{ my: 2 }} />
-          ) : (
-            <ActionButton text="Notify me!" onClick={handleSendNotification} />
-          )}
-        </Box> */}
-          <Container maxWidth="xl">
+          {/* <Container maxWidth="xl">
             <Subtitle mt={0} title="Pork, Chicken and Tilapia dishes" />
             <List sx={{ p: 0 }} disablePadding>
               {infoList.map((info, index) => (
@@ -325,14 +327,13 @@ const Home = () => {
                     {info.icon}
                   </Icon>
                   <ListItemText primary={info.text} />
-                  {/* <Icon color="primary">info</Icon> */}
                 </ListItem>
               ))}
             </List>
-          </Container>
+          </Container> */}
         </Grid>
       </Grid>
-      <Box
+      {/* <Box
         sx={{
           p: 2,
           // cursor: "pointer",
@@ -470,8 +471,9 @@ const Home = () => {
       <Dish
         open={openDishModal}
         dish={selectedDish}
+        setDish={setSelectedDish}
         close={handleDishModalClose}
-      />
+      /> */}
     </Box>
   );
 };
