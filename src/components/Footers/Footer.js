@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
 import Link from "../Links/Link";
-import { Container, Divider, Grid } from "@mui/material";
+import { Box, Container, Divider, Grid } from "@mui/material";
 
 const footers = [
   {
@@ -17,7 +17,7 @@ const footers = [
 
 const Footer = (props) => {
   return (
-    <>
+    <Box mb={window.localStorage.getItem("wdCart") ? 10 : 0}>
       {/* <Container maxWidth="lg">
         <Divider sx={{ mt: 10, mb: 3 }} />
         <Grid container justifyContent="left">
@@ -41,7 +41,7 @@ const Footer = (props) => {
         {new Date().getFullYear()}
         {"."}
       </Typography>
-    </>
+    </Box>
   );
 };
 

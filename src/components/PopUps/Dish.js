@@ -1,32 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Subtitle from "../Typography/Subtitle";
 import PageTitle from "../Typography/PageTitle";
-import {
-  AppBar,
-  Avatar,
-  Button,
-  Checkbox,
-  Chip,
-  Container,
-  Divider,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  Icon,
-  InputBase,
-  List,
-  ListItem,
-  ListItemText,
-  Radio,
-  RadioGroup,
-  TextField,
-  Toolbar,
-} from "@mui/material";
+import { AppBar, Chip, Grid, Icon, InputBase, Toolbar } from "@mui/material";
 import ActionButton from "../Buttons/ActionButton";
+import DishSizeCard from "../Cards/DishSizeCard";
+import DishExtrasCard from "../Cards/DishExtrasCard";
 
 const style = {
   position: "absolute",
@@ -35,376 +16,391 @@ const style = {
   overflowY: "scroll",
   width: "100%",
   bgcolor: "#EFF3F6",
-  // bgcolor: "background.paper",
   boxShadow: 24,
   borderTopRightRadius: "12px",
   borderTopLeftRadius: "12px",
 };
 
 const Dish = (props) => {
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [kitchenNotes, setKitchenNotes] = useState("");
+
+  useEffect(() => {
+    if (props.dish && props.dish.kitchenNotes)
+      setKitchenNotes(props.dish.kitchenNotes);
+  });
+
+  useEffect(() => {
+    calculateTotalAmount(props.dish);
+  }, [props.dish]);
+
+  const calculateTotalAmount = async (dish) => {
+    if (dish && dish.extras) {
+      let totalExtras = 0;
+      for (var i in dish.extras) {
+        if (dish.extras[i].checked)
+          totalExtras =
+            totalExtras +
+            Number(dish.extras[i].additionalAmount) *
+              Number(dish.extras[i].quantity);
+      }
+
+      const total =
+        Number(dish.dishQuantity) *
+        (Number(dish.price) +
+          Number(dish.selectedSize.additionalAmount) +
+          Number(totalExtras));
+
+      setTotalAmount(total);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    let data;
+    let extras = [];
+    props.dish.extras.map((e, i) => {
+      if (e.checked) {
+        extras.push({ item: e.item, quantity: e.quantity });
+      }
+    });
+    data = {
+      dish: "", //id
+      extras,
+      size: props.dish.selectedSize.size,
+      quantity: props.dish.dishQuantity,
+      kitchenNotes,
+    };
+    console.log(data);
+    props.setCart((prevState) => {
+      prevState.push({ ...props.dish, kitchenNotes });
+      window.localStorage.setItem("wdCart", JSON.stringify([...prevState]));
+    });
+
+    props.setDish({});
+    setKitchenNotes("");
+    props.close();
   };
   return (
     <div>
-      <Modal
-        onClose={props.close}
-        open={props.open}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        slots={{
-          backdrop: () => (
-            <div
-              style={{
-                backgroundColor: "#000",
-                opacity: 0.8,
-                width: "100%",
-                height: "100%",
-              }}
-              onClick={props.close}
-            />
-          ),
-        }}
-      >
-        <Box sx={style}>
-          <Box
-            sx={{
-              borderRadius: "12px",
-              background: "rgba(255,255,255, 0.6)",
-              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
-              webkitBackdropFilter: "blur(5px)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              position: "relative",
-            }}
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-          >
-            <Box sx={{ position: "absolute", top: "3%" }}>
-              <Icon
-                onClick={props.close}
-                sx={{
-                  position: "fixed",
-                  right: "3%",
-                  // top: "22%",
-                  color: "gray",
-                  zIndex: 4,
-                }}
-              >
-                {" "}
-                highlight_off
-              </Icon>
-            </Box>
-            <Box sx={{ position: "relative" }}>
-              <img
+      {props.dish && (
+        <Modal
+          onClose={props.close}
+          open={props.open}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          slots={{
+            backdrop: () => (
+              <div
                 style={{
-                  borderTopRightRadius: "12px",
-                  borderTopLeftRadius: "12px",
+                  backgroundColor: "#000",
+                  opacity: 0.8,
+                  width: "100%",
                   height: "100%",
                 }}
-                alt={props.dish.name}
-                // height="100%"
-                width="100%"
-                src={props.dish.image}
+                onClick={props.close}
               />
-
-              <Box px={2} py={1}>
-                <PageTitle
-                  mt={0}
-                  mb={1}
-                  title={props.dish.name}
-                  fontWeight={700}
-                />
-                <Typography
+            ),
+          }}
+        >
+          <Box sx={style}>
+            <Box
+              sx={{
+                borderRadius: "12px",
+                background: "rgba(255,255,255, 0.6)",
+                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+                webkitBackdropFilter: "blur(5px)",
+                border: "1px solid rgba(255, 255, 255, 0.3)",
+                position: "relative",
+              }}
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+            >
+              <Box sx={{ position: "absolute", top: "3%" }}>
+                <Icon
+                  onClick={props.close}
                   sx={{
-                    fontWeight: 600,
-                    py: 1,
-                    mr: 1,
-                    textDecoration: "line-through",
+                    position: "fixed",
+                    right: "3%",
+                    color: "gray",
+                    bgcolor: "#fff",
+                    p: 0,
+                    borderRadius: "50%",
+                    zIndex: 4,
                   }}
-                  // variant="body2"
-                  component="span"
-                  color="text.secondary"
                 >
-                  GHC{props.dish.price}
-                </Typography>
-                <Chip
-                  label={
-                    <Typography fontWeight={600}>
-                      GHC{props.dish.discountedPrice}
-                    </Typography>
-                  }
-                  color="secondary"
-                />
-                <Typography
-                  my={0.5}
-                  overflow="hidden"
-                  textOverflow="ellipsis"
-                  // whiteSpace="nowrap"
-                  // variant="body2"
-                  color="text.secondary"
-                >
-                  {props.dish.description}
-                </Typography>
+                  {" "}
+                  highlight_off
+                </Icon>
               </Box>
+              <Box sx={{ position: "relative" }}>
+                <img
+                  style={{
+                    borderTopRightRadius: "12px",
+                    borderTopLeftRadius: "12px",
+                    height: "100%",
+                  }}
+                  alt={props.dish.name}
+                  width="100%"
+                  src={props.dish.image}
+                />
 
-              {/* <Subtitle title={props.dish.name} fontWeight={700} /> */}
-            </Box>
-          </Box>
-          {props.dish && props.dish.sizes && props.dish.sizes.length > 0 && (
-            <Box
-              sx={{
-                px: 2,
-                py: 1,
-                my: 1,
-                borderRadius: "12px",
-                background: "rgba(255,255,255, 0.6)",
-                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
-                webkitBackdropFilter: "blur(5px)",
-                border: "1px solid rgba(255, 255, 255, 0.3)",
-              }}
-            >
-              <Subtitle
-                my={1}
-                title="Choose Size"
-                fontWeight={700}
-                chip={
-                  <Chip
-                    label="Required"
-                    color="secondary"
-                    size="small"
-                    sx={{ fontWeight: 300 }}
+                <Box px={2} py={1}>
+                  <PageTitle
+                    mt={0}
+                    mb={1}
+                    title={props.dish.name}
+                    fontWeight={700}
                   />
-                }
-              />
-              <FormControl fullWidth>
-                <RadioGroup
-                  value={props.dish.selectedSize}
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue={props.dish.sizes[0].size}
-                  name="radio-buttons-group"
-                  onChange={(e) =>
-                    props.setDish((prevState) => {
-                      prevState.selectedSize = e.target.value;
-                      return { ...prevState };
-                    })
-                  }
-                >
-                  {props.dish.sizes.map((size, index) => (
-                    <Box
-                      key={index}
-                      onClick={() =>
-                        props.setDish((prevState) => {
-                          prevState.selectedSize = size.size;
-                          console.log({ ...prevState });
-                          return { ...prevState };
-                        })
-                      }
+                  {props.discount && props.discount > 0 ? (
+                    <Typography
+                      sx={{
+                        fontWeight: 600,
+                        py: 1,
+                        mr: 1,
+                        textDecoration: "line-through",
+                      }}
+                      component="span"
+                      color="text.secondary"
                     >
-                      <Grid container spacing={1}>
-                        <Grid item xs={6}>
-                          <FormControlLabel
-                            value={size.size}
-                            control={<Radio size="small" />}
-                            label={
-                              size.size[0].toUpperCase() +
-                              size.size.substring(1)
-                            }
-                          />
-                        </Grid>
-                        <Grid item xs={6}>
-                          <Typography
-                            variant="body2"
-                            textAlign="right"
-                            mr={1.5}
-                            sx={{ textDecoration: "line-through" }}
-                          >
-                            +GHC{size.additionalAmount.toFixed(2)}
-                          </Typography>
-                          <Typography textAlign="right">
-                            <Chip
-                              label={
-                                <Typography variant="body2">
-                                  +GHC{size.additionalAmount.toFixed(2)}
-                                </Typography>
-                              }
-                              color="secondary"
-                            />
-                          </Typography>
-                        </Grid>
-                      </Grid>
+                      GHC{props.dish.price}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
 
-                      {index === props.dish.sizes.length - 1 ? (
-                        ""
-                      ) : (
-                        <Divider sx={{ my: 1 }} />
-                      )}
-                    </Box>
-                  ))}
-                </RadioGroup>
-              </FormControl>
+                  <Chip
+                    label={
+                      <Typography fontWeight={600}>
+                        GHC
+                        {props.dish.price - props.dish.price * props.discount}
+                      </Typography>
+                    }
+                    color="secondary"
+                  />
+                  <Typography
+                    my={0.5}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    color="text.secondary"
+                  >
+                    {props.dish.description}
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
-          )}
-          {props.dish && props.dish.extras && props.dish.extras.length > 0 && (
+
+            {/*/////////////////////// Sizes /////////////////////////*/}
+            {props.dish && props.dish.sizes && props.dish.sizes.length > 0 && (
+              <Box
+                sx={{
+                  px: 2,
+                  py: 1,
+                  my: 1,
+                  borderRadius: "12px",
+                  background: "rgba(255,255,255, 0.6)",
+                  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+                  webkitBackdropFilter: "blur(5px)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                }}
+              >
+                <Subtitle
+                  my={1}
+                  title="Choose Size"
+                  fontWeight={700}
+                  chip={
+                    <Chip
+                      label="Required"
+                      color="secondary"
+                      size="small"
+                      sx={{ fontWeight: 300 }}
+                    />
+                  }
+                />
+                <DishSizeCard
+                  dish={props.dish}
+                  discount={props.discount}
+                  setDish={props.setDish}
+                />
+              </Box>
+            )}
+
+            {/*////////////////////// Extras /////////////////////*/}
+            {props.dish &&
+              props.dish.extras &&
+              props.dish.extras.length > 0 && (
+                <Box
+                  sx={{
+                    px: 2,
+                    py: 1,
+                    my: 1,
+                    borderRadius: "12px",
+                    background: "rgba(255,255,255, 0.6)",
+                    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+                    webkitBackdropFilter: "blur(5px)",
+                    border: "1px solid rgba(255, 255, 255, 0.3)",
+                  }}
+                >
+                  <Subtitle my={1} title="Extras" fontWeight={700} />
+                  <DishExtrasCard
+                    dish={props.dish}
+                    discount={props.discount}
+                    setDish={props.setDish}
+                  />
+                </Box>
+              )}
+
             <Box
               sx={{
+                background: "rgba(255,255,255, 0.6)",
                 px: 2,
                 py: 1,
-                my: 1,
-                borderRadius: "12px",
-                background: "rgba(255,255,255, 0.6)",
-                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
-                webkitBackdropFilter: "blur(5px)",
-                border: "1px solid rgba(255, 255, 255, 0.3)",
+                borderTopRightRadius: "12px",
+                borderTopLeftRadius: "12px",
               }}
             >
-              <Subtitle my={1} title="Additions" fontWeight={700} />
-
-              <FormGroup fullWidth>
-                {props.dish.extras.map((extra, index) => (
-                  <Box key={index}>
-                    <Grid container spacing={1}>
-                      <Grid item xs={6}>
-                        <FormControlLabel
-                          key={index}
-                          control={<Checkbox size="small" />}
-                          label={extra.item}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography
-                          variant="body2"
-                          textAlign="right"
-                          mr={1.5}
-                          sx={{ textDecoration: "line-through" }}
-                        >
-                          +GHC{extra.additionalAmount.toFixed(2)}
-                        </Typography>
-                        <Typography textAlign="right">
-                          <Chip
-                            label={
-                              <Typography variant="body2">
-                                +GHC{extra.additionalAmount.toFixed(2)}
-                              </Typography>
-                            }
-                            color="secondary"
-                          />
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                    {index === props.dish.extras.length - 1 ? (
-                      ""
-                    ) : (
-                      <Divider sx={{ my: 1 }} />
-                    )}
-                  </Box>
-                ))}
-              </FormGroup>
+              <InputBase
+                fullWidth
+                multiline
+                placeholder="Leave a note for the kitchen"
+                inputProps={{ "aria-label": "search google maps" }}
+                value={kitchenNotes}
+                onChange={(e) => setKitchenNotes(e.target.value)}
+              />
             </Box>
-          )}
-          <Box
-            sx={{
-              background: "rgba(255,255,255, 0.6)",
-              px: 2,
-              py: 1,
-              borderTopRightRadius: "12px",
-              borderTopLeftRadius: "12px",
-            }}
-          >
-            <InputBase
-              fullWidth
-              multiline
-              placeholder="Leave a note for the kitchen"
-              inputProps={{ "aria-label": "search google maps" }}
-            />
-          </Box>
 
-          <>
-            <AppBar
-              position="fixed"
-              color="inherit"
-              sx={{ top: "auto", bottom: 0, p: 1 }}
-            >
-              <Grid
-                container
-                spacing={1}
-                justifyContent="center"
-                // sx={{ position: "fixed" }}
+            <>
+              <AppBar
+                position="fixed"
+                color="inherit"
+                sx={{ top: "auto", bottom: 0, p: 1 }}
               >
-                <Grid item xs={5}>
-                  {/* <Chip
-                    variant="outlined"
-                    avatar={<Avatar>+</Avatar>}
-                    // icon={<Icon>cancel</Icon>}
-                    label="1"
-                    label={ */}
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      borderRadius: "12px",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      border: 1,
-                      height: "100%",
-                      borderColor: "rgba(0, 0, 0, 0.4)",
-                      px: 2,
-                      boxSizing: "border-box",
-                    }}
+                <Box
+                  px={2}
+                  py={1}
+                  display={props.cart ? "flex" : "none"}
+                  alignItems="center"
+                >
+                  <Typography
+                    variant="body2"
+                    component="span"
+                    fontWeight={400}
+                    color="error"
+                    mr={0.5}
                   >
-                    <Grid container justifyContent="space-evenly">
-                      <Grid item xs={2}>
-                        <Typography
-                          variant="h4"
-                          textAlign="center"
-                          fontWeight={400}
+                    Remove Dish
+                  </Typography>
+                  <Icon fontSize="small" color="error">
+                    delete_outlined
+                  </Icon>
+                </Box>
+
+                <Grid container spacing={1} justifyContent="center">
+                  <Grid item xs={5}>
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        borderRadius: "12px",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        boxShadow:
+                          "inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.3)",
+                        height: "100%",
+                        borderColor: "rgba(0, 0, 0, 0.4)",
+                        px: 2,
+                        boxSizing: "border-box",
+                      }}
+                    >
+                      <Grid container justifyContent="space-evenly">
+                        <Grid
+                          item
+                          xs={2}
+                          onClick={() => {
+                            if (props.dish.dishQuantity === 1) return;
+                            props.setDish((prevState) => {
+                              prevState = {
+                                ...prevState,
+                                dishQuantity: prevState.dishQuantity - 1,
+                              };
+                              console.log(prevState.dishQuantity);
+                              return { ...prevState };
+                            });
+                          }}
                         >
-                          -
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={8}>
-                        <Typography
-                          variant="h4"
-                          textAlign="center"
-                          fontWeight={500}
+                          <Typography
+                            variant="h4"
+                            textAlign="center"
+                            fontWeight={400}
+                            color="primary"
+                          >
+                            -
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                          <Typography
+                            variant="h4"
+                            textAlign="center"
+                            fontWeight={500}
+                          >
+                            {props.dish.dishQuantity}
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={2}
+                          onClick={() =>
+                            props.setDish((prevState) => {
+                              prevState = {
+                                ...prevState,
+                                dishQuantity: prevState.dishQuantity
+                                  ? prevState.dishQuantity + 1
+                                  : 2,
+                              };
+
+                              return { ...prevState };
+                            })
+                          }
                         >
-                          1
-                        </Typography>
+                          <Typography
+                            variant="h4"
+                            textAlign="center"
+                            fontWeight={400}
+                            color="primary"
+                          >
+                            +
+                          </Typography>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={2}>
-                        <Typography
-                          variant="h4"
-                          textAlign="center"
-                          fontWeight={400}
-                        >
-                          +
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Box>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={7}>
+                    <ActionButton
+                      onClick={handleSubmit}
+                      py={0.5}
+                      my={0}
+                      text={
+                        <Box>
+                          <Typography variant="body1" fontWeight={700} p={0}>
+                            Add
+                          </Typography>
+                          <Typography variant="body1" fontWeight={700} p={0}>
+                            GHC
+                            {totalAmount -
+                              (totalAmount * props.discount).toFixed(2)}
+                          </Typography>
+                        </Box>
+                      }
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={7}>
-                  <ActionButton
-                    py={0.5}
-                    my={0}
-                    text={
-                      <Box>
-                        <Typography variant="body1" fontWeight={700} p={0}>
-                          Add
-                        </Typography>
-                        <Typography variant="body1" fontWeight={700} p={0}>
-                          GHC{props.dish.discountedPrice}
-                        </Typography>
-                      </Box>
-                    }
-                  />
-                </Grid>
-              </Grid>
-            </AppBar>
-            <Toolbar sx={{ py: 1 }} />
-          </>
-        </Box>
-      </Modal>
+              </AppBar>
+              <Toolbar sx={{ py: props.cart ? 3 : 1 }} />
+            </>
+          </Box>
+        </Modal>
+      )}
     </div>
   );
 };

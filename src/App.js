@@ -38,15 +38,21 @@ let theme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      light: "#f8bd49",
-      dark: "#c68507",
-      main: "#f6a60b",
+      // light: "#f8bd49",
+      // dark: "#c68507",
+      // main: "#f6a60b",
+      light: "ea8255",
+      main: "#E3581C",
+      dark: "#b64616",
       contrastText: "#fff",
     },
     secondary: {
-      light: "#f88054",
-      main: "#f65114",
-      dark: "#cd3d08",
+      // light: "#f88054",
+      // main: "#f65114",
+      // dark:'#cd3d08',
+      light: "f8bd49",
+      main: "#f6a60b",
+      dark: "c68507",
       contrastText: "#fff",
     },
     error: {
