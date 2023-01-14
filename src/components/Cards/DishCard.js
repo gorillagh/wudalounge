@@ -15,75 +15,76 @@ const DishCard = (props) => {
           let dishNumber = 0;
           props.cart &&
             props.cart.map((cartDish, i) => {
-              if (cartDish.name === d.name) {
+              if (cartDish._id === d._id) {
                 selected = true;
-                dishNumber += 1;
+                dishNumber += cartDish.dishQuantity;
               }
             });
           return (
             <Box key={i}>
-              <Badge
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                badgeContent={dishNumber}
-                color="primary"
+              <Grid
+                sx={{ cursor: "pointer" }}
+                container
+                spacing={1}
+                onClick={() => props.handleDishSelect(d)}
               >
                 <Grid
-                  sx={{ cursor: "pointer" }}
-                  container
-                  spacing={1}
-                  onClick={() => props.handleDishSelect(d)}
+                  item
+                  xs={7}
+                  md={4}
+                  sx={{
+                    borderLeft: selected ? 4 : 0,
+                    borderLeftColor: selected ? "primary.main" : "",
+                  }}
                 >
-                  <Grid
-                    item
-                    xs={7}
-                    md={4}
-                    sx={{
-                      borderLeft: selected ? 4 : 0,
-                      borderLeftColor: selected ? "primary.main" : "",
-                    }}
-                  >
-                    <Typography fontWeight={600}>{d.name}</Typography>
+                  <Typography fontWeight={600}>{d.name}</Typography>
 
+                  <Typography
+                    maxHeight="36.60px"
+                    my={0.5}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    {d.description}
+                  </Typography>
+                  {props.discount && props.discount > 0 ? (
                     <Typography
-                      maxHeight="36.60px"
-                      my={0.5}
-                      overflow="hidden"
-                      textOverflow="ellipsis"
+                      sx={{
+                        fontWeight: 600,
+                        py: 1,
+                        mr: 1,
+                        textDecoration: "line-through",
+                      }}
                       variant="body2"
+                      component="span"
                       color="text.secondary"
                     >
-                      {d.description}
+                      GHC{d.price}
                     </Typography>
-                    {props.discount && props.discount > 0 ? (
-                      <Typography
-                        sx={{
-                          fontWeight: 600,
-                          py: 1,
-                          mr: 1,
-                          textDecoration: "line-through",
-                        }}
-                        variant="body2"
-                        component="span"
-                        color="text.secondary"
-                      >
-                        GHC{d.price}
+                  ) : (
+                    ""
+                  )}
+                  <Chip
+                    label={
+                      <Typography variant="body2" fontWeight={600}>
+                        GHC{d.price - d.price * props.discount}
                       </Typography>
-                    ) : (
-                      ""
-                    )}
-                    <Chip
-                      label={
-                        <Typography variant="body2" fontWeight={600}>
-                          GHC{d.price - d.price * props.discount}
-                        </Typography>
-                      }
-                      color="secondary"
-                    />
-                  </Grid>
-                  <Grid item xs={5} md={2}>
+                    }
+                    color="secondary"
+                  />
+                </Grid>
+
+                <Grid item xs={5} md={2}>
+                  <Badge
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    badgeContent={dishNumber}
+                    color="primary"
+                  >
                     <Box height={{ xs: "100px", md: "120px" }}>
                       <img
                         style={{ borderRadius: "12px", height: "100%" }}
@@ -92,10 +93,10 @@ const DishCard = (props) => {
                         width="100%"
                       />
                     </Box>
-                  </Grid>
+                  </Badge>
                 </Grid>
-              </Badge>
-              <Divider sx={{ my: 2 }} />
+              </Grid>
+              {i === props.dishes.length - 1 ? "" : <Divider sx={{ my: 1 }} />}
             </Box>
           );
         })}

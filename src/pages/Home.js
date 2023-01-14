@@ -19,9 +19,13 @@ import {
   ListItemAvatar,
   ListItemIcon,
   ListItemText,
+  Slide,
+  Tab,
+  Tabs,
   TextField,
   Toolbar,
   Typography,
+  useScrollTrigger,
 } from "@mui/material";
 import Countdown from "react-countdown";
 import { toast } from "react-toastify";
@@ -30,6 +34,8 @@ import { Container } from "@mui/system";
 import Dish from "../components/PopUps/Dish";
 import DishCard from "../components/Cards/DishCard";
 import LoadingBackdrop from "../components/Feedbacks/LoadingBackdrop";
+import CircularLoading from "../components/Feedbacks/CircularLoading";
+import ShowOnScroll from "../components/Navbars/ShowOnScroll";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -50,6 +56,7 @@ const infoList = [
 
 const dbPorkDishes = [
   {
+    _id: "wd0001",
     name: "Ribs on Rails",
     description: "Grilled pork ribs | Vegetables | Yam Chips",
     price: 30,
@@ -80,6 +87,7 @@ const dbPorkDishes = [
     dishQuantity: 1,
   },
   {
+    _id: "wd0002",
     name: "Pork SandWich",
     description: "Grilled Shredded Pork | toasted Bread | Vegetables ",
     price: 30,
@@ -110,6 +118,7 @@ const dbPorkDishes = [
     dishQuantity: 1,
   },
   {
+    _id: "wd0003",
     name: "Classic Banh Mi",
     description: "Fried Pork | Baked Beans | Vegetables",
     price: 40,
@@ -143,6 +152,7 @@ const dbPorkDishes = [
 
 const dbChickenDishes = [
   {
+    _id: "wd0004",
     name: "Assorted Chicken Fried Rice",
     description: "Fried Shredded Chicken | Fried Rice | vegetables",
     price: 30,
@@ -174,6 +184,7 @@ const dbChickenDishes = [
   },
 
   {
+    _id: "wd0005",
     name: "Chicken Wings",
     description: "Grilled Chicken Wings | Vegetables",
     price: 35,
@@ -204,6 +215,7 @@ const dbChickenDishes = [
     dishQuantity: 1,
   },
   {
+    _id: "wd0006",
     name: "Brown Grounds",
     description: "Grilled Chicken | Corn | Vegetables | Fried Eggs",
     price: 60,
@@ -235,15 +247,30 @@ const dbChickenDishes = [
   },
 ];
 
-const Home = () => {
+const Home = (props) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [cartTotalLoading, setCartTotalLoading] = useState(true);
   const [porkDishes, setPorkDishes] = useState(null);
   const [chickenDishes, setChickenDishes] = useState([]);
   const [selectedDish, setSelectedDish] = useState({});
   const [openDishModal, setOpenDishModal] = useState(false);
   const [cart, setCart] = useState([]);
+  const [cartTotal, setCartTotal] = useState();
   const [discount, setDiscount] = useState(0.5);
+  const [scrollTabValue, setScrollTabValue] = useState();
+
+  const tabValues = ["0", "1"];
+  window.addEventListener("scroll", () => {
+    for (var i in tabValues) {
+      if (
+        document.documentElement.scrollTop - 120 ===
+        window.document.getElementById(tabValues[i]).offsetTop - 120
+      ) {
+        setScrollTabValue(i);
+      }
+    }
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -254,6 +281,7 @@ const Home = () => {
     if (window.localStorage.getItem("wdCart")) {
       setCart(JSON.parse(window.localStorage.getItem("wdCart")));
     }
+    calculateCartTotal(JSON.parse(window.localStorage.getItem("wdCart")));
     setLoading(false);
   }, [openDishModal]);
 
@@ -297,10 +325,71 @@ const Home = () => {
     setSelectedDish(null);
   };
 
+  const calculateCartTotal = (cart) => {
+    setCartTotalLoading(true);
+    let total = 0;
+    cart &&
+      cart.map((d, index) => {
+        let totalExtras = 0;
+        for (var i in d.extras) {
+          if (d.extras[i].checked)
+            totalExtras =
+              totalExtras +
+              Number(d.extras[i].additionalAmount) *
+                Number(d.extras[i].quantity);
+        }
+
+        const subTotal =
+          Number(d.dishQuantity) *
+          (Number(d.price) +
+            Number(d.selectedSize.additionalAmount) +
+            Number(totalExtras));
+
+        return (total += subTotal);
+      });
+    setCartTotal(total);
+    setCartTotalLoading(false);
+  };
+
   return (
     <Box>
-      <Container maxWidth="xl">
-        <Grid container my={1} display="flex" justifyContent="center">
+      <ShowOnScroll {...props}>
+        <Container
+          maxWidth="xl"
+          sx={{
+            position: "fixed",
+            bgcolor: "#fff",
+            zIndex: 5,
+            color: "#000",
+          }}
+        >
+          <Tabs
+            value={scrollTabValue}
+            variant="scrollable"
+            scrollButtons="auto"
+            aria-label="scrollable auto tabs example"
+            onChange={(e, v) => {
+              setScrollTabValue(v);
+              var scrollDiv = window.document.getElementById(v).offsetTop;
+              window.scrollTo({ top: scrollDiv - 120, behavior: "smooth" });
+            }}
+          >
+            <Tab label="Pork" sx={{ p: 0 }} />
+            <Tab label="Chicken" />
+            <Tab label="Tilapia" />
+            <Tab label="Drinks" />
+            <Tab label="Special Picks" />
+          </Tabs>
+        </Container>
+      </ShowOnScroll>
+      <Container
+        maxWidth="xl"
+        sx={{
+          bgcolor: "#fff",
+          py: 1,
+        }}
+      >
+        <Grid container display="flex" justifyContent="center">
           <Grid item xs={6}>
             <Box display="flex" justifyContent="center" alignItems="center">
               {" "}
@@ -320,6 +409,7 @@ const Home = () => {
           </Grid>
         </Grid>
       </Container>
+
       <Grid
         container
         justifyContent="left"
@@ -458,7 +548,7 @@ const Home = () => {
           border: "1px solid rgba(255, 255, 255, 0.3)",
         }}
       >
-        <Subtitle mt={0} mb={3} title="Pork Dishes" fontWeight={700} />
+        <Subtitle id="0" mt={0} mb={3} title="Pork Dishes" fontWeight={700} />
         {porkDishes ? (
           <DishCard
             dishes={porkDishes}
@@ -469,8 +559,14 @@ const Home = () => {
         ) : (
           ""
         )}
-
-        <Subtitle mt={4} mb={3} title="Chicken Dishes" fontWeight={700} />
+        <Divider sx={{ my: 1 }} />
+        <Subtitle
+          id="1"
+          mt={4}
+          mb={3}
+          title="Chicken Dishes"
+          fontWeight={700}
+        />
         {chickenDishes ? (
           <DishCard
             dishes={chickenDishes}
@@ -500,10 +596,21 @@ const Home = () => {
             sx={{ top: "auto", bottom: 0, p: 1 }}
           >
             <ActionButton
+              disabled={cartTotalLoading}
               my={0}
-              text={`View Basket (${cart.length} ${
-                cart.length > 1 ? "items" : "item"
-              })`}
+              text={
+                <>
+                  {cartTotalLoading ? (
+                    <Typography variant="body2" fontWeight={600}>
+                      <CircularLoading size={20} thickness={6} />
+                    </Typography>
+                  ) : (
+                    <Typography textAlign="center" fontWeight={600}>
+                      View Basket GHC{cartTotal - cartTotal * discount}
+                    </Typography>
+                  )}
+                </>
+              }
             />
           </AppBar>
           <Toolbar sx={{ py: 1, position: "fixed" }} />

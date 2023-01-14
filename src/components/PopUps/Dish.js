@@ -4,7 +4,15 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Subtitle from "../Typography/Subtitle";
 import PageTitle from "../Typography/PageTitle";
-import { AppBar, Chip, Grid, Icon, InputBase, Toolbar } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Chip,
+  Grid,
+  Icon,
+  InputBase,
+  Toolbar,
+} from "@mui/material";
 import ActionButton from "../Buttons/ActionButton";
 import DishSizeCard from "../Cards/DishSizeCard";
 import DishExtrasCard from "../Cards/DishExtrasCard";
@@ -24,11 +32,24 @@ const style = {
 const Dish = (props) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [kitchenNotes, setKitchenNotes] = useState("");
+  const [inCart, setInCart] = useState(false);
+  const [numberIncart, setNumberIncart] = useState(0);
 
   useEffect(() => {
+    setNumberIncart(0);
+    let numberIn = 0;
     if (props.dish && props.dish.kitchenNotes)
       setKitchenNotes(props.dish.kitchenNotes);
-  });
+
+    props.cart &&
+      props.cart.map((d, i) => {
+        if (props.dish && props.dish._id === d._id) {
+          setInCart(true);
+          numberIn += props.cart[i].dishQuantity;
+        }
+      });
+    setNumberIncart(numberIn);
+  }, [props.open]);
 
   useEffect(() => {
     calculateTotalAmount(props.dish);
@@ -71,7 +92,6 @@ const Dish = (props) => {
       quantity: props.dish.dishQuantity,
       kitchenNotes,
     };
-    console.log(data);
     props.setCart((prevState) => {
       prevState.push({ ...props.dish, kitchenNotes });
       window.localStorage.setItem("wdCart", JSON.stringify([...prevState]));
@@ -80,6 +100,23 @@ const Dish = (props) => {
     props.setDish({});
     setKitchenNotes("");
     props.close();
+  };
+
+  const handleRemoveDish = (dish) => {
+    let toDelete = [];
+    props.cart &&
+      props.cart.map((d, i) => {
+        if (d._id === dish._id) toDelete.push(i);
+      });
+
+    props.setCart((prevState) => {
+      for (var i = toDelete.length - 1; i >= 0; i--)
+        prevState.splice(toDelete[i], 1);
+
+      window.localStorage.setItem("wdCart", JSON.stringify([...prevState]));
+      props.close();
+      return prevState;
+    });
   };
   return (
     <div>
@@ -276,25 +313,37 @@ const Dish = (props) => {
                 color="inherit"
                 sx={{ top: "auto", bottom: 0, p: 1 }}
               >
-                <Box
-                  px={2}
-                  py={1}
-                  display={props.cart ? "flex" : "none"}
-                  alignItems="center"
-                >
-                  <Typography
-                    variant="body2"
-                    component="span"
-                    fontWeight={400}
-                    color="error"
-                    mr={0.5}
-                  >
-                    Remove Dish
-                  </Typography>
-                  <Icon fontSize="small" color="error">
-                    delete_outlined
-                  </Icon>
-                </Box>
+                {numberIncart && numberIncart > 0 ? (
+                  <Box p={1} display={"flex"} alignItems="center">
+                    <Icon
+                      fontSize="small"
+                      color="error"
+                      onClick={() => handleRemoveDish(props.dish)}
+                    >
+                      delete_outlined
+                    </Icon>
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      fontWeight={400}
+                      color="error"
+                      mr={0.5}
+                      onClick={() => handleRemoveDish(props.dish)}
+                    >
+                      Remove all
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      fontWeight={400}
+                      color="info"
+                    >
+                      {numberIncart} from basket.
+                    </Typography>
+                  </Box>
+                ) : (
+                  ""
+                )}
 
                 <Grid container spacing={1} justifyContent="center">
                   <Grid item xs={5}>
@@ -396,7 +445,7 @@ const Dish = (props) => {
                   </Grid>
                 </Grid>
               </AppBar>
-              <Toolbar sx={{ py: props.cart ? 3 : 1 }} />
+              <Toolbar sx={{ py: numberIncart > 0 ? 3 : 1 }} />
             </>
           </Box>
         </Modal>
