@@ -261,16 +261,16 @@ const Home = (props) => {
   const [scrollTabValue, setScrollTabValue] = useState();
 
   const tabValues = ["0", "1"];
-  window.addEventListener("scroll", () => {
-    for (var i in tabValues) {
-      if (
-        document.documentElement.scrollTop - 120 ===
-        window.document.getElementById(tabValues[i]).offsetTop - 120
-      ) {
-        setScrollTabValue(i);
-      }
-    }
-  });
+  // window.addEventListener("scroll", () => {
+  //   for (var i in tabValues) {
+  //     if (
+  //       document.documentElement.scrollTop - 120 ===
+  //       window.document.getElementById(tabValues[i]).offsetTop - 120
+  //     ) {
+  //       setScrollTabValue(i);
+  //     }
+  //   }
+  // });
 
   useEffect(() => {
     setLoading(true);
@@ -358,12 +358,13 @@ const Home = (props) => {
           maxWidth="xl"
           sx={{
             position: "fixed",
-            bgcolor: "#fff",
+            bgcolor: "#000",
             zIndex: 5,
-            color: "#000",
+            color: "#fff",
           }}
         >
           <Tabs
+            textColor="inherit"
             value={scrollTabValue}
             variant="scrollable"
             scrollButtons="auto"
@@ -374,7 +375,7 @@ const Home = (props) => {
               window.scrollTo({ top: scrollDiv - 120, behavior: "smooth" });
             }}
           >
-            <Tab label="Pork" sx={{ p: 0 }} />
+            <Tab label="Pork" />
             <Tab label="Chicken" />
             <Tab label="Tilapia" />
             <Tab label="Drinks" />
@@ -578,15 +579,20 @@ const Home = (props) => {
           ""
         )}
       </Box>
+
       <Dish
         open={openDishModal}
         dish={selectedDish}
         setDish={setSelectedDish}
         discount={discount}
         close={handleDishModalClose}
+        user={props.user && props.user}
+        setLoadUser={props.setLoadUser}
+        setUser={props.setUser && props.setUser}
         cart={cart}
         setCart={setCart}
       />
+
       <LoadingBackdrop open={loading} />
       {cart && cart.length ? (
         <Box display={cart && cart.length ? "" : "none"}>
@@ -598,6 +604,7 @@ const Home = (props) => {
             <ActionButton
               disabled={cartTotalLoading}
               my={0}
+              py={1}
               text={
                 <>
                   {cartTotalLoading ? (
@@ -605,8 +612,12 @@ const Home = (props) => {
                       <CircularLoading size={20} thickness={6} />
                     </Typography>
                   ) : (
-                    <Typography textAlign="center" fontWeight={600}>
-                      View Basket GHC{cartTotal - cartTotal * discount}
+                    <Typography
+                      variant="h6"
+                      textAlign="center"
+                      fontWeight={500}
+                    >
+                      View basket GHC{cartTotal - cartTotal * discount}
                     </Typography>
                   )}
                 </>

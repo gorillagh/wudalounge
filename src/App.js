@@ -103,8 +103,18 @@ theme = responsiveFontSizes(theme);
 
 const App = () => {
   const dispatch = useDispatch();
+  const [user, setUser] = useState({});
+  const [loadUser, setLoadUser] = useState(false);
 
   useEffect(() => {
+    let userInfo = {
+      _id: "wdlu00001",
+      role: "subscriber",
+      name: "Wuda Lounge",
+      email: "tsekowudalounge@gmail.com",
+      number: "+233244410689",
+      favorites: ["wd0001", "wd0002", "wd0003", "wd0004", "wd0005"],
+    };
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         console.log("Logged In user", user);
@@ -113,6 +123,15 @@ const App = () => {
         currentUser(idTokenResult.token)
           .then((res) => {
             console.log(res);
+            setUser({
+              email: res.data.email,
+              role: res.data.role,
+              name: res.data.name,
+              token: idTokenResult.token,
+              phoneNumber: res.data.phoneNumber ? res.data.phoneNumber : "",
+              _id: res.data._id,
+              favorites: [],
+            });
             dispatch({
               type: "LOGGED_IN_USER",
               payload: {
@@ -122,23 +141,57 @@ const App = () => {
                 token: idTokenResult.token,
                 phoneNumber: res.data.phoneNumber ? res.data.phoneNumber : "",
                 _id: res.data._id,
+                favorites: [],
               },
             });
+            window.localStorage.setItem(
+              "wdUser",
+              JSON.stringify({
+                email: res.data.email,
+                role: res.data.role,
+                name: res.data.name,
+                token: idTokenResult.token,
+                phoneNumber: res.data.phoneNumber ? res.data.phoneNumber : "",
+                _id: res.data._id,
+                favorites: [],
+              })
+            );
           })
           .catch((error) => {
             console.log(error);
           });
+      } else if (window.localStorage.getItem("wdUser")) {
+        setUser(JSON.parse(window.localStorage.getItem("wdUser")));
+        dispatch({
+          type: "LOGGED_IN_USER",
+          payload: JSON.parse(window.localStorage.getItem("wdUser")),
+        });
       }
+      // else {
+      //   dispatch({
+      //     type: "LOGGED_IN_USER",
+      //     payload: userInfo,
+      //   });
+      //   window.localStorage.setItem("wdUser", JSON.stringify(userInfo));
+      //   setUser(userInfo);
+      // }
     });
+
     return () => unsubscribe();
-  }, [dispatch]);
+  }, [dispatch, loadUser]);
 
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
       <ToastContainer style={{ fontSize: "12px", fontWeight: "bold" }} />
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route
+          exact
+          path="/"
+          element={
+            <Home user={user} setLoadUser={setLoadUser} setUser={setUser} />
+          }
+        />
 
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/login" element={<Login />} />

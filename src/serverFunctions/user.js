@@ -10,3 +10,11 @@ export const addToNotificationList = async (email) => {
     { email }
   );
 };
+
+export const changeFavorites = async (userId, dishId, action) => {
+  return await axios.post(`${process.env.REACT_APP_API_URL}/change-favorites`, {
+    userId,
+    dishId,
+    action,
+  });
+};

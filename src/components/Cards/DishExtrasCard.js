@@ -86,6 +86,7 @@ const DishExtrasCard = (props) => {
                   key={index}
                   control={
                     <BpCheckbox
+                      inputProps={{ "aria-label": "controlled" }}
                       size="small"
                       checked={extra.checked}
                       onChange={(e) =>

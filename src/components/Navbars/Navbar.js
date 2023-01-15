@@ -42,7 +42,7 @@ const userPages = [
 function Navbar(props) {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const { window } = props;
+  // const { window } = props;
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -57,6 +57,8 @@ function Navbar(props) {
         type: "LOGOUT",
         payload: null,
       });
+      window.localStorage.removeItem("wdUser");
+      window.location.reload();
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -156,8 +158,8 @@ function Navbar(props) {
     </Box>
   );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  // const container =
+  //   window !== undefined ? () => window().document.body : undefined;
   // ////////drawer end///////////////////////////////
 
   return (
@@ -248,7 +250,7 @@ function Navbar(props) {
                 <Box component="nav">
                   <Drawer
                     anchor="right"
-                    container={container}
+                    // container={container}
                     variant="temporary"
                     open={drawerOpen}
                     onClose={handleDrawerToggle}
