@@ -615,7 +615,7 @@ const Home = (props) => {
                     <Typography
                       variant="h6"
                       textAlign="center"
-                      fontWeight={500}
+                      fontWeight={600}
                     >
                       View basket GHC{cartTotal - cartTotal * discount}
                     </Typography>
