@@ -30,9 +30,11 @@ const style = {
   overflowY: "scroll",
   width: "100%",
   bgcolor: "#EFF3F6",
-  boxShadow: 24,
+  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.5)",
+  border: "2px",
   borderTopRightRadius: "12px",
   borderTopLeftRadius: "12px",
+
   background: "transparent",
 };
 
@@ -195,8 +197,25 @@ const Dish = (props) => {
             timeout={300}
           >
             <Box sx={style}>
+              <Box sx={{ position: "absolute", top: "3%" }}>
+                <Icon
+                  onClick={props.close}
+                  sx={{
+                    position: "fixed",
+                    right: "3%",
+                    color: "gray",
+                    bgcolor: "#fff",
+                    p: 0,
+                    borderRadius: "50%",
+                    zIndex: 4,
+                  }}
+                >
+                  highlight_off
+                </Icon>
+              </Box>
               <Box
                 sx={{
+                  // border: "0.5px solid rgba(255, 255, 255, 0.3)",
                   borderRadius: "12px",
                   background: "rgba(255, 255, 255, 0.9)",
                   backdropFilter: "blur(8.8px)",
@@ -204,30 +223,13 @@ const Dish = (props) => {
 
                   boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
                   webkitBackdropFilter: "blur(5px)",
-                  border: "1px solid rgba(255, 255, 255, 0.3)",
+
                   position: "relative",
                 }}
                 component="form"
                 onSubmit={handleSubmit}
                 noValidate
               >
-                <Box sx={{ position: "absolute", top: "3%" }}>
-                  <Icon
-                    onClick={props.close}
-                    sx={{
-                      position: "fixed",
-                      right: "3%",
-                      color: "gray",
-                      bgcolor: "#fff",
-                      p: 0,
-                      borderRadius: "50%",
-                      zIndex: 4,
-                    }}
-                  >
-                    {" "}
-                    highlight_off
-                  </Icon>
-                </Box>
                 <Box sx={{ position: "relative" }}>
                   <img
                     style={{

@@ -3,9 +3,10 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 
-import { Icon, Zoom } from "@mui/material";
+import { AppBar, Grid, Icon, Toolbar, Zoom } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
 import PageTitle from "../Typography/PageTitle";
+import ActionButton from "../Buttons/ActionButton";
 
 const style = {
   position: "absolute",
@@ -66,37 +67,126 @@ const Basket = (props) => {
             timeout={300}
           >
             <Box sx={style}>
+              <Box>
+                <AppBar
+                  elevation={0}
+                  position="fixed"
+                  color="inherit"
+                  sx={{
+                    top: "0",
+                    p: 2,
+                    background: "rgba(255, 255, 255, 0.5)",
+                    backdropFilter: "blur(8.8px)",
+                    "-webkit-backdrop-filter": "blur(8.8px)",
+                  }}
+                >
+                  <Grid container spacing={1} justifyContent="space-between">
+                    <Grid item xs={9} textAlign="left">
+                      <Box display="flex">
+                        <Icon color="error">delete_outlined</Icon>{" "}
+                        <Typography color="error">Clear basket</Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={3} textAlign="right">
+                      {/* <Typography textAlign="right"> */}
+                      <Icon onClick={props.close}>close</Icon>
+                      {/* </Typography> */}
+                    </Grid>
+                  </Grid>
+                </AppBar>
+                <Toolbar sx={{ backgroundColor: "#fff" }} />
+              </Box>
               <Box
                 sx={{
+                  px: 2,
+                  py: 1,
+                  borderBottomRightRadius: "12px",
+                  borderBottomLeftRadius: "12px",
                   background: "rgba(255, 255, 255, 0.9)",
                   backdropFilter: "blur(8.8px)",
                   "-webkit-backdrop-filter": "blur(8.8px)",
-
                   boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
                   webkitBackdropFilter: "blur(5px)",
                   border: "1px solid rgba(255, 255, 255, 0.3)",
-                  position: "relative",
                 }}
-                component="form"
-                onSubmit={handleSubmit}
-                noValidate
               >
-                <Box sx={{ position: "relative" }}>
-                  <PageTitle title="coming soom..!" />
+                <Box height={100}>
+                  <Subtitle title="Basket information" />
                 </Box>
-                <Box sx={{ position: "absolute", top: "3%" }}>
-                  <Icon
-                    onClick={props.close}
-                    fontSize="large"
-                    color="error"
-                    sx={{
-                      position: "fixed",
-                      right: "3%",
-                      zIndex: 4,
-                    }}
-                  >
-                    close
-                  </Icon>
+              </Box>
+
+              <Box
+                sx={{
+                  px: 2,
+                  py: 1,
+                  my: 1,
+                  borderRadius: "12px",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  backdropFilter: "blur(8.8px)",
+                  "-webkit-backdrop-filter": "blur(8.8px)",
+                  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+                  webkitBackdropFilter: "blur(5px)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                }}
+              >
+                <Box height={100}>
+                  <Subtitle title="Address and delivery information" />
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  px: 2,
+                  py: 1,
+                  my: 1,
+                  borderRadius: "12px",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  backdropFilter: "blur(8.8px)",
+                  "-webkit-backdrop-filter": "blur(8.8px)",
+                  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+                  webkitBackdropFilter: "blur(5px)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                }}
+              >
+                <Box height={100}>
+                  <Subtitle title="Dishes total and other charges" />
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  px: 2,
+                  py: 1,
+                  my: 1,
+                  borderRadius: "12px",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  backdropFilter: "blur(8.8px)",
+                  "-webkit-backdrop-filter": "blur(8.8px)",
+                  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+                  webkitBackdropFilter: "blur(5px)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                }}
+              >
+                <Box height={100}>
+                  <Subtitle title="Tip" />
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  px: 2,
+                  py: 1,
+                  mt: 1,
+                  borderTopLeftRadius: "12px",
+                  borderTopRightRadius: "12px",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  backdropFilter: "blur(8.8px)",
+                  "-webkit-backdrop-filter": "blur(8.8px)",
+                  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+                  webkitBackdropFilter: "blur(5px)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                }}
+              >
+                <Box>
+                  <Subtitle title="Grand total and payment" />
+                  <ActionButton text="Place order" my={0} />
                 </Box>
               </Box>
             </Box>
