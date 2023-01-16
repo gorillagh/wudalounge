@@ -36,6 +36,7 @@ import DishCard from "../components/Cards/DishCard";
 import LoadingBackdrop from "../components/Feedbacks/LoadingBackdrop";
 import CircularLoading from "../components/Feedbacks/CircularLoading";
 import ShowOnScroll from "../components/Navbars/ShowOnScroll";
+import DishNavbar from "../components/Navbars/DishNavbar";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -353,36 +354,10 @@ const Home = (props) => {
 
   return (
     <Box>
-      <ShowOnScroll {...props}>
-        <Container
-          maxWidth="xl"
-          sx={{
-            position: "fixed",
-            bgcolor: "#000",
-            zIndex: 5,
-            color: "#fff",
-          }}
-        >
-          <Tabs
-            textColor="inherit"
-            value={scrollTabValue}
-            variant="scrollable"
-            scrollButtons="auto"
-            aria-label="scrollable auto tabs example"
-            onChange={(e, v) => {
-              setScrollTabValue(v);
-              var scrollDiv = window.document.getElementById(v).offsetTop;
-              window.scrollTo({ top: scrollDiv - 120, behavior: "smooth" });
-            }}
-          >
-            <Tab label="Pork" />
-            <Tab label="Chicken" />
-            <Tab label="Tilapia" />
-            <Tab label="Drinks" />
-            <Tab label="Special Picks" />
-          </Tabs>
-        </Container>
-      </ShowOnScroll>
+      <DishNavbar
+        scrollTabValue={scrollTabValue}
+        setScrollTabValue={setScrollTabValue}
+      />
       <Container
         maxWidth="xl"
         sx={{
@@ -560,7 +535,7 @@ const Home = (props) => {
         ) : (
           ""
         )}
-        <Divider sx={{ my: 1 }} />
+        <Divider sx={{ my: 2 }} />
         <Subtitle
           id="1"
           mt={4}

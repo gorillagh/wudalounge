@@ -191,6 +191,7 @@ const Dish = (props) => {
                 in={props.open}
                 mountOnEnter
                 unmountOnExit
+                timeout={300}
               >
                 <Box sx={style}>
                   <Box

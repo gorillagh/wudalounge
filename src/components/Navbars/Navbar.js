@@ -36,7 +36,7 @@ const userPages = [
   { text: "Profile", icon: "person", to: "/my/profile" },
   { text: "My Orders", icon: "list", to: "/my/orders" },
   { text: "Account", icon: "manage_accounts", to: "/my/account" },
-  { text: "Logout", icon: "logout", to: "logout" },
+  // { text: "Logout", icon: "logout", to: "logout" },
 ];
 
 function Navbar(props) {
@@ -58,8 +58,8 @@ function Navbar(props) {
         payload: null,
       });
       window.localStorage.removeItem("wdUser");
-      window.location.reload();
       navigate("/");
+      window.location.reload();
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -154,6 +154,23 @@ function Navbar(props) {
             </ListItem>
           ))}
         </Box>
+        {user ? (
+          <Box position="fixed" sx={{ top: "auto", bottom: 0 }}>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={handleSignOut}
+                sx={{ textAlign: "left" }}
+              >
+                <ListItemIcon>
+                  <Icon>logout</Icon>
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItemButton>
+            </ListItem>
+          </Box>
+        ) : (
+          ""
+        )}
       </List>
     </Box>
   );
@@ -168,7 +185,11 @@ function Navbar(props) {
         position="fixed"
         color="inherit"
         sx={{
-          background: "rgba(0,0,0, 1)",
+          // background: "rgba(0,0,0, 1)",
+          pb: 0.4,
+          background: "rgba(0, 0, 0, 0.8)",
+          backdropFilter: "blur(8.8px)",
+          "-webkit-backdrop-filter": "blur(8.8px)",
         }}
       >
         <Container maxWidth="xl">
@@ -305,7 +326,11 @@ function Navbar(props) {
         </Container>
       </AppBar>
 
-      <Toolbar />
+      <Toolbar
+        sx={{
+          background: "rgba(0,0,0, 1)",
+        }}
+      />
     </>
   );
 }

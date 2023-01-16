@@ -35,6 +35,7 @@ const DishCard = (props) => {
                   sx={{
                     borderLeft: selected ? 4 : 0,
                     borderLeftColor: selected ? "primary.main" : "",
+                    boxSizing: "border-box",
                   }}
                 >
                   <Typography fontWeight={600}>{d.name}</Typography>
@@ -96,7 +97,7 @@ const DishCard = (props) => {
                   </Badge>
                 </Grid>
               </Grid>
-              {i === props.dishes.length - 1 ? "" : <Divider sx={{ my: 1 }} />}
+              {i === props.dishes.length - 1 ? "" : <Divider sx={{ my: 2 }} />}
             </Box>
           );
         })}
