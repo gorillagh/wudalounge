@@ -37,6 +37,8 @@ import LoadingBackdrop from "../components/Feedbacks/LoadingBackdrop";
 import CircularLoading from "../components/Feedbacks/CircularLoading";
 import ShowOnScroll from "../components/Navbars/ShowOnScroll";
 import DishNavbar from "../components/Navbars/DishNavbar";
+import ViewBasket from "../components/Navbars/ViewBasket";
+import Basket from "../components/PopUps/Basket";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -260,8 +262,8 @@ const Home = (props) => {
   const [cartTotal, setCartTotal] = useState();
   const [discount, setDiscount] = useState(0.5);
   const [scrollTabValue, setScrollTabValue] = useState();
+  const [openBasket, setOpenBasket] = useState(false);
 
-  const tabValues = ["0", "1"];
   // window.addEventListener("scroll", () => {
   //   for (var i in tabValues) {
   //     if (
@@ -568,49 +570,22 @@ const Home = (props) => {
         setCart={setCart}
       />
 
-      <LoadingBackdrop open={loading} />
       {cart && cart.length ? (
-        <Box display={cart && cart.length ? "" : "none"}>
-          <AppBar
-            position="fixed"
-            color="inherit"
-            sx={{
-              top: "auto",
-              bottom: 0,
-              p: 2,
-              background: "rgba(255, 255, 255, 0.5)",
-              backdropFilter: "blur(8.8px)",
-              "-webkit-backdrop-filter": "blur(8.8px)",
-            }}
-          >
-            <ActionButton
-              disabled={cartTotalLoading}
-              my={0}
-              py={1}
-              text={
-                <>
-                  {cartTotalLoading ? (
-                    <Typography variant="body2" fontWeight={600}>
-                      <CircularLoading size={20} thickness={6} />
-                    </Typography>
-                  ) : (
-                    <Typography
-                      variant="h6"
-                      textAlign="center"
-                      fontWeight={600}
-                    >
-                      View basket GHC{cartTotal - cartTotal * discount}
-                    </Typography>
-                  )}
-                </>
-              }
-            />
-          </AppBar>
-          <Toolbar sx={{ py: 1, position: "fixed" }} />
-        </Box>
+        <ViewBasket
+          cartTotal={cartTotal}
+          cartTotalLoading={cartTotalLoading}
+          discount={discount}
+          onClick={() => setOpenBasket(true)}
+        />
       ) : (
         ""
       )}
+      <Basket
+        cart={cart}
+        open={openBasket}
+        close={() => setOpenBasket(false)}
+      />
+      <LoadingBackdrop open={loading} />
     </Box>
   );
 };

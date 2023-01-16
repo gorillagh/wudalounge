@@ -185,7 +185,7 @@ const Dish = (props) => {
           }}
           ref={containerRef}
         >
-          <Zoom
+          <Slide
             container={containerRef.current}
             appear={true}
             direction="up"
@@ -538,7 +538,7 @@ const Dish = (props) => {
                 <Toolbar sx={{ py: numberIncart > 0 ? 3 : 1 }} />
               </>
             </Box>
-          </Zoom>
+          </Slide>
         </Modal>
       )}
     </Box>
