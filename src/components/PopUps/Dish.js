@@ -16,6 +16,7 @@ import {
   InputBase,
   Slide,
   Toolbar,
+  Zoom,
 } from "@mui/material";
 import ActionButton from "../Buttons/ActionButton";
 import DishSizeCard from "../Cards/DishSizeCard";
@@ -32,6 +33,7 @@ const style = {
   boxShadow: 24,
   borderTopRightRadius: "12px",
   borderTopLeftRadius: "12px",
+  background: "transparent",
 };
 
 const Dish = (props) => {
@@ -160,381 +162,385 @@ const Dish = (props) => {
   };
   return (
     <Box>
-      <Fade in={props.open} mountOnEnter unmountOnExit>
-        <Box minHeight="100vh">
-          {props.dish && (
-            <Modal
-              closeAfterTransition={true}
-              onClose={props.close}
-              open={props.open}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-              slots={{
-                backdrop: () => (
-                  <div
+      {props.dish && (
+        <Modal
+          closeAfterTransition={true}
+          onClose={props.close}
+          open={props.open}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          slots={{
+            backdrop: () => (
+              <Box
+                sx={{
+                  background: "rgba(255, 255, 255, 0.05)",
+                  backdropFilter: "blur(5.8px)",
+                  "-webkit-backdrop-filter": "blur(5.8px)",
+                  width: "100%",
+                  height: "100%",
+                }}
+                onClick={props.close}
+              />
+            ),
+          }}
+          ref={containerRef}
+        >
+          <Zoom
+            container={containerRef.current}
+            appear={true}
+            direction="up"
+            in={props.open}
+            mountOnEnter
+            unmountOnExit
+            timeout={300}
+          >
+            <Box sx={style}>
+              <Box
+                sx={{
+                  borderRadius: "12px",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  backdropFilter: "blur(8.8px)",
+                  "-webkit-backdrop-filter": "blur(8.8px)",
+
+                  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+                  webkitBackdropFilter: "blur(5px)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                  position: "relative",
+                }}
+                component="form"
+                onSubmit={handleSubmit}
+                noValidate
+              >
+                <Box sx={{ position: "absolute", top: "3%" }}>
+                  <Icon
+                    onClick={props.close}
+                    sx={{
+                      position: "fixed",
+                      right: "3%",
+                      color: "gray",
+                      bgcolor: "#fff",
+                      p: 0,
+                      borderRadius: "50%",
+                      zIndex: 4,
+                    }}
+                  >
+                    {" "}
+                    highlight_off
+                  </Icon>
+                </Box>
+                <Box sx={{ position: "relative" }}>
+                  <img
                     style={{
-                      backgroundColor: "#000",
-                      opacity: 0.8,
-                      width: "100%",
+                      borderTopRightRadius: "12px",
+                      borderTopLeftRadius: "12px",
                       height: "100%",
                     }}
-                    onClick={props.close}
+                    alt={props.dish.name}
+                    width="100%"
+                    src={props.dish.image}
                   />
-                ),
-              }}
-              ref={containerRef}
-            >
-              <Slide
-                container={containerRef.current}
-                appear={true}
-                direction="up"
-                in={props.open}
-                mountOnEnter
-                unmountOnExit
-                timeout={300}
-              >
-                <Box sx={style}>
+
+                  <Box px={2} py={1}>
+                    <PageTitle
+                      mt={0}
+                      mb={1}
+                      title={props.dish.name}
+                      fontWeight={700}
+                      rightIcon={
+                        // props.user &&
+                        // props.user.favorites && (
+                        <FormControlLabel
+                          sx={{ mr: 0 }}
+                          control={
+                            <Checkbox
+                              // checked={props.user.favorites.includes(
+                              //   props.dish._id
+                              // )}
+                              // onChange={handleFavorites}
+                              icon={<Icon>favorite_border</Icon>}
+                              checkedIcon={<Icon>favorite</Icon>}
+                            />
+                          }
+                        />
+                        // )
+                      }
+                    />
+                    {props.discount && props.discount > 0 ? (
+                      <Typography
+                        sx={{
+                          fontWeight: 600,
+                          py: 1,
+                          mr: 1,
+                          textDecoration: "line-through",
+                        }}
+                        component="span"
+                        color="text.secondary"
+                      >
+                        GHC{props.dish.price}
+                      </Typography>
+                    ) : (
+                      ""
+                    )}
+
+                    <Chip
+                      label={
+                        <Typography fontWeight={600}>
+                          GHC
+                          {props.dish.price - props.dish.price * props.discount}
+                        </Typography>
+                      }
+                      color="secondary"
+                    />
+                    <Typography
+                      my={0.5}
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                      color="text.secondary"
+                    >
+                      {props.dish.description}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+
+              {/*/////////////////////// Sizes /////////////////////////*/}
+              {props.dish &&
+                props.dish.sizes &&
+                props.dish.sizes.length > 0 && (
                   <Box
                     sx={{
+                      px: 2,
+                      py: 1,
+                      my: 1,
                       borderRadius: "12px",
-                      background: "rgba(255,255,255, 0.6)",
+                      background: "rgba(255, 255, 255, 0.9)",
+                      backdropFilter: "blur(8.8px)",
+                      "-webkit-backdrop-filter": "blur(8.8px)",
                       boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
                       webkitBackdropFilter: "blur(5px)",
                       border: "1px solid rgba(255, 255, 255, 0.3)",
-                      position: "relative",
                     }}
-                    component="form"
-                    onSubmit={handleSubmit}
-                    noValidate
                   >
-                    <Box sx={{ position: "absolute", top: "3%" }}>
-                      <Icon
-                        onClick={props.close}
-                        sx={{
-                          position: "fixed",
-                          right: "3%",
-                          color: "gray",
-                          bgcolor: "#fff",
-                          p: 0,
-                          borderRadius: "50%",
-                          zIndex: 4,
-                        }}
-                      >
-                        {" "}
-                        highlight_off
-                      </Icon>
-                    </Box>
-                    <Box sx={{ position: "relative" }}>
-                      <img
-                        style={{
-                          borderTopRightRadius: "12px",
-                          borderTopLeftRadius: "12px",
-                          height: "100%",
-                        }}
-                        alt={props.dish.name}
-                        width="100%"
-                        src={props.dish.image}
-                      />
-
-                      <Box px={2} py={1}>
-                        <PageTitle
-                          mt={0}
-                          mb={1}
-                          title={props.dish.name}
-                          fontWeight={700}
-                          rightIcon={
-                            // props.user &&
-                            // props.user.favorites && (
-                            <FormControlLabel
-                              sx={{ mr: 0 }}
-                              control={
-                                <Checkbox
-                                  // checked={props.user.favorites.includes(
-                                  //   props.dish._id
-                                  // )}
-                                  // onChange={handleFavorites}
-                                  icon={<Icon>favorite_border</Icon>}
-                                  checkedIcon={<Icon>favorite</Icon>}
-                                />
-                              }
-                            />
-                            // )
-                          }
-                        />
-                        {props.discount && props.discount > 0 ? (
-                          <Typography
-                            sx={{
-                              fontWeight: 600,
-                              py: 1,
-                              mr: 1,
-                              textDecoration: "line-through",
-                            }}
-                            component="span"
-                            color="text.secondary"
-                          >
-                            GHC{props.dish.price}
-                          </Typography>
-                        ) : (
-                          ""
-                        )}
-
+                    <Subtitle
+                      my={1}
+                      title="Choose Size"
+                      fontWeight={700}
+                      chip={
                         <Chip
-                          label={
-                            <Typography fontWeight={600}>
-                              GHC
-                              {props.dish.price -
-                                props.dish.price * props.discount}
-                            </Typography>
-                          }
+                          label="Required"
                           color="secondary"
+                          size="small"
+                          sx={{ fontWeight: 300 }}
                         />
-                        <Typography
-                          my={0.5}
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          color="text.secondary"
-                        >
-                          {props.dish.description}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-
-                  {/*/////////////////////// Sizes /////////////////////////*/}
-                  {props.dish &&
-                    props.dish.sizes &&
-                    props.dish.sizes.length > 0 && (
-                      <Box
-                        sx={{
-                          px: 2,
-                          py: 1,
-                          my: 1,
-                          borderRadius: "12px",
-                          background: "rgba(255,255,255, 0.6)",
-                          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
-                          webkitBackdropFilter: "blur(5px)",
-                          border: "1px solid rgba(255, 255, 255, 0.3)",
-                        }}
-                      >
-                        <Subtitle
-                          my={1}
-                          title="Choose Size"
-                          fontWeight={700}
-                          chip={
-                            <Chip
-                              label="Required"
-                              color="secondary"
-                              size="small"
-                              sx={{ fontWeight: 300 }}
-                            />
-                          }
-                        />
-                        <DishSizeCard
-                          dish={props.dish}
-                          discount={props.discount}
-                          setDish={props.setDish}
-                        />
-                      </Box>
-                    )}
-
-                  {/*////////////////////// Extras /////////////////////*/}
-                  {props.dish &&
-                    props.dish.extras &&
-                    props.dish.extras.length > 0 && (
-                      <Box
-                        sx={{
-                          px: 2,
-                          py: 1,
-                          my: 1,
-                          borderRadius: "12px",
-                          background: "rgba(255,255,255, 0.6)",
-                          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
-                          webkitBackdropFilter: "blur(5px)",
-                          border: "1px solid rgba(255, 255, 255, 0.3)",
-                        }}
-                      >
-                        <Subtitle my={1} title="Extras" fontWeight={700} />
-                        <DishExtrasCard
-                          dish={props.dish}
-                          discount={props.discount}
-                          setDish={props.setDish}
-                        />
-                      </Box>
-                    )}
-
-                  <Box
-                    sx={{
-                      background: "rgba(255,255,255, 0.6)",
-                      px: 2,
-                      py: 1,
-                      borderTopRightRadius: "12px",
-                      borderTopLeftRadius: "12px",
-                    }}
-                  >
-                    <InputBase
-                      fullWidth
-                      multiline
-                      placeholder="Leave a note for the kitchen"
-                      inputProps={{ "aria-label": "search google maps" }}
-                      value={kitchenNotes}
-                      onChange={(e) => setKitchenNotes(e.target.value)}
+                      }
+                    />
+                    <DishSizeCard
+                      dish={props.dish}
+                      discount={props.discount}
+                      setDish={props.setDish}
                     />
                   </Box>
+                )}
 
-                  <>
-                    <AppBar
-                      position="fixed"
-                      color="inherit"
-                      sx={{ top: "auto", bottom: 0, p: 1 }}
-                    >
-                      {numberIncart && numberIncart > 0 ? (
-                        <Box p={1} display={"flex"} alignItems="center">
-                          <Icon
-                            fontSize="small"
-                            color="error"
-                            onClick={() => handleRemoveDish(props.dish)}
-                          >
-                            delete_outlined
-                          </Icon>
-                          <Typography
-                            variant="body2"
-                            component="span"
-                            fontWeight={400}
-                            color="error"
-                            mr={0.5}
-                            onClick={() => handleRemoveDish(props.dish)}
-                          >
-                            Remove
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            component="span"
-                            fontWeight={400}
-                            color="info"
-                          >
-                            {numberIncart} from basket.
-                          </Typography>
-                        </Box>
-                      ) : (
-                        ""
-                      )}
+              {/*////////////////////// Extras /////////////////////*/}
+              {props.dish &&
+                props.dish.extras &&
+                props.dish.extras.length > 0 && (
+                  <Box
+                    sx={{
+                      px: 2,
+                      py: 1,
+                      my: 1,
+                      borderRadius: "12px",
+                      background: "rgba(255, 255, 255, 0.9)",
+                      backdropFilter: "blur(8.8px)",
+                      "-webkit-backdrop-filter": "blur(8.8px)",
+                      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+                      webkitBackdropFilter: "blur(5px)",
+                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                    }}
+                  >
+                    <Subtitle my={1} title="Extras" fontWeight={700} />
+                    <DishExtrasCard
+                      dish={props.dish}
+                      discount={props.discount}
+                      setDish={props.setDish}
+                    />
+                  </Box>
+                )}
 
-                      <Grid container spacing={1} justifyContent="center">
-                        <Grid item xs={5}>
-                          <Box
-                            sx={{
-                              width: "100%",
-                              display: "flex",
-                              borderRadius: "12px",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              boxShadow:
-                                "inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.3)",
-                              height: "100%",
-                              borderColor: "rgba(0, 0, 0, 0.4)",
-                              px: 2,
-                              boxSizing: "border-box",
+              <Box
+                sx={{
+                  background: "rgba(255, 255, 255, 0.85)",
+                  backdropFilter: "blur(8.8px)",
+                  "-webkit-backdrop-filter": "blur(8.8px)",
+                  px: 2,
+                  py: 1,
+                  borderTopRightRadius: "12px",
+                  borderTopLeftRadius: "12px",
+                }}
+              >
+                <InputBase
+                  fullWidth
+                  multiline
+                  placeholder="Leave a note for the kitchen"
+                  inputProps={{ "aria-label": "search google maps" }}
+                  value={kitchenNotes}
+                  onChange={(e) => setKitchenNotes(e.target.value)}
+                />
+              </Box>
+
+              <>
+                <AppBar
+                  position="fixed"
+                  color="inherit"
+                  sx={{
+                    top: "auto",
+                    bottom: 0,
+                    p: 1,
+                    background: "rgba(255, 255, 255, 0.8)",
+                    backdropFilter: "blur(8.8px)",
+                    "-webkit-backdrop-filter": "blur(8.8px)",
+                  }}
+                >
+                  {numberIncart && numberIncart > 0 ? (
+                    <Box p={1} display={"flex"} alignItems="center">
+                      <Icon
+                        fontSize="small"
+                        color="error"
+                        onClick={() => handleRemoveDish(props.dish)}
+                      >
+                        delete_outlined
+                      </Icon>
+                      <Typography
+                        variant="body2"
+                        component="span"
+                        fontWeight={400}
+                        color="error"
+                        mr={0.5}
+                        onClick={() => handleRemoveDish(props.dish)}
+                      >
+                        Remove
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        component="span"
+                        fontWeight={400}
+                        color="info"
+                      >
+                        {numberIncart} from basket.
+                      </Typography>
+                    </Box>
+                  ) : (
+                    ""
+                  )}
+
+                  <Grid container spacing={1} justifyContent="center">
+                    <Grid item xs={5}>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          borderRadius: "12px",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          boxShadow:
+                            "inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.3)",
+                          height: "100%",
+                          borderColor: "rgba(0, 0, 0, 0.4)",
+                          px: 2,
+                          boxSizing: "border-box",
+                        }}
+                      >
+                        <Grid container justifyContent="space-evenly">
+                          <Grid
+                            item
+                            xs={2}
+                            onClick={() => {
+                              if (props.dish.dishQuantity === 1) return;
+                              props.setDish((prevState) => {
+                                prevState = {
+                                  ...prevState,
+                                  dishQuantity: prevState.dishQuantity - 1,
+                                };
+                                console.log(prevState.dishQuantity);
+                                return { ...prevState };
+                              });
                             }}
                           >
-                            <Grid container justifyContent="space-evenly">
-                              <Grid
-                                item
-                                xs={2}
-                                onClick={() => {
-                                  if (props.dish.dishQuantity === 1) return;
-                                  props.setDish((prevState) => {
-                                    prevState = {
-                                      ...prevState,
-                                      dishQuantity: prevState.dishQuantity - 1,
-                                    };
-                                    console.log(prevState.dishQuantity);
-                                    return { ...prevState };
-                                  });
-                                }}
-                              >
-                                <Typography
-                                  variant="h4"
-                                  textAlign="center"
-                                  fontWeight={400}
-                                  color="primary"
-                                >
-                                  -
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={8}>
-                                <Typography
-                                  variant="h4"
-                                  textAlign="center"
-                                  fontWeight={500}
-                                >
-                                  {props.dish.dishQuantity}
-                                </Typography>
-                              </Grid>
-                              <Grid
-                                item
-                                xs={2}
-                                onClick={() =>
-                                  props.setDish((prevState) => {
-                                    prevState = {
-                                      ...prevState,
-                                      dishQuantity: prevState.dishQuantity
-                                        ? prevState.dishQuantity + 1
-                                        : 2,
-                                    };
+                            <Typography
+                              variant="h4"
+                              textAlign="center"
+                              fontWeight={400}
+                              color="primary"
+                            >
+                              -
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={8}>
+                            <Typography
+                              variant="h4"
+                              textAlign="center"
+                              fontWeight={500}
+                            >
+                              {props.dish.dishQuantity}
+                            </Typography>
+                          </Grid>
+                          <Grid
+                            item
+                            xs={2}
+                            onClick={() =>
+                              props.setDish((prevState) => {
+                                prevState = {
+                                  ...prevState,
+                                  dishQuantity: prevState.dishQuantity
+                                    ? prevState.dishQuantity + 1
+                                    : 2,
+                                };
 
-                                    return { ...prevState };
-                                  })
-                                }
-                              >
-                                <Typography
-                                  variant="h4"
-                                  textAlign="center"
-                                  fontWeight={400}
-                                  color="primary"
-                                >
-                                  +
-                                </Typography>
-                              </Grid>
-                            </Grid>
-                          </Box>
-                        </Grid>
-                        <Grid item xs={7}>
-                          <ActionButton
-                            onClick={handleSubmit}
-                            py={0.5}
-                            my={0}
-                            text={
-                              <Box>
-                                <Typography
-                                  variant="body1"
-                                  fontWeight={700}
-                                  p={0}
-                                >
-                                  Add
-                                </Typography>
-                                <Typography
-                                  variant="body1"
-                                  fontWeight={700}
-                                  p={0}
-                                >
-                                  GHC
-                                  {totalAmount -
-                                    (totalAmount * props.discount).toFixed(2)}
-                                </Typography>
-                              </Box>
+                                return { ...prevState };
+                              })
                             }
-                          />
+                          >
+                            <Typography
+                              variant="h4"
+                              textAlign="center"
+                              fontWeight={400}
+                              color="primary"
+                            >
+                              +
+                            </Typography>
+                          </Grid>
                         </Grid>
-                      </Grid>
-                    </AppBar>
-                    <Toolbar sx={{ py: numberIncart > 0 ? 3 : 1 }} />
-                  </>
-                </Box>
-              </Slide>
-            </Modal>
-          )}
-        </Box>
-      </Fade>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <ActionButton
+                        onClick={handleSubmit}
+                        py={0.5}
+                        my={0}
+                        text={
+                          <Box>
+                            <Typography variant="body1" fontWeight={700} p={0}>
+                              Add
+                            </Typography>
+                            <Typography variant="body1" fontWeight={700} p={0}>
+                              GHC
+                              {totalAmount -
+                                (totalAmount * props.discount).toFixed(2)}
+                            </Typography>
+                          </Box>
+                        }
+                      />
+                    </Grid>
+                  </Grid>
+                </AppBar>
+                <Toolbar sx={{ py: numberIncart > 0 ? 3 : 1 }} />
+              </>
+            </Box>
+          </Zoom>
+        </Modal>
+      )}
     </Box>
   );
 };

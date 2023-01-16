@@ -574,7 +574,14 @@ const Home = (props) => {
           <AppBar
             position="fixed"
             color="inherit"
-            sx={{ top: "auto", bottom: 0, p: 1 }}
+            sx={{
+              top: "auto",
+              bottom: 0,
+              p: 2,
+              background: "rgba(255, 255, 255, 0.5)",
+              backdropFilter: "blur(8.8px)",
+              "-webkit-backdrop-filter": "blur(8.8px)",
+            }}
           >
             <ActionButton
               disabled={cartTotalLoading}

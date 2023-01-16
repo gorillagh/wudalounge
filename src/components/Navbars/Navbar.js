@@ -81,7 +81,13 @@ function Navbar(props) {
     setDrawerOpen(!drawerOpen);
   };
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "left", pt: "4px" }}>
+    <Box
+      onClick={handleDrawerToggle}
+      sx={{
+        textAlign: "left",
+        pt: "4px",
+      }}
+    >
       <Box sx={{ display: "flex", my: 1, pl: 2 }}>
         <Typography component="a" href="/" sx={{ mr: 1 }}>
           <img src={logo} alt="wuda lounge logo" width="30" height="30" />
@@ -99,7 +105,6 @@ function Navbar(props) {
           <Link text="Wuda Lounge" to="/" color="#000" />
         </Typography>
       </Box>
-      <Divider />
 
       <List>
         {user
@@ -112,7 +117,7 @@ function Navbar(props) {
                     sx={{ textAlign: "left" }}
                   >
                     <ListItemIcon>
-                      <Icon>{item.icon}</Icon>
+                      <Icon sx={{ color: "#ea8255" }}>{item.icon}</Icon>
                     </ListItemIcon>
                     <ListItemText key={index} primary={item.text} />
                   </ListItemButton>
@@ -130,7 +135,7 @@ function Navbar(props) {
                 onClick={() => handleNavigation("/login")}
               >
                 <ListItemIcon>
-                  <Icon>person</Icon>
+                  <Icon sx={{ color: "#ea8255" }}>person</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Sign In" />
               </ListItemButton>
@@ -138,7 +143,7 @@ function Navbar(props) {
           </>
         )}
         <Box sx={{ display: { xs: "block", md: "none" } }}>
-          <hr />
+          <Divider sx={{ my: 3 }} />
           {pages.map((item, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton
@@ -147,7 +152,7 @@ function Navbar(props) {
                 sx={{ textAlign: "left" }}
               >
                 <ListItemIcon>
-                  <Icon>{item.icon}</Icon>
+                  <Icon sx={{ color: "#ea8255" }}>{item.icon}</Icon>
                 </ListItemIcon>
                 <ListItemText key={index} primary={item.text} />
               </ListItemButton>
@@ -162,7 +167,7 @@ function Navbar(props) {
                 sx={{ textAlign: "left" }}
               >
                 <ListItemIcon>
-                  <Icon>logout</Icon>
+                  <Icon color="error">logout</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Logout" />
               </ListItemButton>
@@ -184,10 +189,11 @@ function Navbar(props) {
       <AppBar
         position="fixed"
         color="inherit"
+        elevation={0}
         sx={{
           // background: "rgba(0,0,0, 1)",
           pb: 0.4,
-          background: "rgba(0, 0, 0, 0.8)",
+          background: "rgba(255, 255, 255, 0.8)",
           backdropFilter: "blur(8.8px)",
           "-webkit-backdrop-filter": "blur(8.8px)",
         }}
@@ -212,7 +218,7 @@ function Navbar(props) {
                 textDecoration: "none",
               }}
             >
-              <Link text="Wuda Lounge" to="/" color="#fff" />
+              <Link text="Wuda Lounge" to="/" color="#000" />
             </Typography>
 
             <Typography
@@ -233,7 +239,7 @@ function Navbar(props) {
                 textDecoration: "none",
               }}
             >
-              <Link text="Wuda Lounge" to="/" color="#fff" />
+              <Link text="Wuda Lounge" to="/" color="#000" />
             </Typography>
             <Box
               sx={{ flexGrow: 1, display: "flex", justifyContent: "flex-end" }}
@@ -268,19 +274,38 @@ function Navbar(props) {
                 >
                   <MenuIcon />
                 </IconButton>
-                <Box component="nav">
+                <Box
+                // component="nav"
+                >
                   <Drawer
                     anchor="right"
-                    // container={container}
                     variant="temporary"
                     open={drawerOpen}
                     onClose={handleDrawerToggle}
+                    slots={{
+                      backdrop: () => (
+                        <Box
+                          sx={{
+                            background: "rgba(255, 255, 255, 0.05)",
+                            backdropFilter: "blur(5.8px)",
+                            "-webkit-backdrop-filter": "blur(5.8px)",
+                            width: "100%",
+                            height: "100%",
+                          }}
+                          onClick={handleDrawerToggle}
+                        />
+                      ),
+                    }}
                     ModalProps={{
                       keepMounted: true, // Better open performance on mobile.
                     }}
                     sx={{
                       // display: { xs: "block", md: "none" },
                       "& .MuiDrawer-paper": {
+                        background: "rgba(255, 255, 255, 0.9)",
+                        backdropFilter: "blur(8.8px)",
+                        "-webkit-backdrop-filter": "blur(8.8px)",
+
                         boxSizing: "border-box",
                         width: drawerWidth,
                       },
@@ -328,7 +353,7 @@ function Navbar(props) {
 
       <Toolbar
         sx={{
-          background: "rgba(0,0,0, 1)",
+          background: "rgba(255, 255, 255, 0.85)",
         }}
       />
     </>
