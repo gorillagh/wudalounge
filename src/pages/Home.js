@@ -277,8 +277,8 @@ const Home = (props) => {
 
   useEffect(() => {
     setLoading(true);
-    if (openDishModal) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "initial";
+    // if (openDishModal) document.body.style.overflow = "hidden";
+    // else document.body.style.overflow = "initial";
     setPorkDishes(dbPorkDishes);
     setChickenDishes(dbChickenDishes);
     if (window.localStorage.getItem("wdCart")) {
@@ -322,10 +322,6 @@ const Home = (props) => {
   const handleDishSelect = async (d) => {
     setSelectedDish({ ...d, dishQuantity: 1 });
     setOpenDishModal(true);
-  };
-  const handleDishModalClose = async () => {
-    setOpenDishModal(false);
-    setSelectedDish(null);
   };
 
   const calculateCartTotal = (cart) => {
@@ -557,19 +553,22 @@ const Home = (props) => {
         )}
       </Box>
 
-      <Dish
-        open={openDishModal}
-        dish={selectedDish}
-        setDish={setSelectedDish}
-        discount={discount}
-        close={handleDishModalClose}
-        user={props.user && props.user}
-        setLoadUser={props.setLoadUser}
-        setUser={props.setUser && props.setUser}
-        cart={cart}
-        setCart={setCart}
-      />
-
+      {selectedDish ? (
+        <Dish
+          open={openDishModal}
+          dish={selectedDish}
+          setDish={setSelectedDish}
+          discount={discount}
+          close={() => setOpenDishModal(false)}
+          user={props.user && props.user}
+          setLoadUser={props.setLoadUser}
+          setUser={props.setUser && props.setUser}
+          cart={cart}
+          setCart={setCart}
+        />
+      ) : (
+        ""
+      )}
       {cart && cart.length ? (
         <ViewBasket
           cartTotal={cartTotal}
