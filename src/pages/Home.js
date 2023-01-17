@@ -258,7 +258,7 @@ const Home = (props) => {
   const [chickenDishes, setChickenDishes] = useState([]);
   const [selectedDish, setSelectedDish] = useState({});
   const [openDishModal, setOpenDishModal] = useState(false);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState({});
   const [cartTotal, setCartTotal] = useState();
   const [discount, setDiscount] = useState(0.5);
   const [scrollTabValue, setScrollTabValue] = useState();
@@ -328,7 +328,9 @@ const Home = (props) => {
     setCartTotalLoading(true);
     let total = 0;
     cart &&
-      cart.map((d, index) => {
+      cart.dishes &&
+      cart.dishes.length &&
+      cart.dishes.map((d, index) => {
         let totalExtras = 0;
         for (var i in d.extras) {
           if (d.extras[i].checked)
@@ -569,7 +571,7 @@ const Home = (props) => {
       ) : (
         ""
       )}
-      {cart && cart.length ? (
+      {cart && cart.dishes && cart.dishes.length ? (
         <ViewBasket
           cartTotal={cartTotal}
           cartTotalLoading={cartTotalLoading}
@@ -582,6 +584,7 @@ const Home = (props) => {
       <Basket
         cart={cart}
         setCart={setCart}
+        discount={discount}
         open={openBasket}
         close={() => setOpenBasket(false)}
       />

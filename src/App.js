@@ -67,6 +67,7 @@ let theme = createTheme({
       dark: "#4c0ff0",
       contrastText: "#fff",
     },
+    divider: "rgba(0, 0, 0, 0.08)",
   },
 
   shape: {

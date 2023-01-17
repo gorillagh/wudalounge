@@ -14,7 +14,9 @@ const DishCard = (props) => {
           let selected = false;
           let dishNumber = 0;
           props.cart &&
-            props.cart.map((cartDish, i) => {
+            props.cart.dishes &&
+            props.cart.dishes.length &&
+            props.cart.dishes.map((cartDish, i) => {
               if (cartDish._id === d._id) {
                 selected = true;
                 dishNumber += cartDish.dishQuantity;

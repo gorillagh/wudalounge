@@ -54,10 +54,12 @@ const Dish = (props) => {
       setKitchenNotes(props.dish.kitchenNotes);
 
     props.cart &&
-      props.cart.map((d, i) => {
+      props.cart.dishes &&
+      props.cart.dishes.length &&
+      props.cart.dishes.map((d, i) => {
         if (props.dish && props.dish._id === d._id) {
           setInCart(true);
-          numberIn += props.cart[i].dishQuantity;
+          numberIn += props.cart.dishes[i].dishQuantity;
         }
       });
     setNumberIncart(numberIn);
@@ -105,8 +107,14 @@ const Dish = (props) => {
       kitchenNotes,
     };
     props.setCart((prevState) => {
-      prevState.push({ ...props.dish, kitchenNotes });
-      window.localStorage.setItem("wdCart", JSON.stringify([...prevState]));
+      prevState.dishes
+        ? prevState.dishes.push({ ...props.dish, kitchenNotes })
+        : (prevState = {
+            dishes: [{ ...props.dish, kitchenNotes }],
+            deliveryMode: "delivery",
+          });
+      window.localStorage.setItem("wdCart", JSON.stringify({ ...prevState }));
+      return prevState;
     });
 
     props.setDish({});
@@ -117,18 +125,31 @@ const Dish = (props) => {
   const handleRemoveDish = (dish) => {
     let toDelete = [];
     props.cart &&
-      props.cart.map((d, i) => {
+      props.cart.dishes &&
+      props.cart.dishes.length &&
+      props.cart.dishes.map((d, i) => {
         if (d._id === dish._id) toDelete.push(i);
       });
 
-    props.setCart((prevState) => {
-      for (var i = toDelete.length - 1; i >= 0; i--)
-        prevState.splice(toDelete[i], 1);
+    if (
+      props.cart &&
+      props.cart.dishes &&
+      props.cart.dishes.length &&
+      toDelete.length === props.cart.dishes.length
+    ) {
+      props.setCart({});
+      window.localStorage.removeItem("wdCart");
+    } else {
+      props.setCart((prevState) => {
+        for (var i = toDelete.length - 1; i >= 0; i--)
+          prevState.dishes.splice(toDelete[i], 1);
 
-      window.localStorage.setItem("wdCart", JSON.stringify([...prevState]));
-      props.close();
-      return prevState;
-    });
+        window.localStorage.setItem("wdCart", JSON.stringify({ ...prevState }));
+
+        return { ...prevState };
+      });
+    }
+    props.close();
   };
 
   const handleFavorites = (e) => {
