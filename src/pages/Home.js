@@ -581,6 +581,7 @@ const Home = (props) => {
       )}
       <Basket
         cart={cart}
+        setCart={setCart}
         open={openBasket}
         close={() => setOpenBasket(false)}
       />

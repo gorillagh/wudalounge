@@ -23,6 +23,7 @@ const ViewBasket = (props) => {
           disabled={props.cartTotalLoading}
           my={0}
           py={1}
+          rightIcon="arrow_forward"
           text={
             <>
               {props.cartTotalLoading ? (

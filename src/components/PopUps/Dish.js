@@ -167,8 +167,6 @@ const Dish = (props) => {
   };
   return (
     <Modal
-      disableRestoreFocus
-      s
       closeAfterTransition={true}
       open={props.open}
       onClose={props.close}
