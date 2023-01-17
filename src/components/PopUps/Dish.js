@@ -31,13 +31,11 @@ const style = {
   maxHeight: "80vh",
   overflowY: "scroll",
   width: "100%",
-  // bgcolor: "#EFF3F6",
   boxShadow: "0 4px 30px rgba(0, 0, 0, 1)",
-  // border: "2px",
   borderTopRightRadius: "12px",
   borderTopLeftRadius: "12px",
   boxSizing: "border-box",
-
+  zIndex: 99,
   background: "transparent",
 };
 
@@ -183,10 +181,10 @@ const Dish = (props) => {
               height: "100%",
             }}
             onClick={props.close}
+            ref={containerRef}
           />
         ),
       }}
-      ref={containerRef}
     >
       <Slide
         container={containerRef.current}
