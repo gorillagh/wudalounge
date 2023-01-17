@@ -59,7 +59,7 @@ const Basket = (props) => {
   };
   const clearBasket = () => {
     if (window.confirm("Are you sure you want to clear your basket?")) {
-      props.setCart([]);
+      props.setCart({});
       window.localStorage.removeItem("wdCart");
     }
   };
