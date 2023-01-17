@@ -74,7 +74,7 @@ const Basket = (props) => {
         backdrop: () => (
           <Box
             sx={{
-              background: "rgba(255, 255, 255, 0.05)",
+              background: "rgba(0, 0, 0, 0.05)",
               backdropFilter: "blur(5.8px)",
               "-webkit-backdrop-filter": "blur(5.8px)",
               width: "100%",
@@ -206,6 +206,7 @@ const Basket = (props) => {
                                 // justifyContent: "center",
                                 // height: "100%",
                                 px: 1,
+                                py: 1,
                                 boxSizing: "border-box",
                                 display: "flex",
                                 boxShadow:
