@@ -149,8 +149,8 @@ const Basket = (props) => {
                   <Box py={1} mt={1}>
                     {props.cart.dishes.map((d, i) => (
                       <Box>
-                        <Grid container py={1} spacing={1}>
-                          <Grid item xs={3}>
+                        <Grid container py={1}>
+                          <Grid item xs={2.5}>
                             <Box
                               sx={{
                                 borderRadius: "10px",
@@ -167,7 +167,7 @@ const Basket = (props) => {
                             </Box>
                           </Grid>
                           <Grid item xs={6}>
-                            <Box>
+                            <Box px={1}>
                               <Typography>{d.name}</Typography>
                               {props.discount && props.discount > 0 ? (
                                 <Typography
@@ -196,22 +196,27 @@ const Basket = (props) => {
                               />
                             </Box>
                           </Grid>
-                          <Grid item xs={3}>
+                          <Grid item xs={3.5}>
                             <Box
                               sx={{
+                                width: "100%",
                                 // display: "flex",
                                 borderRadius: "12px",
                                 // alignItems: "center",
                                 // justifyContent: "center",
                                 // height: "100%",
-                                px: 2,
+                                px: 1,
                                 boxSizing: "border-box",
                                 display: "flex",
                                 boxShadow:
                                   "inset 0 0 0 1px rgba(16,22,26,.05), inset 0 -1px 0 rgba(16,22,26,.2)",
                               }}
                             >
-                              <Grid container justifyContent="space-evenly">
+                              <Grid
+                                container
+                                fullWidth
+                                justifyContent="space-between"
+                              >
                                 <Grid item xs={2}>
                                   <Typography textAlign="left" color="primary">
                                     -
