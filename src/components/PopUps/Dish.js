@@ -181,10 +181,10 @@ const Dish = (props) => {
               height: "100%",
             }}
             onClick={props.close}
-            // ref={containerRef}
           />
         ),
       }}
+      ref={containerRef}
     >
       <Slide
         container={containerRef.current}
