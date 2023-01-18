@@ -269,15 +269,13 @@ const Home = (props) => {
   const [scrollTabValue, setScrollTabValue] = useState();
   const [openBasket, setOpenBasket] = useState(false);
   const [targetElement, setTargetElement] = useState(null);
-  const targetRef = React.createRef();
+  const targetRef = React.useRef();
 
   useEffect(() => {
-    if (openDishModal === false) {
-      clearAllBodyScrollLocks();
-    } else {
-      // setTargetElement(document.querySelector("#targetElementId"));
-      setTargetElement(targetRef.current);
-    }
+    clearAllBodyScrollLocks();
+
+    setTargetElement(document.querySelector("#targetElementId"));
+    setTargetElement(targetRef.current);
   }, [openDishModal, targetRef]);
 
   useEffect(() => {
