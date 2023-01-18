@@ -6,7 +6,6 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import store from "./reducers";
 import { Provider } from "react-redux";
-import inobounce from "inobounce";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,5 +17,5 @@ root.render(
     </Provider>
   </React.StrictMode>
 );
-inobounce.enable();
+
 reportWebVitals();

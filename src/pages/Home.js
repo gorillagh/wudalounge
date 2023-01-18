@@ -44,6 +44,7 @@ import {
   enableBodyScroll,
   clearAllBodyScrollLocks,
 } from "body-scroll-lock";
+import inobounce from "inobounce";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -272,6 +273,10 @@ const Home = (props) => {
   const targetRef = React.useRef();
 
   useEffect(() => {
+    openDishModal && inobounce.enable();
+    !openDishModal && inobounce.disable();
+  }, [openDishModal]);
+  useEffect(() => {
     setTargetElement(document.querySelector("#targetElementId"));
     // setTargetElement(targetRef.current);
     // clearAllBodyScrollLocks();
@@ -371,7 +376,7 @@ const Home = (props) => {
   };
 
   return (
-    <Box>
+    <Box sx={{ WebkitOverflowScrolling: "touch" }}>
       <DishNavbar
         scrollTabValue={scrollTabValue}
         setScrollTabValue={setScrollTabValue}
