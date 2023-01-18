@@ -274,7 +274,7 @@ const Home = (props) => {
   useEffect(() => {
     clearAllBodyScrollLocks();
     setTargetElement(targetRef.current);
-  }, [targetRef]);
+  });
 
   useEffect(() => {
     setLoading(true);
