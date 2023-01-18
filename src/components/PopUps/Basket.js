@@ -46,12 +46,17 @@ const cardStyle = {
 
 const Basket = (props) => {
   const [totalAmount, setTotalAmount] = useState(0);
+  const [selectedDish, setSelectedDish] = useState({});
 
   const containerRef = React.useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     //
+  };
+  const handleDishSelect = (d) => {
+    props.setSelectedDish(d);
+    props.setOpenDishModal(true);
   };
 
   const handleRemoveDish = (dish) => {
@@ -167,7 +172,11 @@ const Basket = (props) => {
                     {props.cart.dishes.map((d, i) => (
                       <Box key={i}>
                         <Grid container py={1}>
-                          <Grid item xs={2.5}>
+                          <Grid
+                            item
+                            xs={2.5}
+                            onClick={() => handleDishSelect(d)}
+                          >
                             <Box
                               sx={{
                                 borderRadius: "10px",
@@ -183,7 +192,7 @@ const Basket = (props) => {
                               />
                             </Box>
                           </Grid>
-                          <Grid item xs={6}>
+                          <Grid item xs={6} onClick={() => handleDishSelect(d)}>
                             <Box px={1}>
                               <Typography>{d.name}</Typography>
                               {props.discount && props.discount > 0 ? (

@@ -609,6 +609,8 @@ const Home = (props) => {
         close={() => setOpenBasket(false)}
         cartTotal={cartTotal}
         setCartTotal={setCartTotal}
+        setOpenDishModal={setOpenDishModal}
+        setSelectedDish={setSelectedDish}
       />
       <LoadingBackdrop open={loading} />
     </Box>
