@@ -286,7 +286,11 @@ const Home = (props) => {
     }
     calculateCartTotal(JSON.parse(window.localStorage.getItem("wdCart")));
     setLoading(false);
-  }, [openDishModal]);
+  }, [openDishModal, cart]);
+
+  // useEffect(()=>{
+  //   calculateCartTotal(JSON.parse(window.localStorage.getItem('wdCart')))
+  // },[cart])
 
   const handleSendNotification = async () => {
     try {
