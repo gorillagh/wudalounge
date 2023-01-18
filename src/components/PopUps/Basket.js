@@ -95,7 +95,14 @@ const Basket = (props) => {
         unmountOnExit
         //   timeout={300}
       >
-        <Box sx={style}>
+        <Box
+          sx={style}
+          onClick={() => {
+            if (props.cart && props.cart.dishes && props.cart.dishes.length)
+              return;
+            props.close();
+          }}
+        >
           <Box>
             <AppBar
               elevation={0}
@@ -218,7 +225,25 @@ const Basket = (props) => {
                                 fullWidth
                                 justifyContent="space-between"
                               >
-                                <Grid item xs={2}>
+                                <Grid
+                                  item
+                                  xs={2}
+                                  onClick={() => {
+                                    props.setCart((prevState) => {
+                                      if (d.dishQuantity === 1) {
+                                        prevState.dishes.splice(i, 1);
+                                      } else {
+                                        prevState.dishes[i].dishQuantity =
+                                          d.dishQuantity - 1;
+                                      }
+                                      window.localStorage.setItem(
+                                        "wdCart",
+                                        JSON.stringify({ ...prevState })
+                                      );
+                                      return { ...prevState };
+                                    });
+                                  }}
+                                >
                                   <Typography textAlign="left" color="primary">
                                     -
                                   </Typography>
@@ -228,7 +253,21 @@ const Basket = (props) => {
                                     {d.dishQuantity}
                                   </Typography>
                                 </Grid>
-                                <Grid item xs={2}>
+                                <Grid
+                                  item
+                                  xs={2}
+                                  onClick={() => {
+                                    props.setCart((prevState) => {
+                                      prevState.dishes[i].dishQuantity =
+                                        d.dishQuantity + 1;
+                                      window.localStorage.setItem(
+                                        "wdCart",
+                                        JSON.stringify({ ...prevState })
+                                      );
+                                      return { ...prevState };
+                                    });
+                                  }}
+                                >
                                   <Typography color="primary" textAlign="right">
                                     +
                                   </Typography>
