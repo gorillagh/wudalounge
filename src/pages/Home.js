@@ -39,6 +39,11 @@ import ShowOnScroll from "../components/Navbars/ShowOnScroll";
 import DishNavbar from "../components/Navbars/DishNavbar";
 import ViewBasket from "../components/Navbars/ViewBasket";
 import Basket from "../components/PopUps/Basket";
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks,
+} from "body-scroll-lock";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -263,6 +268,13 @@ const Home = (props) => {
   const [discount, setDiscount] = useState(0.5);
   const [scrollTabValue, setScrollTabValue] = useState();
   const [openBasket, setOpenBasket] = useState(false);
+  const [targetElement, setTargetElement] = useState(null);
+  const targetRef = React.createRef();
+
+  useEffect(() => {
+    clearAllBodyScrollLocks();
+    setTargetElement(targetRef.current);
+  }, [targetRef]);
 
   useEffect(() => {
     setLoading(true);
@@ -321,6 +333,12 @@ const Home = (props) => {
   const handleDishSelect = async (d) => {
     setSelectedDish({ ...d, dishQuantity: 1 });
     setOpenDishModal(true);
+    disableBodyScroll(targetElement);
+  };
+  const handleDishClose = (async) => {
+    setOpenDishModal(false);
+    enableBodyScroll(targetElement);
+    console.log(targetElement);
   };
 
   const calculateCartTotal = (cart) => {
@@ -352,7 +370,7 @@ const Home = (props) => {
   };
 
   return (
-    <Box>
+    <Box ref={targetRef}>
       <DishNavbar
         scrollTabValue={scrollTabValue}
         setScrollTabValue={setScrollTabValue}
@@ -560,12 +578,13 @@ const Home = (props) => {
           dish={selectedDish}
           setDish={setSelectedDish}
           discount={discount}
-          close={() => setOpenDishModal(false)}
+          close={handleDishClose}
           user={props.user && props.user}
           setLoadUser={props.setLoadUser}
           setUser={props.setUser && props.setUser}
           cart={cart}
           setCart={setCart}
+          ref={targetRef}
         />
       ) : (
         ""

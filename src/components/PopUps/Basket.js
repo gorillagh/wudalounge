@@ -97,11 +97,11 @@ const Basket = (props) => {
       >
         <Box
           sx={style}
-          onClick={() => {
-            if (props.cart && props.cart.dishes && props.cart.dishes.length)
-              return;
-            props.close();
-          }}
+          //   onClick={() => {
+          //     if (props.cart && props.cart.dishes && props.cart.dishes.length)
+          //       return;
+          //     props.close();
+          //   }}
         >
           <Box>
             <AppBar
@@ -340,11 +340,21 @@ const Basket = (props) => {
             </>
           ) : (
             <Box
-              sx={{
-                ...cardStyle,
+              bgcolor="transparent"
+              height="80vh"
+              onClick={() => {
+                if (props.cart && props.cart.dishes && props.cart.dishes.length)
+                  return;
+                props.close();
               }}
             >
-              <Subtitle title="Your basket is empty!" textAlign="center" />
+              <Box
+                sx={{
+                  ...cardStyle,
+                }}
+              >
+                <Subtitle title="Your basket is empty!" textAlign="center" />
+              </Box>
             </Box>
           )}
         </Box>
