@@ -264,29 +264,24 @@ const Home = (props) => {
   const [scrollTabValue, setScrollTabValue] = useState();
   const [openBasket, setOpenBasket] = useState(false);
 
-  // window.addEventListener("scroll", () => {
-  //   for (var i in tabValues) {
-  //     if (
-  //       document.documentElement.scrollTop - 120 ===
-  //       window.document.getElementById(tabValues[i]).offsetTop - 120
-  //     ) {
-  //       setScrollTabValue(i);
-  //     }
-  //   }
-  // });
-
   useEffect(() => {
     setLoading(true);
-    // if (openDishModal) document.body.style.overflow = "hidden";
-    // else document.body.style.overflow = "initial";
     setPorkDishes(dbPorkDishes);
     setChickenDishes(dbChickenDishes);
+    setLoading(false);
+  });
+
+  useEffect(() => {
     if (window.localStorage.getItem("wdCart")) {
       setCart(JSON.parse(window.localStorage.getItem("wdCart")));
     }
+  }, [openDishModal]);
+
+  useEffect(() => {
+    setCartTotalLoading(true);
     calculateCartTotal(JSON.parse(window.localStorage.getItem("wdCart")));
-    setLoading(false);
-  }, [openDishModal, cart]);
+    setCartTotalLoading(false);
+  }, [cart]);
 
   // useEffect(()=>{
   //   calculateCartTotal(JSON.parse(window.localStorage.getItem('wdCart')))
