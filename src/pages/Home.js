@@ -272,10 +272,9 @@ const Home = (props) => {
   const targetRef = React.useRef();
 
   useEffect(() => {
-    clearAllBodyScrollLocks();
-
     setTargetElement(document.querySelector("#targetElementId"));
     setTargetElement(targetRef.current);
+    clearAllBodyScrollLocks();
   }, [openDishModal, targetRef]);
 
   useEffect(() => {
