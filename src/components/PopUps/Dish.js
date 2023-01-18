@@ -37,6 +37,7 @@ const style = {
   boxSizing: "border-box",
   zIndex: 99,
   background: "transparent",
+  WebkitOverflowScrolling: "touch",
 };
 
 const Dish = (props) => {

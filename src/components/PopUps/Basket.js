@@ -155,7 +155,7 @@ const Basket = (props) => {
                   />
                   <Box py={1} mt={1}>
                     {props.cart.dishes.map((d, i) => (
-                      <Box>
+                      <Box key={i}>
                         <Grid container py={1}>
                           <Grid item xs={2.5}>
                             <Box
