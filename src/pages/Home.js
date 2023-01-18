@@ -44,7 +44,6 @@ import {
   enableBodyScroll,
   clearAllBodyScrollLocks,
 } from "body-scroll-lock";
-import inobounce from "inobounce";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -270,12 +269,8 @@ const Home = (props) => {
   const [scrollTabValue, setScrollTabValue] = useState();
   const [openBasket, setOpenBasket] = useState(false);
   const [targetElement, setTargetElement] = useState(null);
-  const targetRef = React.useRef();
+  const targetRef = React.useRef(null);
 
-  useEffect(() => {
-    openDishModal && inobounce.enable();
-    !openDishModal && inobounce.disable();
-  }, [openDishModal]);
   useEffect(() => {
     setTargetElement(document.querySelector("#targetElementId"));
     // setTargetElement(targetRef.current);
@@ -376,7 +371,7 @@ const Home = (props) => {
   };
 
   return (
-    <Box sx={{ WebkitOverflowScrolling: "touch" }}>
+    <Box>
       <DishNavbar
         scrollTabValue={scrollTabValue}
         setScrollTabValue={setScrollTabValue}
@@ -612,6 +607,8 @@ const Home = (props) => {
         discount={discount}
         open={openBasket}
         close={() => setOpenBasket(false)}
+        cartTotal={cartTotal}
+        setCartTotal={setCartTotal}
       />
       <LoadingBackdrop open={loading} />
     </Box>

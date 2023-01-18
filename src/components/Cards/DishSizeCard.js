@@ -71,7 +71,7 @@ function BpRadio(props) {
 
 const DishSizeCard = (props) => {
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth sx={{ cursor: "pointer" }}>
       <RadioGroup
         value={
           props.dish.selectedSize

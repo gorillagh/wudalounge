@@ -120,7 +120,9 @@ const Basket = (props) => {
               <Grid container spacing={1} justifyContent="space-between">
                 <Grid item xs={3} textAlign="left">
                   {/* <Typography textAlign="right"> */}
-                  <Icon onClick={props.close}>arrow_back</Icon>
+                  <Icon onClick={props.close} sx={{ cursor: "pointer" }}>
+                    arrow_back
+                  </Icon>
                   {/* </Typography> */}
                 </Grid>
                 {props.cart && props.cart.dishes && props.cart.dishes.length ? (
@@ -130,10 +132,18 @@ const Basket = (props) => {
                       textAlign="right"
                       justifyContent="flex-end"
                     >
-                      <Icon color="error" onClick={clearBasket}>
+                      <Icon
+                        color="error"
+                        sx={{ cursor: "pointer" }}
+                        onClick={clearBasket}
+                      >
                         delete_outlined
                       </Icon>{" "}
-                      <Typography color="error" onClick={clearBasket}>
+                      <Typography
+                        color="error"
+                        sx={{ cursor: "pointer" }}
+                        onClick={clearBasket}
+                      >
                         Clear basket
                       </Typography>
                     </Box>
@@ -207,7 +217,7 @@ const Basket = (props) => {
                             <Box
                               sx={{
                                 width: "100%",
-                                // display: "flex",
+
                                 borderRadius: "12px",
                                 // alignItems: "center",
                                 // justifyContent: "center",
@@ -224,9 +234,11 @@ const Basket = (props) => {
                                 container
                                 fullWidth
                                 justifyContent="space-between"
+                                alignItems="center"
                               >
                                 <Grid
                                   item
+                                  sx={{ cursor: "pointer" }}
                                   xs={2}
                                   onClick={() => {
                                     props.setCart((prevState) => {
@@ -244,9 +256,15 @@ const Basket = (props) => {
                                     });
                                   }}
                                 >
-                                  <Typography textAlign="left" color="primary">
-                                    -
-                                  </Typography>
+                                  <Box
+                                    display="flex"
+                                    boxSizing="border-box"
+                                    justifyContent="center"
+                                  >
+                                    <Icon fontSize="small" color="primary">
+                                      remove
+                                    </Icon>
+                                  </Box>
                                 </Grid>
                                 <Grid item xs={8}>
                                   <Typography textAlign="center">
@@ -254,6 +272,7 @@ const Basket = (props) => {
                                   </Typography>
                                 </Grid>
                                 <Grid
+                                  sx={{ cursor: "pointer" }}
                                   item
                                   xs={2}
                                   onClick={() => {
@@ -268,9 +287,15 @@ const Basket = (props) => {
                                     });
                                   }}
                                 >
-                                  <Typography color="primary" textAlign="right">
-                                    +
-                                  </Typography>
+                                  <Box
+                                    display="flex"
+                                    boxSizing="border-box"
+                                    justifyContent="center"
+                                  >
+                                    <Icon fontSize="small" color="primary">
+                                      add
+                                    </Icon>
+                                  </Box>
                                 </Grid>
                               </Grid>
                             </Box>
@@ -281,7 +306,12 @@ const Basket = (props) => {
                     ))}
                   </Box>
                   <Divider />
-                  <Box display="flex" py={1} onClick={props.close}>
+                  <Box
+                    display="flex"
+                    py={1}
+                    onClick={props.close}
+                    sx={{ cursor: "pointer" }}
+                  >
                     <Icon color="primary">add_circle</Icon>
                     <Typography ml={1} color="primary">
                       Add more
@@ -299,7 +329,94 @@ const Basket = (props) => {
                   </Box>
                 </Box>
               </Box>
+              <Box
+                sx={{
+                  ...cardStyle,
+                }}
+              >
+                {props.cartTotal && props.discount ? (
+                  <Box py={1}>
+                    <Grid container py={0.5} justifyContent="space-between">
+                      <Grid item xs={6}>
+                        <Typography>
+                          {props.discount * 100}% discount
+                        </Typography>
+                      </Grid>
 
+                      <Grid item xs={6}>
+                        <Typography textAlign="right">
+                          -GHC{(props.cartTotal * props.discount).toFixed(2)}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid container py={0.5} justifyContent="space-between">
+                      <Grid item xs={6}>
+                        <Typography fontWeight="bold">Subtotal</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography textAlign="right" fontWeight="bold">
+                          GHC
+                          {(
+                            props.cartTotal -
+                            props.cartTotal * props.discount
+                          ).toFixed(2)}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+
+                    <Grid container py={0.5} justifyContent="space-between">
+                      <Grid item xs={6}>
+                        <Typography>Rider tip</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography textAlign="right">
+                          GHC{props.cart.riderTip ? props.cart.riderTip : 0}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+
+                    {props.cart.deliveryMode &&
+                    props.cart.deliveryMode === "delivery" ? (
+                      <Grid container py={0.5} justifyContent="space-between">
+                        <Grid item xs={6}>
+                          <Typography>Delivery fee</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Typography textAlign="right">
+                            GHC
+                            {props.cart.deliveryFee
+                              ? props.cart.deliveryFee.toFixed(2)
+                              : 0}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    ) : (
+                      ""
+                    )}
+                    <Divider sx={{ my: 1 }} />
+                    <Grid container py={0.5} justifyContent="space-between">
+                      <Grid item xs={6}>
+                        <Typography fontWeight="bold">Total</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography fontWeight="bold" textAlign="right">
+                          GHC
+                          {(
+                            props.cartTotal -
+                            props.cartTotal * props.discount +
+                            (props.cart.riderTip ? props.cart.riderTip : 0) +
+                            (props.cart.deliveryFee
+                              ? props.cart.deliveryFee
+                              : 0)
+                          ).toFixed(2)}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                ) : (
+                  ""
+                )}
+              </Box>
               <Box
                 sx={{
                   ...cardStyle,
@@ -309,15 +426,7 @@ const Basket = (props) => {
                   <Typography>Address and delivery information</Typography>
                 </Box>
               </Box>
-              <Box
-                sx={{
-                  ...cardStyle,
-                }}
-              >
-                <Box py={2}>
-                  <Typography>Subtotal and other charges</Typography>
-                </Box>
-              </Box>
+
               <Box
                 sx={{
                   ...cardStyle,
@@ -330,10 +439,30 @@ const Basket = (props) => {
               <Box
                 sx={{
                   ...cardStyle,
+                  mb: 0,
+                  borderBottomLeftRadius: 0,
+                  borderBottomRightRadius: 0,
                 }}
               >
-                <Box py={2}>
-                  <Typography>Grand total and payment</Typography>
+                <Box py={1}>
+                  <Grid container my={1}>
+                    <Grid item xs={6}>
+                      <Subtitle title="You pay" my={0} />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Subtitle
+                        textAlign="right"
+                        title={`GHC${(
+                          props.cartTotal -
+                          props.cartTotal * props.discount +
+                          (props.cart.riderTip ? props.cart.riderTip : 0) +
+                          (props.cart.deliveryFee ? props.cart.deliveryFee : 0)
+                        ).toFixed(2)}`}
+                        my={0}
+                      />
+                    </Grid>
+                  </Grid>
+
                   <ActionButton text="Place order" my={0} />
                 </Box>
               </Box>

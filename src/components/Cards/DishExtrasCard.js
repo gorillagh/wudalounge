@@ -105,6 +105,7 @@ const DishExtrasCard = (props) => {
                 />
                 <Box
                   sx={{
+                    cursor: "pointer",
                     width: "80%",
                     // display: "flex",
                     borderRadius: "12px",

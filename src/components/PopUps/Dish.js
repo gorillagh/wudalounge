@@ -37,7 +37,6 @@ const style = {
   boxSizing: "border-box",
   zIndex: 99,
   background: "transparent",
-  WebkitOverflowScrolling: "touch",
 };
 
 const Dish = (props) => {
@@ -230,6 +229,7 @@ const Dish = (props) => {
                 p: 0,
                 borderRadius: "50%",
                 zIndex: 4,
+                cursor: "pointer",
               }}
             >
               highlight_off
@@ -423,6 +423,7 @@ const Dish = (props) => {
                     fontSize="small"
                     color="error"
                     onClick={() => handleRemoveDish(props.dish)}
+                    sx={{ cursor: "pointer" }}
                   >
                     delete_outlined
                   </Icon>
@@ -432,6 +433,7 @@ const Dish = (props) => {
                     fontWeight={400}
                     color="error"
                     mr={0.5}
+                    sx={{ cursor: "pointer" }}
                     onClick={() => handleRemoveDish(props.dish)}
                   >
                     Remove
@@ -464,6 +466,7 @@ const Dish = (props) => {
                       borderColor: "rgba(0, 0, 0, 0.4)",
                       px: 2,
                       boxSizing: "border-box",
+                      cursor: "pointer",
                     }}
                   >
                     <Grid container justifyContent="space-evenly">
