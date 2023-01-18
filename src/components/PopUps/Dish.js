@@ -206,6 +206,7 @@ const Dish = (props) => {
         ),
       }}
       ref={containerRef}
+      {...props}
     >
       <Slide
         container={containerRef.current}

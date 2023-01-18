@@ -272,8 +272,8 @@ const Home = (props) => {
   const targetRef = React.createRef();
 
   useEffect(() => {
-    // clearAllBodyScrollLocks();
-    setTargetElement(targetRef.current);
+    clearAllBodyScrollLocks();
+    setTargetElement(document.querySelector("#targetElementId"));
   }, [openDishModal, targetRef]);
 
   useEffect(() => {
@@ -574,6 +574,7 @@ const Home = (props) => {
 
       {selectedDish ? (
         <Dish
+          id="#targetElementId"
           open={openDishModal}
           dish={selectedDish}
           setDish={setSelectedDish}
