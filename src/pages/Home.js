@@ -272,9 +272,9 @@ const Home = (props) => {
   const targetRef = React.useRef();
 
   useEffect(() => {
-    setTargetElement(document.querySelector("#targetElementId"));
+    // setTargetElement(document.querySelector("#targetElementId"));
     setTargetElement(targetRef.current);
-    clearAllBodyScrollLocks();
+    // clearAllBodyScrollLocks();
   }, [openDishModal, targetRef]);
 
   useEffect(() => {
@@ -371,7 +371,7 @@ const Home = (props) => {
   };
 
   return (
-    <Box ref={targetRef}>
+    <Box>
       <DishNavbar
         scrollTabValue={scrollTabValue}
         setScrollTabValue={setScrollTabValue}
