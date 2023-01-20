@@ -52,6 +52,40 @@ const Basket = (props) => {
 
   const containerRef = React.useRef(null);
 
+  // useEffect(() => {
+  //   props.cart &&
+  //     props.cart.dishes &&
+  //     props.cart.dishes.length &&
+  //     props.cart.dishes.map((d, i) => {
+  //       calculateTotalAmount(d, i);
+  //     });
+  // });
+
+  // const calculateTotalAmount = async (dish, index) => {
+  //   if (dish && dish.extras) {
+  //     let totalExtras = 0;
+  //     for (var i in dish.extras) {
+  //       if (dish.extras[i].checked)
+  //         totalExtras =
+  //           totalExtras +
+  //           Number(dish.extras[i].additionalAmount) *
+  //             Number(dish.extras[i].quantity);
+  //     }
+
+  //     const total =
+  //       Number(dish.dishQuantity) *
+  //       (Number(dish.price) +
+  //         Number(dish.selectedSize.additionalAmount) +
+  //         Number(totalExtras));
+
+  //     props.setCart((prevState) => {
+  //       prevState.dishes[i].total = total;
+  //       window.localStorage.setItem("wdCart", JSON.stringify(prevState));
+  //       return prevState;
+  //     });
+  //   }
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     //
@@ -184,14 +218,10 @@ const Basket = (props) => {
               <>
                 <Box sx={{ ...cardStyle }}>
                   <Box>
-                    <DeliveryPickupToggle
-                      cart={props.cart}
-                      setCart={props.setCart}
-                    />
                     <Box py={1} mt={1}>
                       {props.cart.dishes.map((d, i) => (
                         <Box key={i}>
-                          <Grid container py={1}>
+                          <Grid container spacing={1}>
                             <Grid
                               item
                               xs={2.5}
@@ -214,128 +244,153 @@ const Basket = (props) => {
                             </Grid>
                             <Grid
                               item
-                              xs={6}
+                              xs={9}
                               onClick={() => handleDishSelect(d)}
                             >
-                              <Box px={1}>
-                                <Typography>{d.name}</Typography>
-                                {props.discount && props.discount > 0 ? (
-                                  <Typography
-                                    sx={{
-                                      fontWeight: 600,
-                                      py: 1,
-                                      mr: 1,
-                                      textDecoration: "line-through",
-                                    }}
-                                    variant="body2"
-                                    component="span"
-                                    color="text.secondary"
-                                  >
-                                    GHC{d.price}
-                                  </Typography>
-                                ) : (
-                                  ""
-                                )}
-                                <Chip
-                                  label={
-                                    <Typography
-                                      variant="body2"
-                                      fontWeight={600}
-                                    >
-                                      GHC{d.price - d.price * props.discount}
-                                    </Typography>
-                                  }
-                                  color="secondary"
-                                />
-                              </Box>
-                            </Grid>
-                            <Grid item xs={3.5}>
-                              <Box
-                                sx={{
-                                  width: "100%",
+                              <Box>
+                                <Typography>
+                                  {d.name} ('{d.selectedSize.size}')
+                                </Typography>
 
-                                  borderRadius: "12px",
-                                  // alignItems: "center",
-                                  // justifyContent: "center",
-                                  // height: "100%",
-                                  px: 1,
-                                  py: 1,
-                                  boxSizing: "border-box",
-                                  display: "flex",
-                                  boxShadow:
-                                    "inset 0 0 0 1px rgba(16,22,26,.05), inset 0 -1px 0 rgba(16,22,26,.2)",
-                                }}
-                              >
-                                <Grid
-                                  container
-                                  fullWidth
-                                  justifyContent="space-between"
-                                  alignItems="center"
-                                >
-                                  <Grid
-                                    item
-                                    sx={{ cursor: "pointer" }}
-                                    xs={2}
-                                    onClick={() => {
-                                      props.setCart((prevState) => {
-                                        if (d.dishQuantity === 1) {
-                                          prevState.dishes.splice(i, 1);
-                                        } else {
-                                          prevState.dishes[i].dishQuantity =
-                                            d.dishQuantity - 1;
-                                        }
-                                        window.localStorage.setItem(
-                                          "wdCart",
-                                          JSON.stringify({ ...prevState })
-                                        );
-                                        return { ...prevState };
-                                      });
-                                    }}
-                                  >
-                                    <Box
-                                      display="flex"
-                                      boxSizing="border-box"
-                                      justifyContent="center"
-                                    >
-                                      <Icon fontSize="small" color="primary">
-                                        remove
-                                      </Icon>
-                                    </Box>
-                                  </Grid>
-                                  <Grid item xs={8}>
-                                    <Typography textAlign="center">
-                                      {d.dishQuantity}
-                                    </Typography>
-                                  </Grid>
-                                  <Grid
-                                    sx={{ cursor: "pointer" }}
-                                    item
-                                    xs={2}
-                                    onClick={() => {
-                                      props.setCart((prevState) => {
-                                        prevState.dishes[i].dishQuantity =
-                                          d.dishQuantity + 1;
-                                        window.localStorage.setItem(
-                                          "wdCart",
-                                          JSON.stringify({ ...prevState })
-                                        );
-                                        return { ...prevState };
-                                      });
-                                    }}
-                                  >
-                                    <Box
-                                      display="flex"
-                                      boxSizing="border-box"
-                                      justifyContent="center"
-                                    >
-                                      <Icon fontSize="small" color="primary">
-                                        add
-                                      </Icon>
-                                    </Box>
-                                  </Grid>
-                                </Grid>
+                                {d.extras.map(
+                                  (e, i) =>
+                                    e.checked && (
+                                      <Typography variant="body2">
+                                        +{e.quantity} {e.item}
+                                      </Typography>
+                                    )
+                                )}
                               </Box>
+                              <Grid container spacing={1}>
+                                <Grid item xs={6}>
+                                  {props.discount && props.discount > 0 ? (
+                                    <Typography
+                                      sx={{
+                                        fontWeight: 600,
+                                        py: 1,
+                                        mr: 1,
+                                        textDecoration: "line-through",
+                                      }}
+                                      variant="body2"
+                                      component="span"
+                                      color="text.secondary"
+                                    >
+                                      GHC{d.price}
+                                    </Typography>
+                                  ) : (
+                                    ""
+                                  )}
+                                  <Chip
+                                    label={
+                                      <Typography
+                                        variant="body2"
+                                        fontWeight={600}
+                                      >
+                                        GHC{d.price - d.price * props.discount}
+                                      </Typography>
+                                    }
+                                    color="secondary"
+                                  />
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Box
+                                    sx={{
+                                      width: "100%",
+
+                                      borderRadius: "12px",
+                                      // alignItems: "center",
+                                      // justifyContent: "center",
+                                      // height: "100%",
+                                      px: 1,
+                                      py: 1,
+                                      boxSizing: "border-box",
+                                      display: "flex",
+                                      boxShadow:
+                                        "inset 0 0 0 1px rgba(16,22,26,.05), inset 0 -1px 0 rgba(16,22,26,.2)",
+                                    }}
+                                  >
+                                    <Grid
+                                      container
+                                      fullWidth
+                                      justifyContent="space-between"
+                                      alignItems="center"
+                                    >
+                                      <Grid
+                                        item
+                                        sx={{ cursor: "pointer" }}
+                                        xs={2}
+                                        onClick={() => {
+                                          props.setCart((prevState) => {
+                                            if (d.dishQuantity === 1) {
+                                              prevState.dishes.splice(i, 1);
+                                            } else {
+                                              prevState.dishes[i].dishQuantity =
+                                                d.dishQuantity - 1;
+                                            }
+                                            window.localStorage.setItem(
+                                              "wdCart",
+                                              JSON.stringify({ ...prevState })
+                                            );
+                                            return { ...prevState };
+                                          });
+                                        }}
+                                      >
+                                        <Box
+                                          display="flex"
+                                          boxSizing="border-box"
+                                          justifyContent="center"
+                                        >
+                                          <Icon
+                                            fontSize="small"
+                                            color="primary"
+                                          >
+                                            {props.cart.dishes[i]
+                                              .dishQuantity === 1
+                                              ? "delete_outlined"
+                                              : "remove"}
+                                          </Icon>
+                                        </Box>
+                                      </Grid>
+                                      <Grid item xs={8}>
+                                        <Typography textAlign="center">
+                                          {d.dishQuantity}
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        sx={{ cursor: "pointer" }}
+                                        item
+                                        xs={2}
+                                        onClick={() => {
+                                          props.setCart((prevState) => {
+                                            prevState.dishes[i].dishQuantity =
+                                              d.dishQuantity + 1;
+                                            window.localStorage.setItem(
+                                              "wdCart",
+                                              JSON.stringify({ ...prevState })
+                                            );
+                                            return { ...prevState };
+                                          });
+                                        }}
+                                      >
+                                        <Box
+                                          display="flex"
+                                          boxSizing="border-box"
+                                          justifyContent="center"
+                                        >
+                                          <Icon
+                                            fontSize="small"
+                                            color="primary"
+                                          >
+                                            add
+                                          </Icon>
+                                        </Box>
+                                      </Grid>
+                                    </Grid>
+                                  </Box>
+                                </Grid>
+                              </Grid>
                             </Grid>
+                            <Grid item xs={3.5}></Grid>
                           </Grid>
                           {i === props.cart.dishes.length - 1 ? (
                             ""
@@ -367,6 +422,46 @@ const Basket = (props) => {
                         inputProps={{ "aria-label": "search google maps" }}
                       />
                     </Box>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    ...cardStyle,
+                    px: 0.5,
+                  }}
+                >
+                  <Box py={1}>
+                    <DeliveryPickupToggle
+                      cart={props.cart}
+                      setCart={props.setCart}
+                    />
+                    <Paper
+                      component="form"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        my: 1,
+                      }}
+                    >
+                      <IconButton sx={{ p: "10px" }} aria-label="menu">
+                        <Icon>location_on</Icon>
+                      </IconButton>
+                      <InputBase
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Street address"
+                        inputProps={{ "aria-label": "search google maps" }}
+                      />
+                    </Paper>
+                  </Box>
+                </Box>
+
+                <Box
+                  sx={{
+                    ...cardStyle,
+                  }}
+                >
+                  <Box py={2}>
+                    <Typography>Tips</Typography>
                   </Box>
                 </Box>
                 <Box
@@ -461,42 +556,7 @@ const Basket = (props) => {
                     ""
                   )}
                 </Box>
-                <Box
-                  sx={{
-                    ...cardStyle,
-                    px: 0.5,
-                  }}
-                >
-                  <Box py={1}>
-                    <Paper
-                      component="form"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        // width: 1,
-                      }}
-                    >
-                      <IconButton sx={{ p: "10px" }} aria-label="menu">
-                        <Icon>location_on</Icon>
-                      </IconButton>
-                      <InputBase
-                        sx={{ ml: 1, flex: 1 }}
-                        placeholder="Street address"
-                        inputProps={{ "aria-label": "search google maps" }}
-                      />
-                    </Paper>
-                  </Box>
-                </Box>
 
-                <Box
-                  sx={{
-                    ...cardStyle,
-                  }}
-                >
-                  <Box py={2}>
-                    <Typography>Tips</Typography>
-                  </Box>
-                </Box>
                 <Box
                   sx={{
                     ...cardStyle,
@@ -506,32 +566,19 @@ const Basket = (props) => {
                   }}
                 >
                   <Box py={1}>
-                    <Grid container my={1}>
-                      <Grid item xs={6}>
-                        <Subtitle fontWeight="bold" title="You pay" my={0} />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Subtitle
-                          fontWeight="bold"
-                          textAlign="right"
-                          title={`GHC${(
+                    <ActionButton
+                      fontWeight="bold"
+                      text={
+                        <Typography fontWeight="bold" textAlign="center">
+                          Place order GHC
+                          {(
                             props.cartTotal -
                             props.cartTotal * props.discount +
                             (props.cart.riderTip ? props.cart.riderTip : 0) +
                             (props.cart.deliveryFee
                               ? props.cart.deliveryFee
                               : 0)
-                          ).toFixed(2)}`}
-                          my={0}
-                        />
-                      </Grid>
-                    </Grid>
-
-                    <ActionButton
-                      fontWeight="bold"
-                      text={
-                        <Typography fontWeight="bold" textAlign="center">
-                          Place order
+                          ).toFixed(2)}
                         </Typography>
                       }
                       my={0}
