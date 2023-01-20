@@ -31,8 +31,8 @@ const ViewBasket = (props) => {
                   <CircularLoading size={20} thickness={6} />
                 </Typography>
               ) : (
-                <Typography variant="h6" textAlign="center" fontWeight={600}>
-                  View basket GHC
+                <Typography textAlign="center" fontWeight="bold">
+                  Checkout GHC
                   {props.cartTotal - props.cartTotal * props.discount}
                 </Typography>
               )}

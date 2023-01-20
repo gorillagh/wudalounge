@@ -5,8 +5,8 @@ const PageTitle = (props) => {
   return (
     <Box mt={3} mb={2} textAlign={props.textAlign} {...props}>
       <Typography variant={props.variant} fontWeight={700}>
-        {props.rightIcon}
         {props.title}
+        {props.rightIcon}
       </Typography>
     </Box>
   );

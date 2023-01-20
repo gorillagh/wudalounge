@@ -15,6 +15,14 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
       border: 0,
     },
     "&.Mui-selected": {
+      fontWeight: "bold",
+      // transition: (theme) =>
+      //   theme.transitions.create(
+      //     ["backgroundColor", "color", "box-shadow", "border-radius"],
+      //     {
+      //       duration: theme.transitions.duration.standard,
+      //     }
+      //   ),
       boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
       backgroundColor: "#fff5ee",
       color: "#E3581C",

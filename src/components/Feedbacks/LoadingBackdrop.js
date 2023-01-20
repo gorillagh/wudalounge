@@ -16,7 +16,7 @@ const LoadingBackdrop = (props) => {
     <div>
       <Backdrop
         sx={{
-          backgroundColor: "rgba(0,0,0,0.9)",
+          backgroundColor: "rgba(255,255,255,0.9)",
           color: "primary.dark",
           zIndex: (theme) => theme.zIndex.drawer + 1,
         }}

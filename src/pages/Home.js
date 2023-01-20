@@ -332,14 +332,13 @@ const Home = (props) => {
     }
   };
   const handleDishSelect = async (d) => {
-    setSelectedDish({ ...d, dishQuantity: 1 });
     setOpenDishModal(true);
+    setSelectedDish({ ...d, dishQuantity: 1 });
     disableBodyScroll(targetElement);
   };
   const handleDishClose = (async) => {
     setOpenDishModal(false);
     enableBodyScroll(targetElement);
-    console.log(targetElement);
   };
 
   const calculateCartTotal = (cart) => {
