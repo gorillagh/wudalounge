@@ -59,6 +59,7 @@ const DishNavbar = (props) => {
           // backdropFilter: "blur(7.8px)",
           //   "-webkit-backdrop-filter": "blur(8.8px)",
           zIndex: 5,
+          width: { md: "60%" },
         }}
       >
         <StyledTabs

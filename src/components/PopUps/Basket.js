@@ -9,7 +9,9 @@ import {
   Divider,
   Grid,
   Icon,
+  IconButton,
   InputBase,
+  Paper,
   Slide,
   Toolbar,
   Zoom,
@@ -92,6 +94,7 @@ const Basket = (props) => {
       //   ),
       // }}
       ref={containerRef}
+      sx={{ width: { md: "60%" }, left: { md: "20%" } }}
     >
       <Slide
         container={containerRef.current}
@@ -125,6 +128,7 @@ const Basket = (props) => {
           >
             <Box>
               <AppBar
+                elevation={0.4}
                 position="fixed"
                 color="inherit"
                 sx={{
@@ -460,10 +464,27 @@ const Basket = (props) => {
                 <Box
                   sx={{
                     ...cardStyle,
+                    px: 0.5,
                   }}
                 >
-                  <Box py={2}>
-                    <Typography>Address and delivery information</Typography>
+                  <Box py={1}>
+                    <Paper
+                      component="form"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        // width: 1,
+                      }}
+                    >
+                      <IconButton sx={{ p: "10px" }} aria-label="menu">
+                        <Icon>location_on</Icon>
+                      </IconButton>
+                      <InputBase
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Street address"
+                        inputProps={{ "aria-label": "search google maps" }}
+                      />
+                    </Paper>
                   </Box>
                 </Box>
 
@@ -487,10 +508,11 @@ const Basket = (props) => {
                   <Box py={1}>
                     <Grid container my={1}>
                       <Grid item xs={6}>
-                        <Subtitle title="You pay" my={0} />
+                        <Subtitle fontWeight="bold" title="You pay" my={0} />
                       </Grid>
                       <Grid item xs={6}>
                         <Subtitle
+                          fontWeight="bold"
                           textAlign="right"
                           title={`GHC${(
                             props.cartTotal -

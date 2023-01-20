@@ -196,6 +196,8 @@ function Navbar(props) {
           background: "rgba(255, 255, 255, 0.8)",
           backdropFilter: "blur(8.8px)",
           "-webkit-backdrop-filter": "blur(8.8px)",
+          width: { md: "60%" },
+          left: { md: "20%" },
         }}
       >
         <Container maxWidth="xl">
@@ -242,7 +244,11 @@ function Navbar(props) {
               <Link text="Wuda Lounge" to="/" color="#000" />
             </Typography>
             <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "flex-end" }}
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
             >
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
                 {pages.map((item, index) => (
@@ -350,7 +356,6 @@ function Navbar(props) {
           </Toolbar>
         </Container>
       </AppBar>
-
       <Toolbar
         sx={{
           background: "rgba(255, 255, 255, 0.85)",
