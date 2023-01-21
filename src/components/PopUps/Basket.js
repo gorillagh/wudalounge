@@ -45,46 +45,57 @@ const cardStyle = {
   webkitBackdropFilter: "blur(5px)",
   border: "1px solid rgba(255, 255, 255, 0.3)",
 };
-
+const tips = [
+  { label: "GHC0", value: 0 },
+  { label: "GHC1", value: 1 },
+  { label: "GHC2", value: 2 },
+  { label: "GHC5", value: 5 },
+  { label: "GHC10", value: 10 },
+];
 const Basket = (props) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectedDish, setSelectedDish] = useState({});
+  const [selectedTip, setSelectedTip] = useState(null);
 
   const containerRef = React.useRef(null);
 
-  // useEffect(() => {
-  //   props.cart &&
-  //     props.cart.dishes &&
-  //     props.cart.dishes.length &&
-  //     props.cart.dishes.map((d, i) => {
-  //       calculateTotalAmount(d, i);
-  //     });
-  // });
+  useEffect(() => {
+    props.cart && props.cart.riderTip
+      ? setSelectedTip(props.cart.riderTip)
+      : setSelectedTip(0);
 
-  // const calculateTotalAmount = async (dish, index) => {
-  //   if (dish && dish.extras) {
-  //     let totalExtras = 0;
-  //     for (var i in dish.extras) {
-  //       if (dish.extras[i].checked)
-  //         totalExtras =
-  //           totalExtras +
-  //           Number(dish.extras[i].additionalAmount) *
-  //             Number(dish.extras[i].quantity);
-  //     }
+    props.cart &&
+      props.cart.dishes &&
+      props.cart.dishes.length &&
+      props.cart.dishes.map((d, i) => {
+        calculateTotalAmount(d, i);
+      });
+  }, [props.cart]);
 
-  //     const total =
-  //       Number(dish.dishQuantity) *
-  //       (Number(dish.price) +
-  //         Number(dish.selectedSize.additionalAmount) +
-  //         Number(totalExtras));
+  const calculateTotalAmount = async (dish, index) => {
+    if (dish && dish.extras) {
+      let totalExtras = 0;
+      for (var i in dish.extras) {
+        if (dish.extras[i].checked)
+          totalExtras =
+            totalExtras +
+            Number(dish.extras[i].additionalAmount) *
+              Number(dish.extras[i].quantity);
+      }
 
-  //     props.setCart((prevState) => {
-  //       prevState.dishes[i].total = total;
-  //       window.localStorage.setItem("wdCart", JSON.stringify(prevState));
-  //       return prevState;
-  //     });
-  //   }
-  // };
+      const total =
+        Number(dish.dishQuantity) *
+        (Number(dish.price) +
+          Number(dish.selectedSize.additionalAmount) +
+          Number(totalExtras));
+
+      props.setCart((prevState) => {
+        prevState.dishes[index].total = total;
+        window.localStorage.setItem("wdCart", JSON.stringify(prevState));
+        return prevState;
+      });
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -216,6 +227,7 @@ const Basket = (props) => {
             </Box>
             {props.cart && props.cart.dishes && props.cart.dishes.length ? (
               <>
+                {/* ///////////////////////////////Basket Items section///////////////////////////////////// */}
                 <Box sx={{ ...cardStyle }}>
                   <Box>
                     <Box py={1} mt={1}>
@@ -242,12 +254,8 @@ const Basket = (props) => {
                                 />
                               </Box>
                             </Grid>
-                            <Grid
-                              item
-                              xs={9}
-                              onClick={() => handleDishSelect(d)}
-                            >
-                              <Box>
+                            <Grid item xs={9.5}>
+                              <Box onClick={() => handleDishSelect(d)}>
                                 <Typography>
                                   {d.name} ('{d.selectedSize.size}')
                                 </Typography>
@@ -261,38 +269,8 @@ const Basket = (props) => {
                                     )
                                 )}
                               </Box>
-                              <Grid container spacing={1}>
-                                <Grid item xs={6}>
-                                  {props.discount && props.discount > 0 ? (
-                                    <Typography
-                                      sx={{
-                                        fontWeight: 600,
-                                        py: 1,
-                                        mr: 1,
-                                        textDecoration: "line-through",
-                                      }}
-                                      variant="body2"
-                                      component="span"
-                                      color="text.secondary"
-                                    >
-                                      GHC{d.price}
-                                    </Typography>
-                                  ) : (
-                                    ""
-                                  )}
-                                  <Chip
-                                    label={
-                                      <Typography
-                                        variant="body2"
-                                        fontWeight={600}
-                                      >
-                                        GHC{d.price - d.price * props.discount}
-                                      </Typography>
-                                    }
-                                    color="secondary"
-                                  />
-                                </Grid>
-                                <Grid item xs={6}>
+                              <Grid container mt={1} alignItems="flex-end">
+                                <Grid item xs={5}>
                                   <Box
                                     sx={{
                                       width: "100%",
@@ -388,19 +366,59 @@ const Basket = (props) => {
                                     </Grid>
                                   </Box>
                                 </Grid>
+                                <Grid item xs={7}>
+                                  {d.total ? (
+                                    <Box
+                                      display="flex"
+                                      justifyContent="right"
+                                      alignItems="flex-end"
+                                    >
+                                      {props.discount && props.discount > 0 ? (
+                                        <Typography
+                                          sx={{
+                                            fontWeight: 600,
+                                            py: 1,
+                                            mr: 1,
+                                            textDecoration: "line-through",
+                                          }}
+                                          variant="body2"
+                                          component="span"
+                                          color="text.secondary"
+                                        >
+                                          GHC{d.total}
+                                        </Typography>
+                                      ) : (
+                                        ""
+                                      )}
+                                      <Chip
+                                        label={
+                                          <Typography
+                                            variant="body2"
+                                            fontWeight={600}
+                                          >
+                                            GHC
+                                            {d.total - d.total * props.discount}
+                                          </Typography>
+                                        }
+                                        color="secondary"
+                                      />
+                                    </Box>
+                                  ) : (
+                                    ""
+                                  )}
+                                </Grid>
                               </Grid>
                             </Grid>
-                            <Grid item xs={3.5}></Grid>
                           </Grid>
                           {i === props.cart.dishes.length - 1 ? (
                             ""
                           ) : (
-                            <Divider />
+                            <Divider sx={{ my: 2 }} />
                           )}
                         </Box>
                       ))}
                     </Box>
-                    <Divider />
+                    <Divider sx={{ mt: 2 }} />
                     <Box
                       display="flex"
                       py={1}
@@ -424,46 +442,136 @@ const Basket = (props) => {
                     </Box>
                   </Box>
                 </Box>
-                <Box
-                  sx={{
-                    ...cardStyle,
-                    px: 0.5,
-                  }}
-                >
-                  <Box py={1}>
-                    <DeliveryPickupToggle
-                      cart={props.cart}
-                      setCart={props.setCart}
-                    />
-                    <Paper
-                      component="form"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        my: 1,
-                      }}
-                    >
-                      <IconButton sx={{ p: "10px" }} aria-label="menu">
-                        <Icon>location_on</Icon>
-                      </IconButton>
-                      <InputBase
-                        sx={{ ml: 1, flex: 1 }}
-                        placeholder="Street address"
-                        inputProps={{ "aria-label": "search google maps" }}
-                      />
-                    </Paper>
-                  </Box>
-                </Box>
+                {/* //////////////////////////////////////////////////////////////////////////////////// */}
 
+                {/* //////////////////////////Delivery&Contact setion//////////////////////////////////// */}
+                <DeliveryPickupToggle
+                  cart={props.cart}
+                  setCart={props.setCart}
+                  mb={1}
+                />
                 <Box
                   sx={{
                     ...cardStyle,
                   }}
                 >
-                  <Box py={2}>
-                    <Typography>Tips</Typography>
+                  <Box py={1} color="primary.main">
+                    <Box>
+                      {props.cart &&
+                      props.cart.deliveryMode &&
+                      props.cart.deliveryMode === "delivery" ? (
+                        <>
+                          <Box
+                            display="flex"
+                            py={1}
+                            onClick={() => props.setOpenAddress(true)}
+                            sx={{ cursor: "pointer" }}
+                          >
+                            <Icon>location_on</Icon>
+                            <Typography ml={1}>
+                              Add delivery address{" "}
+                              <Typography component="span" color="secondary">
+                                *
+                              </Typography>
+                            </Typography>
+                          </Box>
+
+                          <Divider sx={{ my: 1 }} />
+                        </>
+                      ) : (
+                        ""
+                      )}
+                      <Box
+                        display="flex"
+                        py={1}
+                        onClick={() => props.setOpenPhoneNumber(true)}
+                        sx={{ cursor: "pointer" }}
+                      >
+                        <Icon>phone</Icon>
+                        <Typography ml={1}>
+                          Add phone number{" "}
+                          <Typography component="span" color="secondary">
+                            *
+                          </Typography>
+                        </Typography>
+                      </Box>
+                    </Box>
                   </Box>
                 </Box>
+                {/* //////////////////////////////////////////////////////////////////////////////// */}
+
+                {/* ///////////////////////////Tips Section/////////////////////////////////////// */}
+                {props.cart.deliveryMode &&
+                props.cart.deliveryMode === "delivery" &&
+                selectedTip >= 0 ? (
+                  <Box
+                    sx={{
+                      ...cardStyle,
+                    }}
+                  >
+                    <Box py={1} boxSizing="border-box">
+                      <Box display="flex">
+                        <Icon sx={{ mr: 1, color: "secondary.light" }}>
+                          volunteer_activism
+                        </Icon>
+                        <Typography>
+                          Our couriers appreciate your generosity. They get 100%
+                          of your tips.
+                        </Typography>
+                      </Box>
+
+                      <Box
+                        mt={1}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          flexWrap: "wrap",
+                          listStyle: "none",
+                          p: 0.5,
+                          pb: 0,
+                          m: 0,
+                        }}
+                      >
+                        {tips.map((tip, index) => (
+                          <Chip
+                            key={index}
+                            label={tip.label}
+                            variant={
+                              selectedTip === tip.value ? "outlined" : ""
+                            }
+                            sx={{
+                              bgcolor:
+                                selectedTip === tip.value ? "#fff5ee" : "#fff",
+                              fontWeight: selectedTip === tip.value ? 600 : "",
+                              color:
+                                selectedTip === tip.value ? "primary.main" : "",
+                              my: 1,
+                              "&:hover": {
+                                bgcolor: selectedTip === tip.value && "#fff5ee",
+                              },
+                            }}
+                            onClick={() => {
+                              setSelectedTip(tip.value);
+                              props.setCart((prevState) => {
+                                prevState.riderTip = tip.value;
+                                window.localStorage.setItem(
+                                  "wdCart",
+                                  JSON.stringify(prevState)
+                                );
+                                return prevState;
+                              });
+                            }}
+                          />
+                        ))}
+                      </Box>
+                    </Box>
+                  </Box>
+                ) : (
+                  ""
+                )}
+                {/* ////////////////////////////////////////////////////////////////////////////// */}
+
+                {/* ////////////////Bill section////////////////////////////////////////////// */}
                 <Box
                   sx={{
                     ...cardStyle,
@@ -543,8 +651,12 @@ const Basket = (props) => {
                             {(
                               props.cartTotal -
                               props.cartTotal * props.discount +
-                              (props.cart.riderTip ? props.cart.riderTip : 0) +
-                              (props.cart.deliveryFee
+                              (props.cart.deliveryMode === "delivery" &&
+                              props.cart.riderTip
+                                ? props.cart.riderTip
+                                : 0) +
+                              (props.cart.deliveryMode === "delivery" &&
+                              props.cart.deliveryFee
                                 ? props.cart.deliveryFee
                                 : 0)
                             ).toFixed(2)}
@@ -556,7 +668,9 @@ const Basket = (props) => {
                     ""
                   )}
                 </Box>
+                {/* ////////////////////////////////////////////////////////////////////// */}
 
+                {/* //////////////////////////////Place Order///////////////////////////////////// */}
                 <Box
                   sx={{
                     ...cardStyle,
@@ -574,8 +688,12 @@ const Basket = (props) => {
                           {(
                             props.cartTotal -
                             props.cartTotal * props.discount +
-                            (props.cart.riderTip ? props.cart.riderTip : 0) +
-                            (props.cart.deliveryFee
+                            (props.cart.deliveryMode === "delivery" &&
+                            props.cart.riderTip
+                              ? props.cart.riderTip
+                              : 0) +
+                            (props.cart.deliveryMode === "delivery" &&
+                            props.cart.deliveryFee
                               ? props.cart.deliveryFee
                               : 0)
                           ).toFixed(2)}
@@ -585,8 +703,10 @@ const Basket = (props) => {
                     />
                   </Box>
                 </Box>
+                {/* //////////////////////////////////////////////////////////////////////////// */}
               </>
             ) : (
+              ////////////////////////Basket Empty//////////////////////////////////////////////
               <Box
                 bgcolor="transparent"
                 height="80vh"

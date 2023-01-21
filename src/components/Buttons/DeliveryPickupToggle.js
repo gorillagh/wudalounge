@@ -16,13 +16,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     },
     "&.Mui-selected": {
       fontWeight: "bold",
-      // transition: (theme) =>
-      //   theme.transitions.create(
-      //     ["backgroundColor", "color", "box-shadow", "border-radius"],
-      //     {
-      //       duration: theme.transitions.duration.standard,
-      //     }
-      //   ),
+
       boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
       backgroundColor: "#fff5ee",
       color: "#E3581C",
@@ -66,6 +60,7 @@ const DeliveryPickupToggle = (props) => {
         "-webkit-backdrop-filter": "blur(8.8px)",
         boxShadow: "rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset",
       }}
+      {...props}
     >
       <StyledToggleButtonGroup
         fullWidth

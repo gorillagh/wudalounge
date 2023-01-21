@@ -44,6 +44,8 @@ import {
   enableBodyScroll,
   clearAllBodyScrollLocks,
 } from "body-scroll-lock";
+import Address from "../components/PopUps/Address";
+import PhoneNumber from "../components/PopUps/PhoneNumber";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -268,6 +270,8 @@ const Home = (props) => {
   const [discount, setDiscount] = useState(0.5);
   const [scrollTabValue, setScrollTabValue] = useState();
   const [openBasket, setOpenBasket] = useState(false);
+  const [openAddress, setOpenAddress] = useState(false);
+  const [openPhoneNumber, setOpenPhoneNumber] = useState(false);
   const [targetElement, setTargetElement] = useState(null);
   const targetRef = React.useRef(null);
 
@@ -610,6 +614,13 @@ const Home = (props) => {
         setCartTotal={setCartTotal}
         setOpenDishModal={setOpenDishModal}
         setSelectedDish={setSelectedDish}
+        setOpenAddress={setOpenAddress}
+        setOpenPhoneNumber={setOpenPhoneNumber}
+      />
+      <Address open={openAddress} onClose={() => setOpenAddress(false)} />
+      <PhoneNumber
+        open={openPhoneNumber}
+        onClose={() => setOpenPhoneNumber(false)}
       />
       <LoadingBackdrop open={loading} />
     </Box>
