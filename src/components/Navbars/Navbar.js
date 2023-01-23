@@ -197,7 +197,7 @@ function Navbar(props) {
           pb: 0.4,
           background: "rgba(255, 255, 255, 0.8)",
           backdropFilter: "blur(8.8px)",
-          "-webkit-backdrop-filter": "blur(8.8px)",
+          WebkitBackdropFilter: "blur(8.8px)",
           width: { md: "60%" },
           left: { md: "20%" },
         }}
@@ -296,7 +296,7 @@ function Navbar(props) {
                           sx={{
                             background: "rgba(255, 255, 255, 0.05)",
                             backdropFilter: "blur(5.8px)",
-                            "-webkit-backdrop-filter": "blur(5.8px)",
+                            WebkitBackdropFilter: "blur(5.8px)",
                             width: "100%",
                             height: "100%",
                           }}
@@ -312,7 +312,7 @@ function Navbar(props) {
                       "& .MuiDrawer-paper": {
                         background: "rgba(255, 255, 255, 0.9)",
                         backdropFilter: "blur(8.8px)",
-                        "-webkit-backdrop-filter": "blur(8.8px)",
+                        WebkitBackdropFilter: "blur(8.8px)",
 
                         boxSizing: "border-box",
                         width: drawerWidth,

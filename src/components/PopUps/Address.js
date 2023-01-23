@@ -86,7 +86,7 @@ const Address = (props) => {
           sx={{
             background: "rgba(255, 255, 255, 0.8)",
             backdropFilter: "blur(5.8px)",
-            "-webkit-backdrop-filter": "blur(5.8px)",
+            WebkitBackdropFilter: "blur(5.8px)",
             width: "100%",
             height: "100vh",
           }}

@@ -45,7 +45,7 @@ const cardStyle = {
   borderRadius: "12px",
   background: "rgba(255, 255, 255, 0.9)",
   backdropFilter: "blur(8.8px)",
-  "-webkit-backdrop-filter": "blur(8.8px)",
+  WebkitBackdropFilter: "blur(8.8px)",
   boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
   webkitBackdropFilter: "blur(5px)",
   border: "1px solid rgba(255, 255, 255, 0.3)",
@@ -95,11 +95,17 @@ const Basket = (props) => {
           Number(dish.selectedSize.additionalAmount) +
           Number(totalExtras));
 
-      props.setCart((prevState) => {
-        prevState.dishes[index].total = total;
-        window.localStorage.setItem("wdCart", JSON.stringify(prevState));
-        return prevState;
-      });
+      props.cart &&
+        props.cart.dishes &&
+        props.cart.dishes.length &&
+        props.setCart((prevState) => {
+          prevState.dishes[index].total = total;
+          window.localStorage.setItem(
+            "wdCart",
+            JSON.stringify({ ...prevState })
+          );
+          return { ...prevState };
+        });
     }
   };
 
@@ -165,7 +171,7 @@ const Basket = (props) => {
           sx={{
             background: "rgba(0, 0, 0, 0.2)",
             backdropFilter: "blur(5.8px)",
-            "-webkit-backdrop-filter": "blur(5.8px)",
+            WebkitBackdropFilter: "blur(5.8px)",
             width: "100%",
             height: "100vh",
           }}
@@ -180,7 +186,6 @@ const Basket = (props) => {
           >
             <Box>
               <AppBar
-                elevation={0.4}
                 position="fixed"
                 color="inherit"
                 sx={{
@@ -189,7 +194,7 @@ const Basket = (props) => {
                   px: 3,
                   background: "rgba(255, 255, 255, 0.8)",
                   backdropFilter: "blur(8.8px)",
-                  "-webkit-backdrop-filter": "blur(8.8px)",
+                  WebkitBackdropFilter: "blur(8.8px)",
                 }}
               >
                 <Grid container spacing={1} justifyContent="space-between">
@@ -270,7 +275,7 @@ const Basket = (props) => {
                                 {d.extras.map(
                                   (e, i) =>
                                     e.checked && (
-                                      <Typography variant="body2">
+                                      <Typography key={i} variant="body2">
                                         +{e.quantity} {e.item}
                                       </Typography>
                                     )
@@ -296,7 +301,6 @@ const Basket = (props) => {
                                   >
                                     <Grid
                                       container
-                                      fullWidth
                                       justifyContent="space-between"
                                       alignItems="center"
                                     >

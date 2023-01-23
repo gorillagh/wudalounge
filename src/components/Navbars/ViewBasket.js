@@ -15,7 +15,7 @@ const ViewBasket = (props) => {
           p: 2,
           background: "rgba(255, 255, 255, 0.5)",
           backdropFilter: "blur(8.8px)",
-          "-webkit-backdrop-filter": "blur(8.8px)",
+          WebkitBackdropFilter: "blur(8.8px)",
           width: { md: "60%" },
           left: { md: "20%" },
         }}

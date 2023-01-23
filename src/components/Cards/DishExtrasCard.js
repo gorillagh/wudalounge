@@ -77,7 +77,7 @@ function BpCheckbox(props) {
 
 const DishExtrasCard = (props) => {
   return (
-    <FormGroup fullWidth>
+    <FormGroup>
       {props.dish.extras.map((extra, index) => (
         <Box key={index}>
           <Grid container spacing={1}>

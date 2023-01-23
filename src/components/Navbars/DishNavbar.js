@@ -54,17 +54,16 @@ const DishNavbar = (props) => {
           position: "fixed",
           background: "rgba(255, 255, 255, 0.8)",
           backdropFilter: "blur(8.8px)",
-          "-webkit-backdrop-filter": "blur(8.8px)",
+          WebkitBackdropFilter: "blur(8.8px)",
           boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",
           // backdropFilter: "blur(7.8px)",
-          //   "-webkit-backdrop-filter": "blur(8.8px)",
           zIndex: 5,
           width: { md: "60%" },
         }}
       >
         <StyledTabs
           textColor="inherit"
-          value={props.scrollTabValue}
+          value={props.scrollTabValue ? props.scrollTabValue : 0}
           variant="scrollable"
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"

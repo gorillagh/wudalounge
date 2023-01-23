@@ -49,7 +49,6 @@ const Dish = (props) => {
   const containerRef = React.useRef(null);
 
   useEffect(() => {
-    props.user && console.log(props.user);
     setNumberIncart(0);
     let numberIn = 0;
     if (props.dish && props.dish.kitchenNotes)
@@ -92,7 +91,7 @@ const Dish = (props) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let data;
     let extras = [];
@@ -102,9 +101,10 @@ const Dish = (props) => {
       }
     });
 
-    props.setCart((prevState) => {
-      if (props.fromBasket.status) {
+    await props.setCart((prevState) => {
+      if (props.fromBasket && props.fromBasket.status) {
         prevState.dishes[props.fromBasket.dishPosition] = {
+          ...prevState.dishes[props.fromBasket.dishPosition],
           ...props.dish,
           kitchenNotes,
         };
@@ -122,7 +122,7 @@ const Dish = (props) => {
 
     props.setDish({});
     setKitchenNotes("");
-    props.close();
+    props.onClose();
   };
 
   const handleRemoveDish = (dish) => {
@@ -191,7 +191,7 @@ const Dish = (props) => {
     <Modal
       closeAfterTransition={true}
       open={props.open}
-      onClose={props.close}
+      onClose={props.onClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
       slots={{
@@ -200,11 +200,11 @@ const Dish = (props) => {
             sx={{
               background: "rgba(0, 0, 0, 0.2)",
               backdropFilter: "blur(5.8px)",
-              "-webkit-backdrop-filter": "blur(5.8px)",
+              WebkitBackdropFilter: "blur(5.8px)",
               width: "100%",
               height: "100%",
             }}
-            onClick={props.close}
+            onClick={props.onClose}
           />
         ),
       }}
@@ -224,7 +224,7 @@ const Dish = (props) => {
         <Box sx={style}>
           <Box sx={{ position: "absolute", top: "3%" }}>
             <Icon
-              onClick={props.close}
+              onClick={props.onClose}
               sx={{
                 position: "fixed",
                 right: { xs: "3%", md: "37.5%" },
@@ -245,7 +245,7 @@ const Dish = (props) => {
               borderRadius: "12px",
               background: "rgba(255, 255, 255, 0.9)",
               // backdropFilter: "blur(8.8px)",
-              "-webkit-backdrop-filter": "blur(8.8px)",
+              WebkitBackdropFilter: "blur(8.8px)",
               boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
               webkitBackdropFilter: "blur(8.8px)",
             }}
@@ -335,7 +335,7 @@ const Dish = (props) => {
                 borderRadius: "12px",
                 background: "rgba(255, 255, 255, 0.9)",
                 // backdropFilter: "blur(8.8px)",
-                "-webkit-backdrop-filter": "blur(8.8px)",
+                WebkitBackdropFilter: "blur(8.8px)",
                 boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
                 webkitBackdropFilter: "blur(8.8px)",
                 border: "1px solid rgba(255, 255, 255, 0.3)",
@@ -372,7 +372,7 @@ const Dish = (props) => {
                 borderRadius: "12px",
                 background: "rgba(255, 255, 255, 0.9)",
                 // backdropFilter: "blur(8.8px)",
-                "-webkit-backdrop-filter": "blur(8.8px)",
+                WebkitBackdropFilter: "blur(8.8px)",
                 boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
                 webkitBackdropFilter: "blur(8.8px)",
                 border: "1px solid rgba(255, 255, 255, 0.3)",
@@ -391,7 +391,7 @@ const Dish = (props) => {
             sx={{
               background: "rgba(255, 255, 255, 0.85)",
               backdropFilter: "blur(8.8px)",
-              "-webkit-backdrop-filter": "blur(8.8px)",
+              WebkitBackdropFilter: "blur(8.8px)",
               px: 2,
               py: 1,
               borderTopRightRadius: "12px",
@@ -418,7 +418,7 @@ const Dish = (props) => {
                 p: 1,
                 background: "rgba(255, 255, 255, 0.8)",
                 backdropFilter: "blur(8.8px)",
-                "-webkit-backdrop-filter": "blur(8.8px)",
+                WebkitBackdropFilter: "blur(8.8px)",
                 width: { md: "60%" },
                 left: { md: "20%" },
               }}
@@ -490,7 +490,6 @@ const Dish = (props) => {
                               ...prevState,
                               dishQuantity: prevState.dishQuantity - 1,
                             };
-                            console.log(prevState.dishQuantity);
                             return { ...prevState };
                           });
                         }}

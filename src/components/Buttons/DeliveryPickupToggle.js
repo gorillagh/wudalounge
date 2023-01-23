@@ -41,7 +41,6 @@ const DeliveryPickupToggle = (props) => {
     if (value !== null && value !== props.cart.deliveryMode) {
       props.setCart((prevState) => {
         prevState.deliveryMode = value;
-        console.log(value);
         window.localStorage.setItem("wdCart", JSON.stringify({ ...prevState }));
         return { ...prevState };
       });
@@ -58,7 +57,7 @@ const DeliveryPickupToggle = (props) => {
         borderRadius: "25px",
         background: "rgba(255, 255, 255, 0.9)",
         backdropFilter: "blur(8.8px)",
-        "-webkit-backdrop-filter": "blur(8.8px)",
+        WebkitBackdropFilter: "blur(8.8px)",
         boxShadow: "rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset",
       }}
       {...props}

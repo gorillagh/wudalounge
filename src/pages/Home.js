@@ -277,14 +277,6 @@ const Home = (props) => {
     status: false,
     dishPosition: null,
   });
-  const [targetElement, setTargetElement] = useState(null);
-  const targetRef = React.useRef(null);
-
-  useEffect(() => {
-    setTargetElement(document.querySelector("#targetElementId"));
-    // setTargetElement(targetRef.current);
-    // clearAllBodyScrollLocks();
-  }, [openDishModal, targetRef]);
 
   useEffect(() => {
     setLoading(true);
@@ -344,12 +336,10 @@ const Home = (props) => {
     setFromBasket({ status: false, dishPosition: null });
     setOpenDishModal(true);
     setSelectedDish({ ...d, dishQuantity: 1 });
-    disableBodyScroll(targetElement);
   };
   const handleDishClose = (async) => {
     setFromBasket({ status: false, dishPosition: null });
     setOpenDishModal(false);
-    enableBodyScroll(targetElement);
   };
 
   const calculateCartTotal = async (cart) => {
@@ -590,13 +580,13 @@ const Home = (props) => {
           dish={selectedDish}
           setDish={setSelectedDish}
           discount={discount}
-          close={handleDishClose}
+          onClose={handleDishClose}
           user={props.user && props.user}
           setLoadUser={props.setLoadUser}
           setUser={props.setUser && props.setUser}
           cart={cart}
           setCart={setCart}
-          ref={targetRef}
+          // ref={targetRef}
           fromBasket={fromBasket}
         />
       ) : (
