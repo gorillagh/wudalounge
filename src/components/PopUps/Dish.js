@@ -470,13 +470,17 @@ const Dish = (props) => {
                       borderColor: "rgba(0, 0, 0, 0.4)",
                       px: 2,
                       boxSizing: "border-box",
-                      cursor: "pointer",
                     }}
                   >
-                    <Grid container justifyContent="space-evenly">
+                    <Grid
+                      container
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
                       <Grid
                         item
                         xs={2}
+                        sx={{ cursor: "pointer" }}
                         onClick={() => {
                           if (props.dish.dishQuantity === 1) return;
                           props.setDish((prevState) => {
@@ -489,14 +493,13 @@ const Dish = (props) => {
                           });
                         }}
                       >
-                        <Typography
-                          variant="h4"
-                          textAlign="center"
-                          fontWeight={400}
-                          color="primary"
+                        <Box
+                          display="flex"
+                          boxSizing="border-box"
+                          justifyContent="center"
                         >
-                          -
-                        </Typography>
+                          <Icon color="primary">remove</Icon>
+                        </Box>
                       </Grid>
                       <Grid item xs={8}>
                         <Typography
@@ -510,6 +513,7 @@ const Dish = (props) => {
                       <Grid
                         item
                         xs={2}
+                        sx={{ cursor: "pointer" }}
                         onClick={() =>
                           props.setDish((prevState) => {
                             prevState = {
@@ -523,14 +527,13 @@ const Dish = (props) => {
                           })
                         }
                       >
-                        <Typography
-                          variant="h4"
-                          textAlign="center"
-                          fontWeight={400}
-                          color="primary"
+                        <Box
+                          display="flex"
+                          boxSizing="border-box"
+                          justifyContent="center"
                         >
-                          +
-                        </Typography>
+                          <Icon color="primary">add</Icon>
+                        </Box>
                       </Grid>
                     </Grid>
                   </Box>

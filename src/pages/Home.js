@@ -272,6 +272,7 @@ const Home = (props) => {
   const [openBasket, setOpenBasket] = useState(false);
   const [openAddress, setOpenAddress] = useState(false);
   const [openPhoneNumber, setOpenPhoneNumber] = useState(false);
+  const [finalTotal, setFinalTotal] = useState(null);
   const [targetElement, setTargetElement] = useState(null);
   const targetRef = React.useRef(null);
 
@@ -345,7 +346,7 @@ const Home = (props) => {
     enableBodyScroll(targetElement);
   };
 
-  const calculateCartTotal = (cart) => {
+  const calculateCartTotal = async (cart) => {
     setCartTotalLoading(true);
     let total = 0;
     cart &&
@@ -600,6 +601,7 @@ const Home = (props) => {
           cartTotalLoading={cartTotalLoading}
           discount={discount}
           onClick={() => setOpenBasket(true)}
+          cart={cart}
         />
       ) : (
         ""

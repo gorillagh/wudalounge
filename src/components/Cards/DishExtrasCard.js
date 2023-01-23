@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormGroup from "@mui/material/FormGroup";
 import Checkbox from "@mui/material/Checkbox";
+import { Icon } from "@mui/material";
 
 const BpIcon = styled("span")(({ theme }) => ({
   borderRadius: 3,
@@ -105,7 +106,6 @@ const DishExtrasCard = (props) => {
                 />
                 <Box
                   sx={{
-                    cursor: "pointer",
                     width: "80%",
                     // display: "flex",
                     borderRadius: "12px",
@@ -119,10 +119,15 @@ const DishExtrasCard = (props) => {
                       "inset 0 0 0 1px rgba(16,22,26,.05), inset 0 -1px 0 rgba(16,22,26,.2)",
                   }}
                 >
-                  <Grid container justifyContent="space-evenly">
+                  <Grid
+                    container
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
                     <Grid
                       item
                       xs={2}
+                      sx={{ cursor: "pointer" }}
                       onClick={() => {
                         if (extra.quantity === 1) return;
 
@@ -135,31 +140,44 @@ const DishExtrasCard = (props) => {
                         });
                       }}
                     >
-                      <Typography textAlign="center" color="primary">
-                        -
-                      </Typography>
+                      <Box
+                        display="flex"
+                        boxSizing="border-box"
+                        justifyContent="center"
+                      >
+                        <Icon fontSize="small" color="primary">
+                          remove
+                        </Icon>
+                      </Box>
                     </Grid>
                     <Grid item xs={8}>
                       <Typography textAlign="center">
                         {extra.quantity}
                       </Typography>
                     </Grid>
-                    <Grid item xs={2}>
-                      <Typography
-                        color="primary"
-                        textAlign="center"
-                        onClick={() =>
-                          props.setDish((prevState) => {
-                            let foundIndex = prevState.extras.findIndex(
-                              (f) => f.item === extra.item
-                            );
-                            prevState.extras[foundIndex].quantity += 1;
-                            return { ...prevState };
-                          })
-                        }
+                    <Grid
+                      item
+                      xs={2}
+                      sx={{ cursor: "pointer" }}
+                      onClick={() =>
+                        props.setDish((prevState) => {
+                          let foundIndex = prevState.extras.findIndex(
+                            (f) => f.item === extra.item
+                          );
+                          prevState.extras[foundIndex].quantity += 1;
+                          return { ...prevState };
+                        })
+                      }
+                    >
+                      <Box
+                        display="flex"
+                        boxSizing="border-box"
+                        justifyContent="center"
                       >
-                        +
-                      </Typography>
+                        <Icon fontSize="small" color="primary">
+                          add
+                        </Icon>
+                      </Box>
                     </Grid>
                   </Grid>
                 </Box>

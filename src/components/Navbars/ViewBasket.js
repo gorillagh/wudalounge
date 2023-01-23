@@ -34,8 +34,19 @@ const ViewBasket = (props) => {
                 </Typography>
               ) : (
                 <Typography textAlign="center" fontWeight="bold">
-                  Checkout GHC
-                  {props.cartTotal - props.cartTotal * props.discount}
+                  View basket GHC
+                  {props.cartTotal -
+                    props.cartTotal * props.discount +
+                    (props.cart.deliveryMode &&
+                    props.cart.deliveryMode === "delivery" &&
+                    props.cart.riderTip
+                      ? props.cart.riderTip
+                      : 0) +
+                    (props.cart.deliveryMode &&
+                    props.cart.deliveryMode === "delivery" &&
+                    props.cart.deliveryFee
+                      ? props.cart.deliveryFee
+                      : 0)}{" "}
                 </Typography>
               )}
             </>

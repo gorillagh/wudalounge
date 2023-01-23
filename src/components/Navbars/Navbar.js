@@ -29,13 +29,15 @@ import Link from "../Links/Link";
 import { Icon, ListItemIcon } from "@mui/material";
 
 const pages = [
-  { text: "Dishes", icon: "dinner_dining", to: "/meals" },
+  // { text: "Dishes", icon: "dinner_dining", to: "/meals" },
   { text: "About Us", icon: "info", to: "/about/us" },
 ];
 const userPages = [
   { text: "Profile", icon: "person", to: "/my/profile" },
+  { text: "My favorites", icon: "favorite", to: "/my/favorites" },
   { text: "My Orders", icon: "list", to: "/my/orders" },
   { text: "Account", icon: "manage_accounts", to: "/my/account" },
+
   // { text: "Logout", icon: "logout", to: "logout" },
 ];
 
@@ -106,7 +108,7 @@ function Navbar(props) {
         </Typography>
       </Box>
 
-      <List>
+      <List sx={{ height: "100%" }}>
         {user
           ? userPages.map((item, index) => (
               <>
@@ -160,7 +162,7 @@ function Navbar(props) {
           ))}
         </Box>
         {user ? (
-          <Box position="fixed" sx={{ top: "auto", bottom: 0 }}>
+          <Box position="absolute" sx={{ top: "auto", bottom: 0 }}>
             <ListItem disablePadding>
               <ListItemButton
                 onClick={handleSignOut}

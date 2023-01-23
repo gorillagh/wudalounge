@@ -7,11 +7,15 @@ import {
   AppBar,
   Chip,
   Divider,
+  FormControl,
   Grid,
   Icon,
   IconButton,
   InputBase,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Slide,
   Toolbar,
   Zoom,
@@ -20,6 +24,7 @@ import Subtitle from "../Typography/Subtitle";
 import PageTitle from "../Typography/PageTitle";
 import ActionButton from "../Buttons/ActionButton";
 import DeliveryPickupToggle from "../Buttons/DeliveryPickupToggle";
+import CircularLoading from "../Feedbacks/CircularLoading";
 
 const style = {
   position: "absolute",
@@ -56,6 +61,7 @@ const Basket = (props) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectedDish, setSelectedDish] = useState({});
   const [selectedTip, setSelectedTip] = useState(null);
+  const [notes, setNotes] = useState("");
 
   const containerRef = React.useRef(null);
 
@@ -421,7 +427,7 @@ const Basket = (props) => {
                     <Divider sx={{ mt: 2 }} />
                     <Box
                       display="flex"
-                      py={1}
+                      py={2}
                       onClick={props.close}
                       sx={{ cursor: "pointer" }}
                     >
@@ -433,11 +439,14 @@ const Basket = (props) => {
                     <Divider />
                     <Box>
                       <InputBase
+                        size="small"
                         sx={{ my: 1 }}
                         fullWidth
                         multiline
                         placeholder="Leave a note or comment"
                         inputProps={{ "aria-label": "search google maps" }}
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
                       />
                     </Box>
                   </Box>
@@ -455,8 +464,36 @@ const Basket = (props) => {
                     ...cardStyle,
                   }}
                 >
-                  <Box py={1} color="primary.main">
-                    <Box>
+                  {props.user && props.user._id ? (
+                    <Box
+                      display="flex"
+                      py={1}
+                      onClick={() => props.setOpenPhoneNumber(true)}
+                      sx={{ cursor: "pointer" }}
+                    >
+                      <Icon>person</Icon>
+                      <Typography ml={1}>
+                        Add contact info{" "}
+                        <Typography
+                          fontWeight="bold"
+                          component="span"
+                          color="primary"
+                        >
+                          *
+                        </Typography>
+                      </Typography>
+                      <Box ml="auto" justifyContent="right">
+                        <IconButton
+                          sx={{ borderRadius: 0, p: 0 }}
+                          size="small"
+                          color="info"
+                        >
+                          <Icon>add</Icon>
+                        </IconButton>
+                      </Box>
+                    </Box>
+                  ) : (
+                    <Box py={1}>
                       {props.cart &&
                       props.cart.deliveryMode &&
                       props.cart.deliveryMode === "delivery" ? (
@@ -464,22 +501,26 @@ const Basket = (props) => {
                           <Box
                             display="flex"
                             py={1}
-                            onClick={() => props.setOpenAddress(true)}
+                            onClick={() => props.setOpenPhoneNumber(true)}
                             sx={{ cursor: "pointer" }}
                           >
-                            <Icon>location_on</Icon>
+                            <Icon fontSize="small">phone</Icon>
+                            {/* <Typography ml={1}>
+                              {props.user.phoneNumber} ({props.user.name})
+                            </Typography> */}
                             <Typography ml={1}>
-                              Add delivery address{" "}
-                              <Typography
-                                fontWeight="bold"
-                                component="span"
-                                color="secondary"
-                              >
-                                *
-                              </Typography>
+                              0244234390 (Governor)
                             </Typography>
+                            <Box ml="auto" justifyContent="right">
+                              <IconButton
+                                sx={{ borderRadius: 0, p: 0 }}
+                                size="small"
+                                color="primary"
+                              >
+                                <Icon fontSize="small">edit</Icon>
+                              </IconButton>
+                            </Box>
                           </Box>
-
                           <Divider sx={{ my: 1 }} />
                         </>
                       ) : (
@@ -488,23 +529,23 @@ const Basket = (props) => {
                       <Box
                         display="flex"
                         py={1}
-                        onClick={() => props.setOpenPhoneNumber(true)}
+                        onClick={() => props.setOpenAddress(true)}
                         sx={{ cursor: "pointer" }}
                       >
-                        <Icon>phone</Icon>
-                        <Typography ml={1}>
-                          Add phone number{" "}
-                          <Typography
-                            fontWeight="bold"
-                            component="span"
-                            color="secondary"
+                        <Icon fontSize="small">location_on</Icon>
+                        <Typography ml={1}>Mimosa St</Typography>
+                        <Box ml="auto" justifyContent="right">
+                          <IconButton
+                            sx={{ borderRadius: 0, p: 0 }}
+                            size="small"
+                            color="primary"
                           >
-                            *
-                          </Typography>
-                        </Typography>
+                            <Icon fontSize="small">edit</Icon>
+                          </IconButton>
+                        </Box>
                       </Box>
                     </Box>
-                  </Box>
+                  )}
                 </Box>
                 {/* //////////////////////////////////////////////////////////////////////////////// */}
 
@@ -518,14 +559,18 @@ const Basket = (props) => {
                     }}
                   >
                     <Box py={1} boxSizing="border-box">
-                      <Box display="flex">
-                        <Icon sx={{ mr: 1, color: "secondary.light" }}>
+                      <Box display="flex" alignItems="center">
+                        <Icon fontSize="small" sx={{ mr: 1 }}>
                           volunteer_activism
                         </Icon>
-                        <Typography>
-                          Our couriers appreciate your generosity. They get 100%
-                          of your tips.
-                        </Typography>
+                        <Box>
+                          <Typography>Tip the courier?</Typography>
+
+                          <Typography variant="body2">
+                            Our couriers appreciate your generosity. They get
+                            100% of your tips.
+                          </Typography>
+                        </Box>
                       </Box>
 
                       <Box
@@ -693,24 +738,82 @@ const Basket = (props) => {
                   }}
                 >
                   <Box py={1}>
+                    <Box mb={3}>
+                      <Typography>Pay with</Typography>
+
+                      <Select
+                        labelId="demo-simple-select-standard-label"
+                        id="demo-simple-select-standard"
+                        label="Pay with"
+                        value={
+                          props.cart.paymentMethod
+                            ? props.cart.paymentMethod
+                            : "cashless"
+                        }
+                        onChange={(e) =>
+                          props.setCart((prevState) => {
+                            prevState.paymentMethod = e.target.value;
+                            window.localStorage.setItem(
+                              "wdCart",
+                              JSON.stringify({ ...prevState })
+                            );
+                            return { ...prevState };
+                          })
+                        }
+                        size="small"
+                        fullWidth
+                        sx={{ borderRadius: 5 }}
+                      >
+                        <MenuItem value="cashless">
+                          <Box display="flex" alignItems="center">
+                            <Icon sx={{ mr: 1 }} fontSize="small">
+                              payments
+                            </Icon>
+                            <Typography>Card/Mobile money</Typography>
+                          </Box>
+                        </MenuItem>
+                        {/* <MenuItem value="">
+                            <Icon sx={{ mr: 1 }} fontSize="small">
+                              send_to_mobile
+                            </Icon>{" "}
+                            Mobile money
+                          </MenuItem> */}
+                        <MenuItem value="cash">
+                          <Box display="flex" alignItems="center">
+                            <Icon sx={{ mr: 1 }} fontSize="small">
+                              money
+                            </Icon>
+                            <Typography>Cash</Typography>
+                          </Box>
+                        </MenuItem>
+                      </Select>
+                    </Box>
                     <ActionButton
                       fontWeight="bold"
                       text={
-                        <Typography fontWeight="bold" textAlign="center">
-                          Place order GHC
-                          {(
-                            props.cartTotal -
-                            props.cartTotal * props.discount +
-                            (props.cart.deliveryMode === "delivery" &&
-                            props.cart.riderTip
-                              ? props.cart.riderTip
-                              : 0) +
-                            (props.cart.deliveryMode === "delivery" &&
-                            props.cart.deliveryFee
-                              ? props.cart.deliveryFee
-                              : 0)
-                          ).toFixed(2)}
-                        </Typography>
+                        <>
+                          {props.cartTotalLoading ? (
+                            <Typography variant="body2" fontWeight={600}>
+                              <CircularLoading size={20} thickness={6} />
+                            </Typography>
+                          ) : (
+                            <Typography textAlign="center" fontWeight="bold">
+                              Place order GHC
+                              {(
+                                props.cartTotal -
+                                props.cartTotal * props.discount +
+                                (props.cart.deliveryMode === "delivery" &&
+                                props.cart.riderTip
+                                  ? props.cart.riderTip
+                                  : 0) +
+                                (props.cart.deliveryMode === "delivery" &&
+                                props.cart.deliveryFee
+                                  ? props.cart.deliveryFee
+                                  : 0)
+                              ).toFixed(2)}
+                            </Typography>
+                          )}
+                        </>
                       }
                       my={0}
                     />
