@@ -45,6 +45,7 @@ const Dish = (props) => {
   const [kitchenNotes, setKitchenNotes] = useState("");
   const [inCart, setInCart] = useState(false);
   const [numberIncart, setNumberIncart] = useState(0);
+
   const containerRef = React.useRef(null);
 
   useEffect(() => {
@@ -100,22 +101,23 @@ const Dish = (props) => {
         extras.push({ item: e.item, quantity: e.quantity });
       }
     });
-    data = {
-      dish: "", //id
-      extras,
-      size: props.dish.selectedSize.size,
-      quantity: props.dish.dishQuantity,
-      kitchenNotes,
-    };
+
     props.setCart((prevState) => {
-      prevState.dishes
-        ? prevState.dishes.push({ ...props.dish, kitchenNotes })
-        : (prevState = {
-            dishes: [{ ...props.dish, kitchenNotes }],
-            deliveryMode: "delivery",
-          });
+      if (props.fromBasket.status) {
+        prevState.dishes[props.fromBasket.dishPosition] = {
+          ...props.dish,
+          kitchenNotes,
+        };
+      } else {
+        prevState.dishes
+          ? prevState.dishes.push({ ...props.dish, kitchenNotes })
+          : (prevState = {
+              dishes: [{ ...props.dish, kitchenNotes }],
+              deliveryMode: "delivery",
+            });
+      }
       window.localStorage.setItem("wdCart", JSON.stringify({ ...prevState }));
-      return prevState;
+      return { ...prevState };
     });
 
     props.setDish({});
@@ -421,7 +423,7 @@ const Dish = (props) => {
                 left: { md: "20%" },
               }}
             >
-              {numberIncart && numberIncart > 0 ? (
+              {numberIncart && numberIncart > 0 && !props.fromBasket.status ? (
                 <Box p={1} display={"flex"} alignItems="center">
                   <Icon
                     fontSize="small"
@@ -546,7 +548,7 @@ const Dish = (props) => {
                     text={
                       <Box>
                         <Typography variant="body1" fontWeight={700} p={0}>
-                          Add
+                          {props.fromBasket.status ? "Update" : "Add"}
                         </Typography>
                         <Typography variant="body1" fontWeight={700} p={0}>
                           GHC

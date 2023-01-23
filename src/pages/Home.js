@@ -273,6 +273,10 @@ const Home = (props) => {
   const [openAddress, setOpenAddress] = useState(false);
   const [openPhoneNumber, setOpenPhoneNumber] = useState(false);
   const [finalTotal, setFinalTotal] = useState(null);
+  const [fromBasket, setFromBasket] = useState({
+    status: false,
+    dishPosition: null,
+  });
   const [targetElement, setTargetElement] = useState(null);
   const targetRef = React.useRef(null);
 
@@ -337,11 +341,13 @@ const Home = (props) => {
     }
   };
   const handleDishSelect = async (d) => {
+    setFromBasket({ status: false, dishPosition: null });
     setOpenDishModal(true);
     setSelectedDish({ ...d, dishQuantity: 1 });
     disableBodyScroll(targetElement);
   };
   const handleDishClose = (async) => {
+    setFromBasket({ status: false, dishPosition: null });
     setOpenDishModal(false);
     enableBodyScroll(targetElement);
   };
@@ -591,6 +597,7 @@ const Home = (props) => {
           cart={cart}
           setCart={setCart}
           ref={targetRef}
+          fromBasket={fromBasket}
         />
       ) : (
         ""
@@ -618,6 +625,8 @@ const Home = (props) => {
         setSelectedDish={setSelectedDish}
         setOpenAddress={setOpenAddress}
         setOpenPhoneNumber={setOpenPhoneNumber}
+        user={props.user}
+        setFromBasket={setFromBasket}
       />
       <Address open={openAddress} onClose={() => setOpenAddress(false)} />
       <PhoneNumber

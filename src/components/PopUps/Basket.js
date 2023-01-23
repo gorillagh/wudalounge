@@ -107,7 +107,8 @@ const Basket = (props) => {
     e.preventDefault();
     //
   };
-  const handleDishSelect = (d) => {
+  const handleDishSelect = (d, dishPosition) => {
+    props.setFromBasket({ status: true, dishPosition });
     props.setSelectedDish(d);
     props.setOpenDishModal(true);
   };
@@ -243,7 +244,7 @@ const Basket = (props) => {
                             <Grid
                               item
                               xs={2.5}
-                              onClick={() => handleDishSelect(d)}
+                              onClick={() => handleDishSelect(d, i)}
                             >
                               <Box
                                 sx={{
@@ -261,7 +262,7 @@ const Basket = (props) => {
                               </Box>
                             </Grid>
                             <Grid item xs={9.5}>
-                              <Box onClick={() => handleDishSelect(d)}>
+                              <Box onClick={() => handleDishSelect(d, i)}>
                                 <Typography>
                                   {d.name} ('{d.selectedSize.size}')
                                 </Typography>
@@ -465,13 +466,66 @@ const Basket = (props) => {
                   }}
                 >
                   {props.user && props.user._id ? (
+                    <Box py={1}>
+                      <Box
+                        display="flex"
+                        py={1}
+                        onClick={() => props.setOpenPhoneNumber(true)}
+                        sx={{ cursor: "pointer" }}
+                      >
+                        <Icon fontSize="small">phone</Icon>
+                        {/* <Typography ml={1}>
+                            {props.user.phoneNumber} ({props.user.name})
+                          </Typography> */}
+                        <Typography ml={1}>0244234390 (Governor)</Typography>
+                        <Box ml="auto" justifyContent="right">
+                          <IconButton
+                            sx={{ borderRadius: 0, p: 0 }}
+                            size="small"
+                            color="primary"
+                          >
+                            <Icon fontSize="small">edit</Icon>
+                          </IconButton>
+                        </Box>
+                      </Box>
+
+                      {props.cart &&
+                      props.cart.deliveryMode &&
+                      props.cart.deliveryMode === "delivery" ? (
+                        <>
+                          <Divider sx={{ my: 1 }} />
+                          <Box
+                            display="flex"
+                            py={1}
+                            onClick={() => props.setOpenAddress(true)}
+                            sx={{ cursor: "pointer" }}
+                          >
+                            <Icon fontSize="small">location_on</Icon>
+                            <Typography ml={1}>Mimosa St</Typography>
+                            <Box ml="auto" justifyContent="right">
+                              <IconButton
+                                sx={{ borderRadius: 0, p: 0 }}
+                                size="small"
+                                color="primary"
+                              >
+                                <Icon fontSize="small">edit</Icon>
+                              </IconButton>
+                            </Box>
+                          </Box>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                    </Box>
+                  ) : (
                     <Box
                       display="flex"
                       py={1}
                       onClick={() => props.setOpenPhoneNumber(true)}
                       sx={{ cursor: "pointer" }}
+                      color="info.main"
                     >
-                      <Icon>person</Icon>
+                      <Icon fontSize="small">person</Icon>
                       <Typography ml={1}>
                         Add contact info{" "}
                         <Typography
@@ -488,61 +542,8 @@ const Basket = (props) => {
                           size="small"
                           color="info"
                         >
-                          <Icon>add</Icon>
+                          <Icon fontSize="small">add</Icon>
                         </IconButton>
-                      </Box>
-                    </Box>
-                  ) : (
-                    <Box py={1}>
-                      {props.cart &&
-                      props.cart.deliveryMode &&
-                      props.cart.deliveryMode === "delivery" ? (
-                        <>
-                          <Box
-                            display="flex"
-                            py={1}
-                            onClick={() => props.setOpenPhoneNumber(true)}
-                            sx={{ cursor: "pointer" }}
-                          >
-                            <Icon fontSize="small">phone</Icon>
-                            {/* <Typography ml={1}>
-                              {props.user.phoneNumber} ({props.user.name})
-                            </Typography> */}
-                            <Typography ml={1}>
-                              0244234390 (Governor)
-                            </Typography>
-                            <Box ml="auto" justifyContent="right">
-                              <IconButton
-                                sx={{ borderRadius: 0, p: 0 }}
-                                size="small"
-                                color="primary"
-                              >
-                                <Icon fontSize="small">edit</Icon>
-                              </IconButton>
-                            </Box>
-                          </Box>
-                          <Divider sx={{ my: 1 }} />
-                        </>
-                      ) : (
-                        ""
-                      )}
-                      <Box
-                        display="flex"
-                        py={1}
-                        onClick={() => props.setOpenAddress(true)}
-                        sx={{ cursor: "pointer" }}
-                      >
-                        <Icon fontSize="small">location_on</Icon>
-                        <Typography ml={1}>Mimosa St</Typography>
-                        <Box ml="auto" justifyContent="right">
-                          <IconButton
-                            sx={{ borderRadius: 0, p: 0 }}
-                            size="small"
-                            color="primary"
-                          >
-                            <Icon fontSize="small">edit</Icon>
-                          </IconButton>
-                        </Box>
                       </Box>
                     </Box>
                   )}
