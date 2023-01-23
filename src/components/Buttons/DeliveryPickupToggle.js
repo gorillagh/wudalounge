@@ -18,11 +18,11 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
       fontWeight: "bold",
 
       boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
-      backgroundColor: "#fff5ee",
-      color: "#E3581C",
+      backgroundColor: theme.palette.highlight,
+      color: theme.palette.primary.main,
       borderRadius: 50,
       "&:hover": {
-        backgroundColor: "#fff5ee",
+        backgroundColor: theme.palette.highlight,
       },
     },
     "&:not(:first-of-type)": {
@@ -51,10 +51,11 @@ const DeliveryPickupToggle = (props) => {
   return (
     <Box
       sx={{
+        p: 0.2,
         display: "flex",
         border: (theme) => `1px solid ${theme.palette.divider}`,
         flexWrap: "wrap",
-        borderRadius: "20px",
+        borderRadius: "25px",
         background: "rgba(255, 255, 255, 0.9)",
         backdropFilter: "blur(8.8px)",
         "-webkit-backdrop-filter": "blur(8.8px)",
@@ -64,7 +65,7 @@ const DeliveryPickupToggle = (props) => {
     >
       <StyledToggleButtonGroup
         fullWidth
-        size="small"
+        size="large"
         value={props.cart.deliveryMode}
         defaultChecked="delivery"
         exclusive

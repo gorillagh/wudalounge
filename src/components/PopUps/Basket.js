@@ -470,7 +470,11 @@ const Basket = (props) => {
                             <Icon>location_on</Icon>
                             <Typography ml={1}>
                               Add delivery address{" "}
-                              <Typography component="span" color="secondary">
+                              <Typography
+                                fontWeight="bold"
+                                component="span"
+                                color="secondary"
+                              >
                                 *
                               </Typography>
                             </Typography>
@@ -490,7 +494,11 @@ const Basket = (props) => {
                         <Icon>phone</Icon>
                         <Typography ml={1}>
                           Add phone number{" "}
-                          <Typography component="span" color="secondary">
+                          <Typography
+                            fontWeight="bold"
+                            component="span"
+                            color="secondary"
+                          >
                             *
                           </Typography>
                         </Typography>
@@ -541,13 +549,18 @@ const Basket = (props) => {
                             }
                             sx={{
                               bgcolor:
-                                selectedTip === tip.value ? "#fff5ee" : "#fff",
-                              fontWeight: selectedTip === tip.value ? 600 : "",
+                                selectedTip === tip.value
+                                  ? "highlight"
+                                  : "#fff",
+                              fontWeight: selectedTip === tip.value ? 700 : "",
                               color:
                                 selectedTip === tip.value ? "primary.main" : "",
                               my: 1,
                               "&:hover": {
-                                bgcolor: selectedTip === tip.value && "#fff5ee",
+                                backgroundColor: (theme) =>
+                                  selectedTip === tip.value
+                                    ? theme.palette.highlight
+                                    : "#fff",
                               },
                             }}
                             onClick={() => {

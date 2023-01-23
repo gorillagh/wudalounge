@@ -55,6 +55,7 @@ let theme = createTheme({
       dark: "c68507",
       contrastText: "#fff",
     },
+    highlight: "#fee5b9",
     error: {
       main: "#ce0018",
       light: "#ff0220",
@@ -93,6 +94,7 @@ let theme = createTheme({
     h4: {
       fontFamily: "Ubuntu",
     },
+    body1: { fontSize: "0.9rem" },
     body2: {
       fontSize: "0.8rem",
       color: "text.secondary",
