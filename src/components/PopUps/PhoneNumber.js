@@ -165,7 +165,6 @@ const PhoneNumber = (props) => {
             </Box>
             <Box mt="50%">
               <Paper
-                component="form"
                 sx={{
                   borderRadius: "20px",
                   p: "2px 4px",
@@ -174,7 +173,8 @@ const PhoneNumber = (props) => {
                 }}
               >
                 <IconButton sx={{ p: "10px" }} aria-label="menu">
-                  <Typography>+233</Typography>
+                  {/* <Typography>+233</Typography> */}
+                  <Icon>phone</Icon>
                 </IconButton>
                 <InputBase
                   autoFocus
@@ -188,7 +188,6 @@ const PhoneNumber = (props) => {
               </Paper>
               <Box display={codeSent ? "block" : "none"}>
                 <Paper
-                  component="form"
                   sx={{
                     borderRadius: "20px",
                     p: "2px 4px",
@@ -207,9 +206,9 @@ const PhoneNumber = (props) => {
                     onChange={(e) => setCode(e.target.value)}
                   />
                 </Paper>
-                <Typography textAlign="center" variant="body2" fontWeight={500}>
+                {/* <Typography textAlign="center" variant="body2" fontWeight={500}>
                   Enter the verification code sent to {phoneNumber}
-                </Typography>
+                </Typography> */}
               </Box>
               <div
                 className="form-group pt-0 mt-4"
