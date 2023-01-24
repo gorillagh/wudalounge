@@ -110,14 +110,6 @@ const App = () => {
   const [loadUser, setLoadUser] = useState(false);
 
   useEffect(() => {
-    let userInfo = {
-      _id: "wdlu00001",
-      role: "subscriber",
-      name: "Wuda Lounge",
-      email: "tsekowudalounge@gmail.com",
-      number: "+233244410689",
-      favorites: ["wd0001", "wd0002", "wd0003", "wd0004", "wd0005"],
-    };
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         console.log("Logged In user", user);
@@ -126,39 +118,21 @@ const App = () => {
         currentUser(idTokenResult.token)
           .then((res) => {
             console.log(res);
-            setUser({
-              email: res.data.email,
-              role: res.data.role,
-              name: res.data.name,
-              token: idTokenResult.token,
-              phoneNumber: res.data.phoneNumber ? res.data.phoneNumber : "",
+            let userInfo = {
               _id: res.data._id,
-              favorites: [],
-            });
+              phoneNumber: res.data.phoneNumber,
+              name: res.data.name,
+              email: res.data.email ? res.data.email : "",
+              role: res.data.role,
+              token: idTokenResult.token,
+              favorites: res.data.favorites ? res.data.favorites : [],
+            };
+            setUser(userInfo);
             dispatch({
               type: "LOGGED_IN_USER",
-              payload: {
-                email: res.data.email,
-                role: res.data.role,
-                name: res.data.name,
-                token: idTokenResult.token,
-                phoneNumber: res.data.phoneNumber ? res.data.phoneNumber : "",
-                _id: res.data._id,
-                favorites: [],
-              },
+              payload: userInfo,
             });
-            window.localStorage.setItem(
-              "wdUser",
-              JSON.stringify({
-                email: res.data.email,
-                role: res.data.role,
-                name: res.data.name,
-                token: idTokenResult.token,
-                phoneNumber: res.data.phoneNumber ? res.data.phoneNumber : "",
-                _id: res.data._id,
-                favorites: [],
-              })
-            );
+            window.localStorage.setItem("wdUser", JSON.stringify(userInfo));
           })
           .catch((error) => {
             console.log(error);
@@ -170,14 +144,6 @@ const App = () => {
           payload: JSON.parse(window.localStorage.getItem("wdUser")),
         });
       }
-      // else {
-      //   dispatch({
-      //     type: "LOGGED_IN_USER",
-      //     payload: userInfo,
-      //   });
-      //   window.localStorage.setItem("wdUser", JSON.stringify(userInfo));
-      //   setUser(userInfo);
-      // }
     });
 
     return () => unsubscribe();

@@ -111,20 +111,18 @@ function Navbar(props) {
       <List sx={{ height: "100%" }}>
         {user
           ? userPages.map((item, index) => (
-              <>
-                <ListItem key={index} disablePadding>
-                  <ListItemButton
-                    onClick={() => handleNavigation(item.to)}
-                    key={index}
-                    sx={{ textAlign: "left" }}
-                  >
-                    <ListItemIcon>
-                      <Icon sx={{ color: "#ea8255" }}>{item.icon}</Icon>
-                    </ListItemIcon>
-                    <ListItemText key={index} primary={item.text} />
-                  </ListItemButton>
-                </ListItem>
-              </>
+              <ListItem key={index} disablePadding>
+                <ListItemButton
+                  onClick={() => handleNavigation(item.to)}
+                  key={index}
+                  sx={{ textAlign: "left" }}
+                >
+                  <ListItemIcon>
+                    <Icon sx={{ color: "#ea8255" }}>{item.icon}</Icon>
+                  </ListItemIcon>
+                  <ListItemText key={index} primary={item.text} />
+                </ListItemButton>
+              </ListItem>
             ))
           : ""}
         {user ? (

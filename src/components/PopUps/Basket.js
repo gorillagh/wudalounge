@@ -389,6 +389,7 @@ const Basket = (props) => {
                                         if (item.id === d.dishIdInCart)
                                           return (
                                             <Box
+                                              key={i}
                                               display="flex"
                                               justifyContent="right"
                                               alignItems="flex-end"
@@ -495,7 +496,9 @@ const Basket = (props) => {
                         {/* <Typography ml={1}>
                             {props.user.phoneNumber} ({props.user.name})
                           </Typography> */}
-                        <Typography ml={1}>0244234390 (Governor)</Typography>
+                        <Typography ml={1}>
+                          {props.user.phoneNumber} ({props.user.name})
+                        </Typography>
                         <Box ml="auto" justifyContent="right">
                           <IconButton
                             sx={{ borderRadius: 0, p: 0 }}
@@ -513,18 +516,23 @@ const Basket = (props) => {
                         <>
                           <Divider sx={{ my: 1 }} />
                           <Box
+                            color={!props.user.address && "info.main"}
                             display="flex"
                             py={1}
                             onClick={() => props.setOpenAddress(true)}
                             sx={{ cursor: "pointer" }}
                           >
                             <Icon fontSize="small">location_on</Icon>
-                            <Typography ml={1}>Mimosa St</Typography>
+                            <Typography ml={1}>
+                              {props.user.addresses
+                                ? props.user.addresses[0]
+                                : "Add address"}
+                            </Typography>
                             <Box ml="auto" justifyContent="right">
                               <IconButton
                                 sx={{ borderRadius: 0, p: 0 }}
                                 size="small"
-                                color="primary"
+                                color={!props.user.address ? "info" : "primary"}
                               >
                                 <Icon fontSize="small">edit</Icon>
                               </IconButton>

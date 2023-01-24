@@ -608,6 +608,9 @@ const Home = (props) => {
       <PhoneNumber
         open={openPhoneNumber}
         onClose={() => setOpenPhoneNumber(false)}
+        user={props.user}
+        setUser={props.setUser}
+        setOpenAddress={setOpenAddress}
       />
       <LoadingBackdrop open={loading} />
     </Box>
