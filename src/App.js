@@ -94,7 +94,7 @@ let theme = createTheme({
     h4: {
       fontFamily: "Ubuntu",
     },
-    body1: { fontSize: "0.9rem" },
+    // body1: { fontSize: "0.9rem" },
     body2: {
       fontSize: "0.8rem",
       color: "text.secondary",
