@@ -91,7 +91,7 @@ const Dish = (props) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     let data;
     let extras = [];
@@ -101,24 +101,28 @@ const Dish = (props) => {
       }
     });
 
-    await props.setCart((prevState) => {
-      if (props.fromBasket && props.fromBasket.status) {
+    if (props.fromBasket.status) {
+      props.setCart((prevState) => {
         prevState.dishes[props.fromBasket.dishPosition] = {
-          ...prevState.dishes[props.fromBasket.dishPosition],
           ...props.dish,
           kitchenNotes,
         };
-      } else {
+        window.localStorage.setItem("wdCart", JSON.stringify({ ...prevState }));
+        return { ...prevState };
+      });
+    } else {
+      props.setCart((prevState) => {
         prevState.dishes
           ? prevState.dishes.push({ ...props.dish, kitchenNotes })
           : (prevState = {
               dishes: [{ ...props.dish, kitchenNotes }],
               deliveryMode: "delivery",
             });
-      }
-      window.localStorage.setItem("wdCart", JSON.stringify({ ...prevState }));
-      return { ...prevState };
-    });
+
+        window.localStorage.setItem("wdCart", JSON.stringify(prevState));
+        return prevState;
+      });
+    }
 
     props.setDish({});
     setKitchenNotes("");
@@ -152,7 +156,7 @@ const Dish = (props) => {
         return { ...prevState };
       });
     }
-    props.close();
+    props.onClose();
   };
 
   const handleFavorites = (e) => {

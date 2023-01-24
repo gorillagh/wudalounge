@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import ActionButton from "../components/Buttons/ActionButton";
-import PageTitle from "../components/Typography/PageTitle";
+import { v4 as uuid } from "uuid";
 import Subtitle from "../components/Typography/Subtitle";
 import {
   AppBar,
@@ -46,6 +44,8 @@ import {
 } from "body-scroll-lock";
 import Address from "../components/PopUps/Address";
 import PhoneNumber from "../components/PopUps/PhoneNumber";
+import ActionButton from "../components/Buttons/ActionButton";
+import PageTitle from "../components/Typography/PageTitle";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -340,6 +340,7 @@ const Home = (props) => {
   const handleDishClose = (async) => {
     setFromBasket({ status: false, dishPosition: null });
     setOpenDishModal(false);
+    setSelectedDish({});
   };
 
   const calculateCartTotal = async (cart) => {
@@ -372,10 +373,10 @@ const Home = (props) => {
 
   return (
     <Box>
-      <DishNavbar
+      {/* <DishNavbar
         scrollTabValue={scrollTabValue}
         setScrollTabValue={setScrollTabValue}
-      />
+      /> */}
       <Container
         maxWidth="xl"
         sx={{
@@ -422,7 +423,7 @@ const Home = (props) => {
         }}
       >
         <Grid item xs={12}>
-          {/* <Box textAlign="center" p={2}>
+          <Box textAlign="center" p={2}>
             <Subtitle title="Pork, Chicken and fish meals" />
             <PageTitle title={`Accra, be ready!`} />
             <Box>
@@ -514,8 +515,8 @@ const Home = (props) => {
                 onClick={handleSendNotification}
               />
             )}
-          </Box> */}
-          <Container maxWidth="xl">
+          </Box>
+          {/* <Container maxWidth="xl">
             <Subtitle mt={0} title="Pork, Chicken and Tilapia dishes" />
             <List sx={{ p: 0 }} disablePadding>
               {infoList.map((info, index) => (
@@ -527,10 +528,10 @@ const Home = (props) => {
                 </ListItem>
               ))}
             </List>
-          </Container>
+          </Container> */}
         </Grid>
       </Grid>
-      <Box
+      {/* <Box
         sx={{
           p: 2,
           // cursor: "pointer",
@@ -571,9 +572,9 @@ const Home = (props) => {
         ) : (
           ""
         )}
-      </Box>
+      </Box> */}
 
-      {selectedDish ? (
+      {/* {selectedDish ? (
         <Dish
           id="#targetElementId"
           open={openDishModal}
@@ -623,7 +624,7 @@ const Home = (props) => {
         open={openPhoneNumber}
         onClose={() => setOpenPhoneNumber(false)}
       />
-      <LoadingBackdrop open={loading} />
+      <LoadingBackdrop open={loading} /> */}
     </Box>
   );
 };

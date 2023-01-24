@@ -74,13 +74,14 @@ const Basket = (props) => {
       props.cart.dishes &&
       props.cart.dishes.length &&
       props.cart.dishes.map((d, i) => {
-        calculateTotalAmount(d, i);
+        calculateEachItemTotalAmount(d, i);
       });
   }, [props.cart]);
 
-  const calculateTotalAmount = async (dish, index) => {
+  const calculateEachItemTotalAmount = (dish, index) => {
+    let totalExtras = 0;
+    let total = 0;
     if (dish && dish.extras) {
-      let totalExtras = 0;
       for (var i in dish.extras) {
         if (dish.extras[i].checked)
           totalExtras =
@@ -88,25 +89,23 @@ const Basket = (props) => {
             Number(dish.extras[i].additionalAmount) *
               Number(dish.extras[i].quantity);
       }
-
-      const total =
+    }
+    if (dish && dish.dishQuantity && dish.price) {
+      total +=
         Number(dish.dishQuantity) *
         (Number(dish.price) +
           Number(dish.selectedSize.additionalAmount) +
           Number(totalExtras));
-
-      props.cart &&
-        props.cart.dishes &&
-        props.cart.dishes.length &&
-        props.setCart((prevState) => {
-          prevState.dishes[index].total = total;
-          window.localStorage.setItem(
-            "wdCart",
-            JSON.stringify({ ...prevState })
-          );
-          return { ...prevState };
-        });
     }
+
+    props.cart &&
+      props.cart.dishes &&
+      props.cart.dishes.length &&
+      props.setCart((prevState) => {
+        prevState.dishes[index].total = total;
+        window.localStorage.setItem("wdCart", JSON.stringify({ ...prevState }));
+        return { ...prevState };
+      });
   };
 
   const handleSubmit = (e) => {
@@ -124,8 +123,8 @@ const Basket = (props) => {
   };
   const clearBasket = () => {
     if (window.confirm("Are you sure you want to clear your basket?")) {
-      props.setCart({});
       window.localStorage.removeItem("wdCart");
+      props.setCart(null);
     }
   };
 
@@ -309,19 +308,29 @@ const Basket = (props) => {
                                         sx={{ cursor: "pointer" }}
                                         xs={2}
                                         onClick={() => {
-                                          props.setCart((prevState) => {
-                                            if (d.dishQuantity === 1) {
+                                          let oldQuantity =
+                                            props.cart.dishes[i].dishQuantity;
+                                          if (oldQuantity === 1) {
+                                            props.setCart((prevState) => {
                                               prevState.dishes.splice(i, 1);
-                                            } else {
+                                              window.localStorage.setItem(
+                                                "wdCart",
+                                                JSON.stringify({ ...prevState })
+                                              );
+                                              return { ...prevState };
+                                            });
+                                          } else {
+                                            oldQuantity -= 1;
+                                            props.setCart((prevState) => {
                                               prevState.dishes[i].dishQuantity =
-                                                d.dishQuantity - 1;
-                                            }
-                                            window.localStorage.setItem(
-                                              "wdCart",
-                                              JSON.stringify({ ...prevState })
-                                            );
-                                            return { ...prevState };
-                                          });
+                                                oldQuantity;
+                                              window.localStorage.setItem(
+                                                "wdCart",
+                                                JSON.stringify({ ...prevState })
+                                              );
+                                              return { ...prevState };
+                                            });
+                                          }
                                         }}
                                       >
                                         <Box
@@ -350,9 +359,12 @@ const Basket = (props) => {
                                         item
                                         xs={2}
                                         onClick={() => {
+                                          let oldQuantity =
+                                            props.cart.dishes[i].dishQuantity;
+                                          oldQuantity += 1;
                                           props.setCart((prevState) => {
                                             prevState.dishes[i].dishQuantity =
-                                              d.dishQuantity + 1;
+                                              oldQuantity;
                                             window.localStorage.setItem(
                                               "wdCart",
                                               JSON.stringify({ ...prevState })
@@ -396,7 +408,8 @@ const Basket = (props) => {
                                           component="span"
                                           color="text.secondary"
                                         >
-                                          GHC{d.total}
+                                          GHC
+                                          {d.total && d.total}
                                         </Typography>
                                       ) : (
                                         ""
