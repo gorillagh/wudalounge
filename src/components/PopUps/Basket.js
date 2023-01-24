@@ -62,6 +62,7 @@ const Basket = (props) => {
   const [selectedDish, setSelectedDish] = useState({});
   const [selectedTip, setSelectedTip] = useState(null);
   const [notes, setNotes] = useState("");
+  const [totals, setTotals] = useState([]);
 
   const containerRef = React.useRef(null);
 
@@ -69,43 +70,37 @@ const Basket = (props) => {
     props.cart && props.cart.riderTip
       ? setSelectedTip(props.cart.riderTip)
       : setSelectedTip(0);
-
-    props.cart &&
-      props.cart.dishes &&
-      props.cart.dishes.length &&
-      props.cart.dishes.map((d, i) => {
-        calculateEachItemTotalAmount(d, i);
-      });
+    calculateItemsTotals();
   }, [props.cart]);
 
-  const calculateEachItemTotalAmount = (dish, index) => {
-    let totalExtras = 0;
-    let total = 0;
-    if (dish && dish.extras) {
-      for (var i in dish.extras) {
-        if (dish.extras[i].checked)
-          totalExtras =
-            totalExtras +
-            Number(dish.extras[i].additionalAmount) *
-              Number(dish.extras[i].quantity);
-      }
-    }
-    if (dish && dish.dishQuantity && dish.price) {
-      total +=
-        Number(dish.dishQuantity) *
-        (Number(dish.price) +
-          Number(dish.selectedSize.additionalAmount) +
-          Number(totalExtras));
-    }
-
+  const calculateItemsTotals = () => {
+    let itemsTotals = [];
     props.cart &&
       props.cart.dishes &&
       props.cart.dishes.length &&
-      props.setCart((prevState) => {
-        prevState.dishes[index].total = total;
-        window.localStorage.setItem("wdCart", JSON.stringify({ ...prevState }));
-        return { ...prevState };
+      props.cart.dishes.map((dish, index) => {
+        let totalExtras = 0;
+        let total = 0;
+        if (dish && dish.extras) {
+          for (var i in dish.extras) {
+            if (dish.extras[i].checked)
+              totalExtras =
+                totalExtras +
+                Number(dish.extras[i].additionalAmount) *
+                  Number(dish.extras[i].quantity);
+          }
+        }
+        if (dish && dish.dishQuantity && dish.price) {
+          total +=
+            Number(dish.dishQuantity) *
+            (Number(dish.price) +
+              Number(dish.selectedSize.additionalAmount) +
+              Number(totalExtras));
+        }
+        itemsTotals.push({ id: dish.dishIdInCart, total });
       });
+
+    setTotals(itemsTotals);
   };
 
   const handleSubmit = (e) => {
@@ -113,7 +108,6 @@ const Basket = (props) => {
     //
   };
   const handleDishSelect = (d, dishPosition) => {
-    props.setFromBasket({ status: true, dishPosition });
     props.setSelectedDish(d);
     props.setOpenDishModal(true);
   };
@@ -124,7 +118,7 @@ const Basket = (props) => {
   const clearBasket = () => {
     if (window.confirm("Are you sure you want to clear your basket?")) {
       window.localStorage.removeItem("wdCart");
-      props.setCart(null);
+      props.setCart({});
     }
   };
 
@@ -390,46 +384,53 @@ const Basket = (props) => {
                                   </Box>
                                 </Grid>
                                 <Grid item xs={7}>
-                                  {d.total ? (
-                                    <Box
-                                      display="flex"
-                                      justifyContent="right"
-                                      alignItems="flex-end"
-                                    >
-                                      {props.discount && props.discount > 0 ? (
-                                        <Typography
-                                          sx={{
-                                            fontWeight: 600,
-                                            py: 1,
-                                            mr: 1,
-                                            textDecoration: "line-through",
-                                          }}
-                                          variant="body2"
-                                          component="span"
-                                          color="text.secondary"
-                                        >
-                                          GHC
-                                          {d.total && d.total}
-                                        </Typography>
-                                      ) : (
-                                        ""
-                                      )}
-                                      <Chip
-                                        label={
-                                          <Typography
-                                            variant="body2"
-                                            fontWeight={600}
-                                          >
-                                            GHC
-                                            {d.total - d.total * props.discount}
-                                          </Typography>
-                                        }
-                                        color="secondary"
-                                      />
-                                    </Box>
-                                  ) : (
-                                    ""
-                                  )}
+                                  {totals && totals.length
+                                    ? totals.map((item, i) => {
+                                        if (item.id === d.dishIdInCart)
+                                          return (
+                                            <Box
+                                              display="flex"
+                                              justifyContent="right"
+                                              alignItems="flex-end"
+                                            >
+                                              {props.discount &&
+                                              props.discount > 0 ? (
+                                                <Typography
+                                                  sx={{
+                                                    fontWeight: 600,
+                                                    py: 1,
+                                                    mr: 1,
+                                                    textDecoration:
+                                                      "line-through",
+                                                  }}
+                                                  variant="body2"
+                                                  component="span"
+                                                  color="text.secondary"
+                                                >
+                                                  GHC
+                                                  {item.total}
+                                                </Typography>
+                                              ) : (
+                                                ""
+                                              )}
+                                              <Chip
+                                                label={
+                                                  <Typography
+                                                    variant="body2"
+                                                    fontWeight={600}
+                                                  >
+                                                    GHC
+                                                    {item.total -
+                                                      item.total *
+                                                        props.discount}
+                                                  </Typography>
+                                                }
+                                                color="secondary"
+                                              />
+                                            </Box>
+                                          );
+                                      })
+                                    : ""}
                                 </Grid>
                               </Grid>
                             </Grid>

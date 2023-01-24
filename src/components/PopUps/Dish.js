@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
+import { v4 as uuid } from "uuid";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Subtitle from "../Typography/Subtitle";
@@ -93,34 +94,39 @@ const Dish = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let data;
-    let extras = [];
-    props.dish.extras.map((e, i) => {
-      if (e.checked) {
-        extras.push({ item: e.item, quantity: e.quantity });
-      }
-    });
-
-    if (props.fromBasket.status) {
-      props.setCart((prevState) => {
-        prevState.dishes[props.fromBasket.dishPosition] = {
-          ...props.dish,
-          kitchenNotes,
-        };
-        window.localStorage.setItem("wdCart", JSON.stringify({ ...prevState }));
-        return { ...prevState };
-      });
+    if (props.dish.dishIdInCart) {
+      props.cart &&
+        props.cart.dishes &&
+        props.cart.dishes.map((d, i) => {
+          if (d.dishIdInCart === props.dish.dishIdInCart) {
+            props.setCart((prevState) => {
+              prevState.dishes[i] = {
+                ...props.dish,
+                kitchenNotes,
+              };
+              window.localStorage.setItem(
+                "wdCart",
+                JSON.stringify({ ...prevState })
+              );
+              return { ...prevState };
+            });
+          }
+        });
     } else {
       props.setCart((prevState) => {
         prevState.dishes
-          ? prevState.dishes.push({ ...props.dish, kitchenNotes })
+          ? prevState.dishes.push({
+              ...props.dish,
+              dishIdInCart: uuid(),
+              kitchenNotes,
+            })
           : (prevState = {
-              dishes: [{ ...props.dish, kitchenNotes }],
+              dishes: [{ ...props.dish, dishIdInCart: uuid(), kitchenNotes }],
               deliveryMode: "delivery",
             });
 
-        window.localStorage.setItem("wdCart", JSON.stringify(prevState));
-        return prevState;
+        window.localStorage.setItem("wdCart", JSON.stringify({ ...prevState }));
+        return { ...prevState };
       });
     }
 
@@ -427,7 +433,7 @@ const Dish = (props) => {
                 left: { md: "20%" },
               }}
             >
-              {numberIncart && numberIncart > 0 && !props.fromBasket.status ? (
+              {numberIncart && numberIncart > 0 && !props.dish.dishIdInCart ? (
                 <Box p={1} display={"flex"} alignItems="center">
                   <Icon
                     fontSize="small"
@@ -551,7 +557,7 @@ const Dish = (props) => {
                     text={
                       <Box>
                         <Typography variant="body1" fontWeight={700} p={0}>
-                          {props.fromBasket.status ? "Update" : "Add"}
+                          {props.dish.dishIdInCart ? "Update" : "Add"}
                         </Typography>
                         <Typography variant="body1" fontWeight={700} p={0}>
                           GHC

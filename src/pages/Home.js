@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import { v4 as uuid } from "uuid";
+
 import Subtitle from "../components/Typography/Subtitle";
 import {
   AppBar,
@@ -33,19 +33,12 @@ import Dish from "../components/PopUps/Dish";
 import DishCard from "../components/Cards/DishCard";
 import LoadingBackdrop from "../components/Feedbacks/LoadingBackdrop";
 import CircularLoading from "../components/Feedbacks/CircularLoading";
-import ShowOnScroll from "../components/Navbars/ShowOnScroll";
 import DishNavbar from "../components/Navbars/DishNavbar";
 import ViewBasket from "../components/Navbars/ViewBasket";
 import Basket from "../components/PopUps/Basket";
-import {
-  disableBodyScroll,
-  enableBodyScroll,
-  clearAllBodyScrollLocks,
-} from "body-scroll-lock";
+
 import Address from "../components/PopUps/Address";
 import PhoneNumber from "../components/PopUps/PhoneNumber";
-import ActionButton from "../components/Buttons/ActionButton";
-import PageTitle from "../components/Typography/PageTitle";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -272,7 +265,6 @@ const Home = (props) => {
   const [openBasket, setOpenBasket] = useState(false);
   const [openAddress, setOpenAddress] = useState(false);
   const [openPhoneNumber, setOpenPhoneNumber] = useState(false);
-  const [finalTotal, setFinalTotal] = useState(null);
   const [fromBasket, setFromBasket] = useState({
     status: false,
     dishPosition: null,
@@ -297,48 +289,43 @@ const Home = (props) => {
     setCartTotalLoading(false);
   }, [cart]);
 
-  // useEffect(()=>{
-  //   calculateCartTotal(JSON.parse(window.localStorage.getItem('wdCart')))
-  // },[cart])
+  // const handleSendNotification = async () => {
+  //   try {
+  //     if (
+  //       !String(email)
+  //         .toLowerCase()
+  //         .match(
+  //           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  //         )
+  //     ) {
+  //       toast.error("Please enter a valid email");
+  //       return;
+  //     }
+  //     setLoading(true);
 
-  const handleSendNotification = async () => {
-    try {
-      if (
-        !String(email)
-          .toLowerCase()
-          .match(
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          )
-      ) {
-        toast.error("Please enter a valid email");
-        return;
-      }
-      setLoading(true);
+  //     const response = await addToNotificationList(email);
+  //     if (response.data === "Email exists")
+  //       toast.success(
+  //         `You are already on the list. We will send an email to ${email} before and on launch day!`
+  //       );
+  //     if (response.data === "Ok")
+  //       toast.success(
+  //         `We will send an email to ${email} before and on launch day!`
+  //       );
+  //     setEmail("");
+  //     setLoading(false);
+  //   } catch (error) {
+  //     toast.error(error);
+  //     setLoading(false);
+  //     console.log(error);
+  //   }
+  // };
 
-      const response = await addToNotificationList(email);
-      if (response.data === "Email exists")
-        toast.success(
-          `You are already on the list. We will send an email to ${email} before and on launch day!`
-        );
-      if (response.data === "Ok")
-        toast.success(
-          `We will send an email to ${email} before and on launch day!`
-        );
-      setEmail("");
-      setLoading(false);
-    } catch (error) {
-      toast.error(error);
-      setLoading(false);
-      console.log(error);
-    }
-  };
   const handleDishSelect = async (d) => {
-    setFromBasket({ status: false, dishPosition: null });
     setOpenDishModal(true);
     setSelectedDish({ ...d, dishQuantity: 1 });
   };
   const handleDishClose = (async) => {
-    setFromBasket({ status: false, dishPosition: null });
     setOpenDishModal(false);
     setSelectedDish({});
   };
@@ -373,10 +360,10 @@ const Home = (props) => {
 
   return (
     <Box>
-      {/* <DishNavbar
+      <DishNavbar
         scrollTabValue={scrollTabValue}
         setScrollTabValue={setScrollTabValue}
-      /> */}
+      />
       <Container
         maxWidth="xl"
         sx={{
@@ -423,7 +410,7 @@ const Home = (props) => {
         }}
       >
         <Grid item xs={12}>
-          <Box textAlign="center" p={2}>
+          {/* <Box textAlign="center" p={2}>
             <Subtitle title="Pork, Chicken and fish meals" />
             <PageTitle title={`Accra, be ready!`} />
             <Box>
@@ -515,8 +502,8 @@ const Home = (props) => {
                 onClick={handleSendNotification}
               />
             )}
-          </Box>
-          {/* <Container maxWidth="xl">
+          </Box> */}
+          <Container maxWidth="xl">
             <Subtitle mt={0} title="Pork, Chicken and Tilapia dishes" />
             <List sx={{ p: 0 }} disablePadding>
               {infoList.map((info, index) => (
@@ -528,10 +515,10 @@ const Home = (props) => {
                 </ListItem>
               ))}
             </List>
-          </Container> */}
+          </Container>
         </Grid>
       </Grid>
-      {/* <Box
+      <Box
         sx={{
           p: 2,
           // cursor: "pointer",
@@ -572,9 +559,9 @@ const Home = (props) => {
         ) : (
           ""
         )}
-      </Box> */}
+      </Box>
 
-      {/* {selectedDish ? (
+      {selectedDish ? (
         <Dish
           id="#targetElementId"
           open={openDishModal}
@@ -588,7 +575,6 @@ const Home = (props) => {
           cart={cart}
           setCart={setCart}
           // ref={targetRef}
-          fromBasket={fromBasket}
         />
       ) : (
         ""
@@ -617,14 +603,13 @@ const Home = (props) => {
         setOpenAddress={setOpenAddress}
         setOpenPhoneNumber={setOpenPhoneNumber}
         user={props.user}
-        setFromBasket={setFromBasket}
       />
       <Address open={openAddress} onClose={() => setOpenAddress(false)} />
       <PhoneNumber
         open={openPhoneNumber}
         onClose={() => setOpenPhoneNumber(false)}
       />
-      <LoadingBackdrop open={loading} /> */}
+      <LoadingBackdrop open={loading} />
     </Box>
   );
 };
