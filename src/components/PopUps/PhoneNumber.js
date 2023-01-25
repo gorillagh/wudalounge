@@ -199,7 +199,7 @@ const PhoneNumber = (props) => {
                 >
                   <InputBase
                     disabled={loading}
-                    type="password"
+                    // type="password"
                     sx={{ ml: 1, flex: 1 }}
                     placeholder="Enter verification code"
                     inputProps={{ "aria-label": "search google maps" }}
