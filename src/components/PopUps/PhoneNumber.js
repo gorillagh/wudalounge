@@ -196,6 +196,10 @@ const PhoneNumber = (props) => {
                     alignItems: "center",
                     mb: 2,
                   }}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSubmit();
+                  }}
                 >
                   <InputBase
                     disabled={loading}
