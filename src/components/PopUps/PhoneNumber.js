@@ -199,12 +199,16 @@ const PhoneNumber = (props) => {
                 >
                   <InputBase
                     disabled={loading}
-                    // type="password"
+                    type="password"
+                    autoComplete="one-time-code"
                     sx={{ ml: 1, flex: 1 }}
                     placeholder="Enter verification code"
                     inputProps={{ "aria-label": "search google maps" }}
                     value={code}
-                    onChange={(e) => setCode(e.target.value)}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setCode(e.target.value);
+                    }}
                   />
                 </Paper>
                 <Typography textAlign="center" variant="body2" fontWeight={500}>
