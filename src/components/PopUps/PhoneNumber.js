@@ -213,6 +213,10 @@ const PhoneNumber = (props) => {
                       e.preventDefault();
                       setCode(e.target.value);
                     }}
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleSubmit();
+                    }}
                   />
                 </Paper>
                 <Typography textAlign="center" variant="body2" fontWeight={500}>
