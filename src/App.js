@@ -106,7 +106,7 @@ theme = responsiveFontSizes(theme);
 
 const App = () => {
   const dispatch = useDispatch();
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [loadUser, setLoadUser] = useState(false);
 
   useEffect(() => {
@@ -136,6 +136,13 @@ const App = () => {
           })
           .catch((error) => {
             console.log(error);
+            if (window.localStorage.getItem("wdUser")) {
+              setUser(JSON.parse(window.localStorage.getItem("wdUser")));
+              dispatch({
+                type: "LOGGED_IN_USER",
+                payload: JSON.parse(window.localStorage.getItem("wdUser")),
+              });
+            }
           });
       } else if (window.localStorage.getItem("wdUser")) {
         setUser(JSON.parse(window.localStorage.getItem("wdUser")));
@@ -151,7 +158,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Navbar />
+      <Navbar setUser={setUser} user={user} />
       <ToastContainer style={{ fontSize: "12px", fontWeight: "bold" }} />
       <Routes>
         <Route

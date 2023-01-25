@@ -48,7 +48,8 @@ function Navbar(props) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => ({ ...state }));
+  // const { user } = useSelector((state) => ({ ...state }));
+  // let user = props.user && props.user;
 
   const drawerWidth = 240;
 
@@ -59,6 +60,7 @@ function Navbar(props) {
         type: "LOGOUT",
         payload: null,
       });
+      props.setUser(null);
       window.localStorage.removeItem("wdUser");
       navigate("/");
       window.location.reload();
@@ -109,7 +111,7 @@ function Navbar(props) {
       </Box>
 
       <List sx={{ height: "100%" }}>
-        {user
+        {props.user
           ? userPages.map((item, index) => (
               <ListItem key={index} disablePadding>
                 <ListItemButton
@@ -125,7 +127,7 @@ function Navbar(props) {
               </ListItem>
             ))
           : ""}
-        {user ? (
+        {props.user ? (
           ""
         ) : (
           <>
@@ -159,7 +161,7 @@ function Navbar(props) {
             </ListItem>
           ))}
         </Box>
-        {user ? (
+        {props.user ? (
           <Box position="absolute" sx={{ top: "auto", bottom: 0 }}>
             <ListItem disablePadding>
               <ListItemButton
@@ -327,7 +329,7 @@ function Navbar(props) {
                   color: "primary.main",
                   display: {
                     xs: "none",
-                    md: user !== null ? "block" : "none",
+                    md: props.user !== null ? "block" : "none",
                   },
                   p: 0,
                   ml: 2,
@@ -338,7 +340,7 @@ function Navbar(props) {
               >
                 <PersonIcon fontSize="medium" />
               </IconButton>
-              {user === null && (
+              {props.user === null && (
                 <Box sx={{ display: { xs: "none", md: "block" } }}>
                   <NavbarButton
                     href="/login"

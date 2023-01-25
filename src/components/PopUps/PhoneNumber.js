@@ -67,6 +67,7 @@ const PhoneNumber = (props) => {
         console.log("SMS not sent");
         console.log(error);
       });
+    return false;
   };
 
   const handleSubmit = async (e) => {
@@ -122,6 +123,7 @@ const PhoneNumber = (props) => {
         setLoading(false);
         console.log(error);
       });
+    return false;
   };
 
   const containerRef = React.useRef(null);
@@ -172,6 +174,10 @@ const PhoneNumber = (props) => {
                   display: codeSent ? "none" : "flex",
                   alignItems: "center",
                 }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleGetCode(e);
+                }}
               >
                 <IconButton sx={{ p: "10px" }} aria-label="menu">
                   <Typography>+233</Typography>
@@ -198,13 +204,13 @@ const PhoneNumber = (props) => {
                   }}
                   onSubmit={(e) => {
                     e.preventDefault();
-                    handleSubmit();
+                    handleSubmit(e);
                   }}
                 >
                   <InputBase
                     disabled={loading}
                     type="password"
-                    autoComplete="off"
+                    autoComplete="one-time-code"
                     sx={{ ml: 1, flex: 1 }}
                     placeholder="Enter verification code"
                     inputProps={{ "aria-label": "search google maps" }}
@@ -215,7 +221,7 @@ const PhoneNumber = (props) => {
                     }}
                     onSubmit={(e) => {
                       e.preventDefault();
-                      handleSubmit();
+                      handleSubmit(e);
                     }}
                   />
                 </Paper>
