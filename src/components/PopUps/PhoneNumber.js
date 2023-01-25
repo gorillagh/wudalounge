@@ -200,7 +200,7 @@ const PhoneNumber = (props) => {
                   <InputBase
                     disabled={loading}
                     type="password"
-                    autoComplete="one-time-code"
+                    autoComplete="off"
                     sx={{ ml: 1, flex: 1 }}
                     placeholder="Enter verification code"
                     inputProps={{ "aria-label": "search google maps" }}
