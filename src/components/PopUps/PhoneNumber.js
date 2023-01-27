@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { useDispatch } from "react-redux";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import {
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  PhoneAuthProvider,
+} from "firebase/auth";
+import firebase from "firebase/app";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -10,11 +15,16 @@ import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
 import Zoom from "@mui/material/Zoom";
+import Countdown, { CountdownApi } from "react-countdown";
+
+import * as firebaseui from "firebaseui";
+import "firebaseui/dist/firebaseui.css";
 
 import PageTitle from "../Typography/PageTitle";
 import ActionButton from "../Buttons/ActionButton";
 import CircularLoading from "../Feedbacks/CircularLoading";
 import { createOrUpdateUser } from "../../serverFunctions/auth";
+import { Slide } from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -33,15 +43,53 @@ const style = {
 
 const PhoneNumber = (props) => {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumberError, setPhoneNumberError] = useState({
+    status: false,
+    message: "",
+  });
   const [loading, setLoading] = useState(false);
   const [codeSent, setCodeSent] = useState(false);
   const [code, setCode] = useState("");
+  const [codeError, setCodeError] = useState({
+    status: false,
+    message: "",
+  });
+  const [appVerifier, setAppVerifier] = useState(null);
+  const [count, setCount] = useState(null);
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (codeSent) {
+      setCount(600000);
+      const interval = setInterval(() => {
+        setCount((currentCount) => currentCount - 1000);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [codeSent]);
+
+  useEffect(() => {
+    count && count < 0 && setCodeSent(false);
+  }, [count]);
+
   const handleGetCode = async (e) => {
     e.preventDefault();
-    console.log(phoneNumber);
+    if (phoneNumber.length < 9 || phoneNumber.length > 13) {
+      setPhoneNumberError({
+        status: true,
+        message: "Please enter a valid phone number",
+      });
+      return;
+    }
+    const validatedPhoneNumber = `+233${phoneNumber.slice(-9)}`;
+
+    if (appVerifier) {
+      appVerifier.clear();
+      document.querySelector(
+        "#main-container"
+      ).innerHTML = `<div id="recaptcha-container"></div>`;
+    }
     window.recaptchaVerifier = new RecaptchaVerifier(
       "recaptcha-container",
       {
@@ -50,14 +98,12 @@ const PhoneNumber = (props) => {
       auth
     );
     setLoading(true);
-    const appVerifier = window.recaptchaVerifier;
-    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+    setAppVerifier(window.recaptchaVerifier);
+    signInWithPhoneNumber(auth, validatedPhoneNumber, window.recaptchaVerifier)
       .then((confirmationResult) => {
         console.log("Verification code sent to ", phoneNumber);
-        // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
         console.log(confirmationResult);
-        // history.push('/login/phone/complete')
         setCodeSent(true);
         setLoading(false);
       })
@@ -67,7 +113,9 @@ const PhoneNumber = (props) => {
         console.log("SMS not sent");
         console.log(error);
       });
-    return false;
+    return () => {
+      window.recaptchaVerifier.clear();
+    };
   };
 
   const handleSubmit = async (e) => {
@@ -121,7 +169,8 @@ const PhoneNumber = (props) => {
         // User couldn't sign in (bad verification code?)
         console.log("Wrong verification code!");
         setLoading(false);
-        console.log(error);
+        setCodeError({ status: true, message: "Wrong verification code!" });
+        console.log(error.message);
       });
     return false;
   };
@@ -164,35 +213,10 @@ const PhoneNumber = (props) => {
               <Icon color="error" fontSize="large" onClick={props.onClose}>
                 close
               </Icon>
-            </Box>
-            <Box mt="50%">
-              <Paper
-                component="form"
-                sx={{
-                  borderRadius: "20px",
-                  p: "2px 4px",
-                  display: codeSent ? "none" : "flex",
-                  alignItems: "center",
-                }}
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleGetCode(e);
-                }}
-              >
-                <IconButton sx={{ p: "10px" }} aria-label="menu">
-                  <Typography>+233</Typography>
-                </IconButton>
-                <InputBase
-                  autoFocus
-                  disabled={loading}
-                  sx={{ ml: 1, flex: 1 }}
-                  placeholder="Enter phone number"
-                  inputProps={{ "aria-label": "enter phone number" }}
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-              </Paper>
-              <Box display={codeSent ? "block" : "none"}>
+            </Box>{" "}
+            {/* <div id="firebaseui-auth-container"></div> */}
+            <Box mt={3}>
+              <Box display={codeSent && "none"}>
                 <Paper
                   component="form"
                   sx={{
@@ -200,39 +224,113 @@ const PhoneNumber = (props) => {
                     p: "2px 4px",
                     display: "flex",
                     alignItems: "center",
-                    mb: 2,
                   }}
                   onSubmit={(e) => {
                     e.preventDefault();
-                    handleSubmit(e);
+                    handleGetCode(e);
                   }}
                 >
+                  <Typography p={1}>+233</Typography>
                   <InputBase
+                    autoFocus
                     disabled={loading}
-                    type="password"
-                    autoComplete="one-time-code"
                     sx={{ ml: 1, flex: 1 }}
-                    placeholder="Enter verification code"
-                    inputProps={{ "aria-label": "search google maps" }}
-                    value={code}
+                    placeholder="Enter phone number"
+                    inputProps={{ "aria-label": "enter phone number" }}
+                    value={phoneNumber}
                     onChange={(e) => {
-                      e.preventDefault();
-                      setCode(e.target.value);
-                    }}
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      handleSubmit(e);
+                      setPhoneNumberError({ status: false, message: "" });
+                      setPhoneNumber(e.target.value);
                     }}
                   />
                 </Paper>
-                <Typography textAlign="center" variant="body2" fontWeight={500}>
-                  Enter the verification code sent to {phoneNumber}
-                </Typography>
+                {phoneNumberError.status ? (
+                  <Typography textAlign="center" variant="body2" color="error">
+                    {phoneNumberError.message}
+                  </Typography>
+                ) : (
+                  ""
+                )}
               </Box>
-              <div
-                className="form-group pt-0 mt-4"
-                id="recaptcha-container"
-              ></div>
+              <Slide appear={true} in={codeSent} direction="left">
+                <Box display={codeSent ? "block" : "none"}>
+                  <Box mb={2}>
+                    <Paper
+                      component="form"
+                      sx={{
+                        borderRadius: "20px",
+                        p: "2px 4px",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSubmit(e);
+                      }}
+                    >
+                      <InputBase
+                        disabled={loading}
+                        type="password"
+                        autoComplete="one-time-code"
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Enter verification code"
+                        inputProps={{ "aria-label": "search google maps" }}
+                        value={code}
+                        onChange={(e) => {
+                          e.preventDefault();
+                          setCode(e.target.value);
+                          setCodeError({ status: false, message: "" });
+                        }}
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          handleSubmit(e);
+                        }}
+                      />
+                    </Paper>
+                    {codeError.status ? (
+                      <Typography
+                        textAlign="center"
+                        variant="body2"
+                        color="error"
+                      >
+                        {codeError.message}
+                      </Typography>
+                    ) : (
+                      ""
+                    )}
+                  </Box>
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Typography variant="body2" fontWeight={500}>
+                      {" "}
+                      Verification code sent to {phoneNumber}
+                    </Typography>{" "}
+                    <IconButton
+                      size="small"
+                      color="info"
+                      onClick={() => {
+                        setCodeSent(false);
+                      }}
+                    >
+                      <Icon fontSize="small">edit</Icon>
+                    </IconButton>
+                  </Box>
+                  <Typography textAlign="center" variant="body2">
+                    The code expires in{" "}
+                    {count &&
+                      `${Math.floor(
+                        (count % (1000 * 60 * 60)) / (1000 * 60)
+                      )}mins : ${Math.floor((count % (1000 * 60)) / 1000)}secs`}
+                  </Typography>
+                </Box>
+              </Slide>
+              <div id="main-container">
+                <div id="recaptcha-container"></div>
+              </div>
+
               <Box>
                 <ActionButton
                   id="sign-in-button"
@@ -244,7 +342,7 @@ const PhoneNumber = (props) => {
                     ) : codeSent ? (
                       "Submit"
                     ) : (
-                      "Send verification code"
+                      "Get verification code"
                     )
                   }
                   onClick={codeSent ? handleSubmit : handleGetCode}
