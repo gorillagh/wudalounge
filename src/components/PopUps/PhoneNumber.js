@@ -24,7 +24,9 @@ import PageTitle from "../Typography/PageTitle";
 import ActionButton from "../Buttons/ActionButton";
 import CircularLoading from "../Feedbacks/CircularLoading";
 import { createOrUpdateUser } from "../../serverFunctions/auth";
-import { Slide } from "@mui/material";
+import { Fade, Slide } from "@mui/material";
+import Subtitle from "../Typography/Subtitle";
+import { updateUser } from "../../serverFunctions/user";
 
 const style = {
   position: "absolute",
@@ -47,10 +49,17 @@ const PhoneNumber = (props) => {
     status: false,
     message: "",
   });
+  const [phoneNumberVerified, setPhoneNumberVerified] = useState(false);
   const [loading, setLoading] = useState(false);
   const [codeSent, setCodeSent] = useState(false);
   const [code, setCode] = useState("");
   const [codeError, setCodeError] = useState({
+    status: false,
+    message: "",
+  });
+
+  const [userName, setUserName] = useState("");
+  const [userNameError, setUserNameError] = useState({
     status: false,
     message: "",
   });
@@ -72,6 +81,13 @@ const PhoneNumber = (props) => {
   useEffect(() => {
     count && count < 0 && setCodeSent(false);
   }, [count]);
+
+  useEffect(() => {
+    props.user &&
+      props.user.name &&
+      props.user.name !== "Wd User" &&
+      setUserName(props.user.name);
+  }, [props.user]);
 
   const handleGetCode = async (e) => {
     e.preventDefault();
@@ -112,6 +128,15 @@ const PhoneNumber = (props) => {
 
         console.log("SMS not sent");
         console.log(error);
+        if (
+          error.message === "Firebase: Error (auth/network-request-failed)."
+        ) {
+          props.setAlertSnackbar({
+            open: true,
+            text: "Check your internet connection and try again",
+            severity: "error",
+          });
+        }
       });
     return () => {
       window.recaptchaVerifier.clear();
@@ -153,11 +178,12 @@ const PhoneNumber = (props) => {
             setCode("");
             setCodeSent(false);
             setLoading(false);
-            if (!userInfo.addresses) {
-              props.setOpenAddress(true);
-            }
-            props.onClose();
-            //Show a welcome notification here
+            props.setAlertSnackbar({
+              open: true,
+              text: `Verified (${userInfo.phoneNumber})`,
+              severity: "success",
+            });
+            setPhoneNumberVerified(true);
           })
           .catch((err) => {
             if (err.status === 401) {
@@ -173,6 +199,58 @@ const PhoneNumber = (props) => {
         console.log(error.message);
       });
     return false;
+  };
+
+  const handleUpdateName = async (e) => {
+    e.preventDefault();
+    if (userName.length < 3) {
+      setUserNameError({
+        status: true,
+        message: "User name should be more 3 letters",
+      });
+      return;
+    }
+    if (userName === props.user.name) {
+      props.onClose();
+      return;
+    }
+    await updateUser(props.user._id, { name: userName })
+      .then((res) => {
+        console.log(res.data);
+        let userInfo = {
+          _id: res.data._id,
+          phoneNumber: res.data.phoneNumber,
+          name: res.data.name,
+          email: res.data.email ? res.data.email : "",
+          role: res.data.role,
+          token: props.user.token,
+          favorites: res.data.favorites ? res.data.favorites : [],
+        };
+        props.setUser(userInfo);
+        dispatch({
+          type: "LOGGED_IN_USER",
+          payload: userInfo,
+        });
+        window.localStorage.setItem("wdUser", JSON.stringify(userInfo));
+        setPhoneNumberVerified(false);
+        props.setAlertSnackbar({
+          open: true,
+          text: `Added Name (${userInfo.name})`,
+          severity: "success",
+        });
+        props.onClose();
+        if (props.user.address && props.user.address.length) {
+          props.setOpenAddress(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        props.setAlertSnackbar({
+          open: true,
+          text: `An error occured while adding name. Please try again.`,
+          severity: "error",
+        });
+      });
   };
 
   const containerRef = React.useRef(null);
@@ -209,145 +287,220 @@ const PhoneNumber = (props) => {
         >
           <Box sx={style}>
             <Box my={2} display="flex" justifyContent="space-between">
-              <PageTitle my={0} title="Phone Number" />
+              <PageTitle my={0} title="Add Contact" />
               <Icon color="error" fontSize="large" onClick={props.onClose}>
                 close
               </Icon>
             </Box>{" "}
             {/* <div id="firebaseui-auth-container"></div> */}
             <Box mt={3}>
-              <Box display={codeSent && "none"}>
-                <Paper
-                  component="form"
-                  sx={{
-                    borderRadius: "20px",
-                    p: "2px 4px",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleGetCode(e);
-                  }}
-                >
-                  <Typography p={1}>+233</Typography>
-                  <InputBase
-                    autoFocus
-                    disabled={loading}
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="Enter phone number"
-                    inputProps={{ "aria-label": "enter phone number" }}
-                    value={phoneNumber}
-                    onChange={(e) => {
-                      setPhoneNumberError({ status: false, message: "" });
-                      setPhoneNumber(e.target.value);
+              {/* ////////////////Phone Number section////////////////////// */}
+              <Box display={!phoneNumberVerified ? "block" : "none"}>
+                <Typography fontWeight="bold">Phone number</Typography>
+                <Box display={codeSent && "none"}>
+                  <Paper
+                    component="form"
+                    sx={{
+                      borderRadius: "20px",
+                      p: "2px 4px",
+                      display: "flex",
+                      alignItems: "center",
                     }}
-                  />
-                </Paper>
-                {phoneNumberError.status ? (
-                  <Typography textAlign="center" variant="body2" color="error">
-                    {phoneNumberError.message}
-                  </Typography>
-                ) : (
-                  ""
-                )}
-              </Box>
-              <Slide appear={true} in={codeSent} direction="left">
-                <Box display={codeSent ? "block" : "none"}>
-                  <Box mb={2}>
-                    <Paper
-                      component="form"
-                      sx={{
-                        borderRadius: "20px",
-                        p: "2px 4px",
-                        display: "flex",
-                        alignItems: "center",
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleGetCode(e);
+                    }}
+                  >
+                    <Typography p={1}>+233</Typography>
+                    <InputBase
+                      type="number"
+                      autoFocus
+                      disabled={loading}
+                      sx={{ ml: 1, flex: 1 }}
+                      placeholder="Enter phone number"
+                      inputProps={{ "aria-label": "enter phone number" }}
+                      value={phoneNumber}
+                      onChange={(e) => {
+                        setPhoneNumberError({ status: false, message: "" });
+                        setPhoneNumber(e.target.value);
                       }}
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        handleSubmit(e);
-                      }}
+                    />
+                  </Paper>
+                  {phoneNumberError.status ? (
+                    <Typography
+                      textAlign="center"
+                      variant="body2"
+                      color="error"
                     >
-                      <InputBase
-                        disabled={loading}
-                        type="password"
-                        autoComplete="one-time-code"
-                        sx={{ ml: 1, flex: 1 }}
-                        placeholder="Enter verification code"
-                        inputProps={{ "aria-label": "search google maps" }}
-                        value={code}
-                        onChange={(e) => {
-                          e.preventDefault();
-                          setCode(e.target.value);
-                          setCodeError({ status: false, message: "" });
+                      {phoneNumberError.message}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                </Box>
+                <Fade appear={true} in={codeSent} direction="left">
+                  <Box display={codeSent ? "block" : "none"}>
+                    <Box mb={2}>
+                      <Paper
+                        component="form"
+                        sx={{
+                          borderRadius: "20px",
+                          p: "2px 4px",
+                          display: "flex",
+                          alignItems: "center",
                         }}
                         onSubmit={(e) => {
                           e.preventDefault();
                           handleSubmit(e);
                         }}
-                      />
-                    </Paper>
-                    {codeError.status ? (
-                      <Typography
-                        textAlign="center"
-                        variant="body2"
-                        color="error"
                       >
-                        {codeError.message}
-                      </Typography>
-                    ) : (
-                      ""
-                    )}
-                  </Box>
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <Typography variant="body2" fontWeight={500}>
-                      {" "}
-                      Verification code sent to {phoneNumber}
-                    </Typography>{" "}
-                    <IconButton
-                      size="small"
-                      color="info"
-                      onClick={() => {
-                        setCodeSent(false);
-                      }}
+                        <InputBase
+                          disabled={loading}
+                          type="password"
+                          autoComplete="one-time-code"
+                          sx={{ ml: 1, flex: 1 }}
+                          placeholder="Enter verification code"
+                          inputProps={{ "aria-label": "search google maps" }}
+                          value={code}
+                          onChange={(e) => {
+                            e.preventDefault();
+                            setCode(e.target.value);
+                            setCodeError({ status: false, message: "" });
+                          }}
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSubmit(e);
+                          }}
+                        />
+                      </Paper>
+                      {codeError.status ? (
+                        <Typography
+                          textAlign="center"
+                          variant="body2"
+                          color="error"
+                        >
+                          {codeError.message}
+                        </Typography>
+                      ) : (
+                        ""
+                      )}
+                    </Box>
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
                     >
-                      <Icon fontSize="small">edit</Icon>
-                    </IconButton>
+                      <Typography variant="body2" fontWeight={500}>
+                        {" "}
+                        Verification code sent to {phoneNumber}
+                      </Typography>{" "}
+                      <IconButton
+                        size="small"
+                        color="info"
+                        onClick={() => {
+                          setCodeSent(false);
+                        }}
+                      >
+                        <Icon fontSize="small">edit</Icon>
+                      </IconButton>
+                    </Box>
+                    <Typography textAlign="center" variant="body2">
+                      The code expires in{" "}
+                      {count &&
+                        `${Math.floor(
+                          (count % (1000 * 60 * 60)) / (1000 * 60)
+                        )}mins : ${Math.floor(
+                          (count % (1000 * 60)) / 1000
+                        )}secs`}
+                    </Typography>
                   </Box>
-                  <Typography textAlign="center" variant="body2">
-                    The code expires in{" "}
-                    {count &&
-                      `${Math.floor(
-                        (count % (1000 * 60 * 60)) / (1000 * 60)
-                      )}mins : ${Math.floor((count % (1000 * 60)) / 1000)}secs`}
-                  </Typography>
+                </Fade>
+                <div id="main-container">
+                  <div id="recaptcha-container"></div>
+                </div>
+
+                <Box>
+                  <ActionButton
+                    disabled={loading}
+                    id="sign-in-button"
+                    text={
+                      loading ? (
+                        <Typography variant="body2" fontWeight={600}>
+                          <CircularLoading size={20} thickness={6} />
+                        </Typography>
+                      ) : codeSent ? (
+                        "Submit"
+                      ) : (
+                        "Get verification code"
+                      )
+                    }
+                    onClick={codeSent ? handleSubmit : handleGetCode}
+                  />
+                </Box>
+              </Box>
+
+              {/* ////////////////Name Section/////////////////////////// */}
+              <Slide direction="left" in={phoneNumberVerified}>
+                <Box display={phoneNumberVerified ? "block" : "none"}>
+                  <Typography fontWeight="bold">Name</Typography>
+                  <Paper
+                    component="form"
+                    sx={{
+                      borderRadius: "20px",
+                      p: "2px 4px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleUpdateName(e);
+                    }}
+                  >
+                    <Typography p={1}>
+                      <Icon>badge</Icon>
+                    </Typography>
+                    <InputBase
+                      autoFocus
+                      disabled={loading}
+                      sx={{ ml: 1, flex: 1 }}
+                      placeholder="Enter your name"
+                      inputProps={{ "aria-label": "enter name" }}
+                      value={userName}
+                      onChange={(e) => {
+                        setUserNameError({ status: false, message: "" });
+                        setUserName(e.target.value);
+                      }}
+                    />
+                  </Paper>
+                  {userNameError.status ? (
+                    <Typography
+                      textAlign="center"
+                      variant="body2"
+                      color="error"
+                    >
+                      {userNameError.message}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  <Box>
+                    <ActionButton
+                      disabled={loading}
+                      id="sign-in-button"
+                      text={
+                        loading ? (
+                          <Typography variant="body2" fontWeight={600}>
+                            <CircularLoading size={20} thickness={6} />
+                          </Typography>
+                        ) : (
+                          "Submit"
+                        )
+                      }
+                      onClick={handleUpdateName}
+                    />
+                  </Box>
                 </Box>
               </Slide>
-              <div id="main-container">
-                <div id="recaptcha-container"></div>
-              </div>
-
-              <Box>
-                <ActionButton
-                  id="sign-in-button"
-                  text={
-                    loading ? (
-                      <Typography variant="body2" fontWeight={600}>
-                        <CircularLoading size={20} thickness={6} />
-                      </Typography>
-                    ) : codeSent ? (
-                      "Submit"
-                    ) : (
-                      "Get verification code"
-                    )
-                  }
-                  onClick={codeSent ? handleSubmit : handleGetCode}
-                />
-              </Box>
             </Box>
           </Box>
         </Box>

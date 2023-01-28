@@ -132,6 +132,11 @@ const Dish = (props) => {
 
     props.setDish({});
     setKitchenNotes("");
+    props.setAlertSnackbar({
+      open: true,
+      text: `${props.dish.dishQuantity} "${props.dish.name}" added to basket`,
+      severity: "success",
+    });
     props.onClose();
   };
 
@@ -162,6 +167,11 @@ const Dish = (props) => {
         return { ...prevState };
       });
     }
+    props.setAlertSnackbar({
+      open: true,
+      text: `"${props.dish.name}" removed from basket`,
+      severity: "warning",
+    });
     props.onClose();
   };
 
@@ -570,7 +580,9 @@ const Dish = (props) => {
                 </Grid>
               </Grid>
             </AppBar>
-            <Toolbar sx={{ py: numberIncart > 0 ? 3 : 1 }} />
+            <Toolbar
+              sx={{ py: numberIncart > 0 && !props.dish.dishIdInCart ? 3 : 1 }}
+            />
           </>
         </Box>
       </Slide>

@@ -493,17 +493,19 @@ const Basket = (props) => {
                         sx={{ cursor: "pointer" }}
                       >
                         <Icon fontSize="small">phone</Icon>
-                        {/* <Typography ml={1}>
-                            {props.user.phoneNumber} ({props.user.name})
-                          </Typography> */}
+
                         <Typography ml={1}>
-                          {props.user.phoneNumber} ({props.user.name})
+                          {props.user.phoneNumber} (
+                          {props.user.name === "Wd User"
+                            ? "No name"
+                            : props.user.name}
+                          )
                         </Typography>
                         <Box ml="auto" justifyContent="right">
                           <IconButton
                             sx={{ borderRadius: 0, p: 0 }}
                             size="small"
-                            color="primary"
+                            color="info"
                           >
                             <Icon fontSize="small">edit</Icon>
                           </IconButton>
@@ -527,6 +529,13 @@ const Basket = (props) => {
                               {props.user.addresses
                                 ? props.user.addresses[0]
                                 : "Add address"}
+                              <Typography
+                                fontWeight="bold"
+                                component="span"
+                                color="primary"
+                              >
+                                *
+                              </Typography>
                             </Typography>
                             <Box ml="auto" justifyContent="right">
                               <IconButton

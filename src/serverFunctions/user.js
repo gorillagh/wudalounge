@@ -18,3 +18,10 @@ export const changeFavorites = async (userId, dishId, action) => {
     action,
   });
 };
+
+export const updateUser = async (id, data) => {
+  return await axios.post(
+    `${process.env.REACT_APP_API_URL}/update/${id}`,
+    data
+  );
+};

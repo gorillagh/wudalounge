@@ -39,6 +39,7 @@ import Basket from "../components/PopUps/Basket";
 
 import Address from "../components/PopUps/Address";
 import PhoneNumber from "../components/PopUps/PhoneNumber";
+import AlertSnackbar from "../components/Feedbacks/AlertSnackbar";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -253,6 +254,7 @@ const dbChickenDishes = [
 const Home = (props) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [alertSnackbar, setAlertSnackbar] = useState({ open: false });
   const [cartTotalLoading, setCartTotalLoading] = useState(true);
   const [porkDishes, setPorkDishes] = useState(null);
   const [chickenDishes, setChickenDishes] = useState([]);
@@ -574,6 +576,7 @@ const Home = (props) => {
           setUser={props.setUser && props.setUser}
           cart={cart}
           setCart={setCart}
+          setAlertSnackbar={setAlertSnackbar}
           // ref={targetRef}
         />
       ) : (
@@ -611,8 +614,17 @@ const Home = (props) => {
         user={props.user}
         setUser={props.setUser}
         setOpenAddress={setOpenAddress}
+        setAlertSnackbar={setAlertSnackbar}
       />
       <LoadingBackdrop open={loading} />
+      <AlertSnackbar
+        open={alertSnackbar.open}
+        onClose={() =>
+          setAlertSnackbar((prevState) => ({ ...prevState, open: false }))
+        }
+        text={alertSnackbar.text}
+        severity={alertSnackbar.severity}
+      />
     </Box>
   );
 };

@@ -26,7 +26,8 @@ import MenuItem from "@mui/material/MenuItem";
 import PersonIcon from "@mui/icons-material/Person";
 import logo from "../../images/logo-32x32.png";
 import Link from "../Links/Link";
-import { Icon, ListItemIcon } from "@mui/material";
+import { Avatar, Icon, ListItemIcon } from "@mui/material";
+import Subtitle from "../Typography/Subtitle";
 
 const pages = [
   // { text: "Dishes", icon: "dinner_dining", to: "/meals" },
@@ -34,8 +35,8 @@ const pages = [
 ];
 const userPages = [
   { text: "Profile", icon: "person", to: "/my/profile" },
-  { text: "My favorites", icon: "favorite", to: "/my/favorites" },
-  { text: "My Orders", icon: "list", to: "/my/orders" },
+  { text: "Favorites", icon: "favorite", to: "/my/favorites" },
+  { text: "Orders", icon: "list", to: "/my/orders" },
   { text: "Account", icon: "manage_accounts", to: "/my/account" },
 
   // { text: "Logout", icon: "logout", to: "logout" },
@@ -60,10 +61,14 @@ function Navbar(props) {
         type: "LOGOUT",
         payload: null,
       });
-      props.setUser(null);
-      window.localStorage.removeItem("wdUser");
+      props.setUser((prevState) => {
+        prevState = {};
+        window.localStorage.setItem("wdUser", { ...prevState });
+        return { ...prevState };
+      });
+      // window.localStorage.removeItem("wdUser");
       navigate("/");
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -92,22 +97,47 @@ function Navbar(props) {
         pt: "4px",
       }}
     >
-      <Box sx={{ display: "flex", my: 1, pl: 2 }}>
-        <Typography component="a" href="/" sx={{ mr: 1 }}>
-          <img src={logo} alt="wuda lounge logo" width="30" height="30" />
-        </Typography>
-        <Typography
-          variant="h5"
-          noWrap
-          sx={{
-            // fontFamily: "monospace",
-            fontWeight: 700,
-            letterSpacing: ".1rem",
-            textDecoration: "none",
-          }}
-        >
-          <Link text="Wuda Lounge" to="/" color="#000" />
-        </Typography>
+      <Box my={1} px={2}>
+        {props.user && props.user._id ? (
+          <Box display="flex" justifyContent="left" alignItems="center">
+            <Avatar>{props.user.name.slice(0)[0]}</Avatar>
+            <Box ml={2}>
+              <Typography
+                variant="h5"
+                noWrap
+                sx={{
+                  // fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  textDecoration: "none",
+                }}
+              >
+                {props.user.name}
+              </Typography>
+              <Typography fontWeight={500}>{`0${props.user.phoneNumber.slice(
+                -9
+              )}`}</Typography>
+            </Box>
+          </Box>
+        ) : (
+          <Box sx={{ display: "flex" }}>
+            <Typography component="a" href="/" sx={{ mr: 1 }}>
+              <img src={logo} alt="wuda lounge logo" width="30" height="30" />
+            </Typography>
+            <Typography
+              variant="h5"
+              noWrap
+              sx={{
+                // fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".1rem",
+                textDecoration: "none",
+              }}
+            >
+              <Link text="Wuda Lounge" to="/" color="#000" />
+            </Typography>
+          </Box>
+        )}
       </Box>
 
       <List sx={{ height: "100%" }}>
