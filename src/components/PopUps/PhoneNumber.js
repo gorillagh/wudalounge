@@ -6,7 +6,6 @@ import {
   signInWithPhoneNumber,
   PhoneAuthProvider,
 } from "firebase/auth";
-import firebase from "firebase/app";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -16,10 +15,6 @@ import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
 import Zoom from "@mui/material/Zoom";
 import Countdown, { CountdownApi } from "react-countdown";
-
-import * as firebaseui from "firebaseui";
-import "firebaseui/dist/firebaseui.css";
-
 import PageTitle from "../Typography/PageTitle";
 import ActionButton from "../Buttons/ActionButton";
 import CircularLoading from "../Feedbacks/CircularLoading";
@@ -493,7 +488,7 @@ const PhoneNumber = (props) => {
                             <CircularLoading size={20} thickness={6} />
                           </Typography>
                         ) : (
-                          "Submit"
+                          "Finish"
                         )
                       }
                       onClick={handleUpdateName}

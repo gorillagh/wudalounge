@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
 import { v4 as uuid } from "uuid";
 import Modal from "@mui/material/Modal";
@@ -10,6 +11,7 @@ import {
   Button,
   Checkbox,
   Chip,
+  CircularProgress,
   Drawer,
   Fade,
   FormControlLabel,
@@ -23,7 +25,7 @@ import {
 import ActionButton from "../Buttons/ActionButton";
 import DishSizeCard from "../Cards/DishSizeCard";
 import DishExtrasCard from "../Cards/DishExtrasCard";
-import { changeFavorites } from "../../serverFunctions/user";
+import { changeFavorites, updateUser } from "../../serverFunctions/user";
 
 const style = {
   position: "absolute",
@@ -46,6 +48,9 @@ const Dish = (props) => {
   const [kitchenNotes, setKitchenNotes] = useState("");
   const [inCart, setInCart] = useState(false);
   const [numberIncart, setNumberIncart] = useState(0);
+  const [favoritesLoading, setFavoritesLoading] = useState(false);
+
+  const dispatch = useDispatch;
 
   const containerRef = React.useRef(null);
 
@@ -112,6 +117,11 @@ const Dish = (props) => {
             });
           }
         });
+      props.setAlertSnackbar({
+        open: true,
+        text: `Basket updated`,
+        severity: "success",
+      });
     } else {
       props.setCart((prevState) => {
         prevState.dishes
@@ -128,15 +138,16 @@ const Dish = (props) => {
         window.localStorage.setItem("wdCart", JSON.stringify({ ...prevState }));
         return { ...prevState };
       });
+      props.setAlertSnackbar({
+        open: true,
+        text: `${props.dish.dishQuantity} "${props.dish.name}" added to basket`,
+        severity: "success",
+      });
     }
 
     props.setDish({});
     setKitchenNotes("");
-    props.setAlertSnackbar({
-      open: true,
-      text: `${props.dish.dishQuantity} "${props.dish.name}" added to basket`,
-      severity: "success",
-    });
+
     props.onClose();
   };
 
@@ -175,36 +186,49 @@ const Dish = (props) => {
     props.onClose();
   };
 
-  const handleFavorites = (e) => {
-    if (props.user) {
-      if (
-        props.user.favorites &&
-        props.user.favorites.includes(props.dish._id) === false &&
-        e.target.checked
-      ) {
-        changeFavorites(props.user._id, props.dish._id, "add");
-        props.setUser((prevState) => {
-          prevState.favorites.push(props.dish._id);
+  const handleAddToFavorites = async (e) => {
+    setFavoritesLoading(true);
+    if (props.user && props.user._id) {
+      let favorites = props.user.favorites || [];
 
-          return { ...prevState };
+      if (favorites.includes(props.dish._id) === false && e.target.checked)
+        favorites.push(props.dish._id);
+
+      if (favorites.includes(props.dish._id) === true && !e.target.checked) {
+        favorites.map((f, i) => {
+          if (f === props.dish._id) favorites.splice(i, 1);
         });
-        // props.setLoadUser((prevState) => !prevState);
-      } else {
-        if (
-          props.user.favorites.length &&
-          props.user.favorites.includes(props.dish._id) === true &&
-          !e.target.checked
-        ) {
-          changeFavorites(props.user._id, props.dish._id, "remove");
-          props.setUser((prevState) => {
-            prevState.favorites.map((f, i) => {
-              if (f === props.dish._id) prevState.favorites.splice(i, 1);
-            });
-            return { ...prevState };
-          });
-          // props.setLoadUser((prevState) => !prevState);
-        }
       }
+
+      await updateUser(props.user._id, { favorites })
+        .then((res) => {
+          console.log(res.data);
+          let userInfo = {
+            _id: res.data._id,
+            phoneNumber: res.data.phoneNumber,
+            name: res.data.name,
+            email: res.data.email ? res.data.email : "",
+            role: res.data.role,
+            token: props.user.token,
+            favorites: res.data.favorites ? res.data.favorites : [],
+          };
+          props.setUser(userInfo);
+          dispatch({
+            type: "LOGGED_IN_USER",
+            payload: userInfo,
+          });
+          window.localStorage.setItem("wdUser", JSON.stringify(userInfo));
+          setFavoritesLoading(false);
+          props.setAlertSnackbar({
+            open: true,
+            text: `Added to favorites`,
+            severity: "success",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          setFavoritesLoading(false);
+        });
     }
   };
   return (
@@ -289,21 +313,37 @@ const Dish = (props) => {
                   title={props.dish.name}
                   fontWeight={700}
                   rightIcon={
-                    // props.user &&
-                    // props.user.favorites && (
+                    // props.user && props.user._id ? (
                     <FormControlLabel
+                      onClick={() => {
+                        if (props.user && props.user._id) return;
+                        props.setAlertSnackbar({
+                          open: true,
+                          text: `You need to sign to enable add to favorites`,
+                          severity: "error",
+                        });
+                      }}
                       sx={{ ml: 0 }}
                       control={
-                        <Checkbox
-                          // checked={props.user.favorites.includes(
-                          //   props.dish._id
-                          // )}
-                          // onChange={handleFavorites}
-                          icon={<Icon>favorite_border</Icon>}
-                          checkedIcon={<Icon>favorite</Icon>}
-                        />
+                        favoritesLoading ? (
+                          <CircularProgress size={20} sx={{ ml: 1 }} />
+                        ) : (
+                          <Checkbox
+                            disabled={
+                              props.user && props.user._id ? false : true
+                            }
+                            // checked={props.user.favorites.includes(
+                            //   props.dish._id
+                            // )}
+                            onChange={handleAddToFavorites}
+                            icon={<Icon>favorite_border</Icon>}
+                            checkedIcon={<Icon>favorite</Icon>}
+                          />
+                        )
                       }
                     />
+                    // ) : (
+                    //   ""
                     // )
                   }
                 />
