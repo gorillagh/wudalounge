@@ -61,14 +61,14 @@ function Navbar(props) {
         type: "LOGOUT",
         payload: null,
       });
-      props.setUser((prevState) => {
-        prevState = {};
-        window.localStorage.setItem("wdUser", { ...prevState });
-        return { ...prevState };
-      });
-      // window.localStorage.removeItem("wdUser");
+      // props.setUser((prevState) => {
+      //   prevState = {};
+      //   window.localStorage.setItem("wdUser", JSON.stringify({ ...prevState }));
+      //   return { ...prevState };
+      // });
+      window.localStorage.removeItem("wdUser");
       navigate("/");
-      // window.location.reload();
+      window.location.reload();
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -91,7 +91,7 @@ function Navbar(props) {
   };
   const drawer = (
     <Box
-      onClick={handleDrawerToggle}
+      // onClick={handleDrawerToggle}
       sx={{
         textAlign: "left",
         pt: "4px",
@@ -150,7 +150,7 @@ function Navbar(props) {
                   sx={{ textAlign: "left" }}
                 >
                   <ListItemIcon>
-                    <Icon sx={{ color: "#ea8255" }}>{item.icon}</Icon>
+                    <Icon sx={{ color: "primary.light" }}>{item.icon}</Icon>
                   </ListItemIcon>
                   <ListItemText key={index} primary={item.text} />
                 </ListItemButton>
@@ -164,10 +164,10 @@ function Navbar(props) {
             <ListItem disablePadding>
               <ListItemButton
                 sx={{ textAlign: "left" }}
-                onClick={() => handleNavigation("/login")}
+                onClick={() => props.setOpenPhoneNumber(true)}
               >
                 <ListItemIcon>
-                  <Icon sx={{ color: "#ea8255" }}>person</Icon>
+                  <Icon sx={{ color: "primary.light" }}>person</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Sign In" />
               </ListItemButton>

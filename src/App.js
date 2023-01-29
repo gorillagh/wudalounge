@@ -158,7 +158,6 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Navbar setUser={setUser} user={user} />
       <ToastContainer style={{ fontSize: "12px", fontWeight: "bold" }} />
       <Routes>
         <Route

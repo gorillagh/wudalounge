@@ -278,7 +278,7 @@ const PhoneNumber = (props) => {
             props.onClose();
           }}
           sx={{
-            background: "rgba(255, 255, 255, 0.8)",
+            background: "rgba(255, 255, 255, 0.85)",
             backdropFilter: "blur(5.8px)",
             WebkitBackdropFilter: "blur(5.8px)",
             width: "100%",
@@ -287,7 +287,7 @@ const PhoneNumber = (props) => {
         >
           <Box sx={style}>
             <Box my={2} display="flex" justifyContent="space-between">
-              <PageTitle my={0} title="Add Contact" />
+              <PageTitle my={0} title="Contact Info" />
               <Icon color="error" fontSize="large" onClick={props.onClose}>
                 close
               </Icon>

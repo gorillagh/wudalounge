@@ -40,6 +40,7 @@ import Basket from "../components/PopUps/Basket";
 import Address from "../components/PopUps/Address";
 import PhoneNumber from "../components/PopUps/PhoneNumber";
 import AlertSnackbar from "../components/Feedbacks/AlertSnackbar";
+import Navbar from "../components/Navbars/Navbar";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -362,6 +363,11 @@ const Home = (props) => {
 
   return (
     <Box>
+      <Navbar
+        setUser={props.setUser}
+        user={props.user}
+        setOpenPhoneNumber={setOpenPhoneNumber}
+      />
       <DishNavbar
         scrollTabValue={scrollTabValue}
         setScrollTabValue={setScrollTabValue}
