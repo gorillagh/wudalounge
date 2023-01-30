@@ -63,19 +63,19 @@ const PhoneNumber = (props) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (codeSent) {
-      setCount(600000);
-      const interval = setInterval(() => {
-        setCount((currentCount) => currentCount - 1000);
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [codeSent]);
+  // useEffect(() => {
+  //   if (codeSent) {
+  //     setCount(600000);
+  //     const interval = setInterval(() => {
+  //       setCount((currentCount) => currentCount - 1000);
+  //     }, 1000);
+  //     return () => clearInterval(interval);
+  //   }
+  // }, [codeSent]);
 
-  useEffect(() => {
-    count && count < 0 && setCodeSent(false);
-  }, [count]);
+  // useEffect(() => {
+  //   count && count < 0 && setCodeSent(false);
+  // }, [count]);
 
   useEffect(() => {
     props.user &&
@@ -291,8 +291,8 @@ const PhoneNumber = (props) => {
             <Box mt={3}>
               {/* ////////////////Phone Number section////////////////////// */}
               <Box display={!phoneNumberVerified ? "block" : "none"}>
-                <Typography fontWeight="bold">Phone number</Typography>
                 <Box display={codeSent && "none"}>
+                  <Typography fontWeight="bold">Phone number</Typography>
                   <Paper
                     component="form"
                     sx={{
@@ -336,6 +336,9 @@ const PhoneNumber = (props) => {
                 <Fade appear={true} in={codeSent} direction="left">
                   <Box display={codeSent ? "block" : "none"}>
                     <Box mb={2}>
+                      <Typography fontWeight="bold">
+                        Verification code
+                      </Typography>
                       <Paper
                         component="form"
                         sx={{
@@ -399,7 +402,7 @@ const PhoneNumber = (props) => {
                         <Icon fontSize="small">edit</Icon>
                       </IconButton>
                     </Box>
-                    <Typography textAlign="center" variant="body2">
+                    {/* <Typography textAlign="center" variant="body2">
                       The code expires in{" "}
                       {count &&
                         `${Math.floor(
@@ -407,7 +410,7 @@ const PhoneNumber = (props) => {
                         )}mins : ${Math.floor(
                           (count % (1000 * 60)) / 1000
                         )}secs`}
-                    </Typography>
+                    </Typography> */}
                   </Box>
                 </Fade>
                 <div id="main-container">

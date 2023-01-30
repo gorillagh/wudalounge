@@ -50,7 +50,7 @@ const Dish = (props) => {
   const [numberIncart, setNumberIncart] = useState(0);
   const [favoritesLoading, setFavoritesLoading] = useState(false);
 
-  const dispatch = useDispatch;
+  const dispatch = useDispatch();
 
   const containerRef = React.useRef(null);
 
@@ -189,20 +189,23 @@ const Dish = (props) => {
   const handleAddToFavorites = async (e) => {
     setFavoritesLoading(true);
     if (props.user && props.user._id) {
-      let favorites = props.user.favorites || [];
+      let favorites = [...props.user.favorites] || [];
+      let snackbarText = "";
 
-      if (favorites.includes(props.dish._id) === false && e.target.checked)
+      if (favorites.includes(props.dish._id) === false && e.target.checked) {
         favorites.push(props.dish._id);
+        snackbarText = `"${props.dish.name}" added to favorites`;
+      }
 
       if (favorites.includes(props.dish._id) === true && !e.target.checked) {
         favorites.map((f, i) => {
           if (f === props.dish._id) favorites.splice(i, 1);
         });
+        snackbarText = `"${props.dish.name}" removed from favorites`;
       }
 
       await updateUser(props.user._id, { favorites })
         .then((res) => {
-          console.log(res.data);
           let userInfo = {
             _id: res.data._id,
             phoneNumber: res.data.phoneNumber,
@@ -212,16 +215,19 @@ const Dish = (props) => {
             token: props.user.token,
             favorites: res.data.favorites ? res.data.favorites : [],
           };
-          props.setUser(userInfo);
+          props.setUser({ ...userInfo });
           dispatch({
             type: "LOGGED_IN_USER",
-            payload: userInfo,
+            payload: { ...userInfo },
           });
-          window.localStorage.setItem("wdUser", JSON.stringify(userInfo));
+          window.localStorage.setItem(
+            "wdUser",
+            JSON.stringify({ ...userInfo })
+          );
           setFavoritesLoading(false);
           props.setAlertSnackbar({
             open: true,
-            text: `Added to favorites`,
+            text: snackbarText,
             severity: "success",
           });
         })
@@ -319,7 +325,7 @@ const Dish = (props) => {
                         if (props.user && props.user._id) return;
                         props.setAlertSnackbar({
                           open: true,
-                          text: `You need to sign to enable add to favorites`,
+                          text: `Sign in to enable add to favorites`,
                           severity: "error",
                         });
                       }}
@@ -332,9 +338,11 @@ const Dish = (props) => {
                             disabled={
                               props.user && props.user._id ? false : true
                             }
-                            // checked={props.user.favorites.includes(
-                            //   props.dish._id
-                            // )}
+                            checked={
+                              props.user &&
+                              props.user.favorites &&
+                              props.user.favorites.includes(props.dish._id)
+                            }
                             onChange={handleAddToFavorites}
                             icon={<Icon>favorite_border</Icon>}
                             checkedIcon={<Icon>favorite</Icon>}

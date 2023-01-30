@@ -562,7 +562,7 @@ const Basket = (props) => {
                     >
                       <Icon fontSize="small">person</Icon>
                       <Typography ml={1}>
-                        Add address and contact info{" "}
+                        Add contact info and address{" "}
                         <Typography
                           fontWeight="bold"
                           component="span"
