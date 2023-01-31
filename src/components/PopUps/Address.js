@@ -1,27 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 
-import {
-  AppBar,
-  Chip,
-  CircularProgress,
-  Divider,
-  Grid,
-  Icon,
-  IconButton,
-  InputBase,
-  Paper,
-  Slide,
-  Toolbar,
-  Zoom,
-} from "@mui/material";
-import Subtitle from "../Typography/Subtitle";
+import { Icon, InputBase, Paper, Zoom } from "@mui/material";
 import PageTitle from "../Typography/PageTitle";
-import ActionButton from "../Buttons/ActionButton";
-import DeliveryPickupToggle from "../Buttons/DeliveryPickupToggle";
-import CircularLoading from "../Feedbacks/CircularLoading";
+import GooglePlacesAutoComplete from "../Inputs/GooglePlacesAutoComplete";
+import Autocomplete from "react-google-autocomplete";
+import { updateUser } from "../../serverFunctions/user";
+import { useDispatch } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -37,11 +23,52 @@ const style = {
 };
 
 const Address = (props) => {
-  const [address, setAddress] = useState("");
+  const [value, setValue] = useState(null);
+  const dispatch = useDispatch();
 
-  const handleSetAddress = async (e) => {
-    setAddress(e.target.value);
-  };
+  useEffect(() => {
+    const updateUserAddress = async () => {
+      if (props.user && props.user._id && value) {
+        await updateUser(props.user._id, { addresses: [value] })
+          .then((res) => {
+            console.log(res.data);
+            let userInfo = {
+              _id: res.data._id,
+              phoneNumber: res.data.phoneNumber,
+              name: res.data.name,
+              email: res.data.email ? res.data.email : "",
+              addresses: res.data.addresses ? res.data.addresses : [],
+              role: res.data.role,
+              token: props.user.token,
+              favorites: res.data.favorites ? res.data.favorites : [],
+            };
+            props.setUser(userInfo);
+            dispatch({
+              type: "LOGGED_IN_USER",
+              payload: userInfo,
+            });
+            window.localStorage.setItem("wdUser", JSON.stringify(userInfo));
+
+            props.setAlertSnackbar({
+              open: true,
+              text: "Address added",
+              severity: "success",
+            });
+            props.onClose();
+            setValue(null);
+          })
+          .catch((error) => {
+            console.log(error);
+            props.setAlertSnackbar({
+              open: true,
+              text: `An error occured while adding address. Please try again.`,
+              severity: "error",
+            });
+          });
+      }
+    };
+    updateUserAddress();
+  }, [value]);
 
   const containerRef = React.useRef(null);
   return (
@@ -51,21 +78,6 @@ const Address = (props) => {
       open={props.open}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      // slots={{
-      //   backdrop: () => (
-      //
-      //       <Box
-      //         sx={{
-      //           background: "rgba(0, 0, 0, 0.05)",
-      //           backdropFilter: "blur(5.8px)",
-      //           "-webkit-backdrop-filter": "blur(5.8px)",
-      //           width: "100%",
-      //           height: "100%",
-      //         }}
-      //         onClick={props.close}
-      //       />
-      //   ),
-      // }}
       ref={containerRef}
       sx={{ width: { md: "60%" }, left: { md: "20%" } }}
     >
@@ -98,37 +110,7 @@ const Address = (props) => {
                 close
               </Icon>
             </Box>
-            <Paper
-              component="form"
-              sx={{
-                borderRadius: "20px",
-                p: "2px 4px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                placeholder="Search Google Maps"
-                inputProps={{ "aria-label": "search google maps" }}
-                value={address}
-                onChange={handleSetAddress}
-              />
-            </Paper>
-
-            {address && address.length ? (
-              <Box
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-              >
-                <Typography mt={4} textAlign="center">
-                  Under maintenance...!
-                </Typography>
-              </Box>
-            ) : (
-              ""
-            )}
+            <GooglePlacesAutoComplete value={value} setValue={setValue} />
           </Box>
         </Box>
       </Zoom>

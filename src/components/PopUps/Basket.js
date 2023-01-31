@@ -518,7 +518,7 @@ const Basket = (props) => {
                         <>
                           <Divider sx={{ my: 1 }} />
                           <Box
-                            color={!props.user.address && "info.main"}
+                            color={!props.user.addresses.length && "info.main"}
                             display="flex"
                             py={1}
                             onClick={() => props.setOpenAddress(true)}
@@ -526,13 +526,15 @@ const Basket = (props) => {
                           >
                             <Icon fontSize="small">location_on</Icon>
                             <Typography ml={1}>
-                              {props.user.addresses
-                                ? props.user.addresses[0]
+                              {props.user.addresses &&
+                              props.user.addresses.length
+                                ? props.user.addresses[0].description
                                 : "Add address"}
                               <Typography
                                 fontWeight="bold"
                                 component="span"
                                 color="primary"
+                                display={props.user.addresses.length && "none"}
                               >
                                 *
                               </Typography>

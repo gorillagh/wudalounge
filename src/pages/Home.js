@@ -614,7 +614,13 @@ const Home = (props) => {
         setOpenPhoneNumber={setOpenPhoneNumber}
         user={props.user}
       />
-      <Address open={openAddress} onClose={() => setOpenAddress(false)} />
+      <Address
+        open={openAddress}
+        onClose={() => setOpenAddress(false)}
+        user={props.user}
+        setUser={props.setUser}
+        setAlertSnackbar={setAlertSnackbar}
+      />
       <PhoneNumber
         open={openPhoneNumber}
         onClose={() => setOpenPhoneNumber(false)}

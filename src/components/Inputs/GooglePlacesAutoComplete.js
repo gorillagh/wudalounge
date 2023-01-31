@@ -1,0 +1,192 @@
+import React, { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import parse from "autosuggest-highlight/parse";
+import { debounce } from "@mui/material/utils";
+import { Icon, IconButton, InputBase, Paper } from "@mui/material";
+
+const GOOGLE_MAPS_API_KEY = "AIzaSyBUNiy764By_bUWiwxznHuNOnV5liv2iqk";
+
+function loadScript(src, position, id) {
+  if (!position) {
+    return;
+  }
+
+  const script = document.createElement("script");
+  script.setAttribute("async", "");
+  script.setAttribute("id", id);
+  script.src = src;
+  position.appendChild(script);
+}
+
+const autocompleteService = { current: null };
+
+export default function GooglePlacesAutoComplete(props) {
+  const [inputValue, setInputValue] = useState("");
+  const [options, setOptions] = useState([]);
+  const loaded = React.useRef(false);
+
+  if (typeof window !== "undefined" && !loaded.current) {
+    if (!document.querySelector("#google-maps")) {
+      loadScript(
+        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`,
+        document.querySelector("head"),
+        "google-maps"
+      );
+    }
+
+    loaded.current = true;
+  }
+
+  const fetch = React.useMemo(
+    () =>
+      debounce((request, callback) => {
+        autocompleteService.current.getPlacePredictions(request, callback);
+      }, 400),
+    []
+  );
+
+  React.useEffect(() => {
+    let active = true;
+
+    if (!autocompleteService.current && window.google) {
+      autocompleteService.current =
+        new window.google.maps.places.AutocompleteService();
+    }
+    if (!autocompleteService.current) {
+      return undefined;
+    }
+
+    if (inputValue === "") {
+      setOptions(props.value ? [props.value] : []);
+      return undefined;
+    }
+
+    fetch(
+      { input: inputValue, componentRestrictions: { country: "gh" } },
+      (results) => {
+        if (active) {
+          let newOptions = [];
+
+          if (props.value) {
+            newOptions = [props.value];
+          }
+
+          if (results) {
+            newOptions = [...newOptions, ...results];
+          }
+
+          setOptions(newOptions);
+        }
+      }
+    );
+
+    return () => {
+      active = false;
+    };
+  }, [props.value, inputValue, fetch]);
+
+  return (
+    <Autocomplete
+      id="google-map-demo"
+      getOptionLabel={(option) =>
+        typeof option === "string" ? option : option.description
+      }
+      filterOptions={(x) => x}
+      options={options}
+      autoComplete
+      includeInputInList
+      filterSelectedOptions
+      value={props.value}
+      noOptionsText="No locations"
+      onChange={(event, newValue) => {
+        setOptions(newValue ? [newValue, ...options] : options);
+        props.setValue(newValue);
+        console.log(newValue);
+      }}
+      onInputChange={(event, newInputValue) => {
+        setInputValue(newInputValue);
+      }}
+      renderInput={(params) => (
+        // <TextField
+        //   sx={{ backgroundColor: "#fff" }}
+        //   {...params}
+        //   placeholder="Search Google Maps"
+        //   fullWidth
+        // />
+        <div ref={params.InputProps.ref}>
+          <Paper
+            component="form"
+            sx={{
+              borderRadius: "20px",
+              p: "4px 4px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <InputBase
+              size="large"
+              {...params.inputProps}
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="Search Google Maps"
+              inputProps={{ "aria-label": "search google maps" }}
+            />
+            {inputValue && inputValue.length ? (
+              <IconButton
+                onClick={() => props.setValue(null)}
+                color="error"
+                sx={{ p: "10px" }}
+                aria-label="directions"
+              >
+                <Icon>clear</Icon>
+              </IconButton>
+            ) : (
+              ""
+            )}
+          </Paper>
+        </div>
+      )}
+      renderOption={(props, option) => {
+        const matches =
+          option.structured_formatting.main_text_matched_substrings || [];
+
+        const parts = parse(
+          option.structured_formatting.main_text,
+          matches.map((match) => [match.offset, match.offset + match.length])
+        );
+
+        return (
+          <li {...props}>
+            <Grid container alignItems="center">
+              <Grid item sx={{ display: "flex", width: 44 }}>
+                <LocationOnIcon sx={{ color: "text.secondary" }} />
+              </Grid>
+              <Grid
+                item
+                sx={{ width: "calc(100% - 44px)", wordWrap: "break-word" }}
+              >
+                {parts.map((part, index) => (
+                  <Box
+                    key={index}
+                    component="span"
+                    sx={{ fontWeight: part.highlight ? "bold" : "regular" }}
+                  >
+                    {part.text}
+                  </Box>
+                ))}
+
+                <Typography variant="body2" color="text.secondary">
+                  {option.structured_formatting.secondary_text}
+                </Typography>
+              </Grid>
+            </Grid>
+          </li>
+        );
+      }}
+    />
+  );
+}
