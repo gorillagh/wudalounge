@@ -211,6 +211,7 @@ const Dish = (props) => {
             phoneNumber: res.data.phoneNumber,
             name: res.data.name,
             email: res.data.email ? res.data.email : "",
+            addresses: res.data.addresses ? res.data.addresses : [],
             role: res.data.role,
             token: props.user.token,
             favorites: res.data.favorites ? res.data.favorites : [],

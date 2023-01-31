@@ -103,23 +103,22 @@ const Basket = (props) => {
     setTotals(itemsTotals);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    //
-  };
   const handleDishSelect = (d, dishPosition) => {
     props.setSelectedDish(d);
     props.setOpenDishModal(true);
   };
 
-  const handleRemoveDish = (dish) => {
-    //
-  };
   const clearBasket = () => {
     if (window.confirm("Are you sure you want to clear your basket?")) {
       window.localStorage.removeItem("wdCart");
       props.setCart({});
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("basket----->", props.cart);
+    console.log("user------->", props.user);
   };
 
   return (
@@ -518,7 +517,12 @@ const Basket = (props) => {
                         <>
                           <Divider sx={{ my: 1 }} />
                           <Box
-                            color={!props.user.addresses.length && "info.main"}
+                            color={
+                              props.user &&
+                              props.user.addresses &&
+                              props.user.addresses.length < 1 &&
+                              "info.main"
+                            }
                             display="flex"
                             py={1}
                             onClick={() => props.setOpenAddress(true)}
@@ -534,7 +538,12 @@ const Basket = (props) => {
                                 fontWeight="bold"
                                 component="span"
                                 color="primary"
-                                display={props.user.addresses.length && "none"}
+                                display={
+                                  props.user &&
+                                  props.user.addresses &&
+                                  props.user.addresses.length &&
+                                  "none"
+                                }
                               >
                                 *
                               </Typography>
@@ -827,6 +836,7 @@ const Basket = (props) => {
                       </Select>
                     </Box>
                     <ActionButton
+                      onClick={handleSubmit}
                       fontWeight="bold"
                       text={
                         <>
