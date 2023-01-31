@@ -325,7 +325,25 @@ const Dish = (props) => {
                         if (props.user && props.user._id) return;
                         props.setAlertSnackbar({
                           open: true,
-                          text: `Sign in to enable add to favorites`,
+                          text: (
+                            <Typography
+                              variant="body2"
+                              color="info.main"
+                              onClick={() => {
+                                props.setAlertSnackbar({ status: false });
+                                props.setOpenPhoneNumber(true);
+                              }}
+                            >
+                              Sign in{" "}
+                              <Typography
+                                variant="body2"
+                                component="span"
+                                color="text.primary"
+                              >
+                                to enable add to favorites
+                              </Typography>
+                            </Typography>
+                          ),
                           severity: "error",
                         });
                       }}

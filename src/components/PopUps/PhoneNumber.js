@@ -78,14 +78,20 @@ const PhoneNumber = (props) => {
   // }, [count]);
 
   useEffect(() => {
-    props.user &&
+    if (
+      props.user &&
+      props.user.phoneNumber &&
       props.user.name &&
-      props.user.name !== "Wd User" &&
+      props.user.name !== "Wd User"
+    ) {
+      setPhoneNumber(props.user.phoneNumber.slice(-9));
       setUserName(props.user.name);
+    }
   }, [props.user]);
 
   const handleGetCode = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (phoneNumber.length < 9 || phoneNumber.length > 13) {
       setPhoneNumberError({
         status: true,
@@ -93,6 +99,16 @@ const PhoneNumber = (props) => {
       });
       return;
     }
+    if (
+      props.user &&
+      props.user.phoneNumber &&
+      phoneNumber === props.user.phoneNumber
+    ) {
+      setPhoneNumberVerified(true);
+      setLoading(false);
+      return;
+    }
+
     const validatedPhoneNumber = `+233${phoneNumber.slice(-9)}`;
 
     if (appVerifier) {
@@ -108,7 +124,7 @@ const PhoneNumber = (props) => {
       },
       auth
     );
-    setLoading(true);
+
     setAppVerifier(window.recaptchaVerifier);
     signInWithPhoneNumber(auth, validatedPhoneNumber, window.recaptchaVerifier)
       .then((confirmationResult) => {
@@ -206,6 +222,7 @@ const PhoneNumber = (props) => {
       return;
     }
     if (userName === props.user.name) {
+      setPhoneNumberVerified(false);
       props.onClose();
       return;
     }
@@ -234,6 +251,7 @@ const PhoneNumber = (props) => {
           severity: "success",
         });
         props.onClose();
+        setPhoneNumberVerified(false);
         if (props.user.address && props.user.address.length) {
           props.setOpenAddress(true);
         }
@@ -315,6 +333,7 @@ const PhoneNumber = (props) => {
                       placeholder="Enter phone number"
                       inputProps={{ "aria-label": "enter phone number" }}
                       value={phoneNumber}
+                      // value="240298910"
                       onChange={(e) => {
                         setPhoneNumberError({ status: false, message: "" });
                         setPhoneNumber(e.target.value);
@@ -428,11 +447,25 @@ const PhoneNumber = (props) => {
                         </Typography>
                       ) : codeSent ? (
                         "Submit"
+                      ) : props.user &&
+                        props.user.phoneNumber &&
+                        props.user.phoneNumber.slice(-9) ===
+                          phoneNumber.slice(-9) ? (
+                        "Next"
                       ) : (
                         "Get verification code"
                       )
                     }
-                    onClick={codeSent ? handleSubmit : handleGetCode}
+                    onClick={
+                      codeSent
+                        ? handleSubmit
+                        : props.user &&
+                          props.user.phoneNumber &&
+                          props.user.phoneNumber.slice(-9) ===
+                            phoneNumber.slice(-9)
+                        ? () => setPhoneNumberVerified(true)
+                        : handleGetCode
+                    }
                   />
                 </Box>
               </Box>
