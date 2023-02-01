@@ -22,7 +22,7 @@ const LoadingBackdrop = (props) => {
         }}
         open={props.open}
       >
-        <Box sx={{ width: "20%" }}>
+        <Box sx={{ width: "11%" }}>
           <CircularLoading color="inherit" />
         </Box>
       </Backdrop>

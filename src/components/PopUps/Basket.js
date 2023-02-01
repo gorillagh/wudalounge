@@ -25,6 +25,9 @@ import PageTitle from "../Typography/PageTitle";
 import ActionButton from "../Buttons/ActionButton";
 import DeliveryPickupToggle from "../Buttons/DeliveryPickupToggle";
 import CircularLoading from "../Feedbacks/CircularLoading";
+import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";
+import { createPayment } from "../../serverFunctions/payment";
+import PaymentConfirmation from "./PaymentConfirmation";
 
 const style = {
   position: "absolute",
@@ -58,11 +61,13 @@ const tips = [
   { label: "GHC10", value: 10 },
 ];
 const Basket = (props) => {
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [selectedDish, setSelectedDish] = useState({});
+  const [loading, setLoading] = useState(false);
   const [selectedTip, setSelectedTip] = useState(null);
   const [notes, setNotes] = useState("");
   const [totals, setTotals] = useState([]);
+  const [finalTotal, setFinalTotal] = useState(0);
+  const [finalTotalAfterDiscount, setFinalTotalAfterDiscount] = useState(0);
+  const [openPaymentConfirmation, setOpenPaymentConfirmation] = useState(false);
 
   const containerRef = React.useRef(null);
 
@@ -115,10 +120,20 @@ const Basket = (props) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("basket----->", props.cart);
-    console.log("user------->", props.user);
+    setLoading(true);
+    try {
+      const response = await createPayment(props.user._id, props.cart);
+      console.log(response.data);
+      setFinalTotal(response.data.total);
+      setFinalTotalAfterDiscount(response.data.totalAfterDiscount);
+      setOpenPaymentConfirmation(true);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
 
   return (
@@ -158,7 +173,7 @@ const Basket = (props) => {
         <Box
           onClick={(e) => {
             if (e.currentTarget !== e.target) return;
-            props.close();
+            props.onClose();
           }}
           sx={{
             background: "rgba(0, 0, 0, 0.2)",
@@ -894,6 +909,21 @@ const Basket = (props) => {
               </Box>
             )}
           </Box>
+          {props.user && props.cart ? (
+            <PaymentConfirmation
+              open={openPaymentConfirmation}
+              onClose={() => setOpenPaymentConfirmation(false)}
+              finalTotal={finalTotal}
+              finalTotalAfterDiscount={finalTotalAfterDiscount}
+              user={props.user}
+              cart={props.cart}
+              setCart={props.setCart}
+              closeBasket={() => props.onClose()}
+            />
+          ) : (
+            ""
+          )}
+          <LoadingBackdrop open={loading} />
         </Box>
       </Slide>
     </Modal>

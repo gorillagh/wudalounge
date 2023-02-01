@@ -605,7 +605,7 @@ const Home = (props) => {
         setCart={setCart}
         discount={discount}
         open={openBasket}
-        close={() => setOpenBasket(false)}
+        onClose={() => setOpenBasket(false)}
         cartTotal={cartTotal}
         setCartTotal={setCartTotal}
         setOpenDishModal={setOpenDishModal}
