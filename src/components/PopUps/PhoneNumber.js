@@ -253,7 +253,7 @@ const PhoneNumber = (props) => {
         });
         props.onClose();
         setPhoneNumberVerified(false);
-        if (props.user.address && props.user.address.length) {
+        if (!props.user.address || !props.user.address.length) {
           props.setOpenAddress(true);
         }
       })

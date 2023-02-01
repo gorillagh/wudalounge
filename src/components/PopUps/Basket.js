@@ -122,6 +122,9 @@ const Basket = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //
+    //Add notes to cart here
+    //
     setLoading(true);
     try {
       const response = await createPayment(props.user._id, props.cart);
@@ -154,7 +157,7 @@ const Basket = (props) => {
       //           width: "100%",
       //           height: "100%",
       //         }}
-      //         onClick={props.close}
+      //         onClick={props.onClose}
       //       />
       //   ),
       // }}
@@ -188,7 +191,7 @@ const Basket = (props) => {
             //   onClick={() => {
             //     if (props.cart && props.cart.dishes && props.cart.dishes.length)
             //       return;
-            //     props.close();
+            //     props.onClose();
             //   }}
           >
             <Box>
@@ -207,7 +210,7 @@ const Basket = (props) => {
                 <Grid container spacing={1} justifyContent="space-between">
                   <Grid item xs={3} textAlign="left">
                     {/* <Typography textAlign="right"> */}
-                    <Icon onClick={props.close} sx={{ cursor: "pointer" }}>
+                    <Icon onClick={props.onClose} sx={{ cursor: "pointer" }}>
                       arrow_back
                     </Icon>
                     {/* </Typography> */}
@@ -462,7 +465,7 @@ const Basket = (props) => {
                     <Box
                       display="flex"
                       py={2}
-                      onClick={props.close}
+                      onClick={props.onClose}
                       sx={{ cursor: "pointer" }}
                     >
                       <Icon color="primary">add_circle</Icon>
@@ -896,7 +899,7 @@ const Basket = (props) => {
                     props.cart.dishes.length
                   )
                     return;
-                  props.close();
+                  props.onClose();
                 }}
               >
                 <Box
