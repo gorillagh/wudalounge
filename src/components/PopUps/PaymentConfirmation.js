@@ -3,10 +3,11 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import PageTitle from "../Typography/PageTitle";
 import { PaystackButton } from "react-paystack";
-import { filledInputClasses, Icon, Typography } from "@mui/material";
+import { Icon, Typography } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
 import { verifyTransactionAndCreateOrder } from "../../serverFunctions/payment";
 import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";
+import ActionButton from "../Buttons/ActionButton";
 
 const style = {
   position: "absolute",
@@ -22,6 +23,21 @@ const style = {
 
 const PaymentConfirmation = (props) => {
   const [loading, setLoading] = useState(false);
+  const handleCashOrder = async () => {
+    try {
+      setLoading(true);
+      await verifyTransactionAndCreateOrder(props.user._id, {}, props.cart);
+      props.onClose();
+      window.localStorage.removeItem("wdCart");
+      props.setCart({});
+      props.closeBasket();
+      setLoading(false);
+      props.setOpenOrders(true);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
   const handlePaymentComplete = async (response) => {
     try {
       setLoading(true);
@@ -38,7 +54,7 @@ const PaymentConfirmation = (props) => {
       setLoading(false);
       props.setOpenOrders(true);
     } catch (error) {
-      setLoading(filledInputClasses);
+      setLoading(false);
       console.log(error);
     }
   };
@@ -93,13 +109,32 @@ const PaymentConfirmation = (props) => {
                 close
               </Icon>
             </Box>
-            <Typography variant="body2" my={2}>
-              Your payment will be completed with Paystack
-            </Typography>
-            <PaystackButton
-              {...paystackButtonProps}
-              className="paystack-button"
-            />
+            {props.cart.paymentMethod && props.cart.paymentMethod === "cash" ? (
+              <Box>
+                <Typography variant="body2" my={2}>
+                  Please pay a cash amount of{" "}
+                  <Typography variant="body2" component="span" fontWeight={600}>
+                    GHC{props.finalTotalAfterDiscount}
+                  </Typography>{" "}
+                  on arrival
+                </Typography>
+                <ActionButton
+                  text="Place order"
+                  my={0}
+                  onClick={handleCashOrder}
+                />
+              </Box>
+            ) : (
+              <Box>
+                <Typography variant="body2" my={2}>
+                  Your payment will be completed with Paystack
+                </Typography>
+                <PaystackButton
+                  {...paystackButtonProps}
+                  className="paystack-button"
+                />
+              </Box>
+            )}
           </Box>
           <LoadingBackdrop open={loading} />
         </Box>
