@@ -68,10 +68,13 @@ const Basket = (props) => {
   const [finalTotal, setFinalTotal] = useState(0);
   const [finalTotalAfterDiscount, setFinalTotalAfterDiscount] = useState(0);
   const [openPaymentConfirmation, setOpenPaymentConfirmation] = useState(false);
+  const [borderError, setBorderError] = useState("");
 
   const containerRef = React.useRef(null);
+  const scrollRef = React.useRef(null);
 
   useEffect(() => {
+    props.cart && props.cart.notes && setNotes(props.cart.notes);
     props.cart && props.cart.riderTip
       ? setSelectedTip(props.cart.riderTip)
       : setSelectedTip(0);
@@ -122,9 +125,53 @@ const Basket = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //
-    //Add notes to cart here
-    //
+
+    props.setCart((prevState) => {
+      window.localStorage.setItem(
+        "wdCart",
+        JSON.stringify({ ...prevState, notes })
+      );
+      return { ...prevState, notes };
+    });
+    console.log(props.cart);
+    if (!props.user || !props.user._id) {
+      props.setAlertSnackbar({
+        open: true,
+        text: "Please add your contact details to proceed",
+        severity: "error",
+      });
+      scrollRef.current.scrollTo({
+        top: window.document.getElementById("contact-info").offsetTop - 250,
+        behavior: "smooth",
+      });
+      setBorderError("3px solid #ff0220");
+      setTimeout(() => {
+        setBorderError("");
+      }, 30000);
+
+      return;
+    }
+    if (
+      props.cart.deliveryMode === "delivery" &&
+      !props.user.addresses.length
+    ) {
+      props.setAlertSnackbar({
+        open: true,
+        text: "Please add delivery address to proceed",
+        severity: "error",
+      });
+      scrollRef.current.scrollTo({
+        top: window.document.getElementById("contact-info").offsetTop - 250,
+        behavior: "smooth",
+      });
+      setBorderError("3px solid #ff0220");
+      setTimeout(() => {
+        setBorderError("");
+      }, 30000);
+
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await createPayment(props.user._id, props.cart);
@@ -187,6 +234,7 @@ const Basket = (props) => {
           }}
         >
           <Box
+            ref={scrollRef}
             sx={style}
             //   onClick={() => {
             //     if (props.cart && props.cart.dishes && props.cart.dishes.length)
@@ -497,8 +545,10 @@ const Basket = (props) => {
                   mb={1}
                 />
                 <Box
+                  id="contact-info"
                   sx={{
                     ...cardStyle,
+                    border: borderError,
                   }}
                 >
                   {props.user && props.user._id ? (
@@ -536,21 +586,25 @@ const Basket = (props) => {
                           <Divider sx={{ my: 1 }} />
                           <Box
                             color={
-                              props.user &&
-                              props.user.addresses &&
-                              props.user.addresses.length < 1 &&
-                              "info.main"
+                              !props.user ||
+                              !props.user.addresses ||
+                              (!props.user.addresses.length && "info.main")
                             }
                             display="flex"
                             py={1}
-                            onClick={() => props.setOpenAddress(true)}
+                            onClick={() => {
+                              setBorderError("");
+                              props.setOpenAddress(true);
+                            }}
                             sx={{ cursor: "pointer" }}
                           >
                             <Icon fontSize="small">location_on</Icon>
                             <Typography ml={1}>
-                              {props.user.addresses &&
-                              props.user.addresses.length
-                                ? props.user.addresses[0].description
+                              {props.user &&
+                              props.user.addresses &&
+                              props.user.addresses.length > 0
+                                ? props.user.addresses[0] &&
+                                  props.user.addresses[0].description
                                 : "Add address"}
                               <Typography
                                 fontWeight="bold"
@@ -585,7 +639,10 @@ const Basket = (props) => {
                     <Box
                       display="flex"
                       py={1}
-                      onClick={() => props.setOpenPhoneNumber(true)}
+                      onClick={() => {
+                        setBorderError("");
+                        props.setOpenPhoneNumber(true);
+                      }}
                       sx={{ cursor: "pointer" }}
                       color="info.main"
                     >
@@ -834,7 +891,9 @@ const Basket = (props) => {
                             <Icon sx={{ mr: 1 }} fontSize="small">
                               payments
                             </Icon>
-                            <Typography>Card/Mobile money</Typography>
+                            <Typography fontWeight={700}>
+                              Card/Mobile money
+                            </Typography>
                           </Box>
                         </MenuItem>
                         {/* <MenuItem value="">
@@ -848,7 +907,7 @@ const Basket = (props) => {
                             <Icon sx={{ mr: 1 }} fontSize="small">
                               money
                             </Icon>
-                            <Typography>Cash</Typography>
+                            <Typography fontWeight={700}>Cash</Typography>
                           </Box>
                         </MenuItem>
                       </Select>
@@ -922,6 +981,7 @@ const Basket = (props) => {
               cart={props.cart}
               setCart={props.setCart}
               closeBasket={() => props.onClose()}
+              setOpenOrders={props.setOpenOrders}
             />
           ) : (
             ""

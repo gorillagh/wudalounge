@@ -25,3 +25,7 @@ export const updateUser = async (id, data) => {
     data
   );
 };
+
+export const getOrders = async (id) => {
+  return await axios.get(`${process.env.REACT_APP_API_URL}/get-orders/${id}`);
+};

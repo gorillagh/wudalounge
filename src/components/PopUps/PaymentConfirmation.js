@@ -36,6 +36,7 @@ const PaymentConfirmation = (props) => {
       props.setCart({});
       props.closeBasket();
       setLoading(false);
+      props.setOpenOrders(true);
     } catch (error) {
       setLoading(filledInputClasses);
       console.log(error);

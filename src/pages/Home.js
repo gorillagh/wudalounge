@@ -41,6 +41,10 @@ import Address from "../components/PopUps/Address";
 import PhoneNumber from "../components/PopUps/PhoneNumber";
 import AlertSnackbar from "../components/Feedbacks/AlertSnackbar";
 import Navbar from "../components/Navbars/Navbar";
+import Orders from "../components/PopUps/Orders";
+import Profile from "../components/PopUps/Profile";
+import Favorites from "../components/PopUps/Favorites";
+import Account from "../components/PopUps/Account";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -268,10 +272,10 @@ const Home = (props) => {
   const [openBasket, setOpenBasket] = useState(false);
   const [openAddress, setOpenAddress] = useState(false);
   const [openPhoneNumber, setOpenPhoneNumber] = useState(false);
-  const [fromBasket, setFromBasket] = useState({
-    status: false,
-    dishPosition: null,
-  });
+  const [openProfile, setOpenProfile] = useState(false);
+  const [openFavorites, setOpenFavorites] = useState(false);
+  const [openOrders, setOpenOrders] = useState(false);
+  const [openAccount, setOpenAccount] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -367,6 +371,10 @@ const Home = (props) => {
         setUser={props.setUser}
         user={props.user}
         setOpenPhoneNumber={setOpenPhoneNumber}
+        setOpenProfile={setOpenProfile}
+        setOpenFavorites={setOpenFavorites}
+        setOpenOrders={setOpenOrders}
+        setOpenAccount={setOpenAccount}
       />
       <DishNavbar
         scrollTabValue={scrollTabValue}
@@ -613,14 +621,10 @@ const Home = (props) => {
         setOpenAddress={setOpenAddress}
         setOpenPhoneNumber={setOpenPhoneNumber}
         user={props.user}
-      />
-      <Address
-        open={openAddress}
-        onClose={() => setOpenAddress(false)}
-        user={props.user}
-        setUser={props.setUser}
         setAlertSnackbar={setAlertSnackbar}
+        setOpenOrders={setOpenOrders}
       />
+
       <PhoneNumber
         open={openPhoneNumber}
         onClose={() => setOpenPhoneNumber(false)}
@@ -629,6 +633,40 @@ const Home = (props) => {
         setOpenAddress={setOpenAddress}
         setAlertSnackbar={setAlertSnackbar}
       />
+      {props.user ? (
+        <>
+          <Address
+            open={openAddress}
+            onClose={() => setOpenAddress(false)}
+            user={props.user}
+            setUser={props.setUser}
+            setAlertSnackbar={setAlertSnackbar}
+          />
+          <Profile
+            open={openProfile}
+            onClose={() => setOpenProfile(false)}
+            user={props.user}
+          />
+          <Favorites
+            open={openFavorites}
+            onClose={() => setOpenFavorites(false)}
+            user={props.user}
+          />
+          <Orders
+            open={openOrders}
+            onClose={() => setOpenOrders(false)}
+            user={props.user}
+          />
+          <Account
+            open={openAccount}
+            onClose={() => setOpenAccount(false)}
+            user={props.user}
+          />
+        </>
+      ) : (
+        ""
+      )}
+
       <LoadingBackdrop open={loading} />
       <AlertSnackbar
         open={alertSnackbar.open}

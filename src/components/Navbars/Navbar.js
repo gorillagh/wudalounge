@@ -29,20 +29,28 @@ import Link from "../Links/Link";
 import { Avatar, Icon, ListItemIcon } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
 
-const pages = [
-  // { text: "Dishes", icon: "dinner_dining", to: "/meals" },
-  { text: "About Us", icon: "info", to: "/about/us" },
-];
-const userPages = [
-  { text: "Profile", icon: "person", to: "/my/profile" },
-  { text: "Favorites", icon: "favorite", to: "/my/favorites" },
-  { text: "Orders", icon: "list", to: "/my/orders" },
-  { text: "Account", icon: "manage_accounts", to: "/my/account" },
-
-  // { text: "Logout", icon: "logout", to: "logout" },
-];
-
 function Navbar(props) {
+  const pages = [
+    // { text: "Dishes", icon: "dinner_dining", to: "/meals" },
+    { text: "About Us", icon: "info", to: "/about/us" },
+  ];
+  const userPages = [
+    { text: "Profile", icon: "person", to: () => props.setOpenProfile(true) },
+    {
+      text: "Favorites",
+      icon: "favorite",
+      to: () => props.setOpenFavorites(true),
+    },
+    { text: "Orders", icon: "list", to: () => props.setOpenOrders(true) },
+    {
+      text: "Account",
+      icon: "manage_accounts",
+      to: () => props.setOpenAccount(true),
+    },
+
+    // { text: "Logout", icon: "logout", to: "logout" },
+  ];
+
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   // const { window } = props;
@@ -145,7 +153,7 @@ function Navbar(props) {
           ? userPages.map((item, index) => (
               <ListItem key={index} disablePadding>
                 <ListItemButton
-                  onClick={() => handleNavigation(item.to)}
+                  onClick={() => item.to()}
                   key={index}
                   sx={{ textAlign: "left" }}
                 >
