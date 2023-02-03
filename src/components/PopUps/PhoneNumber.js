@@ -174,16 +174,20 @@ const PhoneNumber = (props) => {
               phoneNumber: res.data.phoneNumber,
               name: res.data.name,
               email: res.data.email ? res.data.email : "",
+              addresses: res.data.addresses ? [...res.data.addresses] : [],
               role: res.data.role,
               token: idTokenResult.token,
-              favorites: res.data.favorites ? res.data.favorites : [],
+              favorites: res.data.favorites ? [...res.data.favorites] : [],
             };
-            window.localStorage.setItem("wdUser", JSON.stringify(userInfo));
-            props.setUser(userInfo);
+            window.localStorage.setItem(
+              "wdUser",
+              JSON.stringify({ ...userInfo })
+            );
+            props.setUser({ ...userInfo });
             // send response data to redux store
             dispatch({
               type: "LOGGED_IN_USER",
-              payload: userInfo,
+              payload: { ...userInfo },
             });
             setPhoneNumber("");
             setCode("");
@@ -224,6 +228,9 @@ const PhoneNumber = (props) => {
     if (userName === props.user.name) {
       setPhoneNumberVerified(false);
       props.onClose();
+      if (props.user.addresses.length < 1) {
+        props.setOpenAddress(true);
+      }
       return;
     }
     await updateUser(props.user._id, { name: userName })
@@ -237,14 +244,14 @@ const PhoneNumber = (props) => {
           addresses: res.data.addresses ? [...res.data.addresses] : [],
           role: res.data.role,
           token: props.user.token,
-          favorites: res.data.favorites ? res.data.favorites : [],
+          favorites: res.data.favorites ? [...res.data.favorites] : [],
         };
-        props.setUser(userInfo);
+        props.setUser({ ...userInfo });
         dispatch({
           type: "LOGGED_IN_USER",
-          payload: userInfo,
+          payload: { ...userInfo },
         });
-        window.localStorage.setItem("wdUser", JSON.stringify(userInfo));
+        window.localStorage.setItem("wdUser", JSON.stringify({ ...userInfo }));
         setPhoneNumberVerified(false);
         props.setAlertSnackbar({
           open: true,
@@ -253,7 +260,7 @@ const PhoneNumber = (props) => {
         });
         props.onClose();
         setPhoneNumberVerified(false);
-        if (!props.user.address || !props.user.address.length) {
+        if (!userInfo.addresses.length) {
           props.setOpenAddress(true);
         }
       })

@@ -6,12 +6,13 @@ import Zoom from "@mui/material/Zoom";
 import PageTitle from "../Typography/PageTitle";
 import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";
 import { getOrders } from "../../serverFunctions/user";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography,
-} from "@mui/material";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import MuiAccordion from "@mui/material/Accordion";
+import MuiAccordionSummary from "@mui/material/AccordionSummary";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import { Chip } from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -38,6 +39,39 @@ const cardStyle = {
   border: "1px solid rgba(255, 255, 255, 0.3)",
 };
 
+const Accordion = styled((props) => (
+  <MuiAccordion disableGutters elevation={0} {...props} />
+))(({ theme }) => ({
+  width: "100%",
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: "12px !important",
+  // '&:not(:last-child)': {
+  //   borderBottom: 0,
+  // },
+  "&:before": {
+    display: "none",
+  },
+}));
+
+const AccordionSummary = styled((props) => <MuiAccordionSummary {...props} />)(
+  ({ theme }) => ({
+    flexDirection: "row-reverse",
+    "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+      transform: "rotate(-90deg)",
+    },
+    "& .MuiAccordionSummary-content": {
+      marginLeft: theme.spacing(1),
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+  })
+);
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+  //   paddingX: theme.spacing(5),
+  borderTop: "1px solid rgba(0, 0, 0, .125)",
+}));
+
 const Orders = (props) => {
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState(null);
@@ -47,6 +81,7 @@ const Orders = (props) => {
       if (props.open) {
         setLoading(true);
         const res = await getOrders(props.user._id);
+        console.log(res.data[0]);
         setOrders(res.data);
         setLoading(false);
       }
@@ -58,6 +93,22 @@ const Orders = (props) => {
   useEffect(() => {
     fetchUserOrders();
   }, [props.open]);
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+    var ampm = hours >= 12 ? "pm" : "am";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    var strTime = hours + ":" + minutes + " " + ampm;
+    return {
+      date: d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear(),
+      time: strTime,
+    };
+  };
+
   const containerRef = React.useRef(null);
   return (
     <>
@@ -114,22 +165,68 @@ const Orders = (props) => {
                       //   onChange={handleChange("panel1")}
                     >
                       <AccordionSummary
-                        expandIcon={<Icon>expand_more</Icon>}
+                        expandIcon={<Icon color="primary">expand_more</Icon>}
                         aria-controls="panel1bh-content"
                         id="panel1bh-header"
                       >
-                        <Typography sx={{}}>{order.createdAt}</Typography>
-                        <Typography>
-                          {order.paymentIntent.amount / 100}
+                        <Box>
+                          <Typography sx={{}}>
+                            {new Date(order.createdAt).setHours(0, 0, 0, 0) ===
+                            new Date().setHours(0, 0, 0, 0)
+                              ? "Today"
+                              : formatDate(order.createdAt).date}
+                          </Typography>
+                          <Typography variant="body2" sx={{}}>
+                            {formatDate(order.createdAt).time}
+                          </Typography>
+                        </Box>
+                        <Typography fontWeight={500}>
+                          GHC{order.paymentIntent.amount / 100}
                         </Typography>
-                        <Typography>{order.orderStatus}</Typography>
+                        <Chip
+                          size="small"
+                          label={
+                            <Typography variant="body2" fontWeight={500}>
+                              {order.orderStatus}
+                            </Typography>
+                          }
+                          color="secondary"
+                        />
                       </AccordionSummary>
                       <AccordionDetails>
-                        <Typography>
-                          Nulla facilisi. Phasellus sollicitudin nulla et quam
-                          mattis feugiat. Aliquam eget maximus est, id dignissim
-                          quam.
-                        </Typography>
+                        <Typography variant="body2">Id: {order._id}</Typography>
+                        {order.dishes.map((dish, index) => (
+                          <Box>
+                            <Typography variant="body2" my={1}>
+                              {dish.dishQuantity} x {dish.selectedSize.size}{" "}
+                              size {dish.name}
+                            </Typography>
+                            <Typography variant="body2">
+                              Paid with:{" "}
+                              {order.paymentMethod === "cashless"
+                                ? "Card/Mobile money"
+                                : "cash"}
+                            </Typography>
+                            <Typography variant="body2">
+                              Delivery mode: {order.deliveryMode}
+                            </Typography>
+                            {order.deliveryMode === "delivery" ? (
+                              <Typography variant="body2">
+                                Address: {order.address.description}
+                              </Typography>
+                            ) : (
+                              ""
+                            )}
+                            {order.riderTip &&
+                            order.deliveryMode === "delivery" ? (
+                              <Typography variant="body2">
+                                Courier tip: GHC{order.riderTip}
+                              </Typography>
+                            ) : (
+                              ""
+                            )}
+                          </Box>
+                        ))}
                       </AccordionDetails>
                     </Accordion>
                   </Box>

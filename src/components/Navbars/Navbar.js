@@ -97,6 +97,17 @@ function Navbar(props) {
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
   };
+  const splitName = (name) => {
+    let names = name.split(" ");
+    names.splice(0, 1);
+    return names.map((n, index) => {
+      return (
+        <Typography key={index} component="span" overflow="hidden">
+          {n}{" "}
+        </Typography>
+      );
+    });
+  };
   const drawer = (
     <Box
       // onClick={handleDrawerToggle}
@@ -109,8 +120,8 @@ function Navbar(props) {
         {props.user && props.user._id ? (
           <Box display="flex" justifyContent="left" alignItems="center">
             <Avatar>{props.user.name.slice(0)[0]}</Avatar>
-            <Box ml={2}>
-              <Typography
+            <Box ml={2} boxSizing="border-box" overflow="hidden">
+              {/* <Typography
                 variant="h5"
                 noWrap
                 sx={{
@@ -121,7 +132,10 @@ function Navbar(props) {
                 }}
               >
                 {props.user.name}
-              </Typography>
+              </Typography> */}
+              <Subtitle title={props.user.name.split(" ")[0]} my={0} />
+              {splitName(props.user.name)}
+
               <Typography fontWeight={500}>{`0${props.user.phoneNumber.slice(
                 -9
               )}`}</Typography>

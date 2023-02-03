@@ -111,28 +111,49 @@ const PaymentConfirmation = (props) => {
             </Box>
             {props.cart.paymentMethod && props.cart.paymentMethod === "cash" ? (
               <Box>
-                <Typography variant="body2" my={2}>
-                  Please pay a cash amount of{" "}
-                  <Typography variant="body2" component="span" fontWeight={600}>
-                    GHC{props.finalTotalAfterDiscount}
-                  </Typography>{" "}
-                  on arrival
-                </Typography>
-                <ActionButton
-                  text="Place order"
-                  my={0}
-                  onClick={handleCashOrder}
-                />
+                {loading ? (
+                  <Typography variant="body2" my={2} textAlign="center">
+                    Confirming order...
+                  </Typography>
+                ) : (
+                  <>
+                    <Typography variant="body2" my={2}>
+                      Please pay a cash amount of{" "}
+                      <Typography
+                        variant="body2"
+                        component="span"
+                        fontWeight={600}
+                      >
+                        GHC{props.finalTotalAfterDiscount}
+                      </Typography>{" "}
+                      on arrival
+                    </Typography>
+                    <ActionButton
+                      text="Place order"
+                      my={0}
+                      onClick={handleCashOrder}
+                    />
+                  </>
+                )}
               </Box>
             ) : (
               <Box>
-                <Typography variant="body2" my={2}>
-                  Your payment will be completed with Paystack
-                </Typography>
-                <PaystackButton
-                  {...paystackButtonProps}
-                  className="paystack-button"
-                />
+                {loading ? (
+                  <Typography variant="body2" my={2} textAlign="center">
+                    Confirming payment...
+                  </Typography>
+                ) : (
+                  <>
+                    <Typography variant="body2" my={2}>
+                      Your payment will be completed with Paystack
+                    </Typography>
+
+                    <PaystackButton
+                      {...paystackButtonProps}
+                      className="paystack-button"
+                    />
+                  </>
+                )}
               </Box>
             )}
           </Box>
