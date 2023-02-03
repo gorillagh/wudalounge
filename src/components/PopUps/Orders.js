@@ -195,38 +195,37 @@ const Orders = (props) => {
                       </AccordionSummary>
                       <AccordionDetails>
                         <Typography variant="body2">Id: {order._id}</Typography>
-                        {order.dishes.map((dish, index) => (
-                          <Box>
-                            <Typography variant="body2" my={1}>
+                        <Box my={1}>
+                          {order.dishes.map((dish, index) => (
+                            <Typography variant="body2">
                               {dish.dishQuantity} x {dish.selectedSize.size}{" "}
                               size {dish.name}
                             </Typography>
-                            <Typography variant="body2">
-                              Paid with:{" "}
-                              {order.paymentMethod === "cashless"
-                                ? "Card/Mobile money"
-                                : "cash"}
-                            </Typography>
-                            <Typography variant="body2">
-                              Delivery mode: {order.deliveryMode}
-                            </Typography>
-                            {order.deliveryMode === "delivery" ? (
-                              <Typography variant="body2">
-                                Address: {order.address.description}
-                              </Typography>
-                            ) : (
-                              ""
-                            )}
-                            {order.riderTip &&
-                            order.deliveryMode === "delivery" ? (
-                              <Typography variant="body2">
-                                Courier tip: GHC{order.riderTip}
-                              </Typography>
-                            ) : (
-                              ""
-                            )}
-                          </Box>
-                        ))}
+                          ))}{" "}
+                        </Box>
+                        <Typography variant="body2">
+                          Paid with:{" "}
+                          {order.paymentMethod === "cashless"
+                            ? "Card/Mobile money"
+                            : "cash"}
+                        </Typography>
+                        <Typography variant="body2">
+                          Delivery mode: {order.deliveryMode}
+                        </Typography>
+                        {order.deliveryMode === "delivery" ? (
+                          <Typography variant="body2">
+                            Address: {order.address.description}
+                          </Typography>
+                        ) : (
+                          ""
+                        )}
+                        {order.riderTip && order.deliveryMode === "delivery" ? (
+                          <Typography variant="body2">
+                            Courier tip: GHC{order.riderTip}
+                          </Typography>
+                        ) : (
+                          ""
+                        )}
                       </AccordionDetails>
                     </Accordion>
                   </Box>
