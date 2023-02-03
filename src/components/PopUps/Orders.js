@@ -6,7 +6,12 @@ import Zoom from "@mui/material/Zoom";
 import PageTitle from "../Typography/PageTitle";
 import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";
 import { getOrders } from "../../serverFunctions/user";
-import { Typography } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Typography,
+} from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -98,19 +103,35 @@ const Orders = (props) => {
                 orders.map((order, index) => (
                   <Box
                     key={index}
-                    sx={{ ...cardStyle }}
+                    // sx={{ ...cardStyle }}
                     display="flex"
                     justifyContent="space-between"
                     alignItems="center"
                   >
-                    <Typography variant="body2">{order.createdAt}</Typography>
-                    <Typography variant="body2">
-                      GHC{order.paymentIntent.amount / 100}
-                    </Typography>
-                    <Typography variant="body2" fontWeight={500}>
-                      {" "}
-                      {order.orderStatus}
-                    </Typography>
+                    <Accordion
+                      sx={{ ...cardStyle, p: 0 }}
+                      //   expanded={expanded === "panel1"}
+                      //   onChange={handleChange("panel1")}
+                    >
+                      <AccordionSummary
+                        expandIcon={<Icon>expand_more</Icon>}
+                        aria-controls="panel1bh-content"
+                        id="panel1bh-header"
+                      >
+                        <Typography sx={{}}>{order.createdAt}</Typography>
+                        <Typography>
+                          {order.paymentIntent.amount / 100}
+                        </Typography>
+                        <Typography>{order.orderStatus}</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Typography>
+                          Nulla facilisi. Phasellus sollicitudin nulla et quam
+                          mattis feugiat. Aliquam eget maximus est, id dignissim
+                          quam.
+                        </Typography>
+                      </AccordionDetails>
+                    </Accordion>
                   </Box>
                 ))
               ) : (
