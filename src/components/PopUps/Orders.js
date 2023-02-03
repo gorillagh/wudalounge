@@ -12,7 +12,7 @@ import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
-import { Chip } from "@mui/material";
+import { Chip, Grid } from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -29,22 +29,23 @@ const style = {
 const cardStyle = {
   px: 2,
   py: 1,
-  my: 1,
+  my: 2,
   borderRadius: "12px",
   background: "rgba(255, 255, 255, 0.9)",
   backdropFilter: "blur(8.8px)",
   WebkitBackdropFilter: "blur(8.8px)",
   boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
   webkitBackdropFilter: "blur(5px)",
-  border: "1px solid rgba(255, 255, 255, 0.3)",
+  //   border: "1px solid rgba(255, 255, 255, 0.3)",
 };
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} {...props} />
 ))(({ theme }) => ({
   width: "100%",
-  border: `1px solid ${theme.palette.divider}`,
-  borderRadius: "12px !important",
+  boxShadow: "0.5px 1px 0px rgba(0, 0, 0, 0.2)",
+  //   border: `1px solid ${theme.palette.divider}`,
+  //   borderRadius: "12px !important",
   // '&:not(:last-child)': {
   //   borderBottom: 0,
   // },
@@ -62,14 +63,15 @@ const AccordionSummary = styled((props) => <MuiAccordionSummary {...props} />)(
     "& .MuiAccordionSummary-content": {
       marginLeft: theme.spacing(1),
       justifyContent: "space-between",
-      alignItems: "center",
+      alignItems: "flex-end",
     },
   })
 );
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   //   paddingX: theme.spacing(5),
-  borderTop: "1px solid rgba(0, 0, 0, .125)",
+  paddingLeft: "42px",
+  //   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
 const Orders = (props) => {
@@ -155,32 +157,66 @@ const Orders = (props) => {
                   <Box
                     key={index}
                     // sx={{ ...cardStyle }}
-                    display="flex"
+                    // display="flex"
                     justifyContent="space-between"
                     alignItems="center"
                   >
+                    <Box
+                      display="block"
+                      sx={{
+                        ...cardStyle,
+                        mb: 0,
+                        borderBottomLeftRadius: 0,
+                        borderBottomRightRadius: 0,
+                      }}
+                    >
+                      {order.dishes.map((dish, index) => (
+                        <Grid container spacing={1}>
+                          <Grid item xs={2.5}>
+                            <img
+                              style={{ borderRadius: "12px" }}
+                              src={dish.image}
+                              alt="dish"
+                              width="100%"
+                            />
+                          </Grid>
+                          <Grid item>
+                            <Typography>
+                              {dish.name} ({dish.selectedSize.size} size)
+                            </Typography>
+                            {dish.extras.map((e, i) => {
+                              if (e.checked) {
+                                return (
+                                  <Typography key={i} variant="body2">
+                                    +{e.quantity} {e.item}
+                                  </Typography>
+                                );
+                              }
+                            })}
+                          </Grid>
+                        </Grid>
+                      ))}{" "}
+                    </Box>
                     <Accordion
-                      sx={{ ...cardStyle, p: 0 }}
-                      //   expanded={expanded === "panel1"}
-                      //   onChange={handleChange("panel1")}
+
+                    //   expanded={expanded === "panel1"}
+                    //   onChange={handleChange("panel1")}
                     >
                       <AccordionSummary
                         expandIcon={<Icon color="primary">expand_more</Icon>}
                         aria-controls="panel1bh-content"
                         id="panel1bh-header"
                       >
-                        <Box>
-                          <Typography sx={{}}>
-                            {new Date(order.createdAt).setHours(0, 0, 0, 0) ===
-                            new Date().setHours(0, 0, 0, 0)
-                              ? "Today"
-                              : formatDate(order.createdAt).date}
-                          </Typography>
-                          <Typography variant="body2" sx={{}}>
-                            {formatDate(order.createdAt).time}
-                          </Typography>
-                        </Box>
-                        <Typography fontWeight={500}>
+                        <Typography variant="body2">
+                          {new Date(order.createdAt).setHours(0, 0, 0, 0) ===
+                          new Date().setHours(0, 0, 0, 0)
+                            ? "Today"
+                            : formatDate(order.createdAt).date}{" "}
+                          {formatDate(order.createdAt).time}
+                        </Typography>
+                        <Typography variant="body2" sx={{}}></Typography>
+
+                        <Typography variant="body2" fontWeight={500}>
                           GHC{order.paymentIntent.amount / 100}
                         </Typography>
                         <Chip
@@ -195,14 +231,7 @@ const Orders = (props) => {
                       </AccordionSummary>
                       <AccordionDetails>
                         <Typography variant="body2">Id: {order._id}</Typography>
-                        <Box my={1}>
-                          {order.dishes.map((dish, index) => (
-                            <Typography variant="body2">
-                              {dish.dishQuantity} x {dish.selectedSize.size}{" "}
-                              size {dish.name}
-                            </Typography>
-                          ))}{" "}
-                        </Box>
+
                         <Typography variant="body2">
                           Paid with:{" "}
                           {order.paymentMethod === "cashless"
