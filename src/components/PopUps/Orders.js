@@ -13,6 +13,7 @@ import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import { Chip, Grid, IconButton } from "@mui/material";
+import ActionButton from "../Buttons/ActionButton";
 
 const style = {
   position: "absolute",
@@ -29,7 +30,7 @@ const style = {
 const cardStyle = {
   px: 2,
   //   py: 1,
-  my: 2,
+  my: 3,
   borderRadius: "12px",
   background: "rgba(255, 255, 255, 0.9)",
   backdropFilter: "blur(8.8px)",
@@ -170,7 +171,7 @@ const Orders = (props) => {
                       }}
                     >
                       {order.dishes.map((dish, index) => (
-                        <Grid container spacing={1}>
+                        <Grid key={index} container spacing={1}>
                           <Grid item xs={2.5}>
                             <img
                               style={{ borderRadius: "12px" }}
@@ -195,16 +196,6 @@ const Orders = (props) => {
                           </Grid>
                         </Grid>
                       ))}{" "}
-                      <Box display="flex" justifyContent="right">
-                        <IconButton size="small">
-                          <Typography color="primary" variant="body2">
-                            Order again
-                          </Typography>
-                          <Icon sx={{ ml: 1 }} fontSize="small" color="primary">
-                            repeat
-                          </Icon>
-                        </IconButton>
-                      </Box>
                     </Box>
                     <Accordion
 
@@ -270,6 +261,16 @@ const Orders = (props) => {
                         ) : (
                           ""
                         )}
+                        <Box display="flex" justifyContent="right">
+                          <ActionButton
+                            variant="outlined"
+                            size="small"
+                            text="Order again"
+                            rightIcon="repeat"
+                            fullWidth={false}
+                            my={0}
+                          />
+                        </Box>
                       </AccordionDetails>
                     </Accordion>
                   </Box>
