@@ -72,7 +72,7 @@ const dbPorkDishes = [
     image:
       "https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80",
     sizes: [
-      { size: "normal", additionalAmount: 0, description: "" },
+      { size: "regular", additionalAmount: 0, description: "" },
       { size: "large", additionalAmount: 20, description: "" },
       { size: "family", additionalAmount: 40, description: "" },
     ],
@@ -103,7 +103,7 @@ const dbPorkDishes = [
     image:
       "https://plus.unsplash.com/premium_photo-1664476636559-6dbd29f4c31e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80",
     sizes: [
-      { size: "normal", additionalAmount: 0, description: "" },
+      { size: "regular", additionalAmount: 0, description: "" },
       { size: "large", additionalAmount: 20, description: "" },
       { size: "family", additionalAmount: 40, description: "" },
     ],
@@ -134,7 +134,7 @@ const dbPorkDishes = [
     image:
       "https://images.unsplash.com/photo-1658925111653-2c08083c08ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     sizes: [
-      { size: "normal", additionalAmount: 0, description: "" },
+      { size: "regular", additionalAmount: 0, description: "" },
       { size: "large", additionalAmount: 20, description: "" },
       { size: "family", additionalAmount: 40, description: "" },
     ],
@@ -168,7 +168,7 @@ const dbChickenDishes = [
     image:
       "https://images.unsplash.com/photo-1637759079728-3f900db7a782?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80",
     sizes: [
-      { size: "normal", additionalAmount: 0, description: "" },
+      { size: "regular", additionalAmount: 0, description: "" },
       { size: "large", additionalAmount: 20, description: "" },
       { size: "family", additionalAmount: 40, description: "" },
     ],
@@ -200,7 +200,7 @@ const dbChickenDishes = [
     image:
       "https://images.unsplash.com/photo-1592011432621-f7f576f44484?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
     sizes: [
-      { size: "normal", additionalAmount: 0, description: "" },
+      { size: "regular", additionalAmount: 0, description: "" },
       { size: "large", additionalAmount: 20, description: "" },
       { size: "family", additionalAmount: 40, description: "" },
     ],
@@ -231,7 +231,7 @@ const dbChickenDishes = [
     image:
       "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     sizes: [
-      { size: "normal", additionalAmount: 0, description: "" },
+      { size: "regular", additionalAmount: 0, description: "" },
       { size: "large", additionalAmount: 20, description: "" },
       { size: "family", additionalAmount: 40, description: "" },
     ],

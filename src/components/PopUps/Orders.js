@@ -12,7 +12,7 @@ import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
-import { Chip, Grid } from "@mui/material";
+import { Chip, Grid, IconButton } from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -28,7 +28,7 @@ const style = {
 };
 const cardStyle = {
   px: 2,
-  py: 1,
+  //   py: 1,
   my: 2,
   borderRadius: "12px",
   background: "rgba(255, 255, 255, 0.9)",
@@ -83,7 +83,6 @@ const Orders = (props) => {
       if (props.open) {
         setLoading(true);
         const res = await getOrders(props.user._id);
-        console.log(res.data[0]);
         setOrders(res.data);
         setLoading(false);
       }
@@ -106,7 +105,7 @@ const Orders = (props) => {
     minutes = minutes < 10 ? "0" + minutes : minutes;
     var strTime = hours + ":" + minutes + " " + ampm;
     return {
-      date: d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear(),
+      date: d.getDate() + "/" + d.getMonth() + 1 + "/" + d.getFullYear(),
       time: strTime,
     };
   };
@@ -180,8 +179,8 @@ const Orders = (props) => {
                               width="100%"
                             />
                           </Grid>
-                          <Grid item>
-                            <Typography>
+                          <Grid item xs={9.5}>
+                            <Typography variant="body2">
                               {dish.name} ({dish.selectedSize.size} size)
                             </Typography>
                             {dish.extras.map((e, i) => {
@@ -196,6 +195,16 @@ const Orders = (props) => {
                           </Grid>
                         </Grid>
                       ))}{" "}
+                      <Box display="flex" justifyContent="right">
+                        <IconButton size="small">
+                          <Typography color="primary" variant="body2">
+                            Order again
+                          </Typography>
+                          <Icon sx={{ ml: 1 }} fontSize="small" color="primary">
+                            repeat
+                          </Icon>
+                        </IconButton>
+                      </Box>
                     </Box>
                     <Accordion
 
@@ -211,10 +220,16 @@ const Orders = (props) => {
                           {new Date(order.createdAt).setHours(0, 0, 0, 0) ===
                           new Date().setHours(0, 0, 0, 0)
                             ? "Today"
-                            : formatDate(order.createdAt).date}{" "}
+                            : new Date(order.createdAt).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                }
+                              )}{" "}
                           {formatDate(order.createdAt).time}
                         </Typography>
-                        <Typography variant="body2" sx={{}}></Typography>
 
                         <Typography variant="body2" fontWeight={500}>
                           GHC{order.paymentIntent.amount / 100}
