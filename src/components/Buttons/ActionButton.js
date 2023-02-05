@@ -33,7 +33,6 @@ const ActionButton = (props) => {
         //     "linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.2))",
         // },
         "&:hover": {
-          background: "linear-gradient(#E3581C,#b64616)",
           boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",
         },
       }}
