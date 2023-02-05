@@ -34,7 +34,6 @@ const Address = (props) => {
         setLoading(true);
         await updateUser(props.user._id, { addresses: [value] })
           .then((res) => {
-            console.log(res.data);
             let userInfo = {
               _id: res.data._id,
               phoneNumber: res.data.phoneNumber,

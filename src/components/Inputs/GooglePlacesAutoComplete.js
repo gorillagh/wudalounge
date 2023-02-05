@@ -65,7 +65,10 @@ export default function GooglePlacesAutoComplete(props) {
     }
 
     fetch(
-      { input: inputValue, componentRestrictions: { country: "gh" } },
+      {
+        input: inputValue,
+        componentRestrictions: { country: "gh" },
+      },
       (results) => {
         if (active) {
           let newOptions = [];

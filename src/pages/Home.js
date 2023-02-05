@@ -45,6 +45,7 @@ import Orders from "../components/PopUps/Orders";
 import Profile from "../components/PopUps/Profile";
 import Favorites from "../components/PopUps/Favorites";
 import Account from "../components/PopUps/Account";
+import GoogleMap from "../components/PopUps/GoogleMap";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -276,6 +277,7 @@ const Home = (props) => {
   const [openFavorites, setOpenFavorites] = useState(false);
   const [openOrders, setOpenOrders] = useState(false);
   const [openAccount, setOpenAccount] = useState(false);
+  const [openGoogleMap, setOpenGoogleMap] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -388,21 +390,35 @@ const Home = (props) => {
         }}
       >
         <Grid container display="flex" justifyContent="center">
-          <Grid item xs={6}>
-            <Box display="flex" justifyContent="center" alignItems="center">
+          <Grid item xs={6} onClick={() => setOpenGoogleMap(true)}>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              color="primary.main"
+            >
               {" "}
               <Icon color="primary" fontSize="small">
                 location_on
               </Icon>
-              <Typography variant="body2">Ring Rd E, Accra</Typography>
+              <Typography variant="body2" fontWeight={500}>
+                Ring Rd E, Accra
+              </Typography>
             </Box>
           </Grid>
           <Grid item xs={6}>
-            <Box display="flex" justifyContent="center" alignItems="center">
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              color="primary.main"
+            >
               <Icon color="primary" fontSize="small">
                 phone
               </Icon>
-              <Typography variant="body2">+233244410869</Typography>
+              <Typography variant="body2" fontWeight={500}>
+                +233244410869
+              </Typography>
             </Box>
           </Grid>
         </Grid>
@@ -676,6 +692,7 @@ const Home = (props) => {
         text={alertSnackbar.text}
         severity={alertSnackbar.severity}
       />
+      <GoogleMap open={openGoogleMap} onClose={() => setOpenGoogleMap(false)} />
     </Box>
   );
 };
