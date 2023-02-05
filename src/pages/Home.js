@@ -406,7 +406,11 @@ const Home = (props) => {
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={6}>
+          <Grid
+            item
+            xs={6}
+            onClick={() => (document.location.href = "tel:+233244410869")}
+          >
             <Box
               display="flex"
               justifyContent="center"
