@@ -62,6 +62,7 @@ const GoogleMap = (props) => {
   return (
     <div>
       <Modal
+        closeAfterTransition={true}
         open={props.open}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
