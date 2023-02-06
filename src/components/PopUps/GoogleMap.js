@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import PageTitle from "../Typography/PageTitle";
-import { PaystackButton } from "react-paystack";
-import { Icon, Typography, Zoom } from "@mui/material";
+import { CircularProgress, Icon, Typography, Zoom } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
-import { verifyTransactionAndCreateOrder } from "../../serverFunctions/payment";
 import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";
-import ActionButton from "../Buttons/ActionButton";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 const style = {
@@ -25,7 +21,9 @@ var render = function (status) {
   if (status === Status.LOADING)
     return (
       <Box display="flex" justifyContent="center">
-        <Typography>{status}...</Typography>
+        <Typography>
+          <CircularProgress thickness={4} />
+        </Typography>
       </Box>
     );
   if (status === Status.FAILURE)

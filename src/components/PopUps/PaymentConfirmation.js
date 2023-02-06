@@ -159,12 +159,12 @@ const PaymentConfirmation = (props) => {
                     </Typography>
                   ) : (
                     <>
-                      <Box my={2}>
-                        <Typography variant="body2" textAlign="center">
+                      <Box my={2} p={1}>
+                        <Typography variant="body2" textAlign="left">
                           Your payment will be completed with Paystack
                         </Typography>
                         <Typography
-                          textAlign="center"
+                          textAlign="left"
                           color="info.main"
                           variant="body2"
                           sx={{ cursor: "pointer" }}

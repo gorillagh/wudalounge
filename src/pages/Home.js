@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
+import axios from "axios";
 
 import Subtitle from "../components/Typography/Subtitle";
 import {
@@ -93,7 +94,7 @@ const dbPorkDishes = [
       { item: "Kenkey", additionalAmount: 9, checked: false, quantity: 1 },
       { item: "Banku", additionalAmount: 9, checked: false, quantity: 1 },
     ],
-    selectedSize: { size: "normal", additionalAmount: 0, description: "" },
+    selectedSize: { size: "regular", additionalAmount: 0, description: "" },
     dishQuantity: 1,
   },
   {
@@ -124,7 +125,7 @@ const dbPorkDishes = [
       { item: "Kenkey", additionalAmount: 9, checked: false, quantity: 1 },
       { item: "Banku", additionalAmount: 9, checked: false, quantity: 1 },
     ],
-    selectedSize: { size: "normal", additionalAmount: 0, description: "" },
+    selectedSize: { size: "regular", additionalAmount: 0, description: "" },
     dishQuantity: 1,
   },
   {
@@ -155,7 +156,7 @@ const dbPorkDishes = [
       { item: "Kenkey", additionalAmount: 9, checked: false, quantity: 1 },
       { item: "Banku", additionalAmount: 9, checked: false, quantity: 1 },
     ],
-    selectedSize: { size: "normal", additionalAmount: 0, description: "" },
+    selectedSize: { size: "regular", additionalAmount: 0, description: "" },
     dishQuantity: 1,
   },
 ];
@@ -189,7 +190,7 @@ const dbChickenDishes = [
       { item: "Kenkey", additionalAmount: 9, checked: false, quantity: 1 },
       { item: "Banku", additionalAmount: 9, checked: false, quantity: 1 },
     ],
-    selectedSize: { size: "normal", additionalAmount: 0, description: "" },
+    selectedSize: { size: "regular", additionalAmount: 0, description: "" },
     dishQuantity: 1,
   },
 
@@ -221,7 +222,7 @@ const dbChickenDishes = [
       { item: "Kenkey", additionalAmount: 9, checked: false, quantity: 1 },
       { item: "Banku", additionalAmount: 9, checked: false, quantity: 1 },
     ],
-    selectedSize: { size: "normal", additionalAmount: 0, description: "" },
+    selectedSize: { size: "regular", additionalAmount: 0, description: "" },
     dishQuantity: 1,
   },
   {
@@ -252,7 +253,7 @@ const dbChickenDishes = [
       { item: "Kenkey", additionalAmount: 9, checked: false, quantity: 1 },
       { item: "Banku", additionalAmount: 9, checked: false, quantity: 1 },
     ],
-    selectedSize: { size: "normal", additionalAmount: 0, description: "" },
+    selectedSize: { size: "regular", additionalAmount: 0, description: "" },
     dishQuantity: 1,
   },
 ];
@@ -284,6 +285,20 @@ const Home = (props) => {
     setPorkDishes(dbPorkDishes);
     setChickenDishes(dbChickenDishes);
     setLoading(false);
+    // axios
+    //   .post(
+    //     "https://ghanapostgps.sperixlabs.org/get-location",
+    //     {
+    //       address: "GA-017-4672",
+    //     },
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/x-www-form-urlencoded",
+    //       },
+    //     }
+    //   )
+    //   .then((res) => console.log(res.data))
+    //   .catch((err) => console.log(err));
   });
 
   useEffect(() => {

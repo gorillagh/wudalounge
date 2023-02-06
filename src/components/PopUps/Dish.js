@@ -73,6 +73,7 @@ const Dish = (props) => {
   }, [props.open]);
 
   useEffect(() => {
+    console.log(props.dish);
     calculateTotalAmount(props.dish);
   }, [props.dish]);
 

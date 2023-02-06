@@ -261,10 +261,12 @@ const Orders = (props) => {
                       <AccordionDetails>
                         <Grid container my={0.5}>
                           <Grid item xs={5}>
-                            <Typography variant="body2">Order Id</Typography>
+                            <Typography variant="body2" fontWeight={500}>
+                              Order Id
+                            </Typography>
                           </Grid>
                           <Grid item xs={7}>
-                            <Typography variant="body2" fontWeight={400}>
+                            <Typography variant="body2">
                               ...
                               {order.paymentIntent.reference.slice(-9)}
                             </Typography>
@@ -272,22 +274,24 @@ const Orders = (props) => {
                         </Grid>
                         <Grid container my={0.5}>
                           <Grid item xs={5}>
-                            <Typography variant="body2">Paid with</Typography>
+                            <Typography variant="body2" fontWeight={500}>
+                              Paid with
+                            </Typography>
                           </Grid>
                           <Grid item xs={7}>
-                            <Typography variant="body2" fontWeight={400}>
+                            <Typography variant="body2">
                               {order.paymentIntent.channel}
                             </Typography>
                           </Grid>
                         </Grid>
                         <Grid container my={0.5}>
                           <Grid xs={5}>
-                            <Typography variant="body2">
+                            <Typography variant="body2" fontWeight={500}>
                               Delivery mode
                             </Typography>
                           </Grid>
                           <Grid item xs={7}>
-                            <Typography variant="body2" fontWeight={400}>
+                            <Typography variant="body2">
                               {order.deliveryMode}
                             </Typography>
                           </Grid>
@@ -295,14 +299,16 @@ const Orders = (props) => {
                         <Grid container my={0.5}>
                           <Grid item xs={5}>
                             {order.deliveryMode === "delivery" ? (
-                              <Typography variant="body2">Address</Typography>
+                              <Typography variant="body2" fontWeight={500}>
+                                Address
+                              </Typography>
                             ) : (
                               ""
                             )}
                           </Grid>
                           <Grid item xs={7}>
                             {order.deliveryMode === "delivery" ? (
-                              <Typography variant="body2" fontWeight={400}>
+                              <Typography variant="body2">
                                 {order.address.description}
                               </Typography>
                             ) : (
@@ -314,7 +320,7 @@ const Orders = (props) => {
                           <Grid item xs={5}>
                             {order.riderTip &&
                             order.deliveryMode === "delivery" ? (
-                              <Typography variant="body2">
+                              <Typography variant="body2" fontWeight={500}>
                                 Courier tip
                               </Typography>
                             ) : (
@@ -324,7 +330,7 @@ const Orders = (props) => {
                           <Grid item xs={7}>
                             {order.riderTip &&
                             order.deliveryMode === "delivery" ? (
-                              <Typography variant="body2" fontWeight={400}>
+                              <Typography variant="body2">
                                 GHC{order.riderTip}
                               </Typography>
                             ) : (
