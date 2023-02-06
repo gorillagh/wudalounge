@@ -8,7 +8,7 @@ import { Box } from "@mui/material";
 const CircularLoading = (props) => {
   return (
     <Box sx={{ position: "relative" }}>
-      <CircularProgress
+      {/* <CircularProgress
         variant="determinate"
         sx={{
           color: "#f6a60b",
@@ -17,7 +17,7 @@ const CircularLoading = (props) => {
         thickness={6}
         {...props}
         value={100}
-      />
+      /> */}
       <CircularProgress
         variant="indeterminate"
         disableShrink

@@ -3,7 +3,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import PageTitle from "../Typography/PageTitle";
 import { PaystackButton } from "react-paystack";
-import { Icon, Typography } from "@mui/material";
+import { Icon, IconButton, Typography, Zoom } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
 import { verifyTransactionAndCreateOrder } from "../../serverFunctions/payment";
 import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";
@@ -77,88 +77,117 @@ const PaymentConfirmation = (props) => {
     onClose: () =>
       window.confirm("Are you sure you want to cancel this transaction?"),
   };
+
+  const containerRef = React.useRef(null);
+
   return (
     <div>
       <Modal
+        // hideBackdrop
+        closeAfterTransition={true}
         open={props.open}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box
-          sx={{
-            background: "rgba(0, 0, 0, 0.2)",
-            backdropFilter: "blur(5.8px)",
-            WebkitBackdropFilter: "blur(5.8px)",
-            width: "100%",
-            height: "100vh",
-          }}
+        <Zoom
+          container={containerRef.current}
+          appear={true}
+          in={props.open}
+          direction="left"
+          mountOnEnter
+          unmountOnExit
+          //   timeout={300}
         >
-          <Box sx={style}>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              mb={2}
-            >
-              <Subtitle title="Order Confirmation" my={0} />
-              <Icon
-                fontSize="large"
-                color="error"
-                onClick={() => props.onClose()}
+          <Box
+            sx={{
+              background: "rgba(0, 0, 0, 0.2)",
+              backdropFilter: "blur(5.8px)",
+              WebkitBackdropFilter: "blur(5.8px)",
+              width: "100%",
+              height: "100vh",
+            }}
+          >
+            <Box sx={style}>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                mb={2}
               >
-                close
-              </Icon>
-            </Box>
-            {props.cart.paymentMethod && props.cart.paymentMethod === "cash" ? (
-              <Box>
-                {loading ? (
-                  <Typography variant="body2" my={2} textAlign="center">
-                    Confirming order...
-                  </Typography>
-                ) : (
-                  <>
-                    <Typography variant="body2" my={2}>
-                      Please pay a cash amount of{" "}
-                      <Typography
-                        variant="body2"
-                        component="span"
-                        fontWeight={600}
-                      >
-                        GHC{props.finalTotalAfterDiscount}
-                      </Typography>{" "}
-                      on arrival
-                    </Typography>
-                    <ActionButton
-                      text="Place order"
-                      my={0}
-                      onClick={handleCashOrder}
-                    />
-                  </>
-                )}
+                <Subtitle title="Order Confirmation" my={0} />
+                <IconButton
+                  // fontSize="large"
+                  color="error"
+                  onClick={() => props.onClose()}
+                >
+                  <Icon color="error">close</Icon>
+                </IconButton>
               </Box>
-            ) : (
-              <Box>
-                {loading ? (
-                  <Typography variant="body2" my={2} textAlign="center">
-                    Confirming payment...
-                  </Typography>
-                ) : (
-                  <>
-                    <Typography variant="body2" my={2}>
-                      Your payment will be completed with Paystack
+              {props.cart.paymentMethod &&
+              props.cart.paymentMethod === "cash" ? (
+                <Box>
+                  {loading ? (
+                    <Typography variant="body2" my={2} textAlign="center">
+                      Confirming order...
                     </Typography>
+                  ) : (
+                    <>
+                      <Typography variant="body2" my={2}>
+                        Please pay a cash amount of{" "}
+                        <Typography
+                          variant="body2"
+                          component="span"
+                          fontWeight={600}
+                        >
+                          GHC{props.finalTotalAfterDiscount}
+                        </Typography>{" "}
+                        on arrival
+                      </Typography>
+                      <ActionButton
+                        text="Place order"
+                        my={0}
+                        onClick={handleCashOrder}
+                      />
+                    </>
+                  )}
+                </Box>
+              ) : (
+                <Box>
+                  {loading ? (
+                    <Typography variant="body2" my={2} textAlign="center">
+                      Confirming payment...
+                    </Typography>
+                  ) : (
+                    <>
+                      <Box my={2}>
+                        <Typography variant="body2" textAlign="center">
+                          Your payment will be completed with Paystack
+                        </Typography>
+                        <Typography
+                          textAlign="center"
+                          color="info.main"
+                          variant="body2"
+                          sx={{ cursor: "pointer" }}
+                          onClick={() =>
+                            window.open("https://www.paystack.com", "_blank")
+                          }
+                        >
+                          Learn more about Paystack
+                        </Typography>
+                      </Box>
 
-                    <PaystackButton
-                      {...paystackButtonProps}
-                      className="paystack-button"
-                    />
-                  </>
-                )}
-              </Box>
-            )}
+                      <PaystackButton
+                        {...paystackButtonProps}
+                        className="paystack-button"
+                      />
+                    </>
+                  )}
+                </Box>
+              )}
+            </Box>
+            <LoadingBackdrop open={loading} />
           </Box>
-          <LoadingBackdrop open={loading} />
-        </Box>
+        </Zoom>
       </Modal>
     </div>
   );

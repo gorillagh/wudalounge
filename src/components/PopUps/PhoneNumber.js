@@ -97,6 +97,7 @@ const PhoneNumber = (props) => {
         status: true,
         message: "Please enter a valid phone number",
       });
+      setLoading(false);
       return;
     }
     if (
@@ -299,7 +300,7 @@ const PhoneNumber = (props) => {
             props.onClose();
           }}
           sx={{
-            background: "rgba(255, 255, 255, 0.85)",
+            background: "rgba(255, 255, 255, 0.9)",
             backdropFilter: "blur(5.8px)",
             WebkitBackdropFilter: "blur(5.8px)",
             width: "100%",
@@ -444,37 +445,43 @@ const PhoneNumber = (props) => {
                   <div id="recaptcha-container"></div>
                 </div>
 
-                <Box>
-                  <ActionButton
-                    disabled={loading}
-                    id="sign-in-button"
-                    text={
-                      loading ? (
-                        <Typography variant="body2" fontWeight={600}>
-                          <CircularLoading size={20} thickness={6} />
-                        </Typography>
-                      ) : codeSent ? (
-                        "Submit"
-                      ) : props.user &&
-                        props.user.phoneNumber &&
-                        props.user.phoneNumber.slice(-9) ===
-                          phoneNumber.slice(-9) ? (
-                        "Next"
-                      ) : (
-                        "Get verification code"
-                      )
-                    }
-                    onClick={
-                      codeSent
-                        ? handleSubmit
-                        : props.user &&
-                          props.user.phoneNumber &&
-                          props.user.phoneNumber.slice(-9) ===
-                            phoneNumber.slice(-9)
-                        ? () => setPhoneNumberVerified(true)
-                        : handleGetCode
-                    }
-                  />
+                <Box
+                  my={2}
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  {loading ? (
+                    <Typography variant="body2" fontWeight={600}>
+                      <CircularLoading size={20} thickness={6} />
+                    </Typography>
+                  ) : (
+                    <ActionButton
+                      my={0}
+                      disabled={loading}
+                      id="sign-in-button"
+                      text={
+                        codeSent
+                          ? "Submit"
+                          : props.user &&
+                            props.user.phoneNumber &&
+                            props.user.phoneNumber.slice(-9) ===
+                              phoneNumber.slice(-9)
+                          ? "Next"
+                          : "Get verification code"
+                      }
+                      onClick={
+                        codeSent
+                          ? handleSubmit
+                          : props.user &&
+                            props.user.phoneNumber &&
+                            props.user.phoneNumber.slice(-9) ===
+                              phoneNumber.slice(-9)
+                          ? () => setPhoneNumberVerified(true)
+                          : handleGetCode
+                      }
+                    />
+                  )}
                 </Box>
               </Box>
 
@@ -500,6 +507,7 @@ const PhoneNumber = (props) => {
                     </Typography>
                     <InputBase
                       autoFocus
+                      spellCheck={false}
                       disabled={loading}
                       sx={{ ml: 1, flex: 1 }}
                       placeholder="Enter your name"
@@ -522,21 +530,24 @@ const PhoneNumber = (props) => {
                   ) : (
                     ""
                   )}
-                  <Box>
-                    <ActionButton
-                      disabled={loading}
-                      id="sign-in-button"
-                      text={
-                        loading ? (
-                          <Typography variant="body2" fontWeight={600}>
-                            <CircularLoading size={20} thickness={6} />
-                          </Typography>
-                        ) : (
-                          "Finish"
-                        )
-                      }
-                      onClick={handleUpdateName}
-                    />
+                  <Box
+                    my={2}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    {loading ? (
+                      <Typography variant="body2" fontWeight={600}>
+                        <CircularLoading size={20} thickness={6} />
+                      </Typography>
+                    ) : (
+                      <ActionButton
+                        my={0}
+                        id="sign-in-button"
+                        text="Finish"
+                        onClick={handleUpdateName}
+                      />
+                    )}
                   </Box>
                 </Box>
               </Slide>

@@ -26,7 +26,7 @@ const AlertSnackbar = (props) => {
         <Alert
           onClose={handleClose}
           severity={props.severity}
-          sx={{ width: "100%" }}
+          sx={{ width: "70%" }}
           variant={props.variant}
         >
           {props.text}

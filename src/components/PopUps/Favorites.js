@@ -63,7 +63,7 @@ const Favorites = (props) => {
               props.close();
             }}
             sx={{
-              background: "rgba(255, 255, 255, 0.8)",
+              background: "rgba(255, 255, 255, 0.9)",
               backdropFilter: "blur(5.8px)",
               WebkitBackdropFilter: "blur(5.8px)",
               width: "100%",

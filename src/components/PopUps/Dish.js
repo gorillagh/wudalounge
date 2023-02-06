@@ -249,7 +249,7 @@ const Dish = (props) => {
         backdrop: () => (
           <Box
             sx={{
-              background: "rgba(0, 0, 0, 0.2)",
+              background: "rgba(255, 255, 255, 0.3)",
               backdropFilter: "blur(5.8px)",
               WebkitBackdropFilter: "blur(5.8px)",
               width: "100%",

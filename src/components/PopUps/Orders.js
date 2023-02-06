@@ -124,7 +124,7 @@ const Orders = (props) => {
   return (
     <>
       <Modal
-        hideBackdrop
+        // hideBackdrop
         closeAfterTransition={true}
         open={props.open}
         aria-labelledby="modal-modal-title"
@@ -147,7 +147,7 @@ const Orders = (props) => {
               props.close();
             }}
             sx={{
-              background: "rgba(255, 255, 255, 0.8)",
+              background: "rgba(255, 255, 255, 0.9)",
               backdropFilter: "blur(5.8px)",
               WebkitBackdropFilter: "blur(5.8px)",
               width: "100%",
@@ -260,24 +260,23 @@ const Orders = (props) => {
                       ></AccordionSummary>
                       <AccordionDetails>
                         <Grid container my={0.5}>
-                          <Grid xs={5}>
+                          <Grid item xs={5}>
                             <Typography variant="body2">Order Id</Typography>
                           </Grid>
-                          <Grid xs={7}>
+                          <Grid item xs={7}>
                             <Typography variant="body2" fontWeight={400}>
-                              {order._id}
+                              ...
+                              {order.paymentIntent.reference.slice(-9)}
                             </Typography>
                           </Grid>
                         </Grid>
                         <Grid container my={0.5}>
-                          <Grid xs={5}>
+                          <Grid item xs={5}>
                             <Typography variant="body2">Paid with</Typography>
                           </Grid>
-                          <Grid xs={7}>
+                          <Grid item xs={7}>
                             <Typography variant="body2" fontWeight={400}>
-                              {order.paymentMethod === "cashless"
-                                ? "Card/Mobile money"
-                                : "cash"}
+                              {order.paymentIntent.channel}
                             </Typography>
                           </Grid>
                         </Grid>
@@ -287,21 +286,21 @@ const Orders = (props) => {
                               Delivery mode
                             </Typography>
                           </Grid>
-                          <Grid xs={7}>
+                          <Grid item xs={7}>
                             <Typography variant="body2" fontWeight={400}>
                               {order.deliveryMode}
                             </Typography>
                           </Grid>
                         </Grid>
                         <Grid container my={0.5}>
-                          <Grid xs={5}>
+                          <Grid item xs={5}>
                             {order.deliveryMode === "delivery" ? (
                               <Typography variant="body2">Address</Typography>
                             ) : (
                               ""
                             )}
                           </Grid>
-                          <Grid xs={7}>
+                          <Grid item xs={7}>
                             {order.deliveryMode === "delivery" ? (
                               <Typography variant="body2" fontWeight={400}>
                                 {order.address.description}
@@ -312,7 +311,7 @@ const Orders = (props) => {
                           </Grid>
                         </Grid>
                         <Grid container my={0.5}>
-                          <Grid xs={5}>
+                          <Grid item xs={5}>
                             {order.riderTip &&
                             order.deliveryMode === "delivery" ? (
                               <Typography variant="body2">
@@ -322,7 +321,7 @@ const Orders = (props) => {
                               ""
                             )}
                           </Grid>
-                          <Grid xs={7}>
+                          <Grid item xs={7}>
                             {order.riderTip &&
                             order.deliveryMode === "delivery" ? (
                               <Typography variant="body2" fontWeight={400}>

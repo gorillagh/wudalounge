@@ -51,7 +51,7 @@ const cardStyle = {
   WebkitBackdropFilter: "blur(8.8px)",
   boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
   webkitBackdropFilter: "blur(5px)",
-  border: "1px solid rgba(255, 255, 255, 0.3)",
+  // border: "1px solid rgba(255, 255, 255, 0.3)",
 };
 const tips = [
   { label: "GHC0", value: 0 },
@@ -188,7 +188,7 @@ const Basket = (props) => {
 
   return (
     <Modal
-      hideBackdrop
+      // hideBackdrop
       closeAfterTransition={true}
       open={props.open}
       aria-labelledby="modal-modal-title"
@@ -226,7 +226,7 @@ const Basket = (props) => {
             props.onClose();
           }}
           sx={{
-            background: "rgba(0, 0, 0, 0.2)",
+            background: "rgba(255, 255, 255, 0.9)",
             backdropFilter: "blur(5.8px)",
             WebkitBackdropFilter: "blur(5.8px)",
             width: "100%",
