@@ -15,10 +15,10 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "80%",
+  width: "90%",
   bgcolor: "background.paper",
   borderRadius: "12px",
-  p: 2,
+  py: 1,
 };
 
 const GoogleMap = (props) => {
@@ -63,7 +63,7 @@ const GoogleMap = (props) => {
               display="flex"
               justifyContent="space-between"
               alignItems="center"
-              mb={2}
+              p={2}
             >
               <Subtitle title="Locate us" my={0} />
 

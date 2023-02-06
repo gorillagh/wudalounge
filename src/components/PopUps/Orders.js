@@ -14,6 +14,7 @@ import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import {
   Chip,
+  Divider,
   Grid,
   IconButton,
   TableBody,
@@ -36,7 +37,7 @@ const style = {
 };
 const cardStyle = {
   px: 2,
-  //   py: 1,
+  pt: 2,
   my: 3,
   borderRadius: "12px",
   background: "rgba(255, 255, 255, 0.9)",
@@ -66,12 +67,13 @@ const AccordionSummary = styled((props) => <MuiAccordionSummary {...props} />)(
   ({ theme }) => ({
     // flexDirection: "row-reverse",
     "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-      transform: "rotate(90deg)",
+      transform: "rotate(180deg)",
     },
     "& .MuiAccordionSummary-content": {
-      marginRight: theme.spacing(1),
-      justifyContent: "space-between",
-      alignItems: "flex-end",
+      // marginRight: theme.spacing(4),
+      // justifyContent: "space-between",
+      // alignItems: "flex-end",
+      display: "none",
     },
   })
 );
@@ -169,7 +171,6 @@ const Orders = (props) => {
                     alignItems="center"
                   >
                     <Box
-                      display="block"
                       sx={{
                         ...cardStyle,
                         mb: 0,
@@ -177,8 +178,33 @@ const Orders = (props) => {
                         borderBottomRightRadius: 0,
                       }}
                     >
+                      <Box display="flex" justifyContent="space-between" mb={2}>
+                        <Typography variant="body2" fontWeight={500}>
+                          {new Date(order.createdAt).setHours(0, 0, 0, 0) ===
+                          new Date().setHours(0, 0, 0, 0)
+                            ? "Today"
+                            : new Date(order.createdAt).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                }
+                              )}{" "}
+                          {formatDate(order.createdAt).time}
+                        </Typography>
+                        <Chip
+                          size="small"
+                          label={
+                            <Typography variant="body2" fontWeight={500}>
+                              {order.orderStatus}
+                            </Typography>
+                          }
+                          color="secondary"
+                        />
+                      </Box>
                       {order.dishes.map((dish, index) => (
-                        <Grid key={index} container spacing={1}>
+                        <Grid key={index} container my={1} columnSpacing={1}>
                           <Grid item xs={2.5}>
                             <img
                               style={{ borderRadius: "12px" }}
@@ -188,7 +214,7 @@ const Orders = (props) => {
                             />
                           </Grid>
                           <Grid item xs={9.5}>
-                            <Typography variant="body1">
+                            <Typography variant="body2" fontWeight={500}>
                               {dish.name} ({dish.selectedSize.size} size)
                             </Typography>
                             {dish.extras.map((e, i) => {
@@ -203,6 +229,24 @@ const Orders = (props) => {
                           </Grid>
                         </Grid>
                       ))}{" "}
+                      <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        mt={2}
+                      >
+                        <Typography variant="body2" fontWeight={500}>
+                          Total: GHC{order.paymentIntent.amount / 100}
+                        </Typography>
+                        <ActionButton
+                          variant="outlined"
+                          size="small"
+                          text="Order again"
+                          rightIcon="repeat"
+                          fullWidth={false}
+                          my={0}
+                        />
+                      </Box>
                     </Box>
                     <Accordion
 
@@ -213,85 +257,75 @@ const Orders = (props) => {
                         expandIcon={<Icon color="primary">expand_more</Icon>}
                         aria-controls="panel1bh-content"
                         id="panel1bh-header"
-                      >
-                        <Typography variant="body2">
-                          {new Date(order.createdAt).setHours(0, 0, 0, 0) ===
-                          new Date().setHours(0, 0, 0, 0)
-                            ? "Today"
-                            : new Date(order.createdAt).toLocaleDateString(
-                                "en-US",
-                                {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                }
-                              )}{" "}
-                          {formatDate(order.createdAt).time}
-                        </Typography>
-
-                        <Chip
-                          size="small"
-                          label={
-                            <Typography variant="body2" fontWeight={500}>
-                              {order.orderStatus}
-                            </Typography>
-                          }
-                          color="secondary"
-                        />
-                        <Typography variant="body2" fontWeight={500}>
-                          GHC{order.paymentIntent.amount / 100}
-                        </Typography>
-                      </AccordionSummary>
+                      ></AccordionSummary>
                       <AccordionDetails>
-                        <Grid container>
-                          <Grid item xs={5} px={2}>
-                            <Typography my={0.5} variant="body2">
-                              Order Id
+                        <Grid container my={0.5}>
+                          <Grid xs={5}>
+                            <Typography variant="body2">Order Id</Typography>
+                          </Grid>
+                          <Grid xs={7}>
+                            <Typography variant="body2" fontWeight={400}>
+                              {order._id}
                             </Typography>
-                            <Typography my={0.5} variant="body2">
-                              Paid with
+                          </Grid>
+                        </Grid>
+                        <Grid container my={0.5}>
+                          <Grid xs={5}>
+                            <Typography variant="body2">Paid with</Typography>
+                          </Grid>
+                          <Grid xs={7}>
+                            <Typography variant="body2" fontWeight={400}>
+                              {order.paymentMethod === "cashless"
+                                ? "Card/Mobile money"
+                                : "cash"}
                             </Typography>
-                            <Typography my={0.5} variant="body2">
+                          </Grid>
+                        </Grid>
+                        <Grid container my={0.5}>
+                          <Grid xs={5}>
+                            <Typography variant="body2">
                               Delivery mode
                             </Typography>
+                          </Grid>
+                          <Grid xs={7}>
+                            <Typography variant="body2" fontWeight={400}>
+                              {order.deliveryMode}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid container my={0.5}>
+                          <Grid xs={5}>
                             {order.deliveryMode === "delivery" ? (
-                              <Typography my={0.5} variant="body2">
-                                Address
+                              <Typography variant="body2">Address</Typography>
+                            ) : (
+                              ""
+                            )}
+                          </Grid>
+                          <Grid xs={7}>
+                            {order.deliveryMode === "delivery" ? (
+                              <Typography variant="body2" fontWeight={400}>
+                                {order.address.description}
                               </Typography>
                             ) : (
                               ""
                             )}
+                          </Grid>
+                        </Grid>
+                        <Grid container my={0.5}>
+                          <Grid xs={5}>
                             {order.riderTip &&
                             order.deliveryMode === "delivery" ? (
-                              <Typography my={0.5} variant="body2">
+                              <Typography variant="body2">
                                 Courier tip
                               </Typography>
                             ) : (
                               ""
                             )}
                           </Grid>
-                          <Grid item xs={7}>
-                            <Typography my={0.5} variant="body2">
-                              {order._id}
-                            </Typography>
-                            <Typography my={0.5} variant="body2">
-                              {order.paymentMethod === "cashless"
-                                ? "Card/Mobile money"
-                                : "cash"}
-                            </Typography>
-                            <Typography my={0.5} variant="body2">
-                              {order.deliveryMode}
-                            </Typography>
-                            {order.deliveryMode === "delivery" ? (
-                              <Typography my={0.5} variant="body2">
-                                {order.address.description}
-                              </Typography>
-                            ) : (
-                              ""
-                            )}
+                          <Grid xs={7}>
                             {order.riderTip &&
                             order.deliveryMode === "delivery" ? (
-                              <Typography my={0.5} variant="body2">
+                              <Typography variant="body2" fontWeight={400}>
                                 GHC{order.riderTip}
                               </Typography>
                             ) : (
@@ -299,17 +333,6 @@ const Orders = (props) => {
                             )}
                           </Grid>
                         </Grid>
-
-                        <Box display="flex" justifyContent="right">
-                          <ActionButton
-                            variant="outlined"
-                            size="small"
-                            text="Order again"
-                            rightIcon="repeat"
-                            fullWidth={false}
-                            my={0}
-                          />
-                        </Box>
                       </AccordionDetails>
                     </Accordion>
                   </Box>
