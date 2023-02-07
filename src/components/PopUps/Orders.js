@@ -120,6 +120,30 @@ const Orders = (props) => {
     };
   };
 
+  const handleOrderAgain = (order) => {
+    console.log(order);
+    let cart = {
+      deliveryMode: order.deliveryMode,
+      dishes: order.dishes,
+      notes: order.notes,
+      paymentMethod: order.paymentMethod,
+      riderTip: order.riderTip,
+    };
+    if (props.cart && props.cart.dishes) {
+      if (window.confirm("Clear basket and order for this one?")) {
+        props.setCart({ ...cart });
+        window.localStorage.setItem("wdCart", JSON.stringify({ ...cart }));
+        props.setOpenBasket(true);
+      } else {
+        return;
+      }
+    } else {
+      props.setCart({ ...cart });
+      window.localStorage.setItem("wdCart", JSON.stringify({ ...cart }));
+      props.setOpenBasket(true);
+    }
+  };
+
   const containerRef = React.useRef(null);
   return (
     <>
@@ -245,6 +269,7 @@ const Orders = (props) => {
                           rightIcon="repeat"
                           fullWidth={false}
                           my={0}
+                          onClick={() => handleOrderAgain(order)}
                         />
                       </Box>
                     </Box>
@@ -282,7 +307,7 @@ const Orders = (props) => {
                             <Typography variant="body2">
                               {order.paymentIntent.channel}{" "}
                               {order.paymentIntent.authorization
-                                ? `(${order.paymentIntent.authorization.bank},${order.paymentIntent.authorization.last4})`
+                                ? `(${order.paymentIntent.authorization.bank}, ...${order.paymentIntent.authorization.last4})`
                                 : ""}
                             </Typography>
                           </Grid>
@@ -341,6 +366,15 @@ const Orders = (props) => {
                             )}
                           </Grid>
                         </Grid>
+                        <Typography
+                          fontWeight={500}
+                          textAlign="right"
+                          variant="body2"
+                          color="error.dark"
+                          mt={1}
+                        >
+                          Report an issue
+                        </Typography>
                       </AccordionDetails>
                     </Accordion>
                   </Box>

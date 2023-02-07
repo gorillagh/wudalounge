@@ -691,6 +691,9 @@ const Home = (props) => {
             open={openOrders}
             onClose={() => setOpenOrders(false)}
             user={props.user}
+            setCart={setCart}
+            setOpenBasket={setOpenBasket}
+            cart={cart}
           />
           <Account
             open={openAccount}
