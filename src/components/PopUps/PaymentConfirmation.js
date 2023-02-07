@@ -42,11 +42,11 @@ const PaymentConfirmation = (props) => {
     try {
       setLoading(true);
       console.log(response);
-      await verifyTransactionAndCreateOrder(
-        props.user._id,
-        response,
-        props.cart
-      );
+      // await verifyTransactionAndCreateOrder(
+      //   props.user._id,
+      //   response,
+      //   props.cart
+      // );
       props.onClose();
       window.localStorage.removeItem("wdCart");
       props.setCart({});
@@ -66,6 +66,7 @@ const PaymentConfirmation = (props) => {
     metadata: {
       name: props.user.name,
       phone: props.user.phoneNumber,
+      cart: props.cart,
     },
     customer: {
       first_name: props.user.name,
