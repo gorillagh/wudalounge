@@ -5,6 +5,14 @@ import Icon from "@mui/material/Icon";
 import Zoom from "@mui/material/Zoom";
 import PageTitle from "../Typography/PageTitle";
 import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";
+import ActionButton from "../Buttons/ActionButton";
+import {
+  Avatar,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -21,6 +29,9 @@ const style = {
 
 const Profile = (props) => {
   const [loading, setLoading] = useState(false);
+  const [editOn, setEditOn] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
   const fetchUserProfile = async () => {
     try {
@@ -34,8 +45,26 @@ const Profile = (props) => {
     //
   };
   useEffect(() => {
+    setName("");
+    setEmail("");
     fetchUserProfile();
-  }, []);
+    props.user.name && setName(props.user.name);
+    props.user.email && setEmail(props.user.email);
+  }, [props.open]);
+
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      let data = { name, email };
+      console.log(data);
+      setEditOn((prevState) => !prevState);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
   const containerRef = React.useRef(null);
   return (
     <>
@@ -77,6 +106,109 @@ const Profile = (props) => {
                   close
                 </Icon>
               </Box>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                my={2}
+              >
+                <Avatar
+                  alt={props.user.name && props.user.name}
+                  src="/static/images/avatar/1.jpg"
+                  sx={{ width: 56, height: 56 }}
+                />
+
+                <ActionButton
+                  sx={{ display: editOn && "none" }}
+                  fullWidth={false}
+                  text="Edit"
+                  variant="outlined"
+                  rightIcon="edit"
+                  onClick={() => setEditOn((prevState) => !prevState)}
+                />
+              </Box>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                my={2}
+              >
+                <Typography fontWeight={500}>Phone:</Typography>
+                <TextField
+                  disabled
+                  value="0240298910"
+                  size="small"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Icon fontSize="small">phone</Icon>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Box>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                my={2}
+              >
+                <Typography fontWeight={500}>Name:</Typography>
+                <TextField
+                  disabled={!editOn}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  size="small"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Icon fontSize="small">badge</Icon>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Box>
+
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                my={2}
+              >
+                <Typography fontWeight={500}>Email:</Typography>
+                <TextField
+                  disabled={!editOn}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  size="small"
+                  placeholder="Email"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Icon fontSize="small">email</Icon>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Box>
+              {editOn ? (
+                <Box
+                  display="flex"
+                  justifyContent="right"
+                  alignItems="center"
+                  my={2}
+                >
+                  <ActionButton
+                    backgroundColor="success"
+                    fullWidth={false}
+                    text="Save"
+                    rightIcon="save"
+                    onClick={handleSave}
+                  />
+                </Box>
+              ) : (
+                ""
+              )}
             </Box>
             <LoadingBackdrop open={loading} />
           </Box>

@@ -118,7 +118,12 @@ function Navbar(props) {
     >
       <Box my={1} px={2}>
         {props.user && props.user._id ? (
-          <Box display="flex" justifyContent="left" alignItems="center">
+          <Box
+            display="flex"
+            justifyContent="left"
+            alignItems="center"
+            onClick={() => props.setOpenProfile(true)}
+          >
             <Avatar>{props.user.name.slice(0)[0]}</Avatar>
             <Box ml={2} boxSizing="border-box" overflow="hidden">
               {/* <Typography

@@ -22,6 +22,7 @@ import {
   TableRow,
 } from "@mui/material";
 import ActionButton from "../Buttons/ActionButton";
+import IssueBox from "./IssueBox";
 
 const style = {
   position: "absolute",
@@ -87,6 +88,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 const Orders = (props) => {
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState(null);
+  const [openIssueBox, setOpenIssueBox] = useState(false);
 
   const fetchUserOrders = async () => {
     try {
@@ -121,6 +123,7 @@ const Orders = (props) => {
   };
 
   const handleOrderAgain = (order) => {
+    setLoading(true);
     console.log(order);
     let cart = {
       deliveryMode: order.deliveryMode,
@@ -134,6 +137,7 @@ const Orders = (props) => {
         props.setCart({ ...cart });
         window.localStorage.setItem("wdCart", JSON.stringify({ ...cart }));
         props.setOpenBasket(true);
+        setLoading(false);
       } else {
         return;
       }
@@ -141,6 +145,7 @@ const Orders = (props) => {
       props.setCart({ ...cart });
       window.localStorage.setItem("wdCart", JSON.stringify({ ...cart }));
       props.setOpenBasket(true);
+      setLoading(false);
     }
   };
 
@@ -224,7 +229,15 @@ const Orders = (props) => {
                               {order.orderStatus}
                             </Typography>
                           }
-                          color="secondary"
+                          color={
+                            order.orderStatus === "processing"
+                              ? "secondary"
+                              : order.orderStatus === "dispatched"
+                              ? "primary"
+                              : order.orderStatus === "completed"
+                              ? "success"
+                              : "error"
+                          }
                         />
                       </Box>
                       {order.dishes.map((dish, index) => (
@@ -372,6 +385,7 @@ const Orders = (props) => {
                           variant="body2"
                           color="error.dark"
                           mt={1}
+                          onClick={() => setOpenIssueBox(true)}
                         >
                           Report an issue
                         </Typography>
@@ -383,6 +397,10 @@ const Orders = (props) => {
                 <Typography>No orders yet.</Typography>
               )}
             </Box>
+            <IssueBox
+              open={openIssueBox}
+              onClose={() => setOpenIssueBox(false)}
+            />
             <LoadingBackdrop open={loading} />
           </Box>
         </Zoom>
