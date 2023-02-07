@@ -42,11 +42,11 @@ const PaymentConfirmation = (props) => {
     try {
       setLoading(true);
       console.log(response);
-      // await verifyTransactionAndCreateOrder(
-      //   props.user._id,
-      //   response,
-      //   props.cart
-      // );
+      await verifyTransactionAndCreateOrder(
+        props.user._id,
+        response,
+        props.cart
+      );
       props.onClose();
       window.localStorage.removeItem("wdCart");
       props.setCart({});
