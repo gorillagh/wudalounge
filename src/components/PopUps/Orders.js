@@ -280,7 +280,10 @@ const Orders = (props) => {
                           </Grid>
                           <Grid item xs={7}>
                             <Typography variant="body2">
-                              {order.paymentIntent.channel}
+                              {order.paymentIntent.channel}{" "}
+                              {order.paymentIntent.authorization
+                                ? `(${order.paymentIntent.authorization.bank},${order.paymentIntent.authorization.last4})`
+                                : ""}
                             </Typography>
                           </Grid>
                         </Grid>
