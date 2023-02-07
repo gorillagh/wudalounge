@@ -268,7 +268,7 @@ const Orders = (props) => {
                           <Grid item xs={7}>
                             <Typography variant="body2">
                               ...
-                              {order.paymentIntent.reference.slice(-9)}
+                              {order.reference.slice(-9)}
                             </Typography>
                           </Grid>
                         </Grid>
