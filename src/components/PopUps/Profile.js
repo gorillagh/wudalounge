@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Resizer from "react-image-file-resizer";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Icon from "@mui/material/Icon";
@@ -11,6 +12,7 @@ import {
   Avatar,
   Badge,
   Chip,
+  CircularProgress,
   IconButton,
   InputAdornment,
   Slide,
@@ -19,7 +21,7 @@ import {
 } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
 import { TransitionGroup } from "react-transition-group";
-import { updateUser } from "../../serverFunctions/user";
+import { updateUser, uploadImage } from "../../serverFunctions/user";
 
 const style = {
   position: "absolute",
@@ -41,6 +43,8 @@ const Profile = (props) => {
   const [email, setEmail] = useState("");
   const [emailBorderError, setEmailBorderError] = useState("");
   const [nameBorderError, setNameBorderError] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
+  const [image, setImage] = useState("");
 
   const dispatch = useDispatch();
 
@@ -56,13 +60,52 @@ const Profile = (props) => {
     //
   };
   useEffect(() => {
-    setName("");
-    setEmail("");
-    setEditOn(false);
-    fetchUserProfile();
-    props.user.name && setName(props.user.name);
-    props.user.email && setEmail(props.user.email);
-  }, [props.open]);
+    !props.open && setEditOn(false);
+    if (editOn) {
+      setName("");
+      setEmail("");
+      setImage("");
+      // setEditOn(false);
+      fetchUserProfile();
+      props.user.name && setName(props.user.name);
+      props.user.email && setEmail(props.user.email);
+      props.user.image && setImage(props.user.image);
+    }
+  }, [props.open, editOn]);
+
+  const handleImageUpload = (e) => {
+    let files = e.target.files;
+    console.log(files[0]);
+
+    if (files) {
+      setImageLoading(true);
+      //Edit pics
+      Resizer.imageFileResizer(
+        files[0],
+        640,
+        640,
+        "JPEG",
+        100,
+        0,
+        (uri) => {
+          console.log(uri);
+
+          uploadImage(props.user._id, uri)
+            .then((res) => {
+              // console.log('Image Upload Res Data', res)
+              console.log(res.data);
+              setImage(res.data.url);
+              setImageLoading(false);
+            })
+            .catch((error) => {
+              setImageLoading(false);
+              console.log("Image upload error", error);
+            });
+        },
+        "base64"
+      );
+    }
+  };
 
   const handleSave = async () => {
     try {
@@ -84,20 +127,22 @@ const Profile = (props) => {
         props.user.name &&
         props.user.name === name &&
         props.user.email &&
-        props.user.email === email
+        props.user.email === email &&
+        props.user.image === image
       ) {
         setEditOn((prevState) => !prevState);
         return;
       }
 
       setLoading(true);
-      await updateUser(props.user._id, { name, email })
+      await updateUser(props.user._id, { name, email, image })
         .then((res) => {
           let userInfo = {
             _id: res.data._id,
             phoneNumber: res.data.phoneNumber,
             name: res.data.name,
             email: res.data.email ? res.data.email : "",
+            image: res.data.image ? res.data.image : "",
             addresses: res.data.addresses ? res.data.addresses : [],
             role: res.data.role,
             token: props.user.token,
@@ -193,7 +238,7 @@ const Profile = (props) => {
                       >
                         <Avatar
                           alt={props.user.name && props.user.name}
-                          src={props.user.image}
+                          src={props.user.image && props.user.image}
                           sx={{ width: 76, height: 76 }}
                         />
                       </Box>
@@ -239,30 +284,44 @@ const Profile = (props) => {
                       justifyContent="center"
                       my={2}
                     >
-                      <Badge
-                        badgeContent={
-                          props.user.image ? (
-                            <Icon fontSize="small" color="primary">
-                              edit
-                            </Icon>
-                          ) : (
-                            <Icon fontSize="small" color="primary">
-                              add_a_photo
-                            </Icon>
-                          )
-                        }
-                        overlap="circular"
-                        anchorOrigin={{
-                          vertical: "bottom",
-                          horizontal: "right",
-                        }}
-                      >
-                        <Avatar
-                          alt={props.user.name && props.user.name}
-                          src="/static/images/avatar/1.jpg"
-                          sx={{ width: 76, height: 76 }}
-                        />
-                      </Badge>
+                      {imageLoading ? (
+                        <CircularProgress thickness={4} size={40} />
+                      ) : (
+                        <label>
+                          <Badge
+                            badgeContent={
+                              image ? (
+                                <Icon fontSize="small" color="primary">
+                                  edit
+                                </Icon>
+                              ) : (
+                                <Icon fontSize="small" color="primary">
+                                  add_a_photo
+                                </Icon>
+                              )
+                            }
+                            overlap="circular"
+                            anchorOrigin={{
+                              vertical: "bottom",
+                              horizontal: "right",
+                            }}
+                          >
+                            <Avatar
+                              alt={props.user.name && props.user.name}
+                              src={image}
+                              sx={{ width: 76, height: 76 }}
+                            />
+
+                            <input
+                              type="file"
+                              hidden
+                              accept="image/*"
+                              onChange={handleImageUpload}
+                              disabled={imageLoading}
+                            />
+                          </Badge>
+                        </label>
+                      )}
                     </Box>
 
                     <Box
@@ -393,6 +452,7 @@ const Profile = (props) => {
                   />
 
                   <ActionButton
+                    disabled={loading || imageLoading}
                     backgroundColor="success"
                     fullWidth={false}
                     text="Save"

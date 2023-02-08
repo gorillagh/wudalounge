@@ -124,7 +124,12 @@ function Navbar(props) {
             alignItems="center"
             onClick={() => props.setOpenProfile(true)}
           >
-            <Avatar>{props.user.name.slice(0)[0]}</Avatar>
+            <Avatar
+              alt={props.user.name && props.user.name}
+              src={props.user.image}
+              // sx={{ width: 56, height: 56 }}
+            />
+            {/* <Avatar>{props.user.name.slice(0)[0]}</Avatar> */}
             <Box ml={2} boxSizing="border-box" overflow="hidden">
               {/* <Typography
                 variant="h5"

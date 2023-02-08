@@ -263,7 +263,8 @@ const Orders = (props) => {
                           </Grid>
                           <Grid item xs={9.5}>
                             <Typography variant="body2" fontWeight={500}>
-                              {dish.name} ({dish.selectedSize.size} size)
+                              {dish.name} ({dish.selectedSize.size} size) x{" "}
+                              {dish.dishQuantity}
                             </Typography>
                             {dish.extras.map((e, i) => {
                               if (e.checked) {

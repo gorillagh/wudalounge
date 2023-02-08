@@ -29,3 +29,12 @@ export const updateUser = async (id, data) => {
 export const getOrders = async (id) => {
   return await axios.get(`${process.env.REACT_APP_API_URL}/get-orders/${id}`);
 };
+
+export const uploadImage = async (id, uri) => {
+  return await axios.post(
+    `${process.env.REACT_APP_API_URL}/upload-image/${id}`,
+    {
+      uri,
+    }
+  );
+};
