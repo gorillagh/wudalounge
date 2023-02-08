@@ -139,7 +139,7 @@ function Navbar(props) {
                 {props.user.name}
               </Typography> */}
               <Subtitle title={props.user.name.split(" ")[0]} my={0} />
-              {splitName(props.user.name)}
+              {/* {splitName(props.user.name)} */}
 
               <Typography fontWeight={500}>{`0${props.user.phoneNumber.slice(
                 -9

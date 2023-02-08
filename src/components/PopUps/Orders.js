@@ -229,15 +229,26 @@ const Orders = (props) => {
                               {order.orderStatus}
                             </Typography>
                           }
-                          color={
-                            order.orderStatus === "processing"
-                              ? "secondary"
-                              : order.orderStatus === "dispatched"
-                              ? "primary"
-                              : order.orderStatus === "completed"
-                              ? "success"
-                              : "error"
-                          }
+                          // color={
+                          //   order.orderStatus === "processing"
+                          //     ? "secondary"
+                          //     : order.orderStatus === "dispatched"
+                          //     ? "primary"
+                          //     : order.orderStatus === "completed"
+                          //     ? "success"
+                          //     : "error"
+                          // }
+                          sx={{
+                            color: "#fff",
+                            backgroundColor:
+                              order.orderStatus === "processing"
+                                ? "secondary.light"
+                                : order.orderStatus === "dispatched"
+                                ? "primary.light"
+                                : order.orderStatus === "completed"
+                                ? "success.light"
+                                : "error.light",
+                          }}
                         />
                       </Box>
                       {order.dishes.map((dish, index) => (

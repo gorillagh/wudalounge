@@ -681,6 +681,7 @@ const Home = (props) => {
             open={openProfile}
             onClose={() => setOpenProfile(false)}
             user={props.user}
+            setUser={props.setUser}
           />
           <Favorites
             open={openFavorites}
