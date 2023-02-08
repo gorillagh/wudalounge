@@ -682,6 +682,7 @@ const Home = (props) => {
             onClose={() => setOpenProfile(false)}
             user={props.user}
             setUser={props.setUser}
+            setAlertSnackbar={setAlertSnackbar}
           />
           <Favorites
             open={openFavorites}
