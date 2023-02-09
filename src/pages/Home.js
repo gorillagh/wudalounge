@@ -65,10 +65,11 @@ const infoList = [
   },
 ];
 
-const dbPorkDishes = [
+const dishes = [
   {
     _id: "wd0001",
     name: "Ribs on Rails",
+    category: { _id: "wds0001", name: "pork" },
     description: "Grilled pork ribs | Vegetables | Yam Chips",
     price: 90,
     image:
@@ -100,6 +101,7 @@ const dbPorkDishes = [
   {
     _id: "wd0002",
     name: "Pork SandWich",
+    category: { _id: "wds0001", name: "pork" },
     description: "Grilled Shredded Pork | toasted Bread | Vegetables ",
     price: 90,
     image:
@@ -111,7 +113,7 @@ const dbPorkDishes = [
     ],
     extras: [
       {
-        item: "Pork(Grilled",
+        item: "Pork(Grilled)",
         additionalAmount: 30,
         checked: false,
         quantity: 1,
@@ -131,6 +133,7 @@ const dbPorkDishes = [
   {
     _id: "wd0003",
     name: "Classic Banh Mi",
+    category: { _id: "wds0001", name: "pork" },
     description: "Fried Pork | Baked Beans | Vegetables",
     price: 120,
     image:
@@ -142,7 +145,7 @@ const dbPorkDishes = [
     ],
     extras: [
       {
-        item: "Pork(Grilled",
+        item: "Pork(Grilled)",
         additionalAmount: 30,
         checked: false,
         quantity: 1,
@@ -159,12 +162,11 @@ const dbPorkDishes = [
     selectedSize: { size: "regular", additionalAmount: 0, description: "" },
     dishQuantity: 1,
   },
-];
-
-const dbChickenDishes = [
+  ////////////////Chicken/////////////////////////
   {
     _id: "wd0004",
     name: "Assorted Chicken Fried Rice",
+    category: { _id: "wds0002", name: "chicken" },
     description: "Fried Shredded Chicken | Fried Rice | vegetables",
     price: 90,
     image:
@@ -197,6 +199,7 @@ const dbChickenDishes = [
   {
     _id: "wd0005",
     name: "Chicken Wings",
+    category: { _id: "wds0002", name: "chicken" },
     description: "Grilled Chicken Wings | Vegetables",
     price: 110,
     image:
@@ -228,6 +231,7 @@ const dbChickenDishes = [
   {
     _id: "wd0006",
     name: "Brown Grounds",
+    category: { _id: "wds0002", name: "chicken" },
     description: "Grilled Chicken | Corn | Vegetables | Fried Eggs",
     price: 180,
     image:
@@ -277,13 +281,21 @@ const Home = (props) => {
   const [openProfile, setOpenProfile] = useState(false);
   const [openFavorites, setOpenFavorites] = useState(false);
   const [openOrders, setOpenOrders] = useState(false);
+  const [favorites, setFavorites] = useState([]);
+
   const [openAccount, setOpenAccount] = useState(false);
   const [openGoogleMap, setOpenGoogleMap] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    setPorkDishes(dbPorkDishes);
-    setChickenDishes(dbChickenDishes);
+    let pkDishes = [];
+    let ckDishes = [];
+    dishes.map((dish, index) => {
+      if (dish.category.name === "pork") pkDishes.push(dish);
+      if (dish.category.name === "chicken") ckDishes.push(dish);
+    });
+    setPorkDishes(pkDishes);
+    setChickenDishes(ckDishes);
     setLoading(false);
     // axios
     //   .post(
@@ -299,7 +311,7 @@ const Home = (props) => {
     //   )
     //   .then((res) => console.log(res.data))
     //   .catch((err) => console.log(err));
-  });
+  }, []);
 
   useEffect(() => {
     if (window.localStorage.getItem("wdCart")) {
@@ -312,6 +324,21 @@ const Home = (props) => {
     calculateCartTotal(JSON.parse(window.localStorage.getItem("wdCart")));
     setCartTotalLoading(false);
   }, [cart]);
+
+  useEffect(() => {
+    let favs = [];
+    props.user &&
+      props.user.favorites &&
+      props.user.favorites.map((favorite, index) => {
+        for (var i = 0; i < dishes.length; i++) {
+          if (dishes[i]._id === favorite) {
+            favs.push(dishes[i]);
+            break;
+          }
+        }
+      });
+    setFavorites(favs);
+  }, [props.user]);
 
   // const handleSendNotification = async () => {
   //   try {
@@ -688,6 +715,15 @@ const Home = (props) => {
             open={openFavorites}
             onClose={() => setOpenFavorites(false)}
             user={props.user}
+            favorites={favorites}
+            discount={discount}
+            setUser={props.setUser}
+            setAlertSnackbar={setAlertSnackbar}
+            setOpenDishModal={setOpenDishModal}
+            setSelectedDish={setSelectedDish}
+            cart={cart}
+            setCart={setCart}
+            setOpenBasket={setOpenBasket}
           />
           <Orders
             open={openOrders}

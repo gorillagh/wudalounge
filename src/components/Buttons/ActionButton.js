@@ -19,6 +19,8 @@ const ActionButton = (props) => {
         textTransform: "capitalize",
         color: props.variant !== "contained" ? "" : "#fff",
         backgroundColor: props.backgroundColor,
+        boxShadow: "0.5px 1px 0px rgba(0, 0, 0, 0.2)",
+
         // position: "relative",
         // backgroundImage: "linear-gradient(#b64616,#E3581C)",
         // "&:after": {

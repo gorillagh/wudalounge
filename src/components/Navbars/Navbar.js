@@ -35,7 +35,7 @@ function Navbar(props) {
     { text: "About Us", icon: "info", to: "/about/us" },
   ];
   const userPages = [
-    { text: "Profile", icon: "person", to: () => props.setOpenProfile(true) },
+    // { text: "Profile", icon: "person", to: () => props.setOpenProfile(true) },
     {
       text: "Favorites",
       icon: "favorite",
