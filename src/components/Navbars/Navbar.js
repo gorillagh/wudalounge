@@ -32,7 +32,7 @@ import Subtitle from "../Typography/Subtitle";
 function Navbar(props) {
   const pages = [
     // { text: "Dishes", icon: "dinner_dining", to: "/meals" },
-    { text: "About Us", icon: "info", to: "/about/us" },
+    { text: "About Us", icon: "info", to: () => props.setOpenAboutUs(true) },
   ];
   const userPages = [
     // { text: "Profile", icon: "person", to: () => props.setOpenProfile(true) },
@@ -57,8 +57,6 @@ function Navbar(props) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { user } = useSelector((state) => ({ ...state }));
-  // let user = props.user && props.user;
 
   const drawerWidth = 240;
 
@@ -211,7 +209,7 @@ function Navbar(props) {
           {pages.map((item, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton
-                onClick={() => handleNavigation(item.to)}
+                onClick={() => item.to()}
                 key={index}
                 sx={{ textAlign: "left" }}
               >

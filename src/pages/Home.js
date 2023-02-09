@@ -47,6 +47,7 @@ import Profile from "../components/PopUps/Profile";
 import Favorites from "../components/PopUps/Favorites";
 import Account from "../components/PopUps/Account";
 import GoogleMap from "../components/PopUps/GoogleMap";
+import AboutUs from "../components/PopUps/AboutUs";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -282,6 +283,7 @@ const Home = (props) => {
   const [openFavorites, setOpenFavorites] = useState(false);
   const [openOrders, setOpenOrders] = useState(false);
   const [favorites, setFavorites] = useState([]);
+  const [openAboutUs, setOpenAboutUs] = useState(false);
 
   const [openAccount, setOpenAccount] = useState(false);
   const [openGoogleMap, setOpenGoogleMap] = useState(false);
@@ -419,6 +421,7 @@ const Home = (props) => {
         setOpenFavorites={setOpenFavorites}
         setOpenOrders={setOpenOrders}
         setOpenAccount={setOpenAccount}
+        setOpenAboutUs={setOpenAboutUs}
       />
       <DishNavbar
         scrollTabValue={scrollTabValue}
@@ -737,12 +740,13 @@ const Home = (props) => {
             open={openAccount}
             onClose={() => setOpenAccount(false)}
             user={props.user}
+            setOpenAddress={setOpenAddress}
           />
         </>
       ) : (
         ""
       )}
-
+      <AboutUs open={openAboutUs} onClose={() => setOpenAboutUs(false)} />
       <LoadingBackdrop open={loading} />
       <AlertSnackbar
         open={alertSnackbar.open}

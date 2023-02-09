@@ -105,7 +105,7 @@ const Orders = (props) => {
   };
   useEffect(() => {
     fetchUserOrders();
-  }, [props.open]);
+  }, [props.cart]);
 
   const formatDate = (date) => {
     const d = new Date(date);
@@ -338,7 +338,7 @@ const Orders = (props) => {
                           </Grid>
                         </Grid>
                         <Grid container my={0.5}>
-                          <Grid xs={5}>
+                          <Grid item xs={5}>
                             <Typography variant="body2" fontWeight={500}>
                               Delivery mode
                             </Typography>

@@ -5,6 +5,8 @@ import Icon from "@mui/material/Icon";
 import Zoom from "@mui/material/Zoom";
 import PageTitle from "../Typography/PageTitle";
 import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";
+import { IconButton, MenuItem, Select, Typography } from "@mui/material";
+import ActionButton from "../Buttons/ActionButton";
 
 const style = {
   position: "absolute",
@@ -21,7 +23,7 @@ const style = {
 
 const Account = (props) => {
   const [loading, setLoading] = useState(false);
-
+  const [paymentMethod, setPaymentMethod] = useState("cashless");
   const fetchUserAccount = async () => {
     try {
       setLoading(true);
@@ -77,6 +79,93 @@ const Account = (props) => {
                   close
                 </Icon>
               </Box>
+              <Box my={5} display="flex" flexDirection="column">
+                <Box
+                  display="flex"
+                  alignItems="flex-start"
+                  justifyContent="space-between"
+                  my={2}
+                >
+                  <Box display="flex">
+                    <Typography mr={2} fontWeight={500}>
+                      Phone :
+                    </Typography>
+                    <Typography color="text.secondary">
+                      {props.user.phoneNumber}
+                    </Typography>
+                  </Box>
+                  <IconButton disabled size="small">
+                    <Icon fontSize="small">edit</Icon>
+                  </IconButton>
+                </Box>
+                <Box
+                  display="flex"
+                  alignItems="flex-start"
+                  justifyContent="space-between"
+                  my={2}
+                >
+                  <Box display="flex">
+                    <Typography mr={2} fontWeight={500}>
+                      Address*:
+                    </Typography>
+                    <Typography mr={2} color="text.secondary">
+                      {props.user.addresses
+                        ? props.user.addresses[0].description
+                        : ""}
+                    </Typography>
+                  </Box>
+                  <IconButton
+                    onClick={() => props.setOpenAddress(true)}
+                    size="small"
+                  >
+                    <Icon fontSize="small" color="info">
+                      {props.user.addresses ? "edit" : "add"}
+                    </Icon>
+                  </IconButton>
+                </Box>{" "}
+                <Box mt={3}>
+                  <Typography fontWeight={500}>Payment method :</Typography>
+                  <Select
+                    id="demo-simple-select-standard"
+                    value={paymentMethod}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                    size="small"
+                    fullWidth
+                    sx={{ borderRadius: 5 }}
+                  >
+                    <MenuItem value="cashless">
+                      <Box display="flex" alignItems="center">
+                        <Icon sx={{ mr: 1 }} fontSize="small">
+                          payments
+                        </Icon>
+                        <Typography>Card/Mobile money</Typography>
+                      </Box>
+                    </MenuItem>
+                    {/* <MenuItem value="">
+                            <Icon sx={{ mr: 1 }} fontSize="small">
+                              send_to_mobile
+                            </Icon>{" "}
+                            Mobile money
+                          </MenuItem> */}
+                    <MenuItem value="cash">
+                      <Box display="flex" alignItems="center">
+                        <Icon sx={{ mr: 1 }} fontSize="small">
+                          money
+                        </Icon>
+                        <Typography>Cash</Typography>
+                      </Box>
+                    </MenuItem>
+                  </Select>
+                </Box>
+              </Box>
+
+              <ActionButton
+                disabled
+                variant="outlined"
+                color="error"
+                text="Delete account"
+                fullWidth={false}
+              />
             </Box>
             <LoadingBackdrop open={loading} />
           </Box>
