@@ -166,11 +166,15 @@ const Favorites = (props) => {
                   close
                 </Icon>
               </Box>
-              {props.favorites &&
+              {props.favorites && props.favorites.length ? (
                 props.favorites.map((favorite, index) => (
                   <Box key={index} sx={{ ...cardStyle }}>
                     <Grid container>
-                      <Grid item xs={5}>
+                      <Grid
+                        item
+                        xs={5}
+                        onClick={() => handleDishSelect(favorite)}
+                      >
                         {/* <Box
                           display="flex"
                           // width="100%"
@@ -204,7 +208,10 @@ const Favorites = (props) => {
                             justifyContent="space-between"
                             alignItems="flex-start"
                           >
-                            <Typography fontWeight={500}>
+                            <Typography
+                              fontWeight={500}
+                              onClick={() => handleDishSelect(favorite)}
+                            >
                               {favorite.name}
                             </Typography>
                             <IconButton
@@ -218,10 +225,18 @@ const Favorites = (props) => {
                               </Icon>
                             </IconButton>
                           </Box>
-                          <Typography variant="body2" my={1} mr={2}>
+                          <Typography
+                            variant="body2"
+                            my={1}
+                            mr={2}
+                            onClick={() => handleDishSelect(favorite)}
+                          >
                             {favorite.description}
                           </Typography>
-                          <Box display="flex">
+                          <Box
+                            display="flex"
+                            onClick={() => handleDishSelect(favorite)}
+                          >
                             <Typography
                               sx={{
                                 fontWeight: 600,
@@ -265,7 +280,12 @@ const Favorites = (props) => {
                       />
                     </Box>
                   </Box>
-                ))}
+                ))
+              ) : (
+                <Typography color="text.secondary" textAlign="center" my={3}>
+                  Empty
+                </Typography>
+              )}
             </Box>
             <LoadingBackdrop open={loading} />
           </Box>

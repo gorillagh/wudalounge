@@ -72,7 +72,7 @@ const Account = (props) => {
           >
             <Box sx={style}>
               <Box my={2} display="flex" justifyContent="space-between">
-                <PageTitle my={0} title="Account" />
+                <PageTitle my={0} title="My Account" />
                 <Icon color="error" fontSize="large" onClick={props.onClose}>
                   close
                 </Icon>
