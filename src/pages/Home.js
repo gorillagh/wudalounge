@@ -79,7 +79,7 @@ const userWelcome = [
     icon: "mood",
   },
   {
-    text: "Check out our dishes",
+    text: "Check out our dishes...",
     icon: "touch_app",
   },
 ];
@@ -629,7 +629,7 @@ const Home = (props) => {
                   mt={0}
                   title={`Hello ${
                     props.user && props.user.name ? props.user.name : "there"
-                  }...`}
+                  },`}
                 />
                 <List sx={{ p: 0 }} disablePadding>
                   {userWelcome.map((info, index) => (
