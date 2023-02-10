@@ -120,59 +120,66 @@ const Search = (props) => {
             <Box sx={style}>
               <Box>
                 <AppBar
-                  elevation={0}
+                  //   elevation={0}
                   position="fixed"
                   color="inherit"
                   sx={{
                     top: "0",
                     px: 2,
-                    background: "rgba(255, 255, 255, 0.3)",
+                    background: "rgba(255, 255, 255, 0.8)",
 
-                    // backdropFilter: "blur(8.8px)",
-                    // WebkitBackdropFilter: "blur(8.8px)",
+                    backdropFilter: "blur(8.8px)",
+                    WebkitBackdropFilter: "blur(8.8px)",
                   }}
                 >
-                  <Box my={2} display="flex" justifyContent="space-between">
-                    <PageTitle my={0} title="Search" />
-                    <Icon
-                      color="error"
-                      fontSize="large"
+                  <Box
+                    my={2}
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Paper
+                      component="form"
+                      sx={{
+                        borderRadius: "20px",
+                        p: "4px 4px",
+                        display: "flex",
+                        alignItems: "center",
+                        width: "100%",
+                      }}
+                    >
+                      <InputBase
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        size="large"
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Search Dishes/Categories"
+                        inputProps={{ "aria-label": "search google maps" }}
+                      />
+                      {/* {inputValue && inputValue.length ? (
+                        <IconButton
+                          onClick={() => setInputValue("")}
+                          color="error"
+                          aria-label="directions"
+                        >
+                          <Icon>clear</Icon>
+                        </IconButton>
+                      ) : (
+                        ""
+                      )} */}
+                    </Paper>
+                    <IconButton
+                      sx={{ ml: 2 }}
+                      size="medium"
                       onClick={props.onClose}
                     >
-                      close
-                    </Icon>
+                      <Icon color="error" fontSize="meduim">
+                        close
+                      </Icon>
+                    </IconButton>
                   </Box>
-                  <Paper
-                    component="form"
-                    sx={{
-                      borderRadius: "20px",
-                      p: "4px 4px",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <InputBase
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                      size="large"
-                      sx={{ ml: 1, flex: 1 }}
-                      placeholder="Search Dishes/Categories"
-                      inputProps={{ "aria-label": "search google maps" }}
-                    />
-                    {inputValue && inputValue.length ? (
-                      <IconButton
-                        onClick={() => setInputValue("")}
-                        color="error"
-                        aria-label="directions"
-                      >
-                        <Icon>clear</Icon>
-                      </IconButton>
-                    ) : (
-                      ""
-                    )}
-                  </Paper>
                 </AppBar>
-                <Toolbar sx={{ backgroundColor: "transparent", py: 4 }} />
+                <Toolbar sx={{ backgroundColor: "transparent" }} />
               </Box>
               <Box my={2}>
                 {searchResults.length > 0
