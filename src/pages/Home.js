@@ -49,6 +49,8 @@ import Account from "../components/PopUps/Account";
 import GoogleMap from "../components/PopUps/GoogleMap";
 import AboutUs from "../components/PopUps/AboutUs";
 import Search from "../components/PopUps/Search";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -64,6 +66,21 @@ const infoList = [
   {
     text: "Pickup available",
     icon: "check",
+  },
+];
+
+const userWelcome = [
+  {
+    text: "Hungry?",
+    icon: "thumb_up_off_alt",
+  },
+  {
+    text: "We have something for you",
+    icon: "mood",
+  },
+  {
+    text: "Check out our dishes",
+    icon: "touch_app",
   },
 ];
 
@@ -595,17 +612,54 @@ const Home = (props) => {
             )}
           </Box> */}
           <Container maxWidth="xl">
-            <Subtitle mt={0} title="Pork, Chicken and Tilapia dishes" />
-            <List sx={{ p: 0 }} disablePadding>
-              {infoList.map((info, index) => (
-                <ListItem key={index} disableGutters disablePadding>
-                  <Icon color="secondary" fontSize="small" sx={{ mr: 1.5 }}>
-                    {info.icon}
-                  </Icon>
-                  <ListItemText primary={info.text} />
-                </ListItem>
-              ))}
-            </List>
+            <Carousel
+              showIndicators={true}
+              autoPlay
+              centerMode={false}
+              infiniteLoop
+              interval={5000}
+              showArrows={false}
+              showStatus={false}
+              showThumbs={false}
+              swipeable
+              emulateTouch
+            >
+              <Box textAlign="left">
+                <Subtitle
+                  mt={0}
+                  title={`Hello ${
+                    props.user && props.user.name ? props.user.name : "there"
+                  }...`}
+                />
+                <List sx={{ p: 0 }} disablePadding>
+                  {userWelcome.map((info, index) => (
+                    <ListItem key={index} disableGutters disablePadding>
+                      <Icon color="secondary" fontSize="small" sx={{ mr: 1.5 }}>
+                        {info.icon}
+                      </Icon>
+                      <ListItemText primary={info.text} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+              <Box>
+                <Subtitle
+                  textAlign="left"
+                  mt={0}
+                  title="Pork, Chicken and Tilapia dishes"
+                />
+                <List sx={{ p: 0 }} disablePadding>
+                  {infoList.map((info, index) => (
+                    <ListItem key={index} disableGutters disablePadding>
+                      <Icon color="secondary" fontSize="small" sx={{ mr: 1.5 }}>
+                        {info.icon}
+                      </Icon>
+                      <ListItemText primary={info.text} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+            </Carousel>
           </Container>
         </Grid>
       </Grid>
