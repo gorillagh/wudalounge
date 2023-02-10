@@ -83,7 +83,7 @@ const Search = (props) => {
     props.setSelectedDish({ ...dish, dishQuantity: 1 });
     props.setOpenDishModal(true);
   };
-
+  const scrollRef = React.useRef(null);
   const containerRef = React.useRef(null);
   return (
     <>
@@ -117,7 +117,7 @@ const Search = (props) => {
               height: "100vh",
             }}
           >
-            <Box sx={style}>
+            <Box sx={style} ref={scrollRef}>
               <Box>
                 <AppBar
                   //   elevation={0}
@@ -151,7 +151,10 @@ const Search = (props) => {
                       <InputBase
                         autoFocus
                         value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
+                        onChange={(e) => {
+                          scrollRef.current.scrollTo(0, 0);
+                          setInputValue(e.target.value);
+                        }}
                         size="large"
                         sx={{ ml: 1, flex: 1 }}
                         placeholder="Search Dishes/Categories"
@@ -172,7 +175,10 @@ const Search = (props) => {
                     <IconButton
                       sx={{ ml: 2 }}
                       size="medium"
-                      onClick={props.onClose}
+                      onClick={() => {
+                        setInputValue("");
+                        props.onClose();
+                      }}
                     >
                       <Icon color="error" fontSize="meduim">
                         close
@@ -182,7 +188,7 @@ const Search = (props) => {
                 </AppBar>
                 <Toolbar sx={{ backgroundColor: "transparent" }} />
               </Box>
-              <Box my={2} height="1000px">
+              <Box my={2} minHeight="800px">
                 {searchResults.length > 0
                   ? searchResults.map((dish, index) => (
                       <Grid
