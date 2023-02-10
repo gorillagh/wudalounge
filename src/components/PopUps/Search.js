@@ -126,7 +126,7 @@ const Search = (props) => {
                   sx={{
                     top: "0",
                     px: 2,
-                    background: "rgba(255, 255, 255, 0.8)",
+                    background: "rgba(0, 0, 0, 0.1)",
 
                     backdropFilter: "blur(8.8px)",
                     WebkitBackdropFilter: "blur(8.8px)",
@@ -181,7 +181,7 @@ const Search = (props) => {
                 </AppBar>
                 <Toolbar sx={{ backgroundColor: "transparent" }} />
               </Box>
-              <Box my={2}>
+              <Box my={2} height="1000px">
                 {searchResults.length > 0
                   ? searchResults.map((dish, index) => (
                       <Grid
