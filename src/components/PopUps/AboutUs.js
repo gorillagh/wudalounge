@@ -41,7 +41,7 @@ var render = function (status) {
   if (status === Status.FAILURE)
     return (
       <Box display="flex" justifyContent="center">
-        <Typography>{status}...</Typography>
+        <Typography>Unable to load map...</Typography>
       </Box>
     );
 

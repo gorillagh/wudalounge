@@ -48,6 +48,7 @@ import Favorites from "../components/PopUps/Favorites";
 import Account from "../components/PopUps/Account";
 import GoogleMap from "../components/PopUps/GoogleMap";
 import AboutUs from "../components/PopUps/AboutUs";
+import Search from "../components/PopUps/Search";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -284,6 +285,7 @@ const Home = (props) => {
   const [openOrders, setOpenOrders] = useState(false);
   const [favorites, setFavorites] = useState([]);
   const [openAboutUs, setOpenAboutUs] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
 
   const [openAccount, setOpenAccount] = useState(false);
   const [openGoogleMap, setOpenGoogleMap] = useState(false);
@@ -422,6 +424,14 @@ const Home = (props) => {
         setOpenOrders={setOpenOrders}
         setOpenAccount={setOpenAccount}
         setOpenAboutUs={setOpenAboutUs}
+        setOpenSearch={setOpenSearch}
+      />
+      <Search
+        open={openSearch}
+        onClose={() => setOpenSearch(false)}
+        dishes={dishes}
+        setOpenDishModal={setOpenDishModal}
+        setSelectedDish={setSelectedDish}
       />
       <DishNavbar
         scrollTabValue={scrollTabValue}

@@ -12,27 +12,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
-import UserRoute from "./components/Routes/UserRoute";
 import Home from "./pages/Home";
-import Login from "./pages/auth/Login";
-import Signup from "./pages/auth/Signup";
-import SignupComplete from "./pages/auth/SignupComplete";
 
 import NotFound from "./pages/NotFound";
-import Navbar from "./components/Navbars/Navbar";
-import { Container } from "@mui/system";
+
 import Footer from "./components/Footers/Footer";
-import Dashboard from "./pages/user/Dashboard";
-import AdminDashboard from "./pages/admin/AdminDashboard";
 
 import { currentUser } from "./serverFunctions/auth";
-import AdminRoute from "./components/Routes/AdminRoute";
-import Account from "./pages/user/Account";
-import Profile from "./pages/user/Profile";
-import EmailChange from "./pages/user/EmailChange";
-
-import AdminAccount from "./pages/admin/AdminAccount";
-import AdminProfile from "./pages/admin/AdminProfile";
 
 let theme = createTheme({
   palette: {
@@ -168,76 +154,6 @@ const App = () => {
           path="/"
           element={
             <Home user={user} setLoadUser={setLoadUser} setUser={setUser} />
-          }
-        />
-
-        <Route exact path="/signup" element={<Signup />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/signup/complete" element={<SignupComplete />} />
-
-        <Route
-          exact
-          path="/my/dashboard"
-          element={
-            <UserRoute>
-              <Dashboard />
-            </UserRoute>
-          }
-        />
-
-        <Route
-          exact
-          path="/my/account"
-          element={
-            <UserRoute>
-              <Account />
-            </UserRoute>
-          }
-        />
-        <Route
-          exact
-          path="/my/profile"
-          element={
-            <UserRoute>
-              <Profile />
-            </UserRoute>
-          }
-        />
-        <Route
-          exact
-          path="/email/change"
-          element={
-            <UserRoute>
-              <EmailChange />
-            </UserRoute>
-          }
-        />
-
-        <Route
-          exact
-          path="/admin/dashboard"
-          element={
-            <AdminRoute>
-              <AdminDashboard />
-            </AdminRoute>
-          }
-        />
-        <Route
-          exact
-          path="/admin/account"
-          element={
-            <AdminRoute>
-              <AdminAccount />
-            </AdminRoute>
-          }
-        />
-        <Route
-          exact
-          path="/admin/profile"
-          element={
-            <AdminRoute>
-              <AdminProfile />
-            </AdminRoute>
           }
         />
 

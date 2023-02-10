@@ -92,12 +92,10 @@ const Orders = (props) => {
 
   const fetchUserOrders = async () => {
     try {
-      if (props.open) {
-        setLoading(true);
-        const res = await getOrders(props.user._id);
-        setOrders(res.data);
-        setLoading(false);
-      }
+      setLoading(true);
+      const res = await getOrders(props.user._id);
+      setOrders(res.data);
+      setLoading(false);
     } catch (error) {
       setLoading(false);
       console.log(error);

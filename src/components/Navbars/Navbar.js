@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
 import Container from "@mui/material/Container";
 import NavbarButton from "../Buttons/NavbarButton";
 
@@ -312,6 +313,16 @@ function Navbar(props) {
                 justifyContent: "flex-end",
               }}
             >
+              <IconButton
+                size="small"
+                aria-label="search"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={() => props.setOpenSearch(true)}
+                color="primary"
+              >
+                <SearchIcon />
+              </IconButton>
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
                 {pages.map((item, index) => (
                   <Button
@@ -325,11 +336,13 @@ function Navbar(props) {
                   </Button>
                 ))}
               </Box>
+
               <Box
                 sx={{
-                  flexGrow: 1,
+                  // flexGrow: 1,
                   display: { xs: "flex", md: "none" },
                   justifyContent: "right",
+                  ml: 1,
                 }}
               >
                 <IconButton
