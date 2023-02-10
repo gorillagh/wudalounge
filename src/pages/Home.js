@@ -13,6 +13,7 @@ import {
   Divider,
   Grid,
   Icon,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
@@ -51,6 +52,7 @@ import AboutUs from "../components/PopUps/AboutUs";
 import Search from "../components/PopUps/Search";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
+import ActionButton from "../components/Buttons/ActionButton";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -506,7 +508,7 @@ const Home = (props) => {
         sx={{
           position: "relative",
           color: "#fff",
-          py: 3,
+          p: 0,
           backgroundColor: "#000",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
@@ -514,7 +516,7 @@ const Home = (props) => {
           backgroundImage: "url(/hero1.webp)",
           borderBottomRightRadius: 8,
           borderBottomLeftRadius: 8,
-          mb: 1.5,
+          mb: 2,
         }}
       >
         <Grid item xs={12}>
@@ -611,20 +613,21 @@ const Home = (props) => {
               />
             )}
           </Box> */}
-          <Container maxWidth="xl">
+          {/* <Container maxWidth="xl"> */}
+          <Box>
             <Carousel
               showIndicators={true}
               autoPlay
               centerMode={false}
               infiniteLoop
-              interval={5000}
+              interval={4000}
               showArrows={false}
               showStatus={false}
               showThumbs={false}
               swipeable
               emulateTouch
             >
-              <Box textAlign="left">
+              <Box textAlign="left" p={2}>
                 <Subtitle
                   mt={0}
                   title={`Hello ${
@@ -642,13 +645,45 @@ const Home = (props) => {
                   ))}
                 </List>
               </Box>
-              <Box>
+
+              {dishes.map((dish, index) => (
+                <Box
+                  position="relative"
+                  key={index}
+                  display="flex"
+                  width="100%"
+                  height={200}
+                >
+                  <Box position="absolute" top={12} right={12}>
+                    <ActionButton
+                      my={0}
+                      size="small"
+                      fullWidth={false}
+                      text={`GHC${(dish.price - dish.price * discount).toFixed(
+                        2
+                      )}`}
+                      rightIcon="add_shopping_cart"
+                      onClick={() => handleDishSelect(dish)}
+                    />
+                  </Box>
+                  <img
+                    src={dish.image}
+                    alt="dish"
+                    width="100%"
+                    style={{
+                      borderBottomLeftRadius: "12px",
+                      borderBottomRightRadius: "12px",
+                    }}
+                  />
+                </Box>
+              ))}
+              <Box p={2}>
                 <Subtitle
                   textAlign="left"
                   mt={0}
                   title="Pork, Chicken and Tilapia dishes"
                 />
-                <List sx={{ p: 0 }} disablePadding>
+                <List disablePadding>
                   {infoList.map((info, index) => (
                     <ListItem key={index} disableGutters disablePadding>
                       <Icon color="secondary" fontSize="small" sx={{ mr: 1.5 }}>
@@ -660,7 +695,8 @@ const Home = (props) => {
                 </List>
               </Box>
             </Carousel>
-          </Container>
+          </Box>
+          {/* </Container> */}
         </Grid>
       </Grid>
       <Box
