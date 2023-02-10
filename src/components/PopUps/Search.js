@@ -149,6 +149,7 @@ const Search = (props) => {
                       }}
                     >
                       <InputBase
+                        autoFocus
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         size="large"
