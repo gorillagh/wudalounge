@@ -6,7 +6,15 @@ import PageTitle from "../Typography/PageTitle";
 import Fade from "@mui/material/Fade";
 
 import { debounce } from "@mui/material/utils";
-import { Grid, IconButton, InputBase, Paper, Typography } from "@mui/material";
+import {
+  AppBar,
+  Grid,
+  IconButton,
+  InputBase,
+  Paper,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -69,7 +77,7 @@ const Search = (props) => {
     // return () => {
     //   active = false;
     // };
-  }, [props.value, inputValue, fetch]);
+  }, [props.value, inputValue]);
 
   const handleDishSelect = (dish) => {
     props.setSelectedDish({ ...dish, dishQuantity: 1 });
@@ -110,50 +118,61 @@ const Search = (props) => {
             }}
           >
             <Box sx={style}>
-              <Box
-                position="fixed"
-                top={0}
-                left={0}
-                width="100%"
-                px={2}
-                boxSizing="border-box"
-              >
-                <Box my={2} display="flex" justifyContent="space-between">
-                  <PageTitle my={0} title="Search" />
-                  <Icon color="error" fontSize="large" onClick={props.onClose}>
-                    close
-                  </Icon>
-                </Box>
-                <Paper
-                  component="form"
+              <Box>
+                <AppBar
+                  elevation={0}
+                  position="fixed"
+                  color="inherit"
                   sx={{
-                    borderRadius: "20px",
-                    p: "4px 4px",
-                    display: "flex",
-                    alignItems: "center",
+                    top: "0",
+                    px: 2,
+                    background: "rgba(255, 255, 255, 0.3)",
+
+                    // backdropFilter: "blur(8.8px)",
+                    // WebkitBackdropFilter: "blur(8.8px)",
                   }}
                 >
-                  <InputBase
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    size="large"
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="Search Dishes/Categories"
-                    inputProps={{ "aria-label": "search google maps" }}
-                  />
-                  {inputValue && inputValue.length ? (
-                    <IconButton
-                      onClick={() => setInputValue("")}
+                  <Box my={2} display="flex" justifyContent="space-between">
+                    <PageTitle my={0} title="Search" />
+                    <Icon
                       color="error"
-                      sx={{ p: "10px" }}
-                      aria-label="directions"
+                      fontSize="large"
+                      onClick={props.onClose}
                     >
-                      <Icon>clear</Icon>
-                    </IconButton>
-                  ) : (
-                    ""
-                  )}
-                </Paper>
+                      close
+                    </Icon>
+                  </Box>
+                  <Paper
+                    component="form"
+                    sx={{
+                      borderRadius: "20px",
+                      p: "4px 4px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <InputBase
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      size="large"
+                      sx={{ ml: 1, flex: 1 }}
+                      placeholder="Search Dishes/Categories"
+                      inputProps={{ "aria-label": "search google maps" }}
+                    />
+                    {inputValue && inputValue.length ? (
+                      <IconButton
+                        onClick={() => setInputValue("")}
+                        color="error"
+                        aria-label="directions"
+                      >
+                        <Icon>clear</Icon>
+                      </IconButton>
+                    ) : (
+                      ""
+                    )}
+                  </Paper>
+                </AppBar>
+                <Toolbar sx={{ backgroundColor: "transparent", py: 4 }} />
               </Box>
               <Box my={2}>
                 {searchResults.length > 0
