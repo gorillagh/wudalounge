@@ -109,7 +109,7 @@ const Account = (props) => {
                       Address*:
                     </Typography>
                     <Typography mr={2} color="text.secondary">
-                      {props.user.addresses
+                      {props.user.addresses && props.user.addresses.length
                         ? props.user.addresses[0].description
                         : ""}
                     </Typography>
