@@ -72,7 +72,7 @@ const PaymentConfirmation = (props) => {
       first_name: props.user.name,
     },
     label: props.user.name,
-    publicKey: process.env.REACT_APP_PAYSTACK_PUBLIC_TEST_KEY,
+    publicKey: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
     text: `Pay GHC${props.finalTotalAfterDiscount}`,
     onSuccess: (response) => handlePaymentComplete(response),
     onClose: () =>
