@@ -6,10 +6,12 @@ import Zoom from "@mui/material/Zoom";
 import PageTitle from "../Typography/PageTitle";
 import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";
 import {
+  AppBar,
   CircularProgress,
   IconButton,
   MenuItem,
   Select,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import ActionButton from "../Buttons/ActionButton";
@@ -108,11 +110,32 @@ const AboutUs = (props) => {
             }}
           >
             <Box sx={style}>
-              <Box my={2} display="flex" justifyContent="space-between">
-                <PageTitle my={0} title="Wuda Lounge" />
-                <Icon color="error" fontSize="large" onClick={props.onClose}>
-                  close
-                </Icon>
+              <Box>
+                <AppBar
+                  //   elevation={0}
+                  position="fixed"
+                  color="inherit"
+                  sx={{
+                    top: "0",
+                    px: 2,
+                    background: "rgba(0, 0, 0, 0.1)",
+
+                    backdropFilter: "blur(8.8px)",
+                    WebkitBackdropFilter: "blur(8.8px)",
+                  }}
+                >
+                  <Box my={2} display="flex" justifyContent="space-between">
+                    <PageTitle my={0} title="Wuda Lounge" />
+                    <Icon
+                      color="error"
+                      fontSize="large"
+                      onClick={props.onClose}
+                    >
+                      close
+                    </Icon>
+                  </Box>
+                </AppBar>
+                <Toolbar sx={{ backgroundColor: "transparent", my: 2 }} />
               </Box>
               <Box borderRadius="12px">
                 <img

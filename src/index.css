@@ -49,3 +49,17 @@ body {
   margin-top: 0px !important;
 }
 
+/* img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  max-height: 500px;
+  margin: 0 auto;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  img {
+    max-height: 300px;
+  }
+} */

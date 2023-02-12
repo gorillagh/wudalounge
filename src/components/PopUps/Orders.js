@@ -13,6 +13,7 @@ import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import {
+  AppBar,
   Chip,
   Divider,
   Grid,
@@ -20,6 +21,7 @@ import {
   TableBody,
   TableCell,
   TableRow,
+  Toolbar,
 } from "@mui/material";
 import ActionButton from "../Buttons/ActionButton";
 import IssueBox from "./IssueBox";
@@ -182,11 +184,32 @@ const Orders = (props) => {
             }}
           >
             <Box sx={style}>
-              <Box my={2} display="flex" justifyContent="space-between">
-                <PageTitle my={0} title="My Orders" />
-                <Icon color="error" fontSize="large" onClick={props.onClose}>
-                  close
-                </Icon>
+              <Box>
+                <AppBar
+                  //   elevation={0}
+                  position="fixed"
+                  color="inherit"
+                  sx={{
+                    top: "0",
+                    px: 2,
+                    background: "rgba(0, 0, 0, 0.1)",
+
+                    backdropFilter: "blur(8.8px)",
+                    WebkitBackdropFilter: "blur(8.8px)",
+                  }}
+                >
+                  <Box my={2} display="flex" justifyContent="space-between">
+                    <PageTitle my={0} title="My Orders" />
+                    <Icon
+                      color="error"
+                      fontSize="large"
+                      onClick={props.onClose}
+                    >
+                      close
+                    </Icon>
+                  </Box>
+                </AppBar>
+                <Toolbar sx={{ backgroundColor: "transparent" }} />
               </Box>
               {orders && orders.length ? (
                 orders.map((order, index) => (
