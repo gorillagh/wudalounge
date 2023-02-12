@@ -19,7 +19,7 @@ import PageTitle from "../Typography/PageTitle";
 import ActionButton from "../Buttons/ActionButton";
 import CircularLoading from "../Feedbacks/CircularLoading";
 import { createOrUpdateUser } from "../../serverFunctions/auth";
-import { Fade, Slide } from "@mui/material";
+import { Checkbox, Fade, FormControlLabel, Slide } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
 import { updateUser } from "../../serverFunctions/user";
 
@@ -46,6 +46,9 @@ const PhoneNumber = (props) => {
   });
   const [phoneNumberVerified, setPhoneNumberVerified] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showTermsAndConditins, setShowTermsAndConditions] = useState(false);
+  const [agreeToTermsAndConditions, setAgreeToTermsAndConditions] =
+    useState(true);
   const [codeSent, setCodeSent] = useState(false);
   const [code, setCode] = useState("");
   const [codeError, setCodeError] = useState({
@@ -362,6 +365,86 @@ const PhoneNumber = (props) => {
                   ) : (
                     ""
                   )}
+                  {!loading ? (
+                    <>
+                      <Box display="flex" alignItems="center" my={1}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              size="small"
+                              value={agreeToTermsAndConditions}
+                              defaultChecked
+                              onChange={(e) =>
+                                setAgreeToTermsAndConditions(e.target.checked)
+                              }
+                            />
+                          }
+                          label={
+                            <Typography variant="body2">
+                              I agree to the
+                            </Typography>
+                          }
+                          sx={{ mr: 1 }}
+                        />
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          onClick={() => {
+                            setShowTermsAndConditions(
+                              (prevState) => !prevState
+                            );
+                          }}
+                        >
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            color="info.main"
+                          >
+                            terms and conditions{" "}
+                          </Typography>
+                          <IconButton size="small">
+                            <Icon fontSize="small" color="info">
+                              {showTermsAndConditins
+                                ? "keyboard_arrow_up"
+                                : "keyboard_arrow_down"}
+                            </Icon>
+                          </IconButton>
+                        </Box>
+                      </Box>
+
+                      {showTermsAndConditins ? (
+                        <Box my={1} px={2}>
+                          <Typography variant="body2" my={1}>
+                            By providing your phone number and completing the
+                            verification process, you consent to receive SMS
+                            messages from Wuda Lounge, including updates,
+                            promotional offers, and other marketing materials.
+                            You understand that your mobile carrier's message
+                            and data rates may apply. You may opt-out of
+                            receiving SMS messages at any time by contacting{" "}
+                            <Typography
+                              variant="body2"
+                              component="span"
+                              fontWeight={500}
+                            >
+                              support@wudalounge.com
+                            </Typography>{" "}
+                            .
+                          </Typography>
+                          <Typography variant="body2">
+                            Please note that this consent is not a condition of
+                            purchase and that you can revoke your consent at any
+                            time. Wuda Lounge will never sell or share your
+                            personal information with third parties.
+                          </Typography>
+                        </Box>
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </Box>
                 <Fade appear={true} in={codeSent} direction="left">
                   <Box display={codeSent ? "block" : "none"}>
@@ -460,7 +543,7 @@ const PhoneNumber = (props) => {
                   ) : (
                     <ActionButton
                       my={0}
-                      disabled={loading}
+                      disabled={loading || !agreeToTermsAndConditions}
                       id="sign-in-button"
                       text={
                         codeSent

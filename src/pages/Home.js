@@ -11,6 +11,7 @@ import {
   Chip,
   CircularProgress,
   Divider,
+  Fade,
   Grid,
   Icon,
   IconButton,
@@ -652,9 +653,10 @@ const Home = (props) => {
                   key={index}
                   display="flex"
                   width="100%"
-                  height={200}
+                  height="40vh"
                 >
                   <Box position="absolute" top={12} right={12}>
+                    {" "}
                     <ActionButton
                       my={0}
                       size="small"
@@ -666,6 +668,7 @@ const Home = (props) => {
                       onClick={() => handleDishSelect(dish)}
                     />
                   </Box>
+
                   <img
                     src={dish.image}
                     alt="dish"

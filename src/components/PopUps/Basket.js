@@ -44,7 +44,7 @@ const style = {
 const cardStyle = {
   px: 2,
   py: 1,
-  my: 1,
+  my: 1.5,
   borderRadius: "12px",
   background: "rgba(255, 255, 255, 0.9)",
   backdropFilter: "blur(8.8px)",

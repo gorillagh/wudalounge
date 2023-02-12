@@ -118,6 +118,7 @@ function Navbar(props) {
       <Box my={1} px={2}>
         {props.user && props.user._id ? (
           <Box
+            sx={{ cursor: "pointer" }}
             display="flex"
             justifyContent="left"
             alignItems="center"
@@ -327,7 +328,7 @@ function Navbar(props) {
                 {pages.map((item, index) => (
                   <Button
                     key={index}
-                    onClick={() => handleNavigation(item.to)}
+                    onClick={() => item.to()}
                     sx={{
                       mx: 1,
                     }}
@@ -353,7 +354,7 @@ function Navbar(props) {
                   onClick={handleDrawerToggle}
                   color="primary"
                 >
-                  <MenuIcon />
+                  <PersonIcon />
                 </IconButton>
                 <Box
                 // component="nav"
@@ -402,7 +403,7 @@ function Navbar(props) {
                   color: "primary.main",
                   display: {
                     xs: "none",
-                    md: props.user !== null ? "block" : "none",
+                    md: "block",
                   },
                   p: 0,
                   ml: 2,
@@ -413,20 +414,15 @@ function Navbar(props) {
               >
                 <PersonIcon fontSize="medium" />
               </IconButton>
-              {props.user === null && (
+              {/* {props.user === null && (
                 <Box sx={{ display: { xs: "none", md: "block" } }}>
                   <NavbarButton
                     href="/login"
                     variant="contained"
                     text="Login"
                   />
-                  <NavbarButton
-                    href="/signup"
-                    variant="outlined"
-                    text="sign up"
-                  />
                 </Box>
-              )}
+              )} */}
             </Box>
           </Toolbar>
         </Container>
