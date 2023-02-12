@@ -78,7 +78,7 @@ const userWelcome = [
     icon: "thumb_up_off_alt",
   },
   {
-    text: "We have something for you",
+    text: "We have something for you ...",
     icon: "mood",
   },
   {
@@ -629,12 +629,16 @@ const Home = (props) => {
               emulateTouch
             >
               <Box textAlign="left" p={2}>
-                <Subtitle
-                  mt={0}
-                  title={`Hello ${
-                    props.user && props.user.name ? props.user.name : "there"
-                  },`}
-                />
+                <Box display="flex">
+                  <Subtitle
+                    color="secondary"
+                    mt={0}
+                    title={`Hello ${
+                      props.user && props.user.name ? props.user.name : "there"
+                    },`}
+                    mr={1}
+                  />
+                </Box>
                 <List sx={{ p: 0 }} disablePadding>
                   {userWelcome.map((info, index) => (
                     <ListItem key={index} disableGutters disablePadding>
@@ -645,6 +649,12 @@ const Home = (props) => {
                     </ListItem>
                   ))}
                 </List>
+                {/* <Box display="flex" justifyContent="center" alignItems="center">
+                  <Subtitle title="we have something for you..." mb={0} />
+                  <Icon fontSize="large" color="secondary">
+                    mood
+                  </Icon>
+                </Box> */}
               </Box>
 
               {dishes.map((dish, index) => (
