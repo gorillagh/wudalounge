@@ -85,7 +85,7 @@ const PhoneNumber = (props) => {
       props.user &&
       props.user.phoneNumber &&
       props.user.name &&
-      props.user.name !== "Wd User"
+      props.user.name !== "Customer"
     ) {
       setPhoneNumber(props.user.phoneNumber.slice(-9));
       setUserName(props.user.name);

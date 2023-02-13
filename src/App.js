@@ -105,17 +105,21 @@ const App = () => {
         currentUser(idTokenResult.token)
           .then((res) => {
             console.log(res);
-            let userInfo = {
-              _id: res.data._id,
-              phoneNumber: res.data.phoneNumber,
-              name: res.data.name,
-              email: res.data.email ? res.data.email : "",
-              addresses: res.data.addresses ? res.data.addresses : [],
-              image: res.data.image ? res.data.image : "",
-              role: res.data.role,
-              token: idTokenResult.token,
-              favorites: res.data.favorites ? res.data.favorites : [],
-            };
+            let userInfo = null;
+            if (res.data) {
+              userInfo = {
+                _id: res.data._id,
+                phoneNumber: res.data.phoneNumber,
+                name: res.data.name,
+                email: res.data.email ? res.data.email : "",
+                addresses: res.data.addresses ? res.data.addresses : [],
+                image: res.data.image ? res.data.image : "",
+                role: res.data.role,
+                token: idTokenResult.token,
+                favorites: res.data.favorites ? res.data.favorites : [],
+              };
+            }
+
             setUser(userInfo);
             dispatch({
               type: "LOGGED_IN_USER",

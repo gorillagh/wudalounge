@@ -427,7 +427,9 @@ const Orders = (props) => {
                   </Box>
                 ))
               ) : (
-                <Typography>No orders yet.</Typography>
+                <Typography color="text.secondary" textAlign="center" my={3}>
+                  No orders yet.
+                </Typography>
               )}
             </Box>
             <IssueBox
