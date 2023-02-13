@@ -226,7 +226,7 @@ const PhoneNumber = (props) => {
     if (userName.length < 3) {
       setUserNameError({
         status: true,
-        message: "User name should be more 3 letters",
+        message: "User name should be more than 3 letters",
       });
       return;
     }

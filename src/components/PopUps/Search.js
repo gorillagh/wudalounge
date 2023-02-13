@@ -136,31 +136,38 @@ const Search = (props) => {
                     my={2}
                     display="flex"
                     justifyContent="space-between"
-                    alignItems="center"
+                    alignItems="flex-start"
                   >
-                    <Paper
-                      component="form"
-                      sx={{
-                        borderRadius: "20px",
-                        p: "4px 4px",
-                        display: "flex",
-                        alignItems: "center",
-                        width: "100%",
-                      }}
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      justifyContent="right"
+                      alignItems="flex-end"
+                      width="100%"
                     >
-                      <InputBase
-                        autoFocus
-                        value={inputValue}
-                        onChange={(e) => {
-                          scrollRef.current.scrollTo(0, 0);
-                          setInputValue(e.target.value);
+                      <Paper
+                        component="form"
+                        sx={{
+                          borderRadius: "20px",
+                          p: "4px 4px",
+                          display: "flex",
+                          alignItems: "center",
+                          width: "100%",
                         }}
-                        size="large"
-                        sx={{ ml: 1, flex: 1 }}
-                        placeholder="Search Dishes/Categories"
-                        inputProps={{ "aria-label": "search google maps" }}
-                      />
-                      {/* {inputValue && inputValue.length ? (
+                      >
+                        <InputBase
+                          autoFocus
+                          value={inputValue}
+                          onChange={(e) => {
+                            scrollRef.current.scrollTo(0, 0);
+                            setInputValue(e.target.value);
+                          }}
+                          size="large"
+                          sx={{ ml: 1, flex: 1 }}
+                          placeholder="Search Dishes/Categories"
+                          inputProps={{ "aria-label": "search google maps" }}
+                        />
+                        {/* {inputValue && inputValue.length ? (
                         <IconButton
                           onClick={() => setInputValue("")}
                           color="error"
@@ -171,7 +178,36 @@ const Search = (props) => {
                       ) : (
                         ""
                       )} */}
-                    </Paper>
+                      </Paper>
+                      {props.cart &&
+                      props.cart.dishes &&
+                      props.cart.dishes.length ? (
+                        <Box
+                          display="flex"
+                          sx={{ cursor: "pointer" }}
+                          alignItems="center"
+                          mt={1}
+                          onClick={() => {
+                            props.onClose();
+                            props.setOpenBasket(true);
+                          }}
+                        >
+                          <Typography
+                            sx={{ textDecoration: "underline" }}
+                            color="primary"
+                            variant="body2"
+                            fontWeight={600}
+                          >
+                            Go to basket
+                          </Typography>
+                          <Icon fontSize="small" color="primary">
+                            arrow_forward
+                          </Icon>
+                        </Box>
+                      ) : (
+                        ""
+                      )}
+                    </Box>
                     <IconButton
                       sx={{ ml: 2 }}
                       size="medium"
@@ -186,7 +222,17 @@ const Search = (props) => {
                     </IconButton>
                   </Box>
                 </AppBar>
-                <Toolbar sx={{ backgroundColor: "transparent" }} />
+                <Toolbar
+                  sx={{
+                    backgroundColor: "transparent",
+                    my:
+                      props.cart &&
+                      props.cart.dishes &&
+                      props.cart.dishes.length
+                        ? 3
+                        : 1,
+                  }}
+                />
               </Box>
               <Box my={2} minHeight="800px">
                 {searchResults.length > 0

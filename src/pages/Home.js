@@ -452,6 +452,8 @@ const Home = (props) => {
         dishes={dishes}
         setOpenDishModal={setOpenDishModal}
         setSelectedDish={setSelectedDish}
+        cart={cart}
+        setOpenBasket={setOpenBasket}
       />
       <DishNavbar
         scrollTabValue={scrollTabValue}
@@ -464,7 +466,12 @@ const Home = (props) => {
           py: 1,
         }}
       >
-        <Grid container display="flex" justifyContent="center">
+        <Grid
+          container
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
           <Grid item xs={6} onClick={() => setOpenGoogleMap(true)}>
             <Box
               display="flex"
@@ -481,23 +488,27 @@ const Home = (props) => {
               </Typography>
             </Box>
           </Grid>
-          <Grid
-            item
-            xs={6}
-            onClick={() => (document.location.href = "tel:+233244410869")}
-          >
+          <Grid item xs={6}>
             <Box
               display="flex"
               justifyContent="center"
               alignItems="center"
               color="primary.main"
             >
-              <Icon color="primary" fontSize="small">
+              <ActionButton
+                onClick={() => (document.location.href = "tel:+233244410869")}
+                text={<Icon fontSize="small">phone</Icon>}
+                variant="outlined"
+                fullWidth={false}
+                my={0}
+                size="small"
+              />
+              {/* <Icon color="primary" fontSize="small">
                 phone
               </Icon>
               <Typography variant="body2" fontWeight={500}>
                 +233244410869
-              </Typography>
+              </Typography> */}
             </Box>
           </Grid>
         </Grid>
