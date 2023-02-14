@@ -137,13 +137,14 @@ const App = () => {
               });
             }
           });
-      } else if (window.localStorage.getItem("wdUser")) {
-        setUser(JSON.parse(window.localStorage.getItem("wdUser")));
-        dispatch({
-          type: "LOGGED_IN_USER",
-          payload: JSON.parse(window.localStorage.getItem("wdUser")),
-        });
       }
+      // else if (window.localStorage.getItem("wdUser")) {
+      //   setUser(JSON.parse(window.localStorage.getItem("wdUser")));
+      //   dispatch({
+      //     type: "LOGGED_IN_USER",
+      //     payload: JSON.parse(window.localStorage.getItem("wdUser")),
+      //   });
+      // }
     });
 
     return () => unsubscribe();
