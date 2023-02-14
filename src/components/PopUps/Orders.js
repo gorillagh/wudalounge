@@ -104,8 +104,8 @@ const Orders = (props) => {
     }
   };
   useEffect(() => {
-    fetchUserOrders();
-  }, [props.cart]);
+    if (props.open === true) fetchUserOrders();
+  }, [props.open]);
 
   const formatDate = (date) => {
     const d = new Date(date);
