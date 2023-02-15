@@ -475,7 +475,7 @@ const Home = (props) => {
           <Grid item xs={6} onClick={() => setOpenGoogleMap(true)}>
             <Box
               display="flex"
-              justifyContent="center"
+              justifyContent="left"
               alignItems="center"
               color="primary.main"
             >
@@ -491,7 +491,7 @@ const Home = (props) => {
           <Grid item xs={6}>
             <Box
               display="flex"
-              justifyContent="center"
+              justifyContent="right"
               alignItems="center"
               color="primary.main"
             >
