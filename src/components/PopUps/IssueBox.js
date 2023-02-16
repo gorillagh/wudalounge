@@ -86,7 +86,7 @@ const IssueBox = (props) => {
             <ActionButton
               variant="outlined"
               text="Call us"
-              onClick={() => (document.location.href = "tel:+233244410869")}
+              onClick={() => (document.location.href = "tel:+233240298910")}
             />
           </Box>
         </Box>

@@ -496,7 +496,7 @@ const Home = (props) => {
               color="primary.main"
             >
               <ActionButton
-                onClick={() => (document.location.href = "tel:+233244410869")}
+                onClick={() => (document.location.href = "tel:+233240298910")}
                 text={<Icon fontSize="small">phone</Icon>}
                 variant="outlined"
                 fullWidth={false}

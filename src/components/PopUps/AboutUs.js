@@ -218,7 +218,7 @@ const AboutUs = (props) => {
                     phone
                   </Icon>{" "}
                   <Typography ml={1} fontWeight={500}>
-                    +233244410869
+                    +233240298910
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center" my={1}>
