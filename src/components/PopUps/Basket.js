@@ -135,6 +135,7 @@ const Basket = (props) => {
         zoom: 17,
         gestureHandling: "none",
         disableDefaultUI: true,
+        clickableIcons: false,
       });
       const marker = new window.google.maps.Marker({
         position: { lat, lng },
@@ -632,8 +633,6 @@ const Basket = (props) => {
                   sx={{
                     ...cardStyle,
                     border: borderError,
-                    px: 0,
-                    pb: 0,
                   }}
                 >
                   {props.user && props.user._id ? (
@@ -641,7 +640,6 @@ const Basket = (props) => {
                       <Box
                         display="flex"
                         py={1}
-                        px={2}
                         onClick={() => props.setOpenPhoneNumber(true)}
                         sx={{ cursor: "pointer" }}
                       >
@@ -678,7 +676,6 @@ const Basket = (props) => {
                             }
                             display="flex"
                             py={1}
-                            px={2}
                             onClick={() => {
                               setBorderError("");
                               props.setOpenAddress(true);
@@ -734,7 +731,6 @@ const Basket = (props) => {
                     <Box
                       display="flex"
                       py={1}
-                      px={2}
                       onClick={() => {
                         setBorderError("");
                         props.setOpenPhoneNumber(true);
