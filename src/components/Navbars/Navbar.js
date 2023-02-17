@@ -354,7 +354,7 @@ function Navbar(props) {
                   onClick={handleDrawerToggle}
                   color="primary"
                 >
-                  <PersonIcon />
+                  <MenuIcon />
                 </IconButton>
                 <Box
                 // component="nav"
