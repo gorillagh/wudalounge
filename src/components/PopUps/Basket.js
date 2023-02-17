@@ -71,12 +71,11 @@ const Basket = (props) => {
   const [finalTotalAfterDiscount, setFinalTotalAfterDiscount] = useState(0);
   const [openPaymentConfirmation, setOpenPaymentConfirmation] = useState(false);
   const [borderError, setBorderError] = useState("");
+  const [lng, setLng] = useState(-0.18671566160150527);
+  const [lat, setLat] = useState(5.569976708828936);
 
   const containerRef = React.useRef(null);
   const scrollRef = React.useRef(null);
-
-  const [lng, setLng] = useState(-0.18671566160150527);
-  const [lat, setLat] = useState(5.569976708828936);
 
   var render = function (status) {
     if (status === Status.LOADING)
@@ -115,7 +114,7 @@ const Basket = (props) => {
           address:
             props.user && props.user.addresses.length
               ? props.user.addresses[0].description
-              : "1st Ringway Close, Accra, Ghana",
+              : "Backyard Bar & Grill, Ring Road East, Accra, Ghana",
         },
         function (results, status) {
           if (status === "OK") {
@@ -136,10 +135,16 @@ const Basket = (props) => {
         gestureHandling: "none",
         disableDefaultUI: true,
         clickableIcons: false,
+        mapId: "54574095a5fde241",
       });
-      const marker = new window.google.maps.Marker({
+      const priceTag = window.document.createElement("div");
+
+      priceTag.className = "price-tag";
+      priceTag.textContent = props.user && props.user.name ? "Me" : "Me";
+      const marker = new window.google.maps.marker.AdvancedMarkerView({
         position: { lat, lng },
         map,
+        content: priceTag,
       });
     });
 
@@ -714,7 +719,13 @@ const Basket = (props) => {
                               </IconButton>
                             </Box>
                           </Box>
-                          <Box mt={1}>
+                          <Box
+                            mb={1}
+                            display={
+                              !props.user.addresses ||
+                              (!props.user.addresses.length && "none")
+                            }
+                          >
                             <Wrapper
                               render={render}
                               apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
@@ -800,40 +811,45 @@ const Basket = (props) => {
                         }}
                       >
                         {tips.map((tip, index) => (
-                          <Chip
-                            key={index}
-                            label={tip.label}
-                            variant={
-                              selectedTip === tip.value ? "outlined" : ""
-                            }
-                            sx={{
-                              bgcolor:
-                                selectedTip === tip.value
-                                  ? "highlight"
-                                  : "#fff",
-                              fontWeight: selectedTip === tip.value ? 700 : "",
-                              color:
-                                selectedTip === tip.value ? "primary.main" : "",
-                              my: 1,
-                              "&:hover": {
-                                backgroundColor: (theme) =>
+                          <>
+                            <ActionButton
+                              text={tip.label}
+                              variant=""
+                              sx={{
+                                py: 0,
+                                fontSize: "0.85rem",
+                                boxShadow:
+                                  "inset 0 0 0 1px rgba(16,22,26,.05), inset 0 -1px 0 rgba(16,22,26,.2)",
+                                bgcolor:
                                   selectedTip === tip.value
-                                    ? theme.palette.highlight
+                                    ? "highlight"
                                     : "#fff",
-                              },
-                            }}
-                            onClick={() => {
-                              setSelectedTip(tip.value);
-                              props.setCart((prevState) => {
-                                prevState.riderTip = tip.value;
-                                window.localStorage.setItem(
-                                  "wdCart",
-                                  JSON.stringify(prevState)
-                                );
-                                return prevState;
-                              });
-                            }}
-                          />
+                                fontWeight:
+                                  selectedTip === tip.value ? 700 : "400",
+                                color:
+                                  selectedTip === tip.value
+                                    ? "primary.main"
+                                    : "",
+                                my: 1,
+                                "&:hover": {
+                                  bgcolor: "#fee5b9",
+                                },
+                              }}
+                              onClick={() => {
+                                setSelectedTip(tip.value);
+                                props.setCart((prevState) => {
+                                  prevState.riderTip = tip.value;
+                                  window.localStorage.setItem(
+                                    "wdCart",
+                                    JSON.stringify(prevState)
+                                  );
+                                  return prevState;
+                                });
+                              }}
+                              fullWidth={false}
+                              size="small"
+                            />
+                          </>
                         ))}
                       </Box>
                     </Box>
