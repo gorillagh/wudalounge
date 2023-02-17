@@ -135,16 +135,16 @@ const Basket = (props) => {
         gestureHandling: "none",
         disableDefaultUI: true,
         clickableIcons: false,
-        mapId: "54574095a5fde241",
+        // mapId: "54574095a5fde241",
       });
-      const priceTag = window.document.createElement("div");
+      // const priceTag = window.document.createElement("div");
 
-      priceTag.className = "price-tag";
-      priceTag.textContent = props.user && props.user.name ? "Me" : "Me";
-      const marker = new window.google.maps.marker.AdvancedMarkerView({
+      // priceTag.className = "price-tag";
+      // priceTag.textContent = props.user && props.user.name ? "Me" : "Me";
+      const marker = new window.google.maps.Marker({
         position: { lat, lng },
         map,
-        content: priceTag,
+        // content: priceTag,
       });
     });
 
@@ -154,7 +154,7 @@ const Basket = (props) => {
         id="map"
         style={{
           width: "100%",
-          height: "25vh",
+          height: "30vh",
           borderBottomLeftRadius: "12px",
           borderBottomRightRadius: "12px",
         }}
@@ -720,7 +720,7 @@ const Basket = (props) => {
                             </Box>
                           </Box>
                           <Box
-                            mb={1}
+                            my={1}
                             display={
                               !props.user.addresses ||
                               (!props.user.addresses.length && "none")
