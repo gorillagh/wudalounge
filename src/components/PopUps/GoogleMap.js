@@ -38,17 +38,35 @@ var render = function (status) {
 
 const GoogleMap = (props) => {
   const [loading, setLoading] = useState(false);
+  const [lng, setLng] = useState(-0.18671566160150527);
+  const [lat, setLat] = useState(5.569976708828936);
+
   function MyMapComponent() {
     const ref = useRef();
-
     useEffect(() => {
+      // var geocoder = new window.google.maps.Geocoder();
+      // geocoder.geocode(
+      //   { address: "1st Ringway Close, Accra, Ghana" },
+      //   function (results, status) {
+      //     if (status === "OK") {
+      //       setLat(results[0].geometry.location.lat());
+      //       setLng(results[0].geometry.location.lng());
+      //       console.log("Latitude: " + lat);
+      //       console.log("Longitude: " + lng);
+      //     } else {
+      //       console.log(
+      //         "Geocode was not successful for the following reason: " + status
+      //       );
+      //     }
+      //   }
+      // );
       const map = new window.google.maps.Map(ref.current, {
-        center: { lat: 5.569976708828936, lng: -0.18671566160150527 },
+        center: { lat, lng },
         zoom: 17,
         gestureHandling: "greedy",
       });
       const marker = new window.google.maps.Marker({
-        position: { lat: 5.569976708828936, lng: -0.18671566160150527 },
+        position: { lat, lng },
         map,
       });
     });

@@ -126,7 +126,7 @@ const DishSizeCard = (props) => {
                 <Typography textAlign="right">
                   <Chip
                     label={
-                      <Typography variant="body2" fontWeight={400}>
+                      <Typography variant="body2" fontWeight={500}>
                         +GHC
                         {(
                           size.additionalAmount -

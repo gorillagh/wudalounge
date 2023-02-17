@@ -204,7 +204,7 @@ const DishExtrasCard = (props) => {
                     p: 0,
                   }}
                   label={
-                    <Typography variant="body2" fontWeight={400}>
+                    <Typography variant="body2" fontWeight={500}>
                       +GHC
                       {(
                         extra.additionalAmount * extra.quantity -

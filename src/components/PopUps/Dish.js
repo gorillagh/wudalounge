@@ -439,7 +439,7 @@ const Dish = (props) => {
                     label="Required"
                     color="secondary"
                     size="small"
-                    sx={{ fontWeight: 300 }}
+                    sx={{ fontWeight: 400 }}
                   />
                 }
               />

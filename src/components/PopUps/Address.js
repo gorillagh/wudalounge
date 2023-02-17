@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import { Icon, InputBase, Paper, Zoom } from "@mui/material";
 import PageTitle from "../Typography/PageTitle";
 import GooglePlacesAutoComplete from "../Inputs/GooglePlacesAutoComplete";
-import Autocomplete from "react-google-autocomplete";
 import { updateUser } from "../../serverFunctions/user";
 import { useDispatch } from "react-redux";
 import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";

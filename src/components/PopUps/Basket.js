@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 import {
   AppBar,
   Chip,
+  CircularProgress,
   Divider,
   FormControl,
   Grid,
@@ -72,6 +74,87 @@ const Basket = (props) => {
 
   const containerRef = React.useRef(null);
   const scrollRef = React.useRef(null);
+
+  const [lng, setLng] = useState(-0.18671566160150527);
+  const [lat, setLat] = useState(5.569976708828936);
+
+  var render = function (status) {
+    if (status === Status.LOADING)
+      return (
+        <Box
+          display="flex"
+          justifyContent="center"
+          sx={{
+            width: "100%",
+            height: "25vh",
+            borderBottomLeftRadius: "12px",
+            borderBottomRightRadius: "12px",
+          }}
+        >
+          <Typography>
+            <CircularProgress thickness={4} />
+          </Typography>
+        </Box>
+      );
+    if (status === Status.FAILURE)
+      return (
+        <Box display="flex" justifyContent="center">
+          <Typography variant="body2">Unable to load map...</Typography>
+        </Box>
+      );
+
+    return null;
+  };
+
+  function MyMapComponent() {
+    const mapRef = useRef();
+    useEffect(() => {
+      var geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode(
+        {
+          address:
+            props.user && props.user.addresses.length
+              ? props.user.addresses[0].description
+              : "1st Ringway Close, Accra, Ghana",
+        },
+        function (results, status) {
+          if (status === "OK") {
+            setLat(results[0].geometry.location.lat());
+            setLng(results[0].geometry.location.lng());
+            console.log("Latitude: " + lat);
+            console.log("Longitude: " + lng);
+          } else {
+            console.log(
+              "Geocode was not successful for the following reason: " + status
+            );
+          }
+        }
+      );
+      const map = new window.google.maps.Map(mapRef.current, {
+        center: { lat, lng },
+        zoom: 17,
+        gestureHandling: "none",
+        disableDefaultUI: true,
+      });
+      const marker = new window.google.maps.Marker({
+        position: { lat, lng },
+        map,
+      });
+    });
+
+    return (
+      <Box
+        ref={mapRef}
+        id="map"
+        style={{
+          width: "100%",
+          height: "25vh",
+          borderBottomLeftRadius: "12px",
+          borderBottomRightRadius: "12px",
+        }}
+      />
+    );
+  }
 
   useEffect(() => {
     props.cart && props.cart.notes && setNotes(props.cart.notes);
@@ -549,13 +632,16 @@ const Basket = (props) => {
                   sx={{
                     ...cardStyle,
                     border: borderError,
+                    px: 0,
+                    pb: 0,
                   }}
                 >
                   {props.user && props.user._id ? (
-                    <Box py={1}>
+                    <Box pt={1}>
                       <Box
                         display="flex"
                         py={1}
+                        px={2}
                         onClick={() => props.setOpenPhoneNumber(true)}
                         sx={{ cursor: "pointer" }}
                       >
@@ -592,6 +678,7 @@ const Basket = (props) => {
                             }
                             display="flex"
                             py={1}
+                            px={2}
                             onClick={() => {
                               setBorderError("");
                               props.setOpenAddress(true);
@@ -630,6 +717,14 @@ const Basket = (props) => {
                               </IconButton>
                             </Box>
                           </Box>
+                          <Box mt={1}>
+                            <Wrapper
+                              render={render}
+                              apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+                            >
+                              <MyMapComponent />
+                            </Wrapper>{" "}
+                          </Box>
                         </>
                       ) : (
                         ""
@@ -639,6 +734,7 @@ const Basket = (props) => {
                     <Box
                       display="flex"
                       py={1}
+                      px={2}
                       onClick={() => {
                         setBorderError("");
                         props.setOpenPhoneNumber(true);
