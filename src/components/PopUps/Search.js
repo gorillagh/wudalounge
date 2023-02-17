@@ -146,7 +146,7 @@ const Search = (props) => {
                       width="100%"
                     >
                       <Paper
-                        component="form"
+                        // component="form"
                         sx={{
                           borderRadius: "20px",
                           p: "4px 4px",
