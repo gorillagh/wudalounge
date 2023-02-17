@@ -103,7 +103,7 @@ const dishes = [
     ],
     extras: [
       {
-        item: "Pork(Grilled",
+        item: "Pork(Grilled)",
         additionalAmount: 30,
         checked: false,
         quantity: 1,
@@ -200,7 +200,7 @@ const dishes = [
     ],
     extras: [
       {
-        item: "Pork(Grilled",
+        item: "Pork(Grilled)",
         additionalAmount: 30,
         checked: false,
         quantity: 1,
@@ -233,7 +233,7 @@ const dishes = [
     ],
     extras: [
       {
-        item: "Pork(Grilled",
+        item: "Pork(Grilled)",
         additionalAmount: 30,
         checked: false,
         quantity: 1,
@@ -265,7 +265,7 @@ const dishes = [
     ],
     extras: [
       {
-        item: "Pork(Grilled",
+        item: "Pork(Grilled)",
         additionalAmount: 30,
         checked: false,
         quantity: 1,
