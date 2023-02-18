@@ -71,6 +71,7 @@ const Basket = (props) => {
   const [finalTotalAfterDiscount, setFinalTotalAfterDiscount] = useState(0);
   const [openPaymentConfirmation, setOpenPaymentConfirmation] = useState(false);
   const [borderError, setBorderError] = useState("");
+  const [orderDuration, setOrderDuration] = useState(20);
   const [lng, setLng] = useState(-0.18671566160150527);
   const [lat, setLat] = useState(5.569976708828936);
 
@@ -109,6 +110,8 @@ const Basket = (props) => {
     const mapRef = useRef();
     useEffect(() => {
       var geocoder = new window.google.maps.Geocoder();
+      const directionsService = new window.google.maps.DirectionsService();
+
       geocoder.geocode(
         {
           address:
@@ -120,8 +123,6 @@ const Basket = (props) => {
           if (status === "OK") {
             setLat(results[0].geometry.location.lat());
             setLng(results[0].geometry.location.lng());
-            console.log("Latitude: " + lat);
-            console.log("Longitude: " + lng);
           } else {
             console.log(
               "Geocode was not successful for the following reason: " + status
@@ -129,6 +130,35 @@ const Basket = (props) => {
           }
         }
       );
+
+      directionsService.route(
+        {
+          origin: new window.google.maps.LatLng(
+            5.569976708828936,
+            -0.18671566160150527
+          ),
+          destination: new window.google.maps.LatLng(lat, lng),
+          travelMode: window.google.maps.TravelMode.DRIVING,
+          drivingOptions: {
+            departureTime: new Date(Date.now() + 1000), // 1 second from now
+            trafficModel: "bestguess",
+          },
+        },
+        (result, status) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            // Get the distance from the result object
+            const distance = result.routes[0].legs[0].distance.text;
+            const duration = Math.round(
+              result.routes[0].legs[0].duration_in_traffic.value / 60
+            );
+
+            // Do something with the distance and directions
+            console.log(`Duration: ${duration}`);
+            setOrderDuration(duration + 25);
+          }
+        }
+      );
+
       const map = new window.google.maps.Map(mapRef.current, {
         center: { lat, lng },
         zoom: 17,
@@ -148,7 +178,7 @@ const Basket = (props) => {
         map,
         // content: priceTag,
       });
-    });
+    }, []);
 
     return (
       <Box
@@ -734,6 +764,22 @@ const Basket = (props) => {
                             >
                               <MyMapComponent />
                             </Wrapper>{" "}
+                            <Box
+                              display="flex"
+                              alignItems="center"
+                              mt={1}
+                              justifyContent="right"
+                            >
+                              <Icon fontSize="small">access_time</Icon>{" "}
+                              <Typography
+                                ml={1}
+                                variant="body2"
+                                fontWeight={500}
+                              >
+                                {orderDuration}mins{" "}
+                              </Typography>
+                              <Typography variant="body2"> (EST.)</Typography>
+                            </Box>
                           </Box>
                         </>
                       ) : (
@@ -813,7 +859,7 @@ const Basket = (props) => {
                         }}
                       >
                         {tips.map((tip, index) => (
-                          <>
+                          <Box key={index}>
                             <ActionButton
                               text={tip.label}
                               variant=""
@@ -851,7 +897,7 @@ const Basket = (props) => {
                               fullWidth={false}
                               size="small"
                             />
-                          </>
+                          </Box>
                         ))}
                       </Box>
                     </Box>

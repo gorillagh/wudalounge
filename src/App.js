@@ -150,8 +150,8 @@ const App = () => {
       //     payload: JSON.parse(window.localStorage.getItem("wdUser")),
       //   });
       // }
+      setLoading(false);
     });
-
     return () => unsubscribe();
   }, [dispatch, loadUser]);
 
