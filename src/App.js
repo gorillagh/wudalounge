@@ -19,6 +19,7 @@ import NotFound from "./pages/NotFound";
 import Footer from "./components/Footers/Footer";
 
 import { currentUser } from "./serverFunctions/auth";
+import LoadingBackdrop from "./components/Feedbacks/LoadingBackdrop";
 
 let theme = createTheme({
   palette: {
@@ -95,8 +96,10 @@ const App = () => {
   const dispatch = useDispatch();
   const [user, setUser] = useState(null);
   const [loadUser, setLoadUser] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         console.log("Logged In user", user);
@@ -126,16 +129,18 @@ const App = () => {
               payload: userInfo,
             });
             window.localStorage.setItem("wdUser", JSON.stringify(userInfo));
+            setLoading(false);
           })
           .catch((error) => {
+            setLoading(false);
             console.log(error);
-            if (window.localStorage.getItem("wdUser")) {
-              setUser(JSON.parse(window.localStorage.getItem("wdUser")));
-              dispatch({
-                type: "LOGGED_IN_USER",
-                payload: JSON.parse(window.localStorage.getItem("wdUser")),
-              });
-            }
+            // if (window.localStorage.getItem("wdUser")) {
+            //   setUser(JSON.parse(window.localStorage.getItem("wdUser")));
+            //   dispatch({
+            //     type: "LOGGED_IN_USER",
+            //     payload: JSON.parse(window.localStorage.getItem("wdUser")),
+            //   });
+            // }
           });
       }
       // else if (window.localStorage.getItem("wdUser")) {
@@ -165,6 +170,7 @@ const App = () => {
         <Route exact path="*" element={<NotFound />} />
       </Routes>
       <Footer />
+      <LoadingBackdrop open={loading} />
     </ThemeProvider>
   );
 };

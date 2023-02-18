@@ -135,8 +135,10 @@ const Basket = (props) => {
         gestureHandling: "none",
         disableDefaultUI: true,
         clickableIcons: false,
+
         // mapId: "54574095a5fde241",
       });
+
       // const priceTag = window.document.createElement("div");
 
       // priceTag.className = "price-tag";
