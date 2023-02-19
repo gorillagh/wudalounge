@@ -20,6 +20,10 @@ import Footer from "./components/Footers/Footer";
 
 import { currentUser } from "./serverFunctions/auth";
 import LoadingBackdrop from "./components/Feedbacks/LoadingBackdrop";
+import AdminRoute from "./components/Routes/AdminRoute";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import { getUser } from "./serverFunctions/user";
+import AdminLogin from "./pages/Admin";
 
 let theme = createTheme({
   palette: {
@@ -144,11 +148,18 @@ const App = () => {
           });
       }
       // else if (window.localStorage.getItem("wdUser")) {
-      //   setUser(JSON.parse(window.localStorage.getItem("wdUser")));
-      //   dispatch({
-      //     type: "LOGGED_IN_USER",
-      //     payload: JSON.parse(window.localStorage.getItem("wdUser")),
-      //   });
+      //   const data = JSON.parse(window.localStorage.getItem("wdUser"));
+      //   const response = await getUser(data._id);
+      //   if (response.data) {
+      //     setUser(JSON.parse(window.localStorage.getItem("wdUser")));
+      //     dispatch({
+      //       type: "LOGGED_IN_USER",
+      //       payload: JSON.parse(window.localStorage.getItem("wdUser")),
+      //     });
+      //     setLoading(false);
+      //   } else {
+      //     window.localStorage.removeItem("wdUser");
+      //   }
       // }
       setLoading(false);
     });
@@ -164,6 +175,20 @@ const App = () => {
           path="/"
           element={
             <Home user={user} setLoadUser={setLoadUser} setUser={setUser} />
+          }
+        />
+        <Route
+          exact
+          path="/admin/login"
+          element={<AdminLogin setUser={setUser} user={user} />}
+        />
+        <Route
+          exact
+          path="/admin/dashboard"
+          element={
+            <AdminRoute>
+              <AdminDashboard setUser={setUser} user={user} />
+            </AdminRoute>
           }
         />
 

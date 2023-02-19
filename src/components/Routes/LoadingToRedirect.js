@@ -25,7 +25,7 @@ const LoadingToRedirect = (props) => {
     const interval = setInterval(() => {
       setCount((currentCount) => --currentCount);
     }, 1000);
-    count === 0 && navigate("/login");
+    count === 0 && navigate("/admin/login");
     return () => clearInterval(interval);
   }, [count, navigate]);
 
