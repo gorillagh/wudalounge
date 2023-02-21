@@ -295,7 +295,7 @@ const Basket = (props) => {
 
     setLoading(true);
     try {
-      const response = await createPayment(props.user._id, props.cart);
+      const response = await createPayment(props.user.token, props.cart);
       console.log(response.data);
       setFinalTotal(response.data.total);
       setFinalTotalAfterDiscount(response.data.totalAfterDiscount);
@@ -366,6 +366,7 @@ const Basket = (props) => {
             <Box>
               <AppBar
                 position="fixed"
+                elevation={1}
                 color="inherit"
                 sx={{
                   top: "0",
@@ -376,7 +377,12 @@ const Basket = (props) => {
                   WebkitBackdropFilter: "blur(8.8px)",
                 }}
               >
-                <Grid container spacing={1} justifyContent="space-between">
+                <Grid
+                  container
+                  spacing={1}
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
                   <Grid item xs={3} textAlign="left">
                     {/* <Typography textAlign="right"> */}
                     <Icon onClick={props.onClose} sx={{ cursor: "pointer" }}>
@@ -395,12 +401,14 @@ const Basket = (props) => {
                       >
                         <Icon
                           color="error"
+                          fontSize="small"
                           sx={{ cursor: "pointer" }}
                           onClick={clearBasket}
                         >
                           delete_outlined
                         </Icon>{" "}
                         <Typography
+                          variant="body2"
                           color="error"
                           sx={{ cursor: "pointer" }}
                           onClick={clearBasket}
@@ -1138,6 +1146,7 @@ const Basket = (props) => {
               setCart={props.setCart}
               closeBasket={() => props.onClose()}
               setOpenOrders={props.setOpenOrders}
+              setAlertSnackbar={props.setAlertSnackbar}
             />
           ) : (
             ""

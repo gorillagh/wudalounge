@@ -84,7 +84,7 @@ const Favorites = (props) => {
       // only splice array when item is found
       favorites.splice(favoriteDishIndex, 1);
     }
-    await updateUser(props.user._id, { favorites })
+    await updateUser(props.user.token, { favorites })
       .then((res) => {
         let userInfo = {
           _id: res.data._id,
@@ -169,7 +169,7 @@ const Favorites = (props) => {
             <Box sx={style}>
               <Box>
                 <AppBar
-                  //   elevation={0}
+                  elevation={1}
                   position="fixed"
                   color="inherit"
                   sx={{

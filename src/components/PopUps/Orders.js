@@ -95,7 +95,7 @@ const Orders = (props) => {
   const fetchUserOrders = async () => {
     try {
       setLoading(true);
-      const res = await getOrders(props.user._id);
+      const res = await getOrders(props.user.token);
       setOrders(res.data);
       setLoading(false);
     } catch (error) {
@@ -186,7 +186,7 @@ const Orders = (props) => {
             <Box sx={style}>
               <Box>
                 <AppBar
-                  //   elevation={0}
+                  elevation={1}
                   position="fixed"
                   color="inherit"
                   sx={{

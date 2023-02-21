@@ -1,20 +1,16 @@
-import axios from "axios";
+import { api } from "./index";
 
 export const createOrUpdateUser = async (authtoken, data) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API_URL}/create-or-update-user`,
-    data,
-    {
-      headers: {
-        authtoken,
-      },
-    }
-  );
+  return await api.post(`/create-or-update-user`, data, {
+    headers: {
+      authtoken,
+    },
+  });
 };
 
 export const googleLogin = async (authtoken) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API_URL}/google-login`,
+  return await api.post(
+    `/google-login`,
     {},
     {
       headers: {
@@ -25,8 +21,8 @@ export const googleLogin = async (authtoken) => {
 };
 
 export const loginUser = async (authtoken) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API_URL}/login-user`,
+  return await api.post(
+    `/login-user`,
     {},
     {
       headers: {
@@ -37,8 +33,8 @@ export const loginUser = async (authtoken) => {
 };
 
 export const currentUser = async (authtoken) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API_URL}/current-user`,
+  return await api.post(
+    `/current-user`,
     {},
     {
       headers: {
@@ -49,8 +45,8 @@ export const currentUser = async (authtoken) => {
 };
 
 export const currentAdmin = async (authtoken) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API_URL}/current-admin`,
+  return await api.post(
+    `/current-admin`,
     {},
     {
       headers: {
@@ -61,8 +57,8 @@ export const currentAdmin = async (authtoken) => {
 };
 
 export const checkEmailAvailability = async (email) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API_URL}/check-email-availability`,
+  return await api.post(
+    `/check-email-availability`,
     {},
     {
       headers: {
@@ -73,13 +69,9 @@ export const checkEmailAvailability = async (email) => {
 };
 
 export const updateUser = async (authtoken, update, slug) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API_URL}/update-user/${slug}`,
-    update,
-    {
-      headers: {
-        authtoken,
-      },
-    }
-  );
+  return await api.post(`/update-user/${slug}`, update, {
+    headers: {
+      authtoken,
+    },
+  });
 };

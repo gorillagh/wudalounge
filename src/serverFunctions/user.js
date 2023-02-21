@@ -1,40 +1,51 @@
-import axios from "axios";
+import { api } from "./index";
 
-export const getUser = async (id) => {
-  return await axios.get(`${process.env.REACT_APP_API_URL}/get-user/${id}`);
+export const getUser = async (authtoken) => {
+  return await api.post(
+    `/get-user`,
+    {},
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
 };
 
 export const addToNotificationList = async (email) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API_URL}/add-to-notification-list`,
-    { email }
-  );
+  return await api.post(`/add-to-notification-list`, { email });
 };
 
-export const changeFavorites = async (userId, dishId, action) => {
-  return await axios.post(`${process.env.REACT_APP_API_URL}/change-favorites`, {
-    userId,
-    dishId,
-    action,
+export const updateUser = async (authtoken, data) => {
+  return await api.post(`/update`, data, {
+    headers: {
+      authtoken,
+    },
   });
 };
 
-export const updateUser = async (id, data) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API_URL}/update/${id}`,
-    data
+export const getOrders = async (authtoken) => {
+  return await api.post(
+    `/get-orders`,
+    {},
+    {
+      headers: {
+        authtoken,
+      },
+    }
   );
 };
 
-export const getOrders = async (id) => {
-  return await axios.get(`${process.env.REACT_APP_API_URL}/get-orders/${id}`);
-};
-
-export const uploadImage = async (id, uri) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API_URL}/upload-image/${id}`,
+export const uploadImage = async (authtoken, uri) => {
+  return await api.post(
+    `/upload-image`,
     {
       uri,
+    },
+    {
+      headers: {
+        authtoken,
+      },
     }
   );
 };

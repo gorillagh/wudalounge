@@ -1,14 +1,28 @@
-import axios from "axios";
+import { api } from "./index";
 
-export const createPayment = async (id, data) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API_URL}/create-payment/${id}`,
-    data
-  );
+export const createPayment = async (authtoken, data) => {
+  return await api.post(`/create-payment`, data, {
+    headers: {
+      authtoken,
+    },
+  });
 };
 
-export const verifyTransactionAndCreateOrder = async (id, transaction, data) =>
-  axios.post(`${process.env.REACT_APP_API_URL}/verify-transaction/${id}`, {
-    transaction,
-    data,
-  });
+export const verifyTransactionAndCreateOrder = async (
+  authtoken,
+  transaction,
+  data
+) => {
+  return await api.post(
+    `/verify-transaction`,
+    {
+      transaction,
+      data,
+    },
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+};

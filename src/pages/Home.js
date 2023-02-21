@@ -54,6 +54,7 @@ import Search from "../components/PopUps/Search";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import ActionButton from "../components/Buttons/ActionButton";
+import { AxiosErrorAlert } from "../serverFunctions/payment";
 
 var date1 = new Date(2023, 2, 3, 10, 30, 50, 800);
 
@@ -813,6 +814,7 @@ const Home = (props) => {
         setAlertSnackbar={setAlertSnackbar}
         setOpenOrders={setOpenOrders}
       />
+      {/* <AxiosErrorAlert setAlertSnackbar={setAlertSnackbar} /> */}
 
       <PhoneNumber
         open={openPhoneNumber}
@@ -879,6 +881,8 @@ const Home = (props) => {
         }
         text={alertSnackbar.text}
         severity={alertSnackbar.severity}
+        variant={alertSnackbar.variant}
+        autoHideDuration={alertSnackbar.autoHideDuration}
       />
       <GoogleMap open={openGoogleMap} onClose={() => setOpenGoogleMap(false)} />
     </Box>

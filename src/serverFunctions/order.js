@@ -1,36 +1,25 @@
-import axios from "axios";
+import { api } from "./index";
 
 export const uploadFile = async (file) => {
-  return await axios.post(`${process.env.REACT_APP_API_URL}/uploadfile`, file);
+  return await api.post(`/uploadfile`, file);
 };
 
 export const saveOrderToDb = async (order) => {
-  return await axios.post(`${process.env.REACT_APP_API_URL}/saveorder`, order);
+  return await api.post(`${process.env.REACT_APP_API_URL}/saveorder`, order);
 };
 
 export const getOrder = async (orderId) => {
-  return await axios.get(
-    `${process.env.REACT_APP_API_URL}/getorder/${orderId}`
-  );
+  return await api.get(`/getorder/${orderId}`);
 };
 
 export const updateOrder = async (orderId, orderInfo) => {
-  return await axios.put(
-    `${process.env.REACT_APP_API_URL}/update-order/${orderId}`,
-    orderInfo
-  );
+  return await api.put(`/update-order/${orderId}`, orderInfo);
 };
 
 export const createPaymentIntent = async (orderId, orderInfo) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API_URL}/create-payment-intent/${orderId}`,
-    orderInfo
-  );
+  return await api.post(`/create-payment-intent/${orderId}`, orderInfo);
 };
 
 export const completeOrder = async (orderId, payload) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API_URL}/complete-order/${orderId}`,
-    payload
-  );
+  return await api.post(`/complete-order/${orderId}`, payload);
 };

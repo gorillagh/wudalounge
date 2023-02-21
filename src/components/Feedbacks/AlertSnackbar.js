@@ -20,7 +20,7 @@ const AlertSnackbar = (props) => {
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={props.open}
-        autoHideDuration={3000}
+        autoHideDuration={props.autoHideDuration}
         onClose={handleClose}
       >
         <Alert
@@ -39,6 +39,7 @@ const AlertSnackbar = (props) => {
 AlertSnackbar.defaultProps = {
   variant: "standard",
   severity: "info",
+  autoHideDuration: 3000,
 };
 
 export default AlertSnackbar;

@@ -88,9 +88,7 @@ const Profile = (props) => {
         100,
         0,
         (uri) => {
-          console.log(uri);
-
-          uploadImage(props.user._id, uri)
+          uploadImage(props.user.token, uri)
             .then((res) => {
               // console.log('Image Upload Res Data', res)
               console.log(res.data);
@@ -135,7 +133,7 @@ const Profile = (props) => {
       }
 
       setLoading(true);
-      await updateUser(props.user._id, { name, email, image })
+      await updateUser(props.user.token, { name, email, image })
         .then((res) => {
           let userInfo = {
             _id: res.data._id,

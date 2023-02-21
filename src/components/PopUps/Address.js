@@ -31,7 +31,7 @@ const Address = (props) => {
     const updateUserAddress = async () => {
       if (props.user && props.user._id && value) {
         setLoading(true);
-        await updateUser(props.user._id, { addresses: [value] })
+        await updateUser(props.user.token, { addresses: [value] })
           .then((res) => {
             let userInfo = {
               _id: res.data._id,

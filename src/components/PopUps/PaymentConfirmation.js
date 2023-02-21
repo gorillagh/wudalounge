@@ -26,7 +26,14 @@ const PaymentConfirmation = (props) => {
   const handleCashOrder = async () => {
     try {
       setLoading(true);
-      await verifyTransactionAndCreateOrder(props.user._id, {}, props.cart);
+      await verifyTransactionAndCreateOrder(props.user.token, {}, props.cart);
+      props.setAlertSnackbar({
+        open: true,
+        text: "Order Successful! Thank you.",
+        severity: "success",
+        variant: "filled",
+        autoHideDuration: 10000,
+      });
       props.onClose();
       window.localStorage.removeItem("wdCart");
       props.setCart({});
@@ -43,7 +50,7 @@ const PaymentConfirmation = (props) => {
       setLoading(true);
       console.log(response);
       await verifyTransactionAndCreateOrder(
-        props.user._id,
+        props.user.token,
         response,
         props.cart
       );

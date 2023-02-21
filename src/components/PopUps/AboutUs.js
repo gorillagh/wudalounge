@@ -112,7 +112,7 @@ const AboutUs = (props) => {
             <Box sx={style}>
               <Box>
                 <AppBar
-                  //   elevation={0}
+                  elevation={1}
                   position="fixed"
                   color="inherit"
                   sx={{

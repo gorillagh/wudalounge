@@ -25,7 +25,7 @@ import {
 import ActionButton from "../Buttons/ActionButton";
 import DishSizeCard from "../Cards/DishSizeCard";
 import DishExtrasCard from "../Cards/DishExtrasCard";
-import { changeFavorites, updateUser } from "../../serverFunctions/user";
+import { updateUser } from "../../serverFunctions/user";
 
 const style = {
   position: "absolute",
@@ -205,7 +205,7 @@ const Dish = (props) => {
         snackbarText = `"${props.dish.name}" removed from favorites`;
       }
 
-      await updateUser(props.user._id, { favorites })
+      await updateUser(props.user.token, { favorites })
         .then((res) => {
           let userInfo = {
             _id: res.data._id,

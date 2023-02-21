@@ -238,7 +238,7 @@ const PhoneNumber = (props) => {
       }
       return;
     }
-    await updateUser(props.user._id, { name: userName })
+    await updateUser(props.user.token, { name: userName })
       .then((res) => {
         console.log(res.data);
         let userInfo = {
