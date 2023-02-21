@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Icon, Typography } from "@mui/material";
 import AdminNavbar from "../../components/Navbars/AdminNavbar";
 import Search from "../../components/PopUps/Search";
 import PageTitle from "../../components/Typography/PageTitle";
 import Subtitle from "../../components/Typography/Subtitle";
+import { getDashboardBriefs } from "../../serverFunctions/admin";
 
 const cardStyle = {
   px: 2,
@@ -27,10 +28,29 @@ const cardHeader = {
 
 const AdminDashboard = (props) => {
   const [openSearch, setOpenSearch] = useState(false);
+  const [briefsLoading, setBriefsLoading] = useState(false);
+  const [dashboardBriefs, setdashboardBriefs] = useState(null);
   // const getOrders;
   // const getUsers;
   // const getMenu;
   // const issues;
+
+  const getBriefs = async () => {
+    try {
+      setBriefsLoading(true);
+      const res = await getDashboardBriefs(props.user.token);
+      setdashboardBriefs(res.data);
+      setBriefsLoading(false);
+      console.log(res.data);
+    } catch (error) {
+      setBriefsLoading(false);
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getBriefs();
+  }, []);
 
   return (
     <div>
@@ -50,77 +70,163 @@ const AdminDashboard = (props) => {
       />
 
       {/* <Subtitle title="Dashboard" my={1} mx={1} /> */}
-      <Grid container justifyContent="space-between" spacing={1} px={1}>
-        <Grid item xs={6} md={3}>
-          <Box sx={{ ...cardStyle }}>
-            <Typography sx={{ ...cardHeader }} variant="body2">
-              Orders
-            </Typography>
-            <Box display="flex" my={1} alignItems="flex-start">
-              <Typography variant="body2" mr={1}>
-                Today:{" "}
-              </Typography>
-              <Box>
-                <Subtitle title="50" my={0} />
+      {briefsLoading ? (
+        ""
+      ) : (
+        <Grid container justifyContent="space-between" spacing={1} px={1}>
+          <Grid item xs={6} md={3}>
+            <Box sx={{ ...cardStyle }}>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography sx={{ ...cardHeader }} variant="body2">
+                  Orders
+                </Typography>
+                <Icon fontSize="small" color="primary">
+                  assignment
+                </Icon>
+              </Box>
+              <Box display="flex" my={1} alignItems="center">
+                <Typography variant="body2" mr={1}>
+                  Today:{" "}
+                </Typography>
+
+                <Subtitle
+                  title={
+                    dashboardBriefs
+                      ? dashboardBriefs.ordersInfo.todayOrdersNumber
+                      : 0
+                  }
+                  my={0}
+                />
                 {/* <Subtitle title="(GHC2500)" my={0} /> */}
-                <Typography>(GHC2500)</Typography>
+                <Typography variant="body2">
+                  (GHC
+                  {dashboardBriefs ? dashboardBriefs.ordersInfo.todayTotal : 0})
+                </Typography>
+              </Box>
+              <Box display="flex" my={1} alignItems="center">
+                <Typography variant="body2" mr={1}>
+                  All Time:{" "}
+                </Typography>
+
+                <Subtitle
+                  title={
+                    dashboardBriefs
+                      ? dashboardBriefs.ordersInfo.allTimeOrdersNumber
+                      : 0
+                  }
+                  my={0}
+                />
+                {/* <Subtitle title="(GHC2500)" my={0} /> */}
+                <Typography variant="body2">
+                  (GHC
+                  {dashboardBriefs
+                    ? dashboardBriefs.ordersInfo.allTimeTotal
+                    : 0}
+                  )
+                </Typography>
               </Box>
             </Box>
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={3}>
-          <Box sx={{ ...cardStyle }}>
-            <Typography sx={{ ...cardHeader }} variant="body2">
-              Menu
-            </Typography>
-            <Box
-              display="flex"
-              my={1}
-              alignItems="flex-start"
-              justifyContent="center"
-            >
-              <Typography variant="body2" mr={1}>
-                Dishes:
-              </Typography>
-              <Subtitle title="54" my={0} />
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <Box sx={{ ...cardStyle }}>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography sx={{ ...cardHeader }} variant="body2">
+                  Menu
+                </Typography>
+                <Icon fontSize="small" color="primary">
+                  restaurant_menu
+                </Icon>
+              </Box>
+              <Box
+                display="flex"
+                my={1}
+                alignItems="flex-start"
+                justifyContent="center"
+              >
+                <Typography variant="body2" mr={1}>
+                  Dishes:
+                </Typography>
+                <Subtitle
+                  title={
+                    dashboardBriefs ? dashboardBriefs.menuInfo.dishesTotal : 0
+                  }
+                  my={0}
+                />
+              </Box>
             </Box>
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={3}>
-          <Box sx={{ ...cardStyle }}>
-            <Typography sx={{ ...cardHeader }} variant="body2">
-              Customers
-            </Typography>
-            <Box
-              display="flex"
-              my={1}
-              alignItems="flex-start"
-              justifyContent="center"
-            >
-              <Subtitle title="94" my={0} />
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <Box sx={{ ...cardStyle }}>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography sx={{ ...cardHeader }} variant="body2">
+                  Users
+                </Typography>
+                <Icon fontSize="small" color="primary">
+                  people
+                </Icon>
+              </Box>
+              <Box
+                display="flex"
+                my={1}
+                alignItems="flex-start"
+                justifyContent="center"
+              >
+                <Subtitle
+                  title={dashboardBriefs ? dashboardBriefs.usersInfo.total : 0}
+                  my={0}
+                />
+              </Box>
             </Box>
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={3}>
-          <Box sx={{ ...cardStyle }}>
-            <Typography sx={{ ...cardHeader }} variant="body2">
-              Issues
-            </Typography>
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <Box sx={{ ...cardStyle }}>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography sx={{ ...cardHeader }} variant="body2">
+                  Reports
+                </Typography>
+                <Icon fontSize="small" color="primary">
+                  bug_report
+                </Icon>
+              </Box>
 
-            <Box
-              display="flex"
-              my={1}
-              alignItems="flex-start"
-              justifyContent="center"
-            >
-              <Typography variant="body2" mr={1}>
-                Today:{" "}
-              </Typography>
-              <Subtitle title="4" my={0} />
+              <Box
+                display="flex"
+                my={1}
+                alignItems="flex-start"
+                justifyContent="center"
+              >
+                <Typography variant="body2" mr={1}>
+                  Today:{" "}
+                </Typography>
+                <Subtitle
+                  title={
+                    dashboardBriefs && dashboardBriefs.reportsInfo
+                      ? dashboardBriefs.reportsInfo.todayReports
+                      : 0
+                  }
+                  my={0}
+                />
+              </Box>
             </Box>
-          </Box>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </div>
   );
 };

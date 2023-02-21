@@ -36,7 +36,7 @@ function AdminNavbar(props) {
   ];
   const userPages = [
     // { text: "Profile", icon: "person", to: () => props.setOpenProfile(true) },
-    { text: "Orders", icon: "list", to: "/admin/orders" },
+    { text: "Orders", icon: "assignment", to: "/admin/orders" },
     {
       text: "Menu",
       icon: "restaurant_menu",
