@@ -11,7 +11,7 @@ const firebaseConfig = {
   appId: "1:603896029712:web:c996fdd91fac9797d56095",
   measurementId: "G-7V3V74Q6EZ",
   auth: {
-    tokenExpirationTime: 5,
+    tokenExpirationTime: 600,
   },
 };
 

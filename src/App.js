@@ -24,6 +24,11 @@ import AdminRoute from "./components/Routes/AdminRoute";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import { getUser } from "./serverFunctions/user";
 import AdminLogin from "./pages/Admin";
+import Orders from "./pages/Admin/Orders";
+import Menu from "./pages/Admin/Menu";
+import Users from "./pages/Admin/Users";
+import Reports from "./pages/Admin/Reports";
+import Company from "./pages/Admin/Company";
 
 let theme = createTheme({
   palette: {
@@ -186,8 +191,53 @@ const App = () => {
           exact
           path="/admin/dashboard"
           element={
-            <AdminRoute>
+            <AdminRoute setUser={setUser} user={user}>
               <AdminDashboard setUser={setUser} user={user} />
+            </AdminRoute>
+          }
+        />
+        <Route
+          exact
+          path="/admin/orders"
+          element={
+            <AdminRoute setUser={setUser} user={user}>
+              <Orders setUser={setUser} user={user} />
+            </AdminRoute>
+          }
+        />
+        <Route
+          exact
+          path="/admin/menu"
+          element={
+            <AdminRoute setUser={setUser} user={user}>
+              <Menu setUser={setUser} user={user} />
+            </AdminRoute>
+          }
+        />
+        <Route
+          exact
+          path="/admin/users"
+          element={
+            <AdminRoute setUser={setUser} user={user}>
+              <Users setUser={setUser} user={user} />
+            </AdminRoute>
+          }
+        />
+        <Route
+          exact
+          path="/admin/reports"
+          element={
+            <AdminRoute setUser={setUser} user={user}>
+              <Reports setUser={setUser} user={user} />
+            </AdminRoute>
+          }
+        />
+        <Route
+          exact
+          path="/admin/company"
+          element={
+            <AdminRoute setUser={setUser} user={user}>
+              <Company setUser={setUser} user={user} />
             </AdminRoute>
           }
         />

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Grid, Icon, Typography } from "@mui/material";
 import AdminNavbar from "../../components/Navbars/AdminNavbar";
 import Search from "../../components/PopUps/Search";
@@ -20,6 +21,7 @@ const cardStyle = {
   boxSizing: "border-box",
   height: "100%",
   // border: "1px solid rgba(255, 255, 255, 0.3)",
+  cursor: "pointer",
 };
 const cardHeader = {
   fontWeight: 500,
@@ -27,13 +29,10 @@ const cardHeader = {
 };
 
 const AdminDashboard = (props) => {
-  const [openSearch, setOpenSearch] = useState(false);
   const [briefsLoading, setBriefsLoading] = useState(false);
   const [dashboardBriefs, setdashboardBriefs] = useState(null);
-  // const getOrders;
-  // const getUsers;
-  // const getMenu;
-  // const issues;
+
+  const navigate = useNavigate();
 
   const getBriefs = async () => {
     try {
@@ -54,28 +53,21 @@ const AdminDashboard = (props) => {
 
   return (
     <div>
-      <AdminNavbar
-        setUser={props.setUser}
-        user={props.user}
-        setOpenSearch={setOpenSearch}
+      <Subtitle
+        title={`Hello ${props.user.name.split(" ")[0]},`}
+        my={1}
+        mx={1}
       />
-      <Search
-        open={openSearch}
-        onClose={() => setOpenSearch(false)}
-        // dishes={dishes}
-        // setOpenDishModal={setOpenDishModal}
-        // setSelectedDish={setSelectedDish}
-        // cart={cart}
-        // setOpenBasket={setOpenBasket}
-      />
-
-      {/* <Subtitle title="Dashboard" my={1} mx={1} /> */}
       {briefsLoading ? (
         ""
       ) : (
         <Grid container justifyContent="space-between" spacing={1} px={1}>
+          {/* ///////////////////ORDERS SECTION////////////////////////// */}
           <Grid item xs={6} md={3}>
-            <Box sx={{ ...cardStyle }}>
+            <Box
+              sx={{ ...cardStyle }}
+              onClick={() => navigate("/admin/orders")}
+            >
               <Box
                 display="flex"
                 justifyContent="space-between"
@@ -88,55 +80,98 @@ const AdminDashboard = (props) => {
                   assignment
                 </Icon>
               </Box>
-              <Box display="flex" my={1} alignItems="center">
+              <Box
+                display="flex"
+                my={1}
+                alignItems="flex-end"
+                justifyContent="space-between"
+              >
+                <Typography variant="body2" mr={1}>
+                  Waiting:{" "}
+                </Typography>
+                <Box display="flex">
+                  <Subtitle
+                    color={
+                      dashboardBriefs &&
+                      dashboardBriefs.ordersInfo.uncompletedNumber > 0
+                        ? "secondary"
+                        : ""
+                    }
+                    title={
+                      dashboardBriefs
+                        ? dashboardBriefs.ordersInfo.uncompletedNumber
+                        : 0
+                    }
+                    my={0}
+                  />
+                </Box>
+              </Box>
+              <Box
+                display="flex"
+                my={1}
+                alignItems="flex-end"
+                justifyContent="space-between"
+              >
                 <Typography variant="body2" mr={1}>
                   Today:{" "}
                 </Typography>
-
-                <Subtitle
-                  title={
-                    dashboardBriefs
-                      ? dashboardBriefs.ordersInfo.todayOrdersNumber
-                      : 0
-                  }
-                  my={0}
-                />
-                {/* <Subtitle title="(GHC2500)" my={0} /> */}
-                <Typography variant="body2">
-                  (GHC
-                  {dashboardBriefs ? dashboardBriefs.ordersInfo.todayTotal : 0})
-                </Typography>
+                <Box display="flex">
+                  <Typography variant="body2">
+                    (GHC
+                    {dashboardBriefs
+                      ? dashboardBriefs.ordersInfo.todayTotal
+                      : 0}
+                    )
+                  </Typography>
+                  <Subtitle
+                    title={
+                      dashboardBriefs
+                        ? dashboardBriefs.ordersInfo.todayOrdersNumber
+                        : 0
+                    }
+                    my={0}
+                  />
+                  {/* <Subtitle title="(GHC2500)" my={0} /> */}
+                </Box>
               </Box>
-              <Box display="flex" my={1} alignItems="center">
-                <Typography variant="body2" mr={1}>
-                  All Time:{" "}
-                </Typography>
 
-                <Subtitle
-                  title={
-                    dashboardBriefs
-                      ? dashboardBriefs.ordersInfo.allTimeOrdersNumber
-                      : 0
-                  }
-                  my={0}
-                />
-                {/* <Subtitle title="(GHC2500)" my={0} /> */}
-                <Typography variant="body2">
-                  (GHC
-                  {dashboardBriefs
-                    ? dashboardBriefs.ordersInfo.allTimeTotal
-                    : 0}
-                  )
+              <Box
+                display="flex"
+                my={1}
+                alignItems="flex-end"
+                justifyContent="space-between"
+              >
+                <Typography variant="body2" mr={1}>
+                  All:{" "}
                 </Typography>
+                <Box display="flex">
+                  <Typography variant="body2">
+                    (GHC
+                    {dashboardBriefs
+                      ? dashboardBriefs.ordersInfo.allTimeTotal
+                      : 0}
+                    )
+                  </Typography>
+                  <Subtitle
+                    title={
+                      dashboardBriefs
+                        ? dashboardBriefs.ordersInfo.allTimeOrdersNumber
+                        : 0
+                    }
+                    my={0}
+                  />
+                </Box>
               </Box>
             </Box>
           </Grid>
+
+          {/* ////////////////////MENU SECTION//////////////////////// */}
           <Grid item xs={6} md={3}>
-            <Box sx={{ ...cardStyle }}>
+            <Box sx={{ ...cardStyle }} onClick={() => navigate("/admin/menu")}>
               <Box
                 display="flex"
                 justifyContent="space-between"
-                alignItems="center"
+                alignItems="flex-end"
               >
                 <Typography sx={{ ...cardHeader }} variant="body2">
                   Menu
@@ -148,8 +183,8 @@ const AdminDashboard = (props) => {
               <Box
                 display="flex"
                 my={1}
-                alignItems="flex-start"
-                justifyContent="center"
+                alignItems="flex-end"
+                justifyContent="space-between"
               >
                 <Typography variant="body2" mr={1}>
                   Dishes:
@@ -161,10 +196,28 @@ const AdminDashboard = (props) => {
                   my={0}
                 />
               </Box>
+              <Box
+                display="flex"
+                my={1}
+                alignItems="flex-end"
+                justifyContent="space-between"
+              >
+                <Typography variant="body2" mr={1}>
+                  Drinks:
+                </Typography>
+                <Subtitle
+                  title={
+                    dashboardBriefs ? dashboardBriefs.menuInfo.dishesTotal : 0
+                  }
+                  my={0}
+                />
+              </Box>
             </Box>
           </Grid>
+
+          {/* /////////////USERS SECTION////////////////////////////////          */}
           <Grid item xs={6} md={3}>
-            <Box sx={{ ...cardStyle }}>
+            <Box sx={{ ...cardStyle }} onClick={() => navigate("/admin/users")}>
               <Box
                 display="flex"
                 justifyContent="space-between"
@@ -180,18 +233,62 @@ const AdminDashboard = (props) => {
               <Box
                 display="flex"
                 my={1}
-                alignItems="flex-start"
-                justifyContent="center"
+                alignItems="flex-end"
+                justifyContent="space-between"
               >
+                <Typography variant="body2" mr={1}>
+                  Customers:
+                </Typography>
                 <Subtitle
-                  title={dashboardBriefs ? dashboardBriefs.usersInfo.total : 0}
+                  title={
+                    dashboardBriefs
+                      ? dashboardBriefs.usersInfo.customersTotal
+                      : 0
+                  }
+                  my={0}
+                />
+              </Box>
+              <Box
+                display="flex"
+                my={1}
+                alignItems="flex-end"
+                justifyContent="space-between"
+              >
+                <Typography variant="body2" mr={1}>
+                  Staff:
+                </Typography>
+                <Subtitle
+                  title={
+                    dashboardBriefs ? dashboardBriefs.usersInfo.staffTotal : 0
+                  }
+                  my={0}
+                />
+              </Box>
+              <Box
+                display="flex"
+                my={1}
+                alignItems="flex-end"
+                justifyContent="space-between"
+              >
+                <Typography variant="body2" mr={1}>
+                  Admins:
+                </Typography>
+                <Subtitle
+                  title={
+                    dashboardBriefs ? dashboardBriefs.usersInfo.adminsTotal : 0
+                  }
                   my={0}
                 />
               </Box>
             </Box>
           </Grid>
+
+          {/* ////////////REPORTS SECTION///////////////////////////// */}
           <Grid item xs={6} md={3}>
-            <Box sx={{ ...cardStyle }}>
+            <Box
+              sx={{ ...cardStyle }}
+              onClick={() => navigate("/admin/reports")}
+            >
               <Box
                 display="flex"
                 justifyContent="space-between"
@@ -209,7 +306,7 @@ const AdminDashboard = (props) => {
                 display="flex"
                 my={1}
                 alignItems="flex-start"
-                justifyContent="center"
+                justifyContent="space-between"
               >
                 <Typography variant="body2" mr={1}>
                   Today:{" "}

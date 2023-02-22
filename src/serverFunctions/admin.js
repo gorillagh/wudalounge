@@ -11,3 +11,17 @@ export const getDashboardBriefs = async (authtoken) => {
     }
   );
 };
+
+export const uploadDishImage = async (authtoken, uri) => {
+  return await api.post(
+    `/admin/upload-dish-image`,
+    {
+      uri,
+    },
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+};

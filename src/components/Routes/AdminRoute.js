@@ -5,11 +5,14 @@ import LoadingToRedirect from "./LoadingToRedirect";
 import { currentAdmin } from "../../serverFunctions/auth";
 import { toast } from "react-toastify";
 import { Box } from "@mui/material";
+import AdminNavbar from "../Navbars/AdminNavbar";
+import Search from "../PopUps/Search";
 // import AdminNavBar from "../Navbars/AdminNavBar";
 
-const AdminRoute = ({ children }) => {
+const AdminRoute = (props) => {
   const { user } = useSelector((state) => ({ ...state }));
   const [ok, setOk] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
 
   useEffect(() => {
     if (user && user.token) {
@@ -28,8 +31,22 @@ const AdminRoute = ({ children }) => {
 
   return ok ? (
     <Box>
+      <AdminNavbar
+        setUser={props.setUser}
+        user={props.user}
+        setOpenSearch={setOpenSearch}
+      />
+      <Search
+        open={openSearch}
+        onClose={() => setOpenSearch(false)}
+        // dishes={dishes}
+        // setOpenDishModal={setOpenDishModal}
+        // setSelectedDish={setSelectedDish}
+        // cart={cart}
+        // setOpenBasket={setOpenBasket}
+      />
       {/* <AdminNavBar /> */}
-      {children}
+      {props.children}
     </Box>
   ) : (
     <LoadingToRedirect message="Make sure you have administrative rights." />

@@ -1,35 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
-import {
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithRedirect,
-  getRedirectResult,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Divider from "@mui/material/Divider";
-import EmailIcon from "@mui/icons-material/Email";
-import KeyIcon from "@mui/icons-material/Key";
+
 import { toast } from "react-toastify";
 import ForgotPassword from "../../components/PopUps/ForgotPassword";
-import { googleLogin, loginUser } from "../../serverFunctions/auth";
-import Icon from "@mui/material/Icon";
-import googleSignInIcon from "../../images/googleSignin.svg";
+import { loginUser } from "../../serverFunctions/auth";
+
 import LoadingBackdrop from "../../components/Feedbacks/LoadingBackdrop";
-import Link from "../../components/Links/Link";
 import ActionButton from "../../components/Buttons/ActionButton";
 import PageTitle from "../../components/Typography/PageTitle";
 import { Card } from "@mui/material";
-import Subtitle from "../../components/Typography/Subtitle";
-
-const provider = new GoogleAuthProvider();
 
 const AdminLogin = (props) => {
   const [email, setEmail] = useState("");

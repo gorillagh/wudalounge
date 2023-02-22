@@ -31,9 +31,7 @@ import { Avatar, Icon, ListItemIcon } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
 
 function AdminNavbar(props) {
-  const pages = [
-    { text: "About Us", icon: "info", to: () => props.setOpenAboutUs(true) },
-  ];
+  const pages = [{ text: "Company", icon: "settings", to: "/admin/company" }];
   const userPages = [
     // { text: "Profile", icon: "person", to: () => props.setOpenProfile(true) },
     { text: "Orders", icon: "assignment", to: "/admin/orders" },
@@ -43,14 +41,14 @@ function AdminNavbar(props) {
       to: "/admin/menu",
     },
     {
-      text: "Customers",
+      text: "Users",
       icon: "people",
-      to: "/admin/customers",
+      to: "/admin/users",
     },
     {
-      text: "Issues",
+      text: "Reports",
       icon: "bug_report",
-      to: "/admin/customers",
+      to: "/admin/reports",
     },
 
     // { text: "Logout", icon: "logout", to: "logout" },
@@ -106,7 +104,7 @@ function AdminNavbar(props) {
   };
   const drawer = (
     <Box
-      // onClick={handleDrawerToggle}
+      onClick={handleDrawerToggle}
       sx={{
         textAlign: "left",
         pt: "4px",
@@ -207,7 +205,7 @@ function AdminNavbar(props) {
           {pages.map((item, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton
-                onClick={() => item.to()}
+                onClick={() => handleNavigation(item.to)}
                 key={index}
                 sx={{ textAlign: "left" }}
               >
@@ -280,7 +278,7 @@ function AdminNavbar(props) {
                 textDecoration: "none",
               }}
             >
-              <Link text="Admin" to="/" color="#000" />
+              <Link text="Admin" to="/admin/dashboard" color="#000" />
             </Typography>
 
             <Typography
@@ -301,7 +299,7 @@ function AdminNavbar(props) {
                 textDecoration: "none",
               }}
             >
-              <Link text="Admin" to="/" color="#000" />
+              <Link text="Admin" to="/admin/dashboard" color="#000" />
             </Typography>
             <Box
               sx={{
