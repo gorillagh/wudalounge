@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Resizer from "react-image-file-resizer";
+import { toast } from "react-toastify";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {
@@ -15,7 +16,8 @@ import {
 } from "@mui/material";
 import PageTitle from "../../Typography/PageTitle";
 import LoadingBackdrop from "../../Feedbacks/LoadingBackdrop";
-import { uploadDishImage } from "../../../serverFunctions/admin";
+import { createMenu, uploadDishImage } from "../../../serverFunctions/admin";
+import ActionButton from "../../Buttons/ActionButton";
 
 const style = {
   position: "absolute",
@@ -52,9 +54,22 @@ const Category = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      console.log(category);
+      const res = await createMenu(props.user.token, "category", category);
+      if (res.data === "ok") {
+        setCategory((prevState) => ({
+          ...prevState,
+          name: "",
+        }));
+        toast.success("Category created");
+        setLoading(false);
+        return;
+      }
+      toast.error(res.data.error.message);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -113,6 +128,32 @@ const Category = (props) => {
                 </Box>
               </AppBar>
               <Toolbar sx={{ backgroundColor: "transparent", my: 1 }} />
+            </Box>
+            <Box component="form" px={2} onSubmit={handleSubmit} noValidate>
+              <TextField
+                size="small"
+                margin="normal"
+                required
+                fullWidth
+                id="item-name"
+                label="name"
+                name="name"
+                autoComplete="name"
+                value={category.name}
+                onChange={(e) =>
+                  setCategory((prevState) => ({
+                    ...prevState,
+                    name: e.target.value.toLowerCase(),
+                  }))
+                }
+              />
+
+              <ActionButton
+                text="submit"
+                type="submit"
+                disabled={!category.name}
+                onClick={handleSubmit}
+              />
             </Box>
           </Box>
           <LoadingBackdrop open={loading} />

@@ -93,7 +93,7 @@ const DishExtrasCard = (props) => {
                       onChange={(e) =>
                         props.setDish((prevState) => {
                           let foundIndex = prevState.extras.findIndex(
-                            (f) => f.item === extra.item
+                            (f) => f.name === extra.name
                           );
                           prevState.extras[foundIndex].checked =
                             e.target.checked;
@@ -102,7 +102,7 @@ const DishExtrasCard = (props) => {
                       }
                     />
                   }
-                  label={extra.item}
+                  label={extra.name}
                 />
                 <Box
                   sx={{

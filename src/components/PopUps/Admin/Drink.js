@@ -10,7 +10,6 @@ import {
   Badge,
   Checkbox,
   CircularProgress,
-  fabClasses,
   FormControl,
   FormControlLabel,
   FormGroup,
@@ -20,7 +19,6 @@ import {
   Slide,
   TextField,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import PageTitle from "../../Typography/PageTitle";
 import LoadingBackdrop from "../../Feedbacks/LoadingBackdrop";
@@ -56,7 +54,7 @@ const cardStyle = {
   // border: "1px solid rgba(255, 255, 255, 0.3)",
 };
 
-const Dish = (props) => {
+const Drink = (props) => {
   const [loading, setLoading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
   const [dish, setDish] = useState({});
@@ -161,7 +159,7 @@ const Dish = (props) => {
 
     console.log(dish);
     try {
-      const res = await createMenu(props.user.token, "dish", dish);
+      const res = await createMenu(props.user.token, "drink", dish);
       if (res.data === "ok") {
         setSizes([{ size: "regular", description: "", additionalAmount: 0 }]);
         setDish((prevState) => {
@@ -169,7 +167,7 @@ const Dish = (props) => {
           return newState;
         });
 
-        toast.success("Dish created");
+        toast.success("Drink created");
         setLoading(false);
         return;
       }
@@ -228,7 +226,7 @@ const Dish = (props) => {
                 }}
               >
                 <Box my={2} display="flex" justifyContent="space-between">
-                  <PageTitle my={0} title="Create Dish" />
+                  <PageTitle my={0} title="Create Drink" />
                   <Icon color="error" fontSize="large" onClick={props.onClose}>
                     close
                   </Icon>
@@ -270,11 +268,9 @@ const Dish = (props) => {
                         variant="rounded"
                         // alt={props.user.name && props.user.name}
                         src={dish.image}
-                        sx={{ width: 150, height: 100 }}
+                        sx={{ width: 100, height: 100 }}
                       >
-                        {!dish.image && (
-                          <Icon fontSize="large">restaurant_menu</Icon>
-                        )}
+                        {!dish.image && <Icon fontSize="large">liquor</Icon>}
                       </Avatar>
 
                       <input
@@ -592,4 +588,4 @@ const Dish = (props) => {
   );
 };
 
-export default Dish;
+export default Drink;

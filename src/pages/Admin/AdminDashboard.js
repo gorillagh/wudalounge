@@ -207,7 +207,7 @@ const AdminDashboard = (props) => {
                 </Typography>
                 <Subtitle
                   title={
-                    dashboardBriefs ? dashboardBriefs.menuInfo.dishesTotal : 0
+                    dashboardBriefs ? dashboardBriefs.menuInfo.drinksTotal : 0
                   }
                   my={0}
                 />

@@ -25,3 +25,30 @@ export const uploadDishImage = async (authtoken, uri) => {
     }
   );
 };
+
+export const getDishSubs = async (authtoken) => {
+  return await api.post(
+    `/admin/get-dish-subs`,
+    {},
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+};
+
+export const createMenu = async (authtoken, type, data) => {
+  return await api.post(
+    `/admin/create-menu`,
+    {
+      type,
+      data,
+    },
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+};

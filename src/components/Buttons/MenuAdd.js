@@ -68,7 +68,6 @@ export default function MenuAdd(props) {
     <div>
       <ActionButton
         my={0}
-        size="small"
         id="demo-customized-button"
         aria-controls={open ? "demo-customized-menu" : undefined}
         aria-haspopup="true"
@@ -95,6 +94,15 @@ export default function MenuAdd(props) {
           disableRipple
         >
           Dish
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(null);
+            props.setOpenDrink(true);
+          }}
+          disableRipple
+        >
+          Drink
         </MenuItem>
         <MenuItem
           onClick={() => {

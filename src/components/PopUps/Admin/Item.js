@@ -8,6 +8,7 @@ import {
   Badge,
   CircularProgress,
   Icon,
+  InputAdornment,
   Slide,
   TextField,
   Toolbar,
@@ -15,7 +16,9 @@ import {
 } from "@mui/material";
 import PageTitle from "../../Typography/PageTitle";
 import LoadingBackdrop from "../../Feedbacks/LoadingBackdrop";
-import { uploadDishImage } from "../../../serverFunctions/admin";
+import { createMenu, uploadDishImage } from "../../../serverFunctions/admin";
+import ActionButton from "../../Buttons/ActionButton";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -47,14 +50,29 @@ const Item = (props) => {
   const [item, setItem] = useState({});
   const containerRef = useRef(null);
   const scrollRef = useRef(null);
+  const formRef = useRef(null);
 
   useEffect(() => {}, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      console.log(item);
+      const res = await createMenu(props.user.token, "item", item);
+      if (res.data === "ok") {
+        setItem((prevState) => ({
+          ...prevState,
+          name: "",
+          additionalAmount: "",
+        }));
+        toast.success("Item created");
+        setLoading(false);
+        return;
+      }
+      toast.error(res.data.error.message);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -114,10 +132,60 @@ const Item = (props) => {
               </AppBar>
               <Toolbar sx={{ backgroundColor: "transparent", my: 1 }} />
             </Box>
-            <Typography>name</Typography>
-            <Typography>additionalAmount</Typography>
-            <Typography>checked</Typography>
-            <Typography>quantity</Typography>
+            <Box
+              component="form"
+              px={2}
+              ref={formRef}
+              onSubmit={handleSubmit}
+              noValidate
+            >
+              <TextField
+                size="small"
+                margin="normal"
+                required
+                fullWidth
+                id="item-name"
+                label="name"
+                name="name"
+                autoComplete="name"
+                value={item.name}
+                onChange={(e) =>
+                  setItem((prevState) => ({
+                    ...prevState,
+                    name: e.target.value.toLowerCase(),
+                  }))
+                }
+              />
+              <TextField
+                type="number"
+                size="small"
+                margin="normal"
+                required
+                fullWidth
+                id="item-amount"
+                label="amount"
+                name="amount"
+                autoComplete="amount"
+                value={item.additionalAmount}
+                onChange={(e) =>
+                  setItem((prevState) => ({
+                    ...prevState,
+                    additionalAmount: e.target.value,
+                  }))
+                }
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">GHC</InputAdornment>
+                  ),
+                }}
+              />
+              <ActionButton
+                text="submit"
+                type="submit"
+                disabled={!item.name || !item.additionalAmount}
+                onClick={handleSubmit}
+              />
+            </Box>
           </Box>
           <LoadingBackdrop open={loading} />
         </Box>

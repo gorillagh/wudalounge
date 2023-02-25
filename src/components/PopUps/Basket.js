@@ -463,7 +463,7 @@ const Basket = (props) => {
                                   (e, i) =>
                                     e.checked && (
                                       <Typography key={i} variant="body2">
-                                        +{e.quantity} {e.item}
+                                        +{e.quantity} {e.name}
                                       </Typography>
                                     )
                                 )}
