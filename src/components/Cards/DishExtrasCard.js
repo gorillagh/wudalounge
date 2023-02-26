@@ -133,7 +133,7 @@ const DishExtrasCard = (props) => {
 
                         props.setDish((prevState) => {
                           let foundIndex = prevState.extras.findIndex(
-                            (f) => f.item === extra.item
+                            (f) => f.name === extra.name
                           );
                           prevState.extras[foundIndex].quantity -= 1;
                           return { ...prevState };
@@ -162,7 +162,7 @@ const DishExtrasCard = (props) => {
                       onClick={() =>
                         props.setDish((prevState) => {
                           let foundIndex = prevState.extras.findIndex(
-                            (f) => f.item === extra.item
+                            (f) => f.name === extra.name
                           );
                           prevState.extras[foundIndex].quantity += 1;
                           return { ...prevState };
