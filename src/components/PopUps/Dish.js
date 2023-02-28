@@ -146,6 +146,8 @@ const Dish = (props) => {
       });
     }
 
+    props.dish.extras.map((e) => (e.checked = false));
+
     props.setDish({});
     setKitchenNotes("");
 
@@ -184,6 +186,9 @@ const Dish = (props) => {
       text: `"${props.dish.name}" removed from basket`,
       severity: "warning",
     });
+    props.dish.extras.map((e) => (e.checked = false));
+
+    props.setDish({});
     props.onClose();
   };
 
@@ -257,7 +262,12 @@ const Dish = (props) => {
               width: "100%",
               height: "100%",
             }}
-            onClick={props.onClose}
+            onClick={() => {
+              props.dish.extras.map((e) => (e.checked = false));
+
+              props.setDish({});
+              props.onClose();
+            }}
           />
         ),
       }}
@@ -277,7 +287,12 @@ const Dish = (props) => {
         <Box sx={style}>
           <Box sx={{ position: "absolute", top: "3%" }}>
             <Icon
-              onClick={props.onClose}
+              onClick={() => {
+                props.dish.extras.map((e) => (e.checked = false));
+
+                props.setDish({});
+                props.onClose();
+              }}
               sx={{
                 position: "fixed",
                 right: { xs: "3%", md: "37.5%" },

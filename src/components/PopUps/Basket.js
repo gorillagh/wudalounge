@@ -178,7 +178,7 @@ const Basket = (props) => {
         map,
         // content: priceTag,
       });
-    }, []);
+    }, [props.user]);
 
     return (
       <Box
@@ -195,6 +195,7 @@ const Basket = (props) => {
   }
 
   useEffect(() => {
+    console.log(props.cart);
     props.cart && props.cart.notes && setNotes(props.cart.notes);
     props.cart && props.cart.riderTip
       ? setSelectedTip(props.cart.riderTip)
@@ -456,7 +457,8 @@ const Basket = (props) => {
                             <Grid item xs={9.5}>
                               <Box onClick={() => handleDishSelect(d, i)}>
                                 <Typography>
-                                  {d.name} ('{d.selectedSize.size}')
+                                  {d.name} ('
+                                  {d.selectedSize && d.selectedSize.size}')
                                 </Typography>
 
                                 {d.extras.map(

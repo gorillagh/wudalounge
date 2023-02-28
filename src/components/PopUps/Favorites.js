@@ -50,11 +50,19 @@ const Favorites = (props) => {
   const dispatch = useDispatch();
 
   const handleDishSelect = (favoriteDish) => {
-    props.setSelectedDish({ ...favoriteDish, dishQuantity: 1 });
+    props.setSelectedDish({
+      ...favoriteDish,
+      dishQuantity: 1,
+      selectedSize: favoriteDish.sizes.find((item) => item.size === "regular"),
+    });
     props.setOpenDishModal(true);
   };
 
   const handleOrderNow = (favoriteDish) => {
+    favoriteDish.selectedSize = favoriteDish.sizes.find(
+      (item) => item.size === "regular"
+    );
+    favoriteDish.dishQuantity = 1;
     let cart = {
       dishes: [favoriteDish],
       deliveryMode: "delivery",

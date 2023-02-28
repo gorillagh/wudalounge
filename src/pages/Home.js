@@ -177,10 +177,16 @@ const Home = (props) => {
                 Number(d.extras[i].quantity);
         }
 
+        let selectedSizeAdditionalAmount;
+        if (d.selectedSize && d.selectedSize.additionalAmount)
+          selectedSizeAdditionalAmount = Number(
+            d.selectedSize.additionalAmount
+          );
+        else selectedSizeAdditionalAmount = 0;
         const subTotal =
           Number(d.dishQuantity) *
           (Number(d.price) +
-            Number(d.selectedSize.additionalAmount) +
+            selectedSizeAdditionalAmount +
             Number(totalExtras));
 
         return (total += subTotal);
