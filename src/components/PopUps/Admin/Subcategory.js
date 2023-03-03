@@ -8,7 +8,11 @@ import {
   Avatar,
   Badge,
   CircularProgress,
+  FormControl,
   Icon,
+  InputLabel,
+  MenuItem,
+  Select,
   Slide,
   TextField,
   Toolbar,
@@ -47,6 +51,7 @@ const cardStyle = {
 const Subcategory = (props) => {
   const [loading, setLoading] = useState(false);
   const [subcategory, setSubcategory] = useState({});
+  const [selectedType, setSelectedType] = useState("");
   const containerRef = useRef(null);
   const scrollRef = useRef(null);
 
@@ -65,7 +70,9 @@ const Subcategory = (props) => {
         setSubcategory((prevState) => ({
           ...prevState,
           name: "",
+          type: "",
         }));
+        setSelectedType("");
         toast.success("Subcategory created");
         setLoading(false);
         return;
@@ -134,6 +141,26 @@ const Subcategory = (props) => {
               <Toolbar sx={{ backgroundColor: "transparent", my: 1 }} />
             </Box>
             <Box component="form" px={2} onSubmit={handleSubmit} noValidate>
+              <FormControl required fullWidth sx={{ my: 2 }} size="small">
+                <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                <Select
+                  fullWidth
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedType}
+                  label="Type"
+                  onChange={(e) => {
+                    setSubcategory((prevState) => ({
+                      ...prevState,
+                      type: e.target.value,
+                    }));
+                    setSelectedType(e.target.value);
+                  }}
+                >
+                  <MenuItem value="food">Food</MenuItem>
+                  <MenuItem value="drink">Drink</MenuItem>
+                </Select>
+              </FormControl>
               <TextField
                 size="small"
                 margin="normal"
@@ -155,7 +182,7 @@ const Subcategory = (props) => {
               <ActionButton
                 text="submit"
                 type="submit"
-                disabled={!subcategory.name}
+                disabled={!subcategory.name || !subcategory.type}
                 onClick={handleSubmit}
               />
             </Box>

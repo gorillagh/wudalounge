@@ -24,7 +24,7 @@ export const updateUser = async (authtoken, data) => {
   });
 };
 
-export const getOrders = async (authtoken) => {
+export const getUserOrders = async (authtoken) => {
   return await api.post(
     `/get-orders`,
     {},

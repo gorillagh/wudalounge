@@ -61,7 +61,13 @@ const Dish = (props) => {
   const [imageLoading, setImageLoading] = useState(false);
   const [dish, setDish] = useState({});
   const [dishSubs, setDishSubs] = useState({});
-
+  const [subcategories, setSubcategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState({
+    name: "select",
+    _id: "select-101",
+  });
+  const [selectedSubcategories, setSelectedSubcategories] = useState([]);
+  const [selectedExtras, setSelectedExtras] = useState([]);
   const [sizes, setSizes] = useState([
     { size: "regular", description: "", additionalAmount: 0 },
   ]);
@@ -71,7 +77,13 @@ const Dish = (props) => {
 
   const loadSubs = async () => {
     setLoading(true);
+    let dishsubs = [];
     const res = await getDishSubs(props.user.token);
+
+    res.data.subcategories.map((sub) => {
+      if (sub.type !== "drink") dishsubs.push(sub);
+    });
+    setSubcategories(dishsubs);
     setDishSubs(res.data);
     console.log("Categories--->", res.data);
     setLoading(false);
@@ -122,7 +134,7 @@ const Dish = (props) => {
         ...prevState[largeIndex],
         additionalAmount: e.target.value,
       };
-      console.log(newState);
+      // console.log(newState);
       setDish((prevState) => ({ ...prevState, sizes: newState }));
       return newState;
     });
@@ -168,6 +180,9 @@ const Dish = (props) => {
           const newState = { sizes };
           return newState;
         });
+        setSelectedCategory({ name: "select", _id: "select-101" });
+        setSelectedSubcategories([]);
+        setSelectedExtras([]);
 
         toast.success("Dish created");
         setLoading(false);
@@ -289,6 +304,27 @@ const Dish = (props) => {
                 )}
               </Box>
               <Box px={2} component="form" onSubmit={handleSubmit} noValidate>
+                <Autocomplete
+                  sx={{ mb: 1, mt: 4 }}
+                  size="small"
+                  fullWidth
+                  onChange={(event, newValue) => {
+                    newValue &&
+                      newValue._id &&
+                      setDish((prevState) => ({
+                        ...prevState,
+                        category: newValue._id,
+                      }));
+                    setSelectedCategory(newValue);
+                  }}
+                  value={selectedCategory}
+                  id="controllable-states-demo"
+                  options={dishSubs && dishSubs.categories}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => (
+                    <TextField required {...params} label="Category" />
+                  )}
+                />
                 <TextField
                   spellCheck={false}
                   size="small"
@@ -349,24 +385,7 @@ const Dish = (props) => {
                     ),
                   }}
                 />
-                <Autocomplete
-                  sx={{ mt: 2 }}
-                  size="small"
-                  fullWidth
-                  onChange={(event, newValue) => {
-                    console.log(newValue._id);
-                    setDish((prevState) => ({
-                      ...prevState,
-                      category: newValue._id,
-                    }));
-                  }}
-                  id="controllable-states-demo"
-                  options={dishSubs && dishSubs.categories}
-                  getOptionLabel={(option) => option.name}
-                  renderInput={(params) => (
-                    <TextField required {...params} label="Category" />
-                  )}
-                />
+
                 <Autocomplete
                   sx={{ mt: 3 }}
                   size="small"
@@ -388,7 +407,9 @@ const Dish = (props) => {
                       ...prevState,
                       extras: selected,
                     }));
+                    setSelectedExtras(newValue);
                   }}
+                  value={selectedExtras}
                 />
                 <Autocomplete
                   sx={{ mt: 3 }}
@@ -396,7 +417,7 @@ const Dish = (props) => {
                   fullWidth
                   multiple
                   id="tags-outlined"
-                  options={dishSubs && dishSubs.subcategories}
+                  options={subcategories && subcategories}
                   getOptionLabel={(option) => option.name}
                   // defaultValue={[top100Films[13]]}
                   filterSelectedOptions
@@ -411,7 +432,9 @@ const Dish = (props) => {
                       ...prevState,
                       subcategories: selected,
                     }));
+                    setSelectedSubcategories(newValue);
                   }}
+                  value={selectedSubcategories}
                 />
                 <TextField
                   sx={{ mt: 3 }}
@@ -495,7 +518,11 @@ const Dish = (props) => {
                           control={
                             <Checkbox
                               size="small"
-                              // checked={jason}
+                              checked={
+                                sizes.find((item) => item.size === "large")
+                                  ? true
+                                  : false
+                              }
                               onChange={(e) => handleSizeSelect(e, "large")}
                               name="large"
                             />
@@ -538,7 +565,11 @@ const Dish = (props) => {
                           control={
                             <Checkbox
                               size="small"
-                              // checked={antoine}
+                              checked={
+                                sizes.find((item) => item.size === "family")
+                                  ? true
+                                  : false
+                              }
                               onChange={(e) => handleSizeSelect(e, "family")}
                               name="family"
                             />

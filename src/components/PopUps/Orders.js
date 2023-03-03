@@ -5,7 +5,7 @@ import Icon from "@mui/material/Icon";
 import Zoom from "@mui/material/Zoom";
 import PageTitle from "../Typography/PageTitle";
 import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";
-import { getOrders } from "../../serverFunctions/user";
+import { getUserOrders } from "../../serverFunctions/user";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
@@ -95,7 +95,7 @@ const Orders = (props) => {
   const fetchUserOrders = async () => {
     try {
       setLoading(true);
-      const res = await getOrders(props.user.token);
+      const res = await getUserOrders(props.user.token);
       setOrders(res.data);
       setLoading(false);
     } catch (error) {

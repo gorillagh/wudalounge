@@ -52,3 +52,15 @@ export const createMenu = async (authtoken, type, data) => {
     }
   );
 };
+
+export const getAllOrders = async (authtoken) => {
+  return await api.post(
+    "/admin/orders",
+    {},
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+};

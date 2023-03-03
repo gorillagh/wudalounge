@@ -57,8 +57,9 @@ const cardStyle = {
 const Drink = (props) => {
   const [loading, setLoading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
-  const [dish, setDish] = useState({});
-  const [dishSubs, setDishSubs] = useState({});
+  const [drink, setDrink] = useState({});
+  const [selectedSubcategories, setSelectedSubcategories] = useState([]);
+  const [drinkSubs, setDrinkSubs] = useState({});
 
   const [sizes, setSizes] = useState([
     { size: "regular", description: "", additionalAmount: 0 },
@@ -69,14 +70,18 @@ const Drink = (props) => {
 
   const loadSubs = async () => {
     setLoading(true);
+    let drinksubs = [];
     const res = await getDishSubs(props.user.token);
-    setDishSubs(res.data);
+    res.data.subcategories.map((sub) => {
+      if (sub.type === "drink") drinksubs.push(sub);
+    });
+    setDrinkSubs(drinksubs);
     console.log("Categories--->", res.data);
     setLoading(false);
   };
 
   useEffect(() => {
-    setDish((prevState) => ({ ...prevState, sizes }));
+    setDrink((prevState) => ({ ...prevState, sizes }));
     loadSubs();
   }, [props.open]);
 
@@ -99,7 +104,7 @@ const Drink = (props) => {
             .then((res) => {
               // console.log('Image Upload Res Data', res)
               console.log(res.data);
-              setDish((prevState) => ({ ...prevState, image: res.data.url }));
+              setDrink((prevState) => ({ ...prevState, image: res.data.url }));
               setImageLoading(false);
             })
             .catch((error) => {
@@ -121,7 +126,7 @@ const Drink = (props) => {
         additionalAmount: e.target.value,
       };
       console.log(newState);
-      setDish((prevState) => ({ ...prevState, sizes: newState }));
+      setDrink((prevState) => ({ ...prevState, sizes: newState }));
       return newState;
     });
   };
@@ -137,7 +142,7 @@ const Drink = (props) => {
             additionalAmount: 0,
           },
         ];
-        setDish((prevState) => ({ ...prevState, sizes: newState }));
+        setDrink((prevState) => ({ ...prevState, sizes: newState }));
         return newState;
       });
     } else {
@@ -147,7 +152,7 @@ const Drink = (props) => {
           ...prevState.slice(0, index),
           // ...prevState.slice(index + 1),
         ];
-        setDish((prevState) => ({ ...prevState, sizes: updatedSizes }));
+        setDrink((prevState) => ({ ...prevState, sizes: updatedSizes }));
         return updatedSizes;
       });
     }
@@ -157,16 +162,16 @@ const Drink = (props) => {
     e.preventDefault();
     setLoading(true);
 
-    console.log(dish);
+    console.log(drink);
     try {
-      const res = await createMenu(props.user.token, "drink", dish);
+      const res = await createMenu(props.user.token, "drink", drink);
       if (res.data === "ok") {
         setSizes([{ size: "regular", description: "", additionalAmount: 0 }]);
-        setDish((prevState) => {
+        setDrink((prevState) => {
           const newState = { sizes };
           return newState;
         });
-
+        setSelectedSubcategories([]);
         toast.success("Drink created");
         setLoading(false);
         return;
@@ -248,7 +253,7 @@ const Drink = (props) => {
                   <label>
                     <Badge
                       badgeContent={
-                        dish.image ? (
+                        drink.image ? (
                           <Icon fontSize="small" color="primary">
                             edit
                           </Icon>
@@ -267,10 +272,10 @@ const Drink = (props) => {
                       <Avatar
                         variant="rounded"
                         // alt={props.user.name && props.user.name}
-                        src={dish.image}
+                        src={drink.image}
                         sx={{ width: 100, height: 100 }}
                       >
-                        {!dish.image && <Icon fontSize="large">liquor</Icon>}
+                        {!drink.image && <Icon fontSize="large">liquor</Icon>}
                       </Avatar>
 
                       <input
@@ -291,13 +296,13 @@ const Drink = (props) => {
                   margin="normal"
                   required
                   fullWidth
-                  id="dish-name"
+                  id="drink-name"
                   label="name"
                   name="name"
                   autoComplete="name"
-                  value={dish.name || ""}
+                  value={drink.name || ""}
                   onChange={(e) =>
-                    setDish((prevState) => ({
+                    setDrink((prevState) => ({
                       ...prevState,
                       name: e.target.value.toLowerCase(),
                     }))
@@ -308,15 +313,15 @@ const Drink = (props) => {
                   margin="normal"
                   required
                   fullWidth
-                  id="dish-description"
+                  id="drink-description"
                   label="description"
                   name="description"
                   autoComplete="description"
-                  value={dish.description || ""}
+                  value={drink.description || ""}
                   multiline
                   rows={2}
                   onChange={(e) =>
-                    setDish((prevState) => ({
+                    setDrink((prevState) => ({
                       ...prevState,
                       description: e.target.value,
                     }))
@@ -328,13 +333,13 @@ const Drink = (props) => {
                   margin="normal"
                   required
                   fullWidth
-                  id="dish-price"
+                  id="drink-price"
                   label="price"
                   name="price"
                   autoComplete="price"
-                  value={dish.price || ""}
+                  value={drink.price || ""}
                   onChange={(e) =>
-                    setDish((prevState) => ({
+                    setDrink((prevState) => ({
                       ...prevState,
                       price: e.target.value,
                     }))
@@ -345,31 +350,31 @@ const Drink = (props) => {
                     ),
                   }}
                 />
-                <Autocomplete
+                {/* <Autocomplete
                   sx={{ mt: 2 }}
                   size="small"
                   fullWidth
                   onChange={(event, newValue) => {
                     console.log(newValue._id);
-                    setDish((prevState) => ({
+                    setDrink((prevState) => ({
                       ...prevState,
                       category: newValue._id,
                     }));
                   }}
                   id="controllable-states-demo"
-                  options={dishSubs && dishSubs.categories}
+                  options={drinkSubs && drinkSubs}
                   getOptionLabel={(option) => option.name}
                   renderInput={(params) => (
                     <TextField required {...params} label="Category" />
                   )}
-                />
-                <Autocomplete
+                /> */}
+                {/* <Autocomplete
                   sx={{ mt: 3 }}
                   size="small"
                   fullWidth
                   multiple
                   id="tags-outlined"
-                  options={dishSubs && dishSubs.items}
+                  options={drinkSubs && drinkSubs}
                   getOptionLabel={(option) => option.name}
                   // defaultValue={[top100Films[13]]}
                   filterSelectedOptions
@@ -380,19 +385,19 @@ const Drink = (props) => {
                     let selected = [];
                     newValue.map((v, i) => selected.push(v._id));
                     console.log(newValue);
-                    setDish((prevState) => ({
+                    setDrink((prevState) => ({
                       ...prevState,
                       extras: selected,
                     }));
                   }}
-                />
+                /> */}
                 <Autocomplete
                   sx={{ mt: 3 }}
                   size="small"
                   fullWidth
                   multiple
                   id="tags-outlined"
-                  options={dishSubs && dishSubs.subcategories}
+                  options={drinkSubs && drinkSubs}
                   getOptionLabel={(option) => option.name}
                   // defaultValue={[top100Films[13]]}
                   filterSelectedOptions
@@ -403,11 +408,13 @@ const Drink = (props) => {
                     let selected = [];
                     newValue.map((v, i) => selected.push(v._id));
                     console.log(newValue);
-                    setDish((prevState) => ({
+                    setDrink((prevState) => ({
                       ...prevState,
                       subcategories: selected,
                     }));
+                    setSelectedSubcategories(newValue);
                   }}
+                  value={selectedSubcategories}
                 />
                 <TextField
                   sx={{ mt: 3 }}
@@ -415,22 +422,22 @@ const Drink = (props) => {
                   size="small"
                   margin="normal"
                   fullWidth
-                  id="dish-ingredients"
+                  id="drink-ingredients"
                   label="Ingredients"
                   name="ingredients"
                   autoComplete="ingredients"
-                  value={dish.ingredients || ""}
+                  value={drink.ingredients || ""}
                   multiline
                   rows={2}
                   onChange={(e) => {
-                    setDish((prevState) => ({
+                    setDrink((prevState) => ({
                       ...prevState,
                       ingredients: e.target.value.split(/[\s,]+/),
                     }));
                   }}
                 />
                 <Box>
-                  <FormControl
+                  {/* <FormControl
                     sx={{
                       border: "1px solid #BDBDBD",
                       borderRadius: "12px",
@@ -569,13 +576,13 @@ const Drink = (props) => {
                         )}
                       </Box>
                     </FormGroup>
-                  </FormControl>
+                  </FormControl> */}
                 </Box>
 
                 <ActionButton
                   text="submit"
                   type="submit"
-                  // disabled={!dish.name}
+                  // disabled={!drink.name}
                   onClick={handleSubmit}
                 />
               </Box>
