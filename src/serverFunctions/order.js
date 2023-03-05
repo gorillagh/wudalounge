@@ -12,8 +12,12 @@ export const getOrder = async (orderId) => {
   return await api.get(`/getorder/${orderId}`);
 };
 
-export const updateOrder = async (orderId, orderInfo) => {
-  return await api.put(`/update-order/${orderId}`, orderInfo);
+export const updateOrder = async (authtoken, orderId, update) => {
+  return await api.post(`/update-order/${orderId}`, update, {
+    headers: {
+      authtoken,
+    },
+  });
 };
 
 export const createPaymentIntent = async (orderId, orderInfo) => {

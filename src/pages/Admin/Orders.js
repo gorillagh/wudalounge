@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import { Box, Chip, Typography } from "@mui/material";
+import { Box, Chip, Icon, IconButton, Typography } from "@mui/material";
 import ActionButton from "../../components/Buttons/ActionButton";
 import Subtitle from "../../components/Typography/Subtitle";
 import LoadingBackdrop from "../../components/Feedbacks/LoadingBackdrop";
 import { getAllOrders } from "../../serverFunctions/admin";
+import Order from "../../components/PopUps/Admin/Order";
 
 const cardStyle = {
   p: 2,
@@ -32,6 +33,8 @@ const Orders = (props) => {
   const [loading, setLoading] = useState(false);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [selectedStatusView, setSelectedStatusView] = useState("all");
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [openOrder, setOpenOrder] = useState(false);
 
   const formatDate = (date) => {
     const d = new Date(date);
@@ -50,6 +53,7 @@ const Orders = (props) => {
 
   const loadOrders = async () => {
     setLoading(true);
+    setSelectedStatusView("all");
     try {
       const res = await getAllOrders(props.user.token);
       setOrders(res.data);
@@ -88,6 +92,16 @@ const Orders = (props) => {
     }
   };
 
+  const handleOrderSelect = async (order) => {
+    try {
+      console.log("Order---->", order);
+      setSelectedOrder(order);
+      setOpenOrder(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <Box px={2}>
@@ -97,7 +111,18 @@ const Orders = (props) => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Subtitle my={1} title="Orders" />
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Subtitle my={1} title="Orders" />
+            <IconButton size="small" onClick={loadOrders}>
+              <Icon color="primary" fontSize="small">
+                refresh
+              </Icon>
+            </IconButton>
+          </Box>
           <ActionButton
             text="Create"
             leftIcon="add"
@@ -155,6 +180,7 @@ const Orders = (props) => {
                     sx={{
                       ...cardStyle,
                     }}
+                    onClick={() => handleOrderSelect(order)}
                   >
                     <Box
                       display="flex"
@@ -232,6 +258,17 @@ const Orders = (props) => {
         </Box>
       </Box>
       <LoadingBackdrop open={loading} />
+      {selectedOrder ? (
+        <Order
+          loadOrders={loadOrders}
+          user={props.user}
+          open={openOrder}
+          onClose={() => setOpenOrder(false)}
+          order={selectedOrder}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 };
