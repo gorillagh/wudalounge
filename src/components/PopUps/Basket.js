@@ -30,6 +30,8 @@ import CircularLoading from "../Feedbacks/CircularLoading";
 import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";
 import { createPayment } from "../../serverFunctions/payment";
 import PaymentConfirmation from "./PaymentConfirmation";
+import AddressPin from "./AddressPin";
+import BasketMapComponent from "../BasketMapComponent";
 
 const style = {
   position: "absolute",
@@ -75,6 +77,8 @@ const Basket = (props) => {
   const [lng, setLng] = useState(-0.18671566160150527);
   const [lat, setLat] = useState(5.569976708828936);
 
+  const [openAddressPin, setOpenAddressPin] = useState(false);
+
   const containerRef = React.useRef(null);
   const scrollRef = React.useRef(null);
 
@@ -105,94 +109,6 @@ const Basket = (props) => {
 
     return null;
   };
-
-  function MyMapComponent() {
-    const mapRef = useRef();
-    useEffect(() => {
-      var geocoder = new window.google.maps.Geocoder();
-      const directionsService = new window.google.maps.DirectionsService();
-
-      geocoder.geocode(
-        {
-          address:
-            props.user && props.user.addresses.length
-              ? props.user.addresses[0].description
-              : "Backyard Bar & Grill, Ring Road East, Accra, Ghana",
-        },
-        function (results, status) {
-          if (status === "OK") {
-            setLat(results[0].geometry.location.lat());
-            setLng(results[0].geometry.location.lng());
-          } else {
-            console.log(
-              "Geocode was not successful for the following reason: " + status
-            );
-          }
-        }
-      );
-
-      directionsService.route(
-        {
-          origin: new window.google.maps.LatLng(
-            5.569976708828936,
-            -0.18671566160150527
-          ),
-          destination: new window.google.maps.LatLng(lat, lng),
-          travelMode: window.google.maps.TravelMode.DRIVING,
-          drivingOptions: {
-            departureTime: new Date(Date.now() + 1000), // 1 second from now
-            trafficModel: "bestguess",
-          },
-        },
-        (result, status) => {
-          if (status === window.google.maps.DirectionsStatus.OK) {
-            // Get the distance from the result object
-            const distance = result.routes[0].legs[0].distance.text;
-            const duration = Math.round(
-              result.routes[0].legs[0].duration_in_traffic.value / 60
-            );
-
-            // Do something with the distance and directions
-            console.log(`Duration: ${duration}`);
-            setOrderDuration(duration + 25);
-          }
-        }
-      );
-
-      const map = new window.google.maps.Map(mapRef.current, {
-        center: { lat, lng },
-        zoom: 17,
-        gestureHandling: "none",
-        disableDefaultUI: true,
-        clickableIcons: false,
-
-        // mapId: "54574095a5fde241",
-      });
-
-      // const priceTag = window.document.createElement("div");
-
-      // priceTag.className = "price-tag";
-      // priceTag.textContent = props.user && props.user.name ? "Me" : "Me";
-      const marker = new window.google.maps.Marker({
-        position: { lat, lng },
-        map,
-        // content: priceTag,
-      });
-    }, [props.user]);
-
-    return (
-      <Box
-        ref={mapRef}
-        id="map"
-        style={{
-          width: "100%",
-          height: "30vh",
-          borderBottomLeftRadius: "12px",
-          borderBottomRightRadius: "12px",
-        }}
-      />
-    );
-  }
 
   useEffect(() => {
     console.log(props.cart);
@@ -768,12 +684,27 @@ const Basket = (props) => {
                               (!props.user.addresses.length && "none")
                             }
                           >
-                            <Wrapper
-                              render={render}
-                              apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
-                            >
-                              <MyMapComponent />
-                            </Wrapper>{" "}
+                            <Box onClick={() => setOpenAddressPin(true)}>
+                              <Wrapper
+                                render={render}
+                                apiKey={
+                                  process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+                                }
+                              >
+                                <BasketMapComponent
+                                  lat={lat}
+                                  lng={lng}
+                                  setLat={setLat}
+                                  setLng={setLng}
+                                  setOrderDuration={setOrderDuration}
+                                  user={props.user}
+                                  setPinAddress={props.setPinAddress}
+                                  pinAddress={props.pinAddress}
+                                  openAddressPin={openAddressPin}
+                                />
+                                {/* <MyMapComponent /> */}
+                              </Wrapper>
+                            </Box>{" "}
                             <Box
                               display="flex"
                               alignItems="center"
@@ -1137,19 +1068,30 @@ const Basket = (props) => {
               </Box>
             )}
           </Box>
+
           {props.user && props.cart ? (
-            <PaymentConfirmation
-              open={openPaymentConfirmation}
-              onClose={() => setOpenPaymentConfirmation(false)}
-              finalTotal={finalTotal}
-              finalTotalAfterDiscount={finalTotalAfterDiscount}
-              user={props.user}
-              cart={props.cart}
-              setCart={props.setCart}
-              closeBasket={() => props.onClose()}
-              setOpenOrders={props.setOpenOrders}
-              setAlertSnackbar={props.setAlertSnackbar}
-            />
+            <>
+              <AddressPin
+                open={openAddressPin}
+                pinAddress={props.pinAddress}
+                setPinAddress={props.setPinAddress}
+                onClose={() => setOpenAddressPin(false)}
+                lat={lat}
+                lng={lng}
+              />
+              <PaymentConfirmation
+                open={openPaymentConfirmation}
+                onClose={() => setOpenPaymentConfirmation(false)}
+                finalTotal={finalTotal}
+                finalTotalAfterDiscount={finalTotalAfterDiscount}
+                user={props.user}
+                cart={props.cart}
+                setCart={props.setCart}
+                closeBasket={() => props.onClose()}
+                setOpenOrders={props.setOpenOrders}
+                setAlertSnackbar={props.setAlertSnackbar}
+              />
+            </>
           ) : (
             ""
           )}

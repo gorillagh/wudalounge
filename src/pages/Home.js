@@ -90,6 +90,8 @@ const Home = (props) => {
   const [openAboutUs, setOpenAboutUs] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
 
+  const [pinAddress, setPinAddress] = useState(null);
+
   const [openAccount, setOpenAccount] = useState(false);
   const [openGoogleMap, setOpenGoogleMap] = useState(false);
 
@@ -455,6 +457,8 @@ const Home = (props) => {
         ""
       )}
       <Basket
+        pinAddress={pinAddress}
+        setPinAddress={setPinAddress}
         cart={cart}
         setCart={setCart}
         discount={discount}
@@ -483,6 +487,7 @@ const Home = (props) => {
         <>
           <Address
             open={openAddress}
+            setPinAddress={setPinAddress}
             onClose={() => setOpenAddress(false)}
             user={props.user}
             setUser={props.setUser}

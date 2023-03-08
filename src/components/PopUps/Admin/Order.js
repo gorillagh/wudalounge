@@ -49,7 +49,7 @@ const Order = (props) => {
 
   useEffect(() => {
     props.order && setOrderStatus(props.order.orderStatus);
-  }, []);
+  }, [props.open]);
 
   const handleStatusChange = (e) => {
     setOrderStatus(e.target.value);

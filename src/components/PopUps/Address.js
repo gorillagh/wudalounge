@@ -56,6 +56,7 @@ const Address = (props) => {
               text: "Address added",
               severity: "success",
             });
+            props.setPinAddress(null);
             props.onClose();
             setLoading(false);
             setValue(null);
