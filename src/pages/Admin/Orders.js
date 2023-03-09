@@ -19,15 +19,14 @@ const cardStyle = {
   cursor: "pointer",
 };
 
-const orderStatuses = [
-  { label: "all", value: "all" },
-  { label: "waiting", value: "processing" },
-  { label: "dispatched", value: "dispatched" },
-  { label: "completed", value: "completed" },
-  { label: "canceled", value: "canceled" },
-];
-
 const Orders = (props) => {
+  const [orderStatuses, setOrderStatuses] = useState([
+    { label: "all", value: "all", count: 0 },
+    { label: "waiting", value: "processing", count: 0 },
+    { label: "dispatched", value: "dispatched", count: 0 },
+    { label: "completed", value: "completed", count: 0 },
+    { label: "canceled", value: "canceled", count: 0 },
+  ]);
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -57,6 +56,21 @@ const Orders = (props) => {
     try {
       const res = await getAllOrders(props.user.token);
       setOrders(res.data);
+
+      /////set count/////////
+      let newOrderStatuses = [...orderStatuses];
+      newOrderStatuses.forEach((status, index) => {
+        if (status.value === "all") {
+          status.count = res.data.length;
+        } else {
+          let count = res.data.filter(
+            (order) => order.orderStatus === status.value
+          ).length;
+          newOrderStatuses[index].count = count;
+        }
+      });
+      setOrderStatuses(newOrderStatuses);
+
       setFilteredOrders(res.data);
       setLoading(false);
     } catch (error) {
@@ -142,7 +156,7 @@ const Orders = (props) => {
           {orderStatuses.map((status, index) => (
             <Box key={index}>
               <ActionButton
-                text={status.label}
+                text={`${status.label} (${status.count})`}
                 variant=""
                 sx={{
                   textTransform: "capitalize",
