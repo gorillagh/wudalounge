@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Chip, Icon, IconButton } from "@mui/material";
+import { Box, Chip, Grid, Icon, IconButton, Typography } from "@mui/material";
 import Dish from "../../components/PopUps/Admin/Dish";
 import Subtitle from "../../components/Typography/Subtitle";
 import ActionButton from "../../components/Buttons/ActionButton";
@@ -10,6 +10,7 @@ import Subcategory from "../../components/PopUps/Admin/Subcategory";
 import Item from "../../components/PopUps/Admin/Item";
 import Drink from "../../components/PopUps/Admin/Drink";
 import { getMenu } from "../../serverFunctions/menu";
+import LoadingBackdrop from "../../components/Feedbacks/LoadingBackdrop";
 
 const cardStyle = {
   p: 2,
@@ -42,6 +43,9 @@ const Menu = (props) => {
   const [filteredMenu, setFilteredMenu] = useState([]);
 
   const [selectedMenuType, setSelectedMenuType] = useState("dishes");
+
+  const [dishToEdit, setDishToEdit] = useState(null);
+  const [drinkToEdit, setDrinkToEdit] = useState(null);
 
   const loadMenu = async () => {
     setLoading(true);
@@ -110,6 +114,16 @@ const Menu = (props) => {
     }
   };
 
+  const handleEditDish = (dish) => {
+    setDishToEdit(dish);
+    console.log("dish to edit--->", dish);
+    setOpenDish(true);
+  };
+  const handleEditDrink = (drink) => {
+    setDrinkToEdit(drink);
+    setOpenDrink(true);
+  };
+
   return (
     <>
       <Box px={2}>
@@ -122,6 +136,7 @@ const Menu = (props) => {
           <Subtitle my={1} title="Menu" />
           <MenuAdd
             setOpenDish={setOpenDish}
+            setDishToEdit={setDishToEdit}
             setOpenDrink={setOpenDrink}
             setOpenCategory={setOpenCategory}
             setOpenSubcategory={setOpenSubcategory}
@@ -161,39 +176,97 @@ const Menu = (props) => {
             </Box>
           ))}
         </Box>
-        <Box>
-          {filteredMenu.length
-            ? filteredMenu.map((item, index) => (
-                <Box
-                  justifyContent="space-between"
-                  alignItems="center"
-                  key={index}
-                >
-                  {" "}
-                  <Box
-                    sx={{
-                      ...cardStyle,
-                    }}
-                  >
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      {item.name}
+
+        {filteredMenu && filteredMenu.length
+          ? filteredMenu.map((item, index) => (
+              <Box key={index} sx={{ ...cardStyle }}>
+                {selectedMenuType === "dishes" ||
+                selectedMenuType === "drinks" ? (
+                  <Grid container columnSpacing={1}>
+                    <Grid item xs={5}>
+                      <img
+                        src={item.image}
+                        alt="favorite"
+                        width="100%"
+                        // height="100%"
+                        style={{
+                          borderRadius: "12px",
+                        }}
+                      />
+                    </Grid>
+
+                    <Grid item xs={7}>
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
+                        <Typography>{item.name}</Typography>
+                        <IconButton
+                          color="info"
+                          size="small"
+                          onClick={() => {
+                            if (selectedMenuType === "dishes")
+                              handleEditDish(item);
+                            else handleEditDrink(item);
+                          }}
+                        >
+                          <Icon fontSize="small">edit</Icon>
+                        </IconButton>
+                      </Box>
+                      <Typography variant="body2" fontWeight={500}>
+                        GHC{item.price}
+                      </Typography>
+
+                      <Typography variant="body2">
+                        {item.description}
+                      </Typography>
+                      {item.category ? (
+                        <Typography variant="body2" fontWeight={400}>
+                          Category: {item.category.name}
+                        </Typography>
+                      ) : (
+                        ""
+                      )}
+                    </Grid>
+                  </Grid>
+                ) : (
+                  <Box>
+                    <Box display="flex" justifyContent="space-between">
+                      <Typography>{item.name}</Typography>
+                      <IconButton color="info" size="small">
+                        <Icon fontSize="small">edit</Icon>
+                      </IconButton>
                     </Box>
+                    {item.additionalAmount ? (
+                      <Typography variant="body2" fontWeight={400}>
+                        GHC{item.additionalAmount}
+                      </Typography>
+                    ) : (
+                      ""
+                    )}
+                    {item.type ? (
+                      <Typography variant="body2" fontWeight={400}>
+                        Type: {item.type}
+                      </Typography>
+                    ) : (
+                      ""
+                    )}
                   </Box>
-                </Box>
-              ))
-            : ""}
-        </Box>
+                )}
+              </Box>
+            ))
+          : ""}
+        <LoadingBackdrop open={loading} />
       </Box>
       <Dish
+        dishToEdit={dishToEdit}
         user={props.user}
         open={openDish}
         onClose={() => setOpenDish(false)}
       />
       <Drink
+        drinkToEdit={drinkToEdit}
         user={props.user}
         open={openDrink}
         onClose={() => setOpenDrink(false)}

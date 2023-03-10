@@ -90,7 +90,8 @@ const Dish = (props) => {
   };
 
   useEffect(() => {
-    setDish((prevState) => ({ ...prevState, sizes }));
+    if (props.dishToEdit) setDish(props.dishToEdit);
+    else setDish((prevState) => ({ ...prevState, sizes }));
     loadSubs();
   }, [props.open]);
 
@@ -243,7 +244,10 @@ const Dish = (props) => {
                 }}
               >
                 <Box my={2} display="flex" justifyContent="space-between">
-                  <PageTitle my={0} title="Create Dish" />
+                  <PageTitle
+                    my={0}
+                    title={props.dishToEdit ? "Edit Dish" : "Create Dish"}
+                  />
                   <Icon color="error" fontSize="large" onClick={props.onClose}>
                     close
                   </Icon>

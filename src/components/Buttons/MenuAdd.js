@@ -89,6 +89,7 @@ export default function MenuAdd(props) {
         <MenuItem
           onClick={() => {
             setAnchorEl(null);
+            props.setDishToEdit(null);
             props.setOpenDish(true);
           }}
           disableRipple
