@@ -406,7 +406,7 @@ function AdminNavbar(props) {
                   },
                 }}
               >
-                <PersonIcon fontSize="medium" />
+                <MenuIcon fontSize="medium" />
               </IconButton>
               {/* {props.user === null && (
                 <Box sx={{ display: { xs: "none", md: "block" } }}>
