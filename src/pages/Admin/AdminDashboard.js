@@ -6,6 +6,7 @@ import Search from "../../components/PopUps/Search";
 import PageTitle from "../../components/Typography/PageTitle";
 import Subtitle from "../../components/Typography/Subtitle";
 import { getDashboardBriefs } from "../../serverFunctions/admin";
+import LoadingBackdrop from "../../components/Feedbacks/LoadingBackdrop";
 
 const cardStyle = {
   px: 2,
@@ -324,6 +325,7 @@ const AdminDashboard = (props) => {
           </Grid>
         </Grid>
       )}
+      <LoadingBackdrop open={briefsLoading} />
     </div>
   );
 };
