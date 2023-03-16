@@ -64,3 +64,23 @@ export const getAllOrders = async (authtoken) => {
     }
   );
 };
+
+export const getUsers = async (authtoken) => {
+  return await api.post(
+    "/admin/users",
+    {},
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+};
+
+export const updateUser = async (authtoken, userId, data) => {
+  return await api.post(`/admin/user-update/${userId}`, data, {
+    headers: {
+      authtoken,
+    },
+  });
+};

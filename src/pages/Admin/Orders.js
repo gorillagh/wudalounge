@@ -21,17 +21,17 @@ const cardStyle = {
 
 const Orders = (props) => {
   const [orderStatuses, setOrderStatuses] = useState([
-    { label: "all", value: "all", count: 0 },
     { label: "waiting", value: "processing", count: 0 },
     { label: "dispatched", value: "dispatched", count: 0 },
     { label: "completed", value: "completed", count: 0 },
     { label: "canceled", value: "canceled", count: 0 },
+    { label: "all", value: "all", count: 0 },
   ]);
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [ordersLoading, setOrdersLoading] = useState(false);
-  const [selectedStatusView, setSelectedStatusView] = useState("all");
+  const [selectedStatusView, setSelectedStatusView] = useState("processing");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [openOrder, setOpenOrder] = useState(false);
 
@@ -52,7 +52,7 @@ const Orders = (props) => {
 
   const loadOrders = async () => {
     setLoading(true);
-    setSelectedStatusView("all");
+    setSelectedStatusView("processing");
     try {
       const res = await getAllOrders(props.user.token);
       setOrders(res.data);
@@ -69,9 +69,12 @@ const Orders = (props) => {
           newOrderStatuses[index].count = count;
         }
       });
+      let filtered = [];
       setOrderStatuses(newOrderStatuses);
-
-      setFilteredOrders(res.data);
+      res.data.map((order) => {
+        if (order.orderStatus === "processing") filtered.push(order);
+      });
+      setFilteredOrders(filtered);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -138,7 +141,7 @@ const Orders = (props) => {
             </IconButton>
           </Box>
           <ActionButton
-            text="Create"
+            text="Add"
             leftIcon="add"
             fullWidth={false}
             my={0}
