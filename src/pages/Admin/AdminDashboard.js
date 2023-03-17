@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Grid, Icon, Typography } from "@mui/material";
+import { Box, Grid, Icon, MenuItem, Select, Typography } from "@mui/material";
 import AdminNavbar from "../../components/Navbars/AdminNavbar";
 import Search from "../../components/PopUps/Search";
 import PageTitle from "../../components/Typography/PageTitle";
 import Subtitle from "../../components/Typography/Subtitle";
 import { getDashboardBriefs } from "../../serverFunctions/admin";
 import LoadingBackdrop from "../../components/Feedbacks/LoadingBackdrop";
+import OrderStatisticsChart from "../../components/Charts/OrderStatisticsChart";
 
 const cardStyle = {
   px: 2,
@@ -41,7 +42,7 @@ const AdminDashboard = (props) => {
       const res = await getDashboardBriefs(props.user.token);
       setdashboardBriefs(res.data);
       setBriefsLoading(false);
-      console.log(res.data);
+      console.log("Briefs==>", res.data);
     } catch (error) {
       setBriefsLoading(false);
       console.log(error);
@@ -74,9 +75,7 @@ const AdminDashboard = (props) => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography sx={{ ...cardHeader }} variant="body2">
-                  Orders
-                </Typography>
+                <Typography sx={{ ...cardHeader }}>Orders</Typography>
                 <Icon fontSize="small" color="primary">
                   assignment
                 </Icon>
@@ -172,11 +171,9 @@ const AdminDashboard = (props) => {
               <Box
                 display="flex"
                 justifyContent="space-between"
-                alignItems="flex-end"
+                alignItems="center"
               >
-                <Typography sx={{ ...cardHeader }} variant="body2">
-                  Menu
-                </Typography>
+                <Typography sx={{ ...cardHeader }}>Menu</Typography>
                 <Icon fontSize="small" color="primary">
                   restaurant_menu
                 </Icon>
@@ -224,9 +221,7 @@ const AdminDashboard = (props) => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography sx={{ ...cardHeader }} variant="body2">
-                  Users
-                </Typography>
+                <Typography sx={{ ...cardHeader }}>Users</Typography>
                 <Icon fontSize="small" color="primary">
                   people
                 </Icon>
@@ -295,9 +290,7 @@ const AdminDashboard = (props) => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography sx={{ ...cardHeader }} variant="body2">
-                  Reports
-                </Typography>
+                <Typography sx={{ ...cardHeader }}>Reports</Typography>
                 <Icon fontSize="small" color="primary">
                   bug_report
                 </Icon>
@@ -324,6 +317,61 @@ const AdminDashboard = (props) => {
             </Box>
           </Grid>
         </Grid>
+      )}
+      {dashboardBriefs ? (
+        <Grid container spacing={1} px={1} my={1}>
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                ...cardStyle,
+              }}
+            >
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                my={2}
+                sx={{
+                  justifyContent: { xs: "space-between", md: "flex-start" },
+                }}
+              >
+                <Typography sx={{ ...cardHeader }} mr={1}>
+                  Revenue
+                </Typography>
+                <Select
+                  size="small"
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value="7days"
+                  // onChange={handleStatusChange}
+                >
+                  <MenuItem value="7days">Last 7 days</MenuItem>
+                  <MenuItem value="1month">Last 4 weeks</MenuItem>
+                  <MenuItem value="custom">Custom range</MenuItem>
+                  <MenuItem value="1year">Past year</MenuItem>
+                  <MenuItem value="alltime">All time</MenuItem>
+                </Select>
+              </Box>
+
+              <Box
+                sx={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  height: "100%",
+                  // border: "1px solid rgba(255, 255, 255, 0.3)",
+                  cursor: "pointer",
+                  overflowX: "scroll",
+                }}
+              >
+                <OrderStatisticsChart
+                  weeklyOrderChart={dashboardBriefs.ordersInfo.weeklyOrderChart}
+                />
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
+      ) : (
+        ""
       )}
       <LoadingBackdrop open={briefsLoading} />
     </div>
