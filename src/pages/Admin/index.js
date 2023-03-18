@@ -29,7 +29,7 @@ const AdminLogin = (props) => {
   const roleBasedRedirect = (user) => {
     console.log(user);
     if (user.role === "admin") {
-      navigate("/admin/dashboard");
+      navigate("/admin");
     } else {
       navigate("/admin/login");
     }

@@ -372,7 +372,24 @@ const AdminDashboard = (props) => {
           </Grid>
         </Grid>
       )}
-      {revenueChartData ? (
+      {revenueChartLoading ? (
+        <Box
+          sx={{
+            ...cardStyle,
+            boxSizing: "border-box",
+            height: 200,
+            // width: "100%",
+            my: 4,
+          }}
+        >
+          <Skeleton
+            variant="rounded"
+            width="100%"
+            height="100%"
+            // sx={{ ...cardStyle }}
+          />
+        </Box>
+      ) : revenueChartData ? (
         <Grid container spacing={1} px={1} my={1}>
           <Grid item xs={12}>
             <Box
@@ -406,38 +423,24 @@ const AdminDashboard = (props) => {
                   <MenuItem value="alltime">All time</MenuItem>
                 </Select>
               </Box>
-              {revenueChartLoading ? (
-                <Box
-                  sx={{
-                    ...cardStyle,
-                    boxSizing: "border-box",
-                    height: "100%",
-                    // width: "100%",
-                  }}
-                >
-                  <Skeleton
-                    variant="rounded"
-                    width="100%"
-                    height="100%"
-                    // sx={{ ...cardStyle }}
-                  />
-                </Box>
-              ) : (
-                <Box
-                  sx={{
-                    width: "100%",
-                    boxSizing: "border-box",
-                    height: "100%",
-                    // border: "1px solid rgba(255, 255, 255, 0.3)",
-                    cursor: "pointer",
-                    overflowX: "scroll",
-                    display: { xs: "block", md: "flex" },
-                    justifyContent: "center",
-                  }}
-                >
-                  <OrderStatisticsChart revenueChartData={revenueChartData} />
-                </Box>
-              )}
+              {/* {revenueChartLoading ? ( */}
+
+              {/* ) : ( */}
+              <Box
+                sx={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  height: "100%",
+                  // border: "1px solid rgba(255, 255, 255, 0.3)",
+                  cursor: "pointer",
+                  overflowX: "scroll",
+                  display: { xs: "block", md: "flex" },
+                  justifyContent: "center",
+                }}
+              >
+                <OrderStatisticsChart revenueChartData={revenueChartData} />
+              </Box>
+              {/* )} */}
             </Box>
           </Grid>
         </Grid>
