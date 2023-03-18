@@ -64,6 +64,10 @@ const Order = (props) => {
     try {
       const res = await updateOrder(props.user.token, order._id, {
         orderStatus,
+        processedBy: [
+          ...props.order.processedBy,
+          { userId: props.user._id, action: orderStatus },
+        ],
       });
       if (res.data === "ok") {
         toast.success("Order updated");
@@ -214,6 +218,25 @@ const Order = (props) => {
                 ) : (
                   ""
                 )}
+              </Box>
+              <Box display="flex" my={2}>
+                <Typography variant="body2" fontWeight={400} mr={1}>
+                  processed By:{" "}
+                </Typography>
+                <Box>
+                  {props.order.processedBy.length ? (
+                    props.order.processedBy.map((info, index) => (
+                      <Box display="flex" key={index}>
+                        <Typography variant="body2">
+                          {info.userId.name} - {info.processedAt} -{" "}
+                          {info.action}
+                        </Typography>
+                      </Box>
+                    ))
+                  ) : (
+                    <Typography variant="body2">No one</Typography>
+                  )}
+                </Box>
               </Box>
               <Box my={2} display="flex" alignItems="center">
                 <Typography variant="body2" fontWeight={500} mr={1}>
