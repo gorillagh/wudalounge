@@ -278,7 +278,7 @@ function AdminNavbar(props) {
                 textDecoration: "none",
               }}
             >
-              <Link text="Admin" to="/admin/dashboard" color="#000" />
+              <Link text="Admin" to="/admin" color="#000" />
             </Typography>
 
             <Typography
@@ -299,7 +299,7 @@ function AdminNavbar(props) {
                 textDecoration: "none",
               }}
             >
-              <Link text="Admin" to="/admin/dashboard" color="#000" />
+              <Link text="Admin" to="/admin" color="#000" />
             </Typography>
             <Box
               sx={{
