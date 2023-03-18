@@ -189,7 +189,7 @@ const App = () => {
         />
         <Route
           exact
-          path="/admin/dashboard"
+          path="/admin"
           element={
             <AdminRoute setUser={setUser} user={user}>
               <AdminDashboard setUser={setUser} user={user} />

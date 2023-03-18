@@ -12,6 +12,14 @@ export const getDashboardBriefs = async (authtoken) => {
   );
 };
 
+export const getRevenueChartData = async (authtoken, filter) => {
+  return await api.post(`/admin/revenue-chart-data`, filter, {
+    headers: {
+      authtoken,
+    },
+  });
+};
+
 export const uploadDishImage = async (authtoken, uri) => {
   return await api.post(
     `/admin/upload-dish-image`,

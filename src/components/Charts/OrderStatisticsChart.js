@@ -1,8 +1,18 @@
 import React, { useRef, useEffect, PureComponent } from "react";
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 import * as d3 from "d3";
 import { Chart } from "react-d3-library";
+import { Box, Typography } from "@mui/material";
 
 const getPath = (x, y, width, height) => {
   return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2},${
@@ -19,6 +29,44 @@ const TriangleBar = (props) => {
   const { fill, x, y, width, height } = props;
 
   return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
+};
+
+class CustomizedLabel extends PureComponent {
+  render() {
+    const { x, y, stroke, value } = this.props;
+
+    return (
+      <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle">
+        {value}
+      </text>
+    );
+  }
+}
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    console.log(payload[0]);
+    return (
+      <Box
+        p={1}
+        sx={{
+          borderRadius: "12px",
+          background: "rgba(255, 255, 255, 0.9)",
+          backdropFilter: "blur(8.8px)",
+          WebkitBackdropFilter: "blur(8.8px)",
+          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+          webkitBackdropFilter: "blur(5px)",
+        }}
+      >
+        <Typography variant="body2">
+          {label}({payload[0].payload.day})
+        </Typography>
+        <Typography variant="body2">{`Total: GHC${payload[0].payload.totalAmount}`}</Typography>
+        <Typography variant="body2">{`Orders#: ${payload[0].payload.count}`}</Typography>
+      </Box>
+    );
+  }
+
+  return null;
 };
 class CustomizedAxisTick extends PureComponent {
   render() {
@@ -48,36 +96,31 @@ const OrderStatisticsChart = (props) => {
     return `GHC${value.toFixed(2)}`;
   };
   return (
-    <BarChart
+    // <ResponsiveContainer width="100%" height="100%">
+    <LineChart
       width={500}
       height={300}
-      data={props.weeklyOrderChart}
+      data={props.revenueChartData}
       margin={{
         top: 20,
-        right: 0,
-        left: 10,
-        bottom: 5,
+        right: 30,
+        left: 20,
+        bottom: 10,
       }}
     >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis
-        dataKey="date"
-        height={50}
-        interval={0}
-        tick={<CustomizedAxisTick />}
-      />
-      {/* <YAxis tickFormatter={formatYAxisTick} /> */}
-      <Bar
+      <CartesianGrid strokeDasharray="1 1" />
+      <XAxis dataKey="date" height={60} tick={<CustomizedAxisTick />} />
+      {/* <YAxis /> */}
+      <Tooltip content={<CustomTooltip />} />
+      <Legend />
+      <Line
+        type="monotone"
         dataKey="totalAmount"
-        fill="#8884d8"
-        shape={<TriangleBar />}
-        label={{ position: "top" }}
-      >
-        {props.weeklyOrderChart.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill="#ea8255" />
-        ))}
-      </Bar>
-    </BarChart>
+        stroke="#f8bd49"
+        label={<CustomizedLabel />}
+      />
+    </LineChart>
+    // </ResponsiveContainer>
   );
 };
 

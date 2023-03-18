@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Grid, Icon, MenuItem, Select, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Icon,
+  MenuItem,
+  Select,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 import AdminNavbar from "../../components/Navbars/AdminNavbar";
 import Search from "../../components/PopUps/Search";
 import PageTitle from "../../components/Typography/PageTitle";
 import Subtitle from "../../components/Typography/Subtitle";
-import { getDashboardBriefs } from "../../serverFunctions/admin";
+import {
+  getDashboardBriefs,
+  getRevenueChartData,
+} from "../../serverFunctions/admin";
 import LoadingBackdrop from "../../components/Feedbacks/LoadingBackdrop";
 import OrderStatisticsChart from "../../components/Charts/OrderStatisticsChart";
 
@@ -30,9 +41,15 @@ const cardHeader = {
   my: 1,
 };
 
+const briefSkeletons = [1, 2, 3, 4];
+
 const AdminDashboard = (props) => {
+  const [loading, setLoading] = useState(false);
   const [briefsLoading, setBriefsLoading] = useState(false);
+  const [revenueChartLoading, setRevenueChartLoading] = useState(false);
   const [dashboardBriefs, setdashboardBriefs] = useState(null);
+  const [revenueChartData, setRevenueChartData] = useState(null);
+  const [revenueChartFilter, setRevenueChartFilter] = useState("7days");
 
   const navigate = useNavigate();
 
@@ -49,9 +66,30 @@ const AdminDashboard = (props) => {
     }
   };
 
+  const getChartData = async () => {
+    try {
+      setRevenueChartLoading(true);
+      const res = await getRevenueChartData(props.user.token, {
+        filter: revenueChartFilter,
+      });
+      setRevenueChartData(res.data);
+      setRevenueChartLoading(false);
+    } catch (error) {
+      setRevenueChartLoading(false);
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getBriefs();
   }, []);
+  useEffect(() => {
+    getChartData();
+  }, [revenueChartFilter]);
+
+  const handleRevenueChartFilter = (e) => {
+    setRevenueChartFilter(e.target.value);
+  };
 
   return (
     <div>
@@ -61,7 +99,23 @@ const AdminDashboard = (props) => {
         mx={1}
       />
       {briefsLoading ? (
-        ""
+        <Grid container justifyContent="space-between" spacing={1} px={1}>
+          {briefSkeletons.map((skeleton, index) => (
+            <Grid item xs={6} md={3}>
+              <Box
+                sx={{ ...cardStyle, height: 80 }}
+                onClick={() => navigate("/admin/orders")}
+              >
+                <Skeleton
+                  variant="rounded"
+                  width="100%"
+                  height="100%"
+                  // sx={{ ...cardStyle }}
+                />
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
       ) : (
         <Grid container justifyContent="space-between" spacing={1} px={1}>
           {/* ///////////////////ORDERS SECTION////////////////////////// */}
@@ -318,7 +372,7 @@ const AdminDashboard = (props) => {
           </Grid>
         </Grid>
       )}
-      {dashboardBriefs ? (
+      {revenueChartData ? (
         <Grid container spacing={1} px={1} my={1}>
           <Grid item xs={12}>
             <Box
@@ -342,8 +396,8 @@ const AdminDashboard = (props) => {
                   size="small"
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value="7days"
-                  // onChange={handleStatusChange}
+                  value={revenueChartFilter}
+                  onChange={handleRevenueChartFilter}
                 >
                   <MenuItem value="7days">Last 7 days</MenuItem>
                   <MenuItem value="1month">Last 4 weeks</MenuItem>
@@ -352,28 +406,45 @@ const AdminDashboard = (props) => {
                   <MenuItem value="alltime">All time</MenuItem>
                 </Select>
               </Box>
-
-              <Box
-                sx={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                  height: "100%",
-                  // border: "1px solid rgba(255, 255, 255, 0.3)",
-                  cursor: "pointer",
-                  overflowX: "scroll",
-                }}
-              >
-                <OrderStatisticsChart
-                  weeklyOrderChart={dashboardBriefs.ordersInfo.weeklyOrderChart}
-                />
-              </Box>
+              {revenueChartLoading ? (
+                <Box
+                  sx={{
+                    ...cardStyle,
+                    boxSizing: "border-box",
+                    height: "100%",
+                    // width: "100%",
+                  }}
+                >
+                  <Skeleton
+                    variant="rounded"
+                    width="100%"
+                    height="100%"
+                    // sx={{ ...cardStyle }}
+                  />
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    width: "100%",
+                    boxSizing: "border-box",
+                    height: "100%",
+                    // border: "1px solid rgba(255, 255, 255, 0.3)",
+                    cursor: "pointer",
+                    overflowX: "scroll",
+                    display: { xs: "block", md: "flex" },
+                    justifyContent: "center",
+                  }}
+                >
+                  <OrderStatisticsChart revenueChartData={revenueChartData} />
+                </Box>
+              )}
             </Box>
           </Grid>
         </Grid>
       ) : (
         ""
       )}
-      <LoadingBackdrop open={briefsLoading} />
+      <LoadingBackdrop open={loading} />
     </div>
   );
 };
