@@ -74,6 +74,7 @@ const Orders = (props) => {
       res.data.map((order) => {
         if (order.orderStatus === "processing") filtered.push(order);
       });
+      filtered.reverse();
       setFilteredOrders(filtered);
       setLoading(false);
     } catch (error) {
@@ -100,6 +101,7 @@ const Orders = (props) => {
         orders.map((order) => {
           if (order.orderStatus === value) filtered.push(order);
         });
+        value === "processing" && filtered.reverse();
         setFilteredOrders(filtered);
         setOrdersLoading(false);
       }
