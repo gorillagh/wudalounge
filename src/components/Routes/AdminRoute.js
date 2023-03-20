@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import io from "socket.io-client";
 
 import LoadingToRedirect from "./LoadingToRedirect";
 import { currentAdmin } from "../../serverFunctions/auth";
@@ -28,6 +29,29 @@ const AdminRoute = (props) => {
         });
     }
   }, [user]);
+
+  useEffect(() => {
+    const socket = io("https://wudalounge-server.vercel.app");
+
+    socket.on("connect", () => {
+      console.log("Socket connected: ", socket.id);
+    });
+
+    socket.on("newOrder", (data) => {
+      // window.alert("New order received=Web Socket: ", data);
+      toast.success("new order received");
+      // getChartData();
+      // getBriefs();
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Socket disconnected");
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   return ok ? (
     <Box>
