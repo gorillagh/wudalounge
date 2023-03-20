@@ -51,7 +51,7 @@ const AdminRoute = (props) => {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  });
 
   return ok ? (
     <Box>
