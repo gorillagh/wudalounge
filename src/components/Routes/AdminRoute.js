@@ -31,7 +31,7 @@ const AdminRoute = (props) => {
   }, [user]);
 
   useEffect(() => {
-    const socket = io("https://wudalounge-server.vercel.app");
+    const socket = io("http://localhost:8000");
 
     socket.on("connect", () => {
       console.log("Socket connected: ", socket.id);
