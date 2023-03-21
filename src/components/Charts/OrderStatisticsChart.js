@@ -10,8 +10,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import * as d3 from "d3";
-import { Chart } from "react-d3-library";
 import { Box, Typography } from "@mui/material";
 
 const getPath = (x, y, width, height) => {
