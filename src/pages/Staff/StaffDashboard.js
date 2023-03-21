@@ -15,10 +15,7 @@ import AdminNavbar from "../../components/Navbars/AdminNavbar";
 import Search from "../../components/PopUps/Search";
 import PageTitle from "../../components/Typography/PageTitle";
 import Subtitle from "../../components/Typography/Subtitle";
-import {
-  getDashboardBriefs,
-  getRevenueChartData,
-} from "../../serverFunctions/admin";
+import { getDashboardBriefs } from "../../serverFunctions/staff";
 import LoadingBackdrop from "../../components/Feedbacks/LoadingBackdrop";
 import OrderStatisticsChart from "../../components/Charts/OrderStatisticsChart";
 
@@ -48,10 +45,7 @@ const briefSkeletons = [1, 2];
 const StaffDashboard = (props) => {
   const [loading, setLoading] = useState(false);
   const [briefsLoading, setBriefsLoading] = useState(false);
-  const [revenueChartLoading, setRevenueChartLoading] = useState(false);
   const [dashboardBriefs, setdashboardBriefs] = useState(null);
-  const [revenueChartData, setRevenueChartData] = useState(null);
-  const [revenueChartFilter, setRevenueChartFilter] = useState("7days");
 
   const navigate = useNavigate();
 
@@ -68,30 +62,9 @@ const StaffDashboard = (props) => {
     }
   };
 
-  const getChartData = async () => {
-    try {
-      setRevenueChartLoading(true);
-      const res = await getRevenueChartData(props.user.token, {
-        filter: revenueChartFilter,
-      });
-      setRevenueChartData(res.data);
-      setRevenueChartLoading(false);
-    } catch (error) {
-      setRevenueChartLoading(false);
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     getBriefs();
   }, []);
-  useEffect(() => {
-    getChartData();
-  }, [revenueChartFilter]);
-
-  const handleRevenueChartFilter = (e) => {
-    setRevenueChartFilter(e.target.value);
-  };
 
   return (
     <div>

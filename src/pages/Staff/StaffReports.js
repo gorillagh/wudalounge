@@ -4,7 +4,7 @@ import { Box, Chip, Icon, IconButton, Typography } from "@mui/material";
 import ActionButton from "../../components/Buttons/ActionButton";
 import Subtitle from "../../components/Typography/Subtitle";
 import LoadingBackdrop from "../../components/Feedbacks/LoadingBackdrop";
-import { getAllReports } from "../../serverFunctions/admin";
+import { getAllReports } from "../../serverFunctions/staff";
 
 const cardStyle = {
   p: 2,
@@ -18,7 +18,7 @@ const cardStyle = {
   cursor: "pointer",
 };
 
-const Reports = (props) => {
+const StaffReports = (props) => {
   const [reportStatuses, setReportStatuses] = useState([
     { label: "Pending", value: "pending", count: 0 },
     { label: "Resolved", value: "resolved", count: 0 },
@@ -179,4 +179,4 @@ const Reports = (props) => {
   );
 };
 
-export default Reports;
+export default StaffReports;

@@ -9,7 +9,7 @@ const UserRoute = ({ children }) => {
   return user && user.token ? (
     <Box>{children}</Box>
   ) : (
-    <LoadingToRedirect message="You are not logged in." />
+    <LoadingToRedirect to="/" message="You are not logged in." />
   );
 };
 

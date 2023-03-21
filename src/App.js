@@ -33,6 +33,7 @@ import StaffRoute from "./components/Routes/StaffRoute";
 import StaffLogin from "./pages/Staff";
 import StaffDashboard from "./pages/Staff/StaffDashboard";
 import StaffOrders from "./pages/Staff/StaffOrders";
+import StaffReports from "./pages/Staff/StaffReports";
 
 let theme = createTheme({
   palette: {
@@ -185,6 +186,8 @@ const App = () => {
             <Home user={user} setLoadUser={setLoadUser} setUser={setUser} />
           }
         />
+
+        {/* ///////////////////////Staff/////////////////// */}
         <Route
           exact
           path="/staff/login"
@@ -208,6 +211,17 @@ const App = () => {
             </StaffRoute>
           }
         />
+        <Route
+          exact
+          path="/staff/reports"
+          element={
+            <StaffRoute setUser={setUser} user={user}>
+              <StaffReports setUser={setUser} user={user} />
+            </StaffRoute>
+          }
+        />
+
+        {/* ///////////////Adim////////////////////////// */}
         <Route
           exact
           path="/admin/login"

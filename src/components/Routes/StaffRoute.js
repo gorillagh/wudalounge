@@ -91,7 +91,7 @@ const StaffRoute = (props) => {
       {props.children}
     </Box>
   ) : (
-    <LoadingToRedirect message="Make sure you are a staff." />
+    <LoadingToRedirect to="/staff/login" message="Make sure you are a staff." />
   );
 };
 

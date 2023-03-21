@@ -73,6 +73,18 @@ export const getAllOrders = async (authtoken) => {
   );
 };
 
+export const getAllReports = async (authtoken) => {
+  return await api.post(
+    "/admin/reports",
+    {},
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+};
+
 export const getUsers = async (authtoken) => {
   return await api.post(
     "/admin/users",

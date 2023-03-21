@@ -4,7 +4,7 @@ import { Box, Chip, Icon, IconButton, Typography } from "@mui/material";
 import ActionButton from "../../components/Buttons/ActionButton";
 import Subtitle from "../../components/Typography/Subtitle";
 import LoadingBackdrop from "../../components/Feedbacks/LoadingBackdrop";
-import { getAllOrders } from "../../serverFunctions/admin";
+import { getAllOrders } from "../../serverFunctions/staff";
 import Order from "../../components/PopUps/Admin/Order";
 
 const cardStyle = {
