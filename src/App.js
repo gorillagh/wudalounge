@@ -29,6 +29,10 @@ import Menu from "./pages/Admin/Menu";
 import Users from "./pages/Admin/Users";
 import Reports from "./pages/Admin/Reports";
 import Company from "./pages/Admin/Company";
+import StaffRoute from "./components/Routes/StaffRoute";
+import StaffLogin from "./pages/Staff";
+import StaffDashboard from "./pages/Staff/StaffDashboard";
+import StaffOrders from "./pages/Staff/StaffOrders";
 
 let theme = createTheme({
   palette: {
@@ -64,7 +68,6 @@ let theme = createTheme({
       dark: "#4c0ff0",
       contrastText: "#fff",
     },
-
     divider: "rgba(0, 0, 0, 0.08)",
   },
 
@@ -180,6 +183,29 @@ const App = () => {
           path="/"
           element={
             <Home user={user} setLoadUser={setLoadUser} setUser={setUser} />
+          }
+        />
+        <Route
+          exact
+          path="/staff/login"
+          element={<StaffLogin setUser={setUser} user={user} />}
+        />
+        <Route
+          exact
+          path="/staff"
+          element={
+            <StaffRoute setUser={setUser} user={user}>
+              <StaffDashboard setUser={setUser} user={user} />
+            </StaffRoute>
+          }
+        />
+        <Route
+          exact
+          path="/staff/orders"
+          element={
+            <StaffRoute setUser={setUser} user={user}>
+              <StaffOrders setUser={setUser} user={user} />
+            </StaffRoute>
           }
         />
         <Route

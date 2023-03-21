@@ -56,6 +56,18 @@ export const currentAdmin = async (authtoken) => {
   );
 };
 
+export const currentStaff = async (authtoken) => {
+  return await api.post(
+    `/current-staff`,
+    {},
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+};
+
 export const checkEmailAvailability = async (email) => {
   return await api.post(
     `/check-email-availability`,
