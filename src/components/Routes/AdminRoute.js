@@ -33,15 +33,15 @@ const AdminRoute = (props) => {
   }, [user]);
 
   useEffect(() => {
-    const pusher = new Pusher("868cc58cabbb7ae7406e", {
-      cluster: "mt1",
+    const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
+      cluster: process.env.REACT_APP_PUSHER_CLUSTER,
       encrypted: true,
     });
     const channel = pusher.subscribe("newOrder");
 
     channel.bind("order-placed", (data) => {
       console.log("New message received:", data);
-      toast.success(`New order received from `);
+      toast.success(`New order received`);
       // Do something with the new message here
     });
 

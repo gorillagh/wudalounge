@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import Pusher from "pusher-js";
 import { Box, Chip, Icon, IconButton, Typography } from "@mui/material";
 import ActionButton from "../../components/Buttons/ActionButton";
 import Subtitle from "../../components/Typography/Subtitle";
@@ -85,6 +85,25 @@ const Orders = (props) => {
 
   useEffect(() => {
     loadOrders();
+  }, []);
+
+  useEffect(() => {
+    const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
+      cluster: process.env.REACT_APP_PUSHER_CLUSTER,
+      encrypted: true,
+    });
+    const channel = pusher.subscribe("newOrder");
+
+    channel.bind("order-placed", (data) => {
+      console.log("New message received:", data);
+      loadOrders();
+      // Do something with the new message here
+    });
+
+    return () => {
+      pusher.unsubscribe("newOrder");
+      pusher.disconnect();
+    };
   }, []);
 
   const handleStatusFilter = async (value) => {

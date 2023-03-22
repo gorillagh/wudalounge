@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import io from "socket.io-client";
+import Pusher from "pusher-js";
 
 import Ably from "ably/promises";
 
@@ -34,40 +35,21 @@ const StaffRoute = (props) => {
   }, [user]);
 
   useEffect(() => {
-    // const socket = io("https://wudalounge-server.vercel.app/");
+    const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
+      cluster: process.env.REACT_APP_PUSHER_CLUSTER,
+      encrypted: true,
+    });
+    const channel = pusher.subscribe("newOrder");
 
-    // socket.on("connect", () => {
-    //   console.log("Socket connected: ", socket.id);
-    // });
-
-    // socket.on("newOrder", (data) => {
-    //   // window.alert("New order received=Web Socket: ", data);
-    //   toast.success("new order received");
-    //   // getChartData();
-    //   // getBriefs();
-    // });
-
-    // socket.on("disconnect", () => {
-    //   console.log("Socket disconnected");
-    // });
-
-    // return () => {
-    //   socket.disconnect();
-    // };
-    const ably = new Ably.Realtime(
-      "zf8B2g.48jGgQ:srWXyb4--QGlLCKAV3RlVsoJ6D-tHOxxtU4d7c3xXRg"
-    );
-    const channel = ably.channels.get("newOrder");
-
-    channel.subscribe("newOrder", (data) => {
+    channel.bind("order-placed", (data) => {
       console.log("New message received:", data);
-      toast.success(`New order received from `);
+      toast.success(`New order received`);
       // Do something with the new message here
     });
 
     return () => {
-      channel.unsubscribe();
-      ably.close();
+      pusher.unsubscribe("newOrder");
+      pusher.disconnect();
     };
   }, []);
 
