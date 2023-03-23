@@ -126,8 +126,7 @@ function Navbar(props) {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
     if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-      window.location.href =
-        "itms-apps://apps.apple.com/gh/app/bolt-food-order-delivery/id1496134588";
+      window.location.href = "https://apps.apple.com/app/id310633997";
     } else if (/android/i.test(userAgent)) {
       window.location.href =
         "https://play.google.com/store/apps/details?id=com.bolt.food&hl=en";
