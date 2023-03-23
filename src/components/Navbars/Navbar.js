@@ -130,7 +130,7 @@ function Navbar(props) {
 
       if (isWhatsAppInstalled) {
         window.location.href =
-          "whatsapp://send?text=Hello%20from%20my%20restaurant%20app!";
+          "whatsapp://send?text=Hello%20check%20out%20amazing%20dishes%20at%20www.wudalounge.com";
       } else {
         const platform = /(android)/i.test(navigator.userAgent)
           ? "android"
@@ -145,6 +145,24 @@ function Navbar(props) {
       }
     } else {
       alert("Please open this app on a mobile device to use WhatsApp.");
+    }
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Wuda Lounge",
+          text: "Check out amazing dishes at Wuda Lounge",
+          url: "https://www.wudalounge.com",
+        });
+        console.log("Share successful");
+      } catch (error) {
+        console.error("Share failed:", error);
+      }
+    } else {
+      console.log("Share not supported");
+      // fallback to another share method
     }
   };
 
@@ -418,6 +436,22 @@ function Navbar(props) {
                 justifyContent: "flex-end",
               }}
             >
+              <IconButton
+                size="small"
+                aria-label="search"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                sx={{ mx: 1, color: "info.light" }}
+                onClick={handleShare}
+                color="info"
+              >
+                <Icon>
+                  {/iPad|iPhone|iPod/.test(navigator.userAgent) &&
+                  !window.MSStream
+                    ? "ios_share"
+                    : "share"}
+                </Icon>
+              </IconButton>
               <IconButton
                 size="small"
                 aria-label="search"
