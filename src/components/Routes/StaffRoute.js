@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import io from "socket.io-client";
 import Pusher from "pusher-js";
-
-import Ably from "ably/promises";
 
 import LoadingToRedirect from "./LoadingToRedirect";
 import { currentAdmin, currentStaff } from "../../serverFunctions/auth";

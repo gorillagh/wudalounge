@@ -13,9 +13,13 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import Twitter from "@mui/icons-material/Twitter";
+import Facebook from "@mui/icons-material/Facebook";
+import Instagram from "@mui/icons-material/Instagram";
+import WhatsApp from "@mui/icons-material/WhatsApp";
 import Container from "@mui/material/Container";
 import NavbarButton from "../Buttons/NavbarButton";
-
+import ActionButton from "../Buttons/ActionButton";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -90,6 +94,44 @@ function Navbar(props) {
     if (to !== "" && to !== "logout") navigate(to);
 
     to === "logout" && handleSignOut();
+  };
+
+  const openSocialMedia = (platform) => {
+    console.log(platform);
+    let url;
+    switch (platform) {
+      case "facebook":
+        url = "https://www.facebook.com/chanchoman1";
+        break;
+      case "instagram":
+        url = "https://www.instagram.com/governor_narh";
+        break;
+      case "twitter":
+        url = "https://www.twitter.com/governornarh";
+        break;
+      case "whatsapp":
+        url = "https://api.whatsapp.com/send?phone=+233240298910";
+        break;
+      case "snapchat":
+        url = "https://www.snapchat.com/add/wudalounge";
+        break;
+      default:
+        return;
+    }
+
+    window.open(url, "_blank");
+  };
+
+  const boltFoodButton = () => {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      window.location.href =
+        "https://apps.apple.com/us/app/bolt-food-order-delivery/id1496134588";
+    } else if (/android/i.test(userAgent)) {
+      window.location.href =
+        "https://play.google.com/store/apps/details?id=com.bolt.food&hl=en";
+    }
   };
 
   ////////////drawer///////////////////
@@ -241,6 +283,54 @@ function Navbar(props) {
           ""
         )}
       </List>
+
+      <Box position="absolute" sx={{ top: "auto", bottom: 0 }}>
+        <Box px={2}>
+          <ActionButton
+            text="Find us on Bolt Food"
+            backgroundColor="#34D186"
+            fullWidth={false}
+            size="small"
+            my={1}
+            onClick={boltFoodButton}
+          />
+        </Box>
+        <IconButton
+          onClick={() => openSocialMedia("facebook")}
+          size="large"
+          color="#3b5998"
+        >
+          <Facebook sx={{ color: "#3b5998" }} />
+        </IconButton>
+        <IconButton
+          size="large"
+          color="#3b5998"
+          onClick={() => openSocialMedia("instagram")}
+        >
+          <Instagram sx={{ color: "#c13584" }} />
+        </IconButton>
+        <IconButton
+          size="large"
+          color="#1da1f2"
+          onClick={() => openSocialMedia("twitter")}
+        >
+          <Twitter sx={{ color: "#1da1f2" }} />
+        </IconButton>
+        <IconButton
+          size="large"
+          color="#25D366"
+          onClick={() => openSocialMedia("whatsapp")}
+        >
+          <WhatsApp sx={{ color: "#25D366" }} />
+        </IconButton>
+        <IconButton
+          size="large"
+          sx={{ borderRadius: "50%", bgcolor: "#000", p: 0.5 }}
+          onClick={() => openSocialMedia("snapchat")}
+        >
+          <Icon sx={{ color: "#FFFC00" }}>snapchat</Icon>
+        </IconButton>
+      </Box>
     </Box>
   );
 
