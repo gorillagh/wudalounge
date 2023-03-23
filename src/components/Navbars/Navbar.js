@@ -285,7 +285,7 @@ function Navbar(props) {
       </List>
 
       <Box position="absolute" sx={{ top: "auto", bottom: 0 }}>
-        <Box px={2}>
+        {/* <Box px={2}>
           <ActionButton
             text="Find us on Bolt Food"
             backgroundColor="#34D186"
@@ -294,7 +294,7 @@ function Navbar(props) {
             my={1}
             onClick={boltFoodButton}
           />
-        </Box>
+        </Box> */}
         <IconButton
           onClick={() => openSocialMedia("facebook")}
           size="large"
