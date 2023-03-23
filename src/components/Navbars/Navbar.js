@@ -123,13 +123,28 @@ function Navbar(props) {
   };
 
   const boltFoodButton = () => {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-      window.location.href = "https://apps.apple.com/app/id310633997";
-    } else if (/android/i.test(userAgent)) {
-      window.location.href =
-        "https://play.google.com/store/apps/details?id=com.bolt.food&hl=en";
+    if (isMobile) {
+      const isWhatsAppInstalled = /WhatsApp/i.test(navigator.userAgent);
+
+      if (isWhatsAppInstalled) {
+        window.location.href =
+          "whatsapp://send?text=Hello%20from%20my%20restaurant%20app!";
+      } else {
+        const platform = /(android)/i.test(navigator.userAgent)
+          ? "android"
+          : "ios";
+        window.location.href = `https://wa.me/?text=Hello%20from%20my%20restaurant%20app!&app_absent=1${
+          platform === "android" ? "&fallback_url=" : ""
+        }${
+          platform === "android"
+            ? "market://details?id=com.whatsapp"
+            : "https://apps.apple.com/app/id310633997"
+        }`;
+      }
+    } else {
+      alert("Please open this app on a mobile device to use WhatsApp.");
     }
   };
 
