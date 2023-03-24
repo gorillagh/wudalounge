@@ -253,7 +253,8 @@ const Dish = (props) => {
         const file = await fetch(dish.image).then((response) =>
           response.blob()
         );
-        const fileObj = new File([file], "image.jpg", { type: file.type });
+        const fileObj = new Blob([file], "image.jpg", { type: file.type });
+        console.log("File", fileObj);
         await navigator.share({
           title: "Wuda Lounge",
           text: `Get a delicious ${dish.name} at a cool ${dish.price} from Wuda Lounge`,
