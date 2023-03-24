@@ -114,12 +114,12 @@ function Navbar(props) {
           const isWhatsAppInstalled = /WhatsApp/i.test(navigator.userAgent);
           if (isWhatsAppInstalled) {
             url =
-              "whatsapp://send?text=Hello%20from%20my%20restaurant%20app!&phone=+233240298910";
+              "whatsapp://send?text=Hello%20Wuda%20Lounge!&phone=+233244885739";
           } else {
             const platform = /(android)/i.test(navigator.userAgent)
               ? "android"
               : "ios";
-            url = `https://wa.me/?text=Hello%20from%20my%20restaurant%20app!&phone=+233240298910&app_absent=1${
+            url = `https://wa.me/?text=Hello%20Wuda%20Lounge!&phone=+233244885739&app_absent=1${
               platform === "android" ? "&fallback_url=" : ""
             }${
               platform === "android"
@@ -128,7 +128,7 @@ function Navbar(props) {
             }`;
           }
         } else {
-          url = "https://web.whatsapp.com/send?phone=+233240298910";
+          url = "https://web.whatsapp.com/send?phone=+233244885739";
         }
         break;
       case "snapchat":
