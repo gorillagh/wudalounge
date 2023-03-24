@@ -126,25 +126,14 @@ function Navbar(props) {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (isMobile) {
-      const isWhatsAppInstalled = /WhatsApp/i.test(navigator.userAgent);
-
-      if (isWhatsAppInstalled) {
-        window.location.href =
-          "whatsapp://send?text=Hello%20check%20out%20amazing%20dishes%20at%20www.wudalounge.com";
-      } else {
-        const platform = /(android)/i.test(navigator.userAgent)
-          ? "android"
-          : "ios";
-        window.location.href = `https://wa.me/?text=Hello%20from%20my%20restaurant%20app!&app_absent=1${
-          platform === "android" ? "&fallback_url=" : ""
-        }${
-          platform === "android"
-            ? "market://details?id=com.whatsapp"
-            : "https://apps.apple.com/app/id310633997"
-        }`;
-      }
+      const platform = /(android)/i.test(navigator.userAgent)
+        ? "android"
+        : "ios";
+      window.location.href = `boltfood://${
+        platform === "android" ? "com.taxify.client" : "com.taxify.boltfood"
+      }`;
     } else {
-      alert("Please open this app on a mobile device to use WhatsApp.");
+      alert("Please open this app on a mobile device to use Bolt Food.");
     }
   };
 
@@ -357,7 +346,14 @@ function Navbar(props) {
         </IconButton>
         <IconButton
           size="large"
-          sx={{ borderRadius: "50%", bgcolor: "#000", p: 0.5 }}
+          sx={{
+            borderRadius: "50%",
+            bgcolor: "#000",
+            p: 0.5,
+            "&:hover": {
+              bgcolor: "#000",
+            },
+          }}
           onClick={() => openSocialMedia("snapchat")}
         >
           <Icon sx={{ color: "#FFFC00" }}>snapchat</Icon>
