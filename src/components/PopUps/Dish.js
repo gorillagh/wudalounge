@@ -254,53 +254,41 @@ const Dish = (props) => {
           response.blob()
         );
         const fileObj = new File([blob], "image.png", { type: blob.type });
-        console.log("File", fileObj);
         await navigator.share({
-          // title: "Wuda Lounge",
-          // text: `Get a delicious ${dish.name} at a cool ${dish.price} from Wuda Lounge`,
-          url: "https://www.wudalounge.com",
           files: [fileObj],
         });
-        console.log("Share successful");
       } catch (error) {
         console.error("Share failed:", error);
       }
     } else {
       console.log("Share not supported, using fallback method");
-      // Use another share method here, such as a third-party share dialog or clipboard copy
-      const fallbackUrl = "https://www.wudalounge.com";
-      try {
-        await navigator.clipboard.writeText(fallbackUrl);
-        console.log("URL copied to clipboard");
-        alert("Link copied to clipboard!");
-      } catch (error) {
-        console.error("Clipboard write failed:", error);
-        // Use a share dialog here if clipboard write fails
-        window.open(
-          `mailto:?subject=Check out Wuda Lounge&body=${fallbackUrl}`
-        );
-      }
+      const shareUrl = `https://www.example.com/dishes/${dish.id}`;
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+        `${dish.name}: ${shareUrl}`
+      )}`;
+      const facebookUrl = `https://www.facebook.com/sharer.php?u=${encodeURIComponent(
+        shareUrl
+      )}`;
+      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+        `${dish.name}: ${shareUrl}`
+      )}`;
+
+      const shareTitle = `Check out this delicious ${dish.name} at our restaurant!`;
+      const shareText = `Find out more at ${shareUrl}`;
+
+      const shareData = new FormData();
+      shareData.append("text", shareTitle);
+      shareData.append("image", dish.image);
+      shareData.append("caption", shareText);
+
+      const shareUrlEncoded = encodeURIComponent(
+        JSON.stringify(Object.fromEntries(shareData.entries()))
+      );
+
+      window.open(`${twitterUrl}&${shareUrlEncoded}`);
+      window.open(`${facebookUrl}&${shareUrlEncoded}`);
+      window.open(`${whatsappUrl}&${shareUrlEncoded}`);
     }
-  };
-
-  const shareToWhatsapp = (dish) => {
-    const canvas = document.createElement("canvas");
-    const img = new Image();
-    img.src = dish.image;
-    img.crossOrigin = "anonymous";
-    img.onload = function () {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const context = canvas.getContext("2d");
-      context.drawImage(img, 0, 0);
-      const dataUrl = canvas.toDataURL("image/png");
-
-      const shareUrl = `whatsapp://send?text=${encodeURIComponent(
-        `${dish.name}\n${dish.description}`
-      )}&image=${encodeURIComponent(dataUrl)}`;
-
-      window.location.href = shareUrl;
-    };
   };
 
   return (
@@ -350,7 +338,7 @@ const Dish = (props) => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               sx={{ mx: 1, color: "info.light" }}
-              onClick={() => shareToWhatsapp(props.dish)}
+              onClick={() => handleShare(props.dish)}
               color="info"
             >
               <Icon
