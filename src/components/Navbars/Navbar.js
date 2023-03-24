@@ -97,16 +97,23 @@ function Navbar(props) {
   };
 
   const openSocialMedia = (platform) => {
-    let url;
+    let url, webUrl;
     switch (platform) {
       case "facebook":
-        url = "https://www.facebook.com/chanchoman1";
+        url = "fb://profile/chanchoman1";
+        webUrl = "https://www.facebook.com/chanchoman1";
         break;
       case "instagram":
-        url = "https://www.instagram.com/governor_narh";
+        url = "instagram://user?username=governor_narh";
+        webUrl = "https://www.instagram.com/governor_narh";
         break;
       case "twitter":
-        url = "https://www.twitter.com/governornarh";
+        url = "twitter://user?screen_name=governornarh";
+        webUrl = "https://www.twitter.com/governornarh";
+        break;
+      case "snapchat":
+        url = "snapchat://add/wudalounge";
+        webUrl = "https://www.snapchat.com/add/wudalounge";
         break;
       case "whatsapp":
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -131,23 +138,22 @@ function Navbar(props) {
           url = "https://web.whatsapp.com/send?phone=+233244885739";
         }
         break;
-      case "snapchat":
-        url = "https://www.snapchat.com/add/wudalounge";
-        break;
       default:
         return;
     }
 
-    // Open the URL in a new tab or window, depending on the device type
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-      if (url.startsWith("http")) {
-        window.open(url, "_blank");
-      } else {
-        window.location.href = url;
-      }
+    // Open the URL in the app or web app, depending on the device and app availability
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      const appUrl = url;
+      const webUrl = webUrl;
+      const appWindow = window.open(appUrl, "_blank");
+      setTimeout(() => {
+        if (!appWindow || appWindow.closed || appWindow.closed === undefined) {
+          window.location.href = webUrl;
+        }
+      }, 500);
     } else {
-      window.open(url, "_blank");
+      window.open(webUrl, "_blank");
     }
   };
 
