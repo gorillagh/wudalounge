@@ -256,9 +256,9 @@ const Dish = (props) => {
         const fileObj = new File([blob], "image.png", { type: blob.type });
         console.log("File", fileObj);
         await navigator.share({
-          title: "Wuda Lounge",
-          text: `Get a delicious ${dish.name} at a cool ${dish.price} from Wuda Lounge`,
-          url: "https://www.wudalounge.com",
+          // title: "Wuda Lounge",
+          // text: `Get a delicious ${dish.name} at a cool ${dish.price} from Wuda Lounge`,
+          // url: "https://www.wudalounge.com",
           files: [fileObj],
         });
         console.log("Share successful");
