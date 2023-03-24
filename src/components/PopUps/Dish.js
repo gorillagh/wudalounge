@@ -17,6 +17,7 @@ import {
   FormControlLabel,
   Grid,
   Icon,
+  IconButton,
   InputBase,
   Slide,
   Toolbar,
@@ -245,6 +246,42 @@ const Dish = (props) => {
         });
     }
   };
+
+  const handleShare = async (dish) => {
+    if (navigator.share) {
+      try {
+        const file = await fetch(dish.image).then((response) =>
+          response.blob()
+        );
+        const fileObj = new File([file], "image.jpg", { type: file.type });
+        await navigator.share({
+          title: "Wuda Lounge",
+          text: `Get a delicious ${dish.name} at a cool ${dish.price} from Wuda Lounge`,
+          url: "https://www.wudalounge.com",
+          files: [fileObj],
+        });
+        console.log("Share successful");
+      } catch (error) {
+        console.error("Share failed:", error);
+      }
+    } else {
+      console.log("Share not supported, using fallback method");
+      // Use another share method here, such as a third-party share dialog or clipboard copy
+      const fallbackUrl = "https://www.wudalounge.com";
+      try {
+        await navigator.clipboard.writeText(fallbackUrl);
+        console.log("URL copied to clipboard");
+        alert("Link copied to clipboard!");
+      } catch (error) {
+        console.error("Clipboard write failed:", error);
+        // Use a share dialog here if clipboard write fails
+        window.open(
+          `mailto:?subject=Check out Wuda Lounge&body=${fallbackUrl}`
+        );
+      }
+    }
+  };
+
   return (
     <Modal
       closeAfterTransition={true}
@@ -286,6 +323,32 @@ const Dish = (props) => {
       >
         <Box sx={style}>
           <Box sx={{ position: "absolute", top: "3%" }}>
+            <IconButton
+              size="small"
+              aria-label="search"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              sx={{ mx: 1, color: "info.light" }}
+              onClick={() => handleShare(props.dish)}
+              color="info"
+            >
+              <Icon
+                fontSize="small"
+                sx={{
+                  color: "info",
+                  bgcolor: "#fff",
+                  p: 0.5,
+                  borderRadius: "50%",
+                  zIndex: 4,
+                  cursor: "pointer",
+                }}
+              >
+                {/iPad|iPhone|iPod/.test(navigator.userAgent) &&
+                !window.MSStream
+                  ? "ios_share"
+                  : "share"}
+              </Icon>
+            </IconButton>
             <Icon
               onClick={() => {
                 props.dish.extras.map((e) => (e.checked = false));
