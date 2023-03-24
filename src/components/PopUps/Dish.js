@@ -331,7 +331,7 @@ const Dish = (props) => {
       >
         <Box sx={style}>
           <Box sx={{ position: "absolute", top: "3%" }}>
-            <div>
+            <Box sx={{ zIndex: 4 }}>
               <FacebookIcon size={32} round={true} />
               <TwitterIcon size={32} round={true} />
               <WhatsappIcon size={32} round={true} />
@@ -343,7 +343,7 @@ const Dish = (props) => {
               >
                 <WhatsappIcon size={32} round />
               </WhatsappShareButton>
-            </div>
+            </Box>
             <IconButton
               size="small"
               aria-label="search"
