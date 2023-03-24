@@ -177,18 +177,34 @@ function Navbar(props) {
   const handleShare = async () => {
     if (navigator.share) {
       try {
+        const file = await fetch("/path/to/image.jpg").then((r) => r.blob());
         await navigator.share({
           title: "Wuda Lounge",
           text: "Check out amazing dishes at Wuda Lounge",
           url: "https://www.wudalounge.com",
+          files: [
+            "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+          ],
         });
         console.log("Share successful");
       } catch (error) {
         console.error("Share failed:", error);
       }
     } else {
-      console.log("Share not supported");
-      // fallback to another share method
+      console.log("Share not supported, using fallback method");
+      // Use another share method here, such as a third-party share dialog or clipboard copy
+      const fallbackUrl = "https://www.wudalounge.com";
+      try {
+        await navigator.clipboard.writeText(fallbackUrl);
+        console.log("URL copied to clipboard");
+        alert("Link copied to clipboard!");
+      } catch (error) {
+        console.error("Clipboard write failed:", error);
+        // Use a share dialog here if clipboard write fails
+        window.open(
+          `mailto:?subject=Check out Wuda Lounge&body=${fallbackUrl}`
+        );
+      }
     }
   };
 
@@ -341,48 +357,48 @@ function Navbar(props) {
           ""
         )}
       </List>
-
-      <Box position="absolute" sx={{ top: "auto", bottom: 0 }}>
-        <Box px={2}>
-          <ActionButton
-            text="Find us on Bolt Food"
-            backgroundColor="#34D186"
-            fullWidth={false}
-            size="small"
-            my={1}
-            onClick={boltFoodButton}
-            hoverColor="#34D186"
-          />
-        </Box>
-        <IconButton
-          onClick={() => openSocialMedia("facebook")}
-          size="large"
-          color="#3b5998"
-        >
-          <Facebook sx={{ color: "#3b5998" }} />
-        </IconButton>
-        <IconButton
-          size="large"
-          color="#3b5998"
-          onClick={() => openSocialMedia("instagram")}
-        >
-          <Instagram sx={{ color: "#c13584" }} />
-        </IconButton>
-        <IconButton
-          size="large"
-          color="#1da1f2"
-          onClick={() => openSocialMedia("twitter")}
-        >
-          <Twitter sx={{ color: "#1da1f2" }} />
-        </IconButton>
-        <IconButton
-          size="large"
-          color="#25D366"
-          onClick={() => openSocialMedia("whatsapp")}
-        >
-          <WhatsApp sx={{ color: "#25D366" }} />
-        </IconButton>
-        <IconButton
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box position="absolute" sx={{ top: "auto", bottom: 0 }}>
+          <Box display="flex" justifyContent="center">
+            <ActionButton
+              text="Find us on Bolt Food"
+              backgroundColor="#34D186"
+              fullWidth={false}
+              size="small"
+              my={1}
+              onClick={boltFoodButton}
+              hoverColor="#34D186"
+            />
+          </Box>
+          <IconButton
+            onClick={() => openSocialMedia("facebook")}
+            size="large"
+            color="#3b5998"
+          >
+            <Facebook sx={{ color: "#3b5998" }} />
+          </IconButton>
+          <IconButton
+            size="large"
+            color="#3b5998"
+            onClick={() => openSocialMedia("instagram")}
+          >
+            <Instagram sx={{ color: "#c13584" }} />
+          </IconButton>
+          <IconButton
+            size="large"
+            color="#1da1f2"
+            onClick={() => openSocialMedia("twitter")}
+          >
+            <Twitter sx={{ color: "#1da1f2" }} />
+          </IconButton>
+          <IconButton
+            size="large"
+            color="#25D366"
+            onClick={() => openSocialMedia("whatsapp")}
+          >
+            <WhatsApp sx={{ color: "#25D366" }} />
+          </IconButton>
+          {/* <IconButton
           size="large"
           sx={{
             borderRadius: "50%",
@@ -395,7 +411,8 @@ function Navbar(props) {
           onClick={() => openSocialMedia("snapchat")}
         >
           <Icon sx={{ color: "#FFFC00" }}>snapchat</Icon>
-        </IconButton>
+        </IconButton> */}
+        </Box>
       </Box>
     </Box>
   );
@@ -479,7 +496,7 @@ function Navbar(props) {
                 onClick={handleShare}
                 color="info"
               >
-                <Icon>
+                <Icon fontSize="small">
                   {/iPad|iPhone|iPod/.test(navigator.userAgent) &&
                   !window.MSStream
                     ? "ios_share"
