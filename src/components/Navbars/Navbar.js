@@ -131,7 +131,7 @@ function Navbar(props) {
         : "ios";
       window.location.href = `boltfood://${
         platform === "android" ? "com.taxify.client" : "com.taxify.boltfood"
-      }`;
+      }?restaurant=${encodeURIComponent("afrik-gardens")}`;
     } else {
       alert("Please open this app on a mobile device to use Bolt Food.");
     }
