@@ -248,7 +248,6 @@ const Dish = (props) => {
   };
 
   const handleShare = async (dish) => {
-    console.log(dish.image);
     if (navigator.share) {
       try {
         const blob = await fetch(dish.image).then((response) =>
@@ -256,30 +255,11 @@ const Dish = (props) => {
         );
         const fileObj = new File([blob], "image.png", { type: blob.type });
         console.log("File", fileObj);
-        let text = `Get a delicious ${dish.name} at a cool ${dish.price} from Wuda Lounge`;
-        let url;
-        if (navigator.userAgent.match(/(iPhone|iPod|iPad)/i)) {
-          // On iOS, include the image data as a base64-encoded data URL in the URL parameter
-          const imageData = await blob.arrayBuffer();
-          const base64ImageData = btoa(
-            new Uint8Array(imageData).reduce(
-              (data, byte) => data + String.fromCharCode(byte),
-              ""
-            )
-          );
-          url = dish.image;
-          text = `${text} ${url}`;
-        } else {
-          // On other platforms, include the file as a separate parameter
-          url = "https://www.wudalounge.com";
-        }
         await navigator.share({
-          title: "Wuda Lounge",
-          text: text,
-          url: url,
-          files: navigator.userAgent.match(/(iPhone|iPod|iPad)/i)
-            ? undefined
-            : [fileObj],
+          // title: "Wuda Lounge",
+          // text: `Get a delicious ${dish.name} at a cool ${dish.price} from Wuda Lounge`,
+          url: "https://www.wudalounge.com",
+          files: [fileObj],
         });
         console.log("Share successful");
       } catch (error) {
@@ -301,6 +281,13 @@ const Dish = (props) => {
         );
       }
     }
+  };
+
+  const shareToWhatsapp = (dish) => {
+    const shareUrl = `whatsapp://send?text=${encodeURIComponent(
+      `check this out ${dish.name} ${dish.image}`
+    )}`;
+    window.location.href = shareUrl;
   };
 
   return (
@@ -350,7 +337,7 @@ const Dish = (props) => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               sx={{ mx: 1, color: "info.light" }}
-              onClick={() => handleShare(props.dish)}
+              onClick={() => shareToWhatsapp(props.dish)}
               color="info"
             >
               <Icon
