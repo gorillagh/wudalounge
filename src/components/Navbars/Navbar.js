@@ -129,9 +129,11 @@ function Navbar(props) {
       const platform = /(android)/i.test(navigator.userAgent)
         ? "android"
         : "ios";
-      window.location.href = `boltfood://${
-        platform === "android" ? "com.taxify.client" : "com.taxify.boltfood"
-      }?restaurant=${encodeURIComponent("afrik-gardens")}`;
+      // window.location.href = `boltfood://${
+      //   platform === "android" ? "com.taxify.client" : "com.taxify.boltfood"
+      // }?restaurant=${encodeURIComponent("afrik-gardens")}`;
+      window.location.href =
+        "https://food.bolt.eu/en-US/137/p/38734-veggie-box";
     } else {
       alert("Please open this app on a mobile device to use Bolt Food.");
     }
