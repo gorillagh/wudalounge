@@ -248,6 +248,7 @@ const Dish = (props) => {
   };
 
   const handleShare = async (dish) => {
+    console.log(dish.image);
     if (navigator.share) {
       try {
         const blob = await fetch(dish.image).then((response) =>
@@ -255,11 +256,30 @@ const Dish = (props) => {
         );
         const fileObj = new File([blob], "image.png", { type: blob.type });
         console.log("File", fileObj);
+        let text = `Get a delicious ${dish.name} at a cool ${dish.price} from Wuda Lounge`;
+        let url;
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad)/i)) {
+          // On iOS, include the image data as a base64-encoded data URL in the URL parameter
+          const imageData = await blob.arrayBuffer();
+          const base64ImageData = btoa(
+            new Uint8Array(imageData).reduce(
+              (data, byte) => data + String.fromCharCode(byte),
+              ""
+            )
+          );
+          url = dish.image;
+          text = `${text} ${url}`;
+        } else {
+          // On other platforms, include the file as a separate parameter
+          url = "https://www.wudalounge.com";
+        }
         await navigator.share({
-          // title: "Wuda Lounge",
-          // text: `Get a delicious ${dish.name} at a cool ${dish.price} from Wuda Lounge`,
-          // url: "https://www.wudalounge.com",
-          files: [fileObj],
+          title: "Wuda Lounge",
+          text: text,
+          url: url,
+          files: navigator.userAgent.match(/(iPhone|iPod|iPad)/i)
+            ? undefined
+            : [fileObj],
         });
         console.log("Share successful");
       } catch (error) {
