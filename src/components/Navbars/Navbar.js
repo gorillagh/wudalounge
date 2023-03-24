@@ -97,7 +97,6 @@ function Navbar(props) {
   };
 
   const openSocialMedia = (platform) => {
-    console.log(platform);
     let url;
     switch (platform) {
       case "facebook":
@@ -110,7 +109,27 @@ function Navbar(props) {
         url = "https://www.twitter.com/governornarh";
         break;
       case "whatsapp":
-        url = "https://api.whatsapp.com/send?phone=+233240298910";
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+          const isWhatsAppInstalled = /WhatsApp/i.test(navigator.userAgent);
+          if (isWhatsAppInstalled) {
+            url =
+              "whatsapp://send?text=Hello%20from%20my%20restaurant%20app!&phone=+233240298910";
+          } else {
+            const platform = /(android)/i.test(navigator.userAgent)
+              ? "android"
+              : "ios";
+            url = `https://wa.me/?text=Hello%20from%20my%20restaurant%20app!&phone=+233240298910&app_absent=1${
+              platform === "android" ? "&fallback_url=" : ""
+            }${
+              platform === "android"
+                ? "market://details?id=com.whatsapp"
+                : "https://apps.apple.com/app/id310633997"
+            }`;
+          }
+        } else {
+          url = "https://web.whatsapp.com/send?phone=+233240298910";
+        }
         break;
       case "snapchat":
         url = "https://www.snapchat.com/add/wudalounge";
@@ -119,7 +138,17 @@ function Navbar(props) {
         return;
     }
 
-    window.open(url, "_blank");
+    // Open the URL in a new tab or window, depending on the device type
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      if (url.startsWith("http")) {
+        window.open(url, "_blank");
+      } else {
+        window.location.href = url;
+      }
+    } else {
+      window.open(url, "_blank");
+    }
   };
 
   const boltFoodButton = () => {
@@ -316,6 +345,7 @@ function Navbar(props) {
             size="small"
             my={1}
             onClick={boltFoodButton}
+            hoverColor="#34D186"
           />
         </Box>
         <IconButton

@@ -20,6 +20,9 @@ const ActionButton = (props) => {
         color: props.variant !== "contained" ? "" : "#fff",
         backgroundColor: props.backgroundColor,
         boxShadow: "0.5px 1px 0px rgba(0, 0, 0, 0.2)",
+        "&:hover": {
+          backgroundColor: props.hoverColor,
+        },
       }}
       {...props}
     >
@@ -40,6 +43,7 @@ const ActionButton = (props) => {
 
 ActionButton.defaultProps = {
   my: 3,
+  hoverColor: "",
   variant: "contained",
   color: "primary",
   size: "large",
