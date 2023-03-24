@@ -113,7 +113,7 @@ function Navbar(props) {
         break;
       case "snapchat":
         url = "snapchat://add/wudalounge";
-        webUrl = "https://www.snapchat.com/add/wudalounge";
+        webUrl = "https://www.snapchat.com/add/chancho";
         break;
       case "whatsapp":
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
