@@ -250,10 +250,10 @@ const Dish = (props) => {
   const handleShare = async (dish) => {
     if (navigator.share) {
       try {
-        const file = await fetch(dish.image).then((response) =>
+        const blob = await fetch(dish.image).then((response) =>
           response.blob()
         );
-        const fileObj = new Blob([file], "image.jpg", { type: file.type });
+        const fileObj = new File([blob], "image.png", { type: blob.type });
         console.log("File", fileObj);
         await navigator.share({
           title: "Wuda Lounge",
