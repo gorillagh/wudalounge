@@ -284,10 +284,23 @@ const Dish = (props) => {
   };
 
   const shareToWhatsapp = (dish) => {
-    const shareUrl = `whatsapp://send?text=${encodeURIComponent(
-      `check this out ${dish.name} ${dish.image}`
-    )}`;
-    window.location.href = shareUrl;
+    const canvas = document.createElement("canvas");
+    const img = new Image();
+    img.src = dish.image;
+    img.crossOrigin = "anonymous";
+    img.onload = function () {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const context = canvas.getContext("2d");
+      context.drawImage(img, 0, 0);
+      const dataUrl = canvas.toDataURL("image/png");
+
+      const shareUrl = `whatsapp://send?text=${encodeURIComponent(
+        `${dish.name}\n${dish.description}`
+      )}&image=${encodeURIComponent(dataUrl)}`;
+
+      window.location.href = shareUrl;
+    };
   };
 
   return (
