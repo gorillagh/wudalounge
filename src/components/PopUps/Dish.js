@@ -1,4 +1,11 @@
 import React, { useState, useEffect } from "react";
+import {
+  FacebookIcon,
+  TwitterIcon,
+  WhatsappIcon,
+  WhatsappShareButton,
+} from "react-share";
+
 import { useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
 import { v4 as uuid } from "uuid";
@@ -254,40 +261,32 @@ const Dish = (props) => {
           response.blob()
         );
         const fileObj = new File([blob], "image.png", { type: blob.type });
+        console.log("File", fileObj);
         await navigator.share({
+          title: "Wuda Lounge",
+          text: `Get a delicious ${dish.name} for just ${dish.price} from Wuda Lounge`,
+          url: "https://www.wudalounge.com",
           files: [fileObj],
         });
+        console.log("Share successful");
       } catch (error) {
         console.error("Share failed:", error);
       }
     } else {
       console.log("Share not supported, using fallback method");
-      const shareUrl = `https://www.example.com/dishes/${dish.id}`;
-      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-        `${dish.name}: ${shareUrl}`
-      )}`;
-      const facebookUrl = `https://www.facebook.com/sharer.php?u=${encodeURIComponent(
-        shareUrl
-      )}`;
-      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
-        `${dish.name}: ${shareUrl}`
-      )}`;
-
-      const shareTitle = `Check out this delicious ${dish.name} at our restaurant!`;
-      const shareText = `Find out more at ${shareUrl}`;
-
-      const shareData = new FormData();
-      shareData.append("text", shareTitle);
-      shareData.append("image", dish.image);
-      shareData.append("caption", shareText);
-
-      const shareUrlEncoded = encodeURIComponent(
-        JSON.stringify(Object.fromEntries(shareData.entries()))
-      );
-
-      window.open(`${twitterUrl}&${shareUrlEncoded}`);
-      window.open(`${facebookUrl}&${shareUrlEncoded}`);
-      window.open(`${whatsappUrl}&${shareUrlEncoded}`);
+      // Use another share method here, such as a third-party share dialog or clipboard copy
+      const fallbackUrl = "https://www.wudalounge.com";
+      try {
+        await navigator.clipboard.writeText(fallbackUrl);
+        console.log("URL copied to clipboard");
+        alert("Link copied to clipboard!");
+      } catch (error) {
+        console.error("Clipboard write failed:", error);
+        // Use a share dialog here if clipboard write fails
+        window.open(
+          `mailto:?subject=Check out Wuda Lounge&body=${fallbackUrl}`
+        );
+      }
     }
   };
 
@@ -332,6 +331,19 @@ const Dish = (props) => {
       >
         <Box sx={style}>
           <Box sx={{ position: "absolute", top: "3%" }}>
+            <div>
+              <FacebookIcon size={32} round={true} />
+              <TwitterIcon size={32} round={true} />
+              <WhatsappIcon size={32} round={true} />
+              <WhatsappShareButton
+                url="https://www.wudalounge.com"
+                title={props.dish.name}
+                separator=":: "
+                image={props.dish.image}
+              >
+                <WhatsappIcon size={32} round />
+              </WhatsappShareButton>
+            </div>
             <IconButton
               size="small"
               aria-label="search"
