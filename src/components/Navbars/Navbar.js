@@ -34,6 +34,8 @@ import Link from "../Links/Link";
 import { Avatar, Icon, ListItemIcon } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
 
+import { FacebookShareButton, FacebookIcon } from "react-share";
+
 function Navbar(props) {
   const pages = [
     // { text: "Dishes", icon: "dinner_dining", to: "/meals" },
@@ -488,6 +490,16 @@ function Navbar(props) {
                 justifyContent: "flex-end",
               }}
             >
+               
+              <FacebookShareButton
+                url={"https://www.wudalounge.com"}
+                quote={"Dummy text!"}
+                hashtag="#muo"
+              >
+                        
+                <FacebookIcon size={32} round />
+                      
+              </FacebookShareButton>
               <IconButton
                 size="small"
                 aria-label="search"
@@ -527,7 +539,6 @@ function Navbar(props) {
                   </Button>
                 ))}
               </Box>
-
               <Box
                 sx={{
                   // flexGrow: 1,
