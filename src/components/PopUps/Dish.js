@@ -351,28 +351,6 @@ const Dish = (props) => {
                   : "share"}
               </Icon>
             </IconButton>
-            <FacebookShareButton
-              url="https://wudalounge.com/"
-              quote={props.dish.name}
-              hashtag="#Wudalounge"
-            >
-              <Icon
-                fontSize="small"
-                sx={{
-                  color: "info",
-                  bgcolor: "#fff",
-                  p: 0.5,
-                  borderRadius: "50%",
-                  zIndex: 4,
-                  cursor: "pointer",
-                }}
-              >
-                {/iPad|iPhone|iPod/.test(navigator.userAgent) &&
-                !window.MSStream
-                  ? "ios_share"
-                  : "share"}
-              </Icon>
-            </FacebookShareButton>
             <Icon
               onClick={() => {
                 props.dish.extras.map((e) => (e.checked = false));
