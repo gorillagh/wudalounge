@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
@@ -10,7 +9,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Twitter from "@mui/icons-material/Twitter";
@@ -18,7 +16,6 @@ import Facebook from "@mui/icons-material/Facebook";
 import Instagram from "@mui/icons-material/Instagram";
 import WhatsApp from "@mui/icons-material/WhatsApp";
 import Container from "@mui/material/Container";
-import NavbarButton from "../Buttons/NavbarButton";
 import ActionButton from "../Buttons/ActionButton";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -27,14 +24,11 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
 import PersonIcon from "@mui/icons-material/Person";
 import logo from "../../images/logo-32x32.png";
 import Link from "../Links/Link";
 import { Avatar, Icon, ListItemIcon } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
-
-import { FacebookShareButton, FacebookIcon } from "react-share";
 
 function Navbar(props) {
   const pages = [
@@ -187,7 +181,7 @@ function Navbar(props) {
           title: "Wuda Lounge",
           text: "Check out amazing dishes at Wuda Lounge",
           url: "https://www.wudalounge.com",
-          // files: [fileObj],
+          files: [fileObj],
         });
         console.log("Share successful");
       } catch (error) {
@@ -490,16 +484,6 @@ function Navbar(props) {
                 justifyContent: "flex-end",
               }}
             >
-               
-              <FacebookShareButton
-                url={"https://www.wudalounge.com"}
-                quote={"Dummy text!"}
-                hashtag="#muo"
-              >
-                        
-                <FacebookIcon size={32} round />
-                      
-              </FacebookShareButton>
               <IconButton
                 size="small"
                 aria-label="search"
