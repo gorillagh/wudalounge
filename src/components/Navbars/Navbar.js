@@ -185,7 +185,7 @@ function Navbar(props) {
           title: "Wuda Lounge",
           text: "Check out amazing dishes at Wuda Lounge",
           url: "https://www.wudalounge.com",
-          files: [fileObj],
+          // files: [fileObj],
         });
         console.log("Share successful");
       } catch (error) {
