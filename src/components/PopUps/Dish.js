@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  FacebookIcon,
-  TwitterIcon,
-  WhatsappIcon,
-  WhatsappShareButton,
-} from "react-share";
-
+import { FacebookShareButton, ShareBlock } from "react-share";
 import { useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
 import { v4 as uuid } from "uuid";
@@ -331,19 +325,6 @@ const Dish = (props) => {
       >
         <Box sx={style}>
           <Box sx={{ position: "absolute", top: "3%" }}>
-            <Box sx={{ zIndex: 4 }}>
-              <FacebookIcon size={32} round={true} />
-              <TwitterIcon size={32} round={true} />
-              <WhatsappIcon size={32} round={true} />
-              <WhatsappShareButton
-                url="https://www.wudalounge.com"
-                title={props.dish.name}
-                separator=":: "
-                image={props.dish.image}
-              >
-                <WhatsappIcon size={32} round />
-              </WhatsappShareButton>
-            </Box>
             <IconButton
               size="small"
               aria-label="search"
@@ -370,6 +351,28 @@ const Dish = (props) => {
                   : "share"}
               </Icon>
             </IconButton>
+            <FacebookShareButton
+              url="https://wudalounge.com/"
+              quote={props.dish.name}
+              hashtag="#Wudalounge"
+            >
+              <Icon
+                fontSize="small"
+                sx={{
+                  color: "info",
+                  bgcolor: "#fff",
+                  p: 0.5,
+                  borderRadius: "50%",
+                  zIndex: 4,
+                  cursor: "pointer",
+                }}
+              >
+                {/iPad|iPhone|iPod/.test(navigator.userAgent) &&
+                !window.MSStream
+                  ? "ios_share"
+                  : "share"}
+              </Icon>
+            </FacebookShareButton>
             <Icon
               onClick={() => {
                 props.dish.extras.map((e) => (e.checked = false));
