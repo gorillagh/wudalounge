@@ -95,27 +95,20 @@ const Home = (props) => {
   const [openAccount, setOpenAccount] = useState(false);
   const [openGoogleMap, setOpenGoogleMap] = useState(false);
 
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+
   useEffect(() => {
-    if (window.beforeinstallprompt) {
-      let deferredPrompt;
-      window.addEventListener("beforeinstallprompt", (event) => {
-        event.preventDefault(); // Prevent the default behavior
-        deferredPrompt = event; // Save the event
-        // Show a button or message to the user to prompt them to add the shortcut
-        if (deferredPrompt) {
-          deferredPrompt.prompt(); // Show the install prompt
-          deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === "accepted") {
-              console.log("User accepted the A2HS prompt");
-            } else {
-              console.log("User dismissed the A2HS prompt");
-            }
-            deferredPrompt = null; // Reset the deferredPrompt variable
-          });
-        }
-      });
-    }
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      setDeferredPrompt(event);
+    });
   }, []);
+
+  const handleInstallClick = () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+    }
+  };
 
   const loadDishes = async () => {
     try {
@@ -284,6 +277,14 @@ const Home = (props) => {
               <ActionButton
                 onClick={() => (document.location.href = "tel:+233240298910")}
                 text={<Icon fontSize="small">phone</Icon>}
+                variant="outlined"
+                fullWidth={false}
+                my={0}
+                size="small"
+              />
+              <ActionButton
+                onClick={handleInstallClick}
+                text={<Icon fontSize="small">download</Icon>}
                 variant="outlined"
                 fullWidth={false}
                 my={0}
