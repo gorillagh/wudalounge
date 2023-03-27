@@ -95,6 +95,8 @@ const Home = (props) => {
   const [openAccount, setOpenAccount] = useState(false);
   const [openGoogleMap, setOpenGoogleMap] = useState(false);
 
+  const [room, setRoom] = useState(null);
+
   const loadDishes = async () => {
     try {
       setLoading(true);
@@ -121,7 +123,7 @@ const Home = (props) => {
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     const data = Object.fromEntries(query.entries());
-    window.prompt(data.location, data.table); // "bar"
+    setRoom(data.room);
     loadDishes();
   }, []);
 
@@ -253,6 +255,18 @@ const Home = (props) => {
               <Typography variant="body2" fontWeight={500}>
                 Ring Rd E, Accra
               </Typography>
+              {room ? (
+                <>
+                  <Typography variant="body2" fontWeight={500}>
+                    room:
+                  </Typography>
+                  <Typography variant="body2" fontWeight={500}>
+                    {room}
+                  </Typography>
+                </>
+              ) : (
+                ""
+              )}
             </Box>
           </Grid>
           <Grid item xs={6}>

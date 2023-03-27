@@ -102,7 +102,7 @@ const AdminDashboard = (props) => {
         mx={1}
       />
       <QRCodeSVG
-        value="https://www.wudalounge.com?location=dansoman&table=3"
+        value="https://www.wudalounge.com?location=dansoman&room=K8"
         renderAs="svg"
         bgColor="#fee5b9"
         fgColor="#b64616"
