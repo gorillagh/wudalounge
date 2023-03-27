@@ -95,6 +95,28 @@ const Home = (props) => {
   const [openAccount, setOpenAccount] = useState(false);
   const [openGoogleMap, setOpenGoogleMap] = useState(false);
 
+  useEffect(() => {
+    if (window.beforeinstallprompt) {
+      let deferredPrompt;
+      window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault(); // Prevent the default behavior
+        deferredPrompt = event; // Save the event
+        // Show a button or message to the user to prompt them to add the shortcut
+        if (deferredPrompt) {
+          deferredPrompt.prompt(); // Show the install prompt
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === "accepted") {
+              console.log("User accepted the A2HS prompt");
+            } else {
+              console.log("User dismissed the A2HS prompt");
+            }
+            deferredPrompt = null; // Reset the deferredPrompt variable
+          });
+        }
+      });
+    }
+  }, []);
+
   const loadDishes = async () => {
     try {
       setLoading(true);
