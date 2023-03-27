@@ -95,21 +95,6 @@ const Home = (props) => {
   const [openAccount, setOpenAccount] = useState(false);
   const [openGoogleMap, setOpenGoogleMap] = useState(false);
 
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
-
-  useEffect(() => {
-    window.addEventListener("beforeinstallprompt", (event) => {
-      event.preventDefault();
-      setDeferredPrompt(event);
-    });
-  }, []);
-
-  const handleInstallClick = () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-    }
-  };
-
   const loadDishes = async () => {
     try {
       setLoading(true);
@@ -277,14 +262,6 @@ const Home = (props) => {
               <ActionButton
                 onClick={() => (document.location.href = "tel:+233240298910")}
                 text={<Icon fontSize="small">phone</Icon>}
-                variant="outlined"
-                fullWidth={false}
-                my={0}
-                size="small"
-              />
-              <ActionButton
-                onClick={handleInstallClick}
-                text={<Icon fontSize="small">download</Icon>}
                 variant="outlined"
                 fullWidth={false}
                 my={0}
