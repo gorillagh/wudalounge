@@ -21,6 +21,7 @@ import {
 } from "../../serverFunctions/admin";
 import LoadingBackdrop from "../../components/Feedbacks/LoadingBackdrop";
 import OrderStatisticsChart from "../../components/Charts/OrderStatisticsChart";
+import { QRCodeSVG } from "qrcode.react";
 
 const cardStyle = {
   px: 2,
@@ -99,6 +100,14 @@ const AdminDashboard = (props) => {
         title={`Hello ${props.user.name.split(" ")[0]},`}
         my={1}
         mx={1}
+      />
+      <QRCodeSVG
+        value="https://www.wudalounge.com?location=dansoman&table=3"
+        renderAs="svg"
+        bgColor="#fee5b9"
+        fgColor="#b64616"
+        level="L"
+        includeMargin={true}
       />
       {briefsLoading ? (
         <Grid container justifyContent="space-between" spacing={1} px={1}>

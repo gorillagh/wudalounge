@@ -119,6 +119,9 @@ const Home = (props) => {
   };
 
   useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    const data = Object.fromEntries(query.entries());
+    window.prompt(data.location, data.table); // "bar"
     loadDishes();
   }, []);
 
