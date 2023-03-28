@@ -9,6 +9,7 @@ import {
   MenuItem,
   Select,
   Skeleton,
+  TextField,
   Typography,
 } from "@mui/material";
 import AdminNavbar from "../../components/Navbars/AdminNavbar";
@@ -22,6 +23,7 @@ import {
 import LoadingBackdrop from "../../components/Feedbacks/LoadingBackdrop";
 import OrderStatisticsChart from "../../components/Charts/OrderStatisticsChart";
 import { QRCodeSVG } from "qrcode.react";
+import ActionButton from "../../components/Buttons/ActionButton";
 
 const cardStyle = {
   px: 2,
@@ -53,6 +55,15 @@ const AdminDashboard = (props) => {
   const [dashboardBriefs, setdashboardBriefs] = useState(null);
   const [revenueChartData, setRevenueChartData] = useState(null);
   const [revenueChartFilter, setRevenueChartFilter] = useState("7days");
+
+  const [room, setRoom] = useState(null);
+  const [roomValue, setRoomValue] = useState(null);
+  const handleRoomSet = () => {
+    if (roomValue !== null) {
+      setRoom(roomValue);
+      setRoomValue("");
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -101,14 +112,40 @@ const AdminDashboard = (props) => {
         my={1}
         mx={1}
       />
-      <QRCodeSVG
-        value="https://www.wudalounge.com?location=dansoman&room=K8"
-        renderAs="svg"
-        bgColor="#fee5b9"
-        fgColor="#b64616"
-        level="L"
-        includeMargin={true}
-      />
+      <Grid container spacing={1} justifyContent="center" alignItems="center">
+        <Grid item xs={12} md={6} justifyContent="center">
+          <Subtitle title={room} mt={0} textAlign="center" />
+          <Box>
+            <QRCodeSVG
+              value={`https://www.wudalounge.com?location=dansoman&room=${room}`}
+              renderAs="canvas"
+              bgColor="#fee5b9"
+              fgColor="#b64616"
+              level="L"
+              size={300}
+              includeMargin={true}
+            />
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Box display="flex" flexDirection="column">
+            <TextField
+              fullWidth={false}
+              size="small"
+              placeholder="Room number"
+              onChange={(e) => setRoomValue(e.target.value)}
+              value={roomValue}
+            />
+
+            <ActionButton
+              fullWidth={false}
+              text="Generate QRcode"
+              my={2}
+              onClick={handleRoomSet}
+            />
+          </Box>
+        </Grid>
+      </Grid>
       {briefsLoading ? (
         <Grid container justifyContent="space-between" spacing={1} px={1}>
           {briefSkeletons.map((skeleton, index) => (
