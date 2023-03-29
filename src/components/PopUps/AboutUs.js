@@ -211,6 +211,15 @@ const AboutUs = (props) => {
                   <LoadingBackdrop open={loading} />
                 </Wrapper>
               </Box>
+              <Box>
+                <Subtitle title="Working hours" mb={1} />
+                <Typography fontWeight={500} variant="body2">
+                  Monday - Saturday: 10:00am - 11:30pm
+                </Typography>
+                <Typography fontWeight={500} variant="body2">
+                  Sunday: 1:00pm - 11:30pm
+                </Typography>
+              </Box>
               <Box my={4}>
                 <Subtitle title="Contact us" mb={1} />
                 <Box display="flex" alignItems="center">

@@ -121,6 +121,41 @@ const Home = (props) => {
   };
 
   useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        console.log(lat, lng);
+      });
+    }
+    const openTime = new Date().setHours(10, 40, 0); // set opening time to 10:00am
+    const closeTime = new Date().setHours(23, 0, 0); // set closing time to 11:00pm
+
+    const currentTime = new Date(); // get the current time
+
+    if (
+      currentTime.getTime() >= openTime &&
+      currentTime.getTime() <= closeTime
+    ) {
+      setAlertSnackbar({
+        open: true,
+        text: "We are open now!",
+        severity: "success",
+        variant: "filled",
+        autoHideDuration: 3000,
+      });
+    } else {
+      setAlertSnackbar({
+        open: true,
+        text: "We are closed now! Delivery starts from 10:30am .",
+        severity: "warning",
+        variant: "filled",
+        autoHideDuration: 10000,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     const data = Object.fromEntries(query.entries());
     setRoom(data.room);
@@ -247,6 +282,7 @@ const Home = (props) => {
               justifyContent="left"
               alignItems="center"
               color="primary.main"
+              sx={{ textDecoration: "underline" }}
             >
               {" "}
               <Icon color="primary" fontSize="small">
@@ -378,6 +414,7 @@ const Home = (props) => {
                     />
                   </Box>
                 ))}
+
               <Box p={2}>
                 <Subtitle
                   textAlign="left"
@@ -399,6 +436,23 @@ const Home = (props) => {
           </Box>
         </Grid>
       </Grid>
+
+      <Box
+        display="flex"
+        justifyContent="left"
+        alignItems="center"
+        color="primary.main"
+        p={2}
+        pt={0}
+      >
+        {" "}
+        <Icon color="primary" fontSize="small">
+          location_on
+        </Icon>
+        <Typography variant="body2" fontWeight={500}>
+          Enter your location to see delivery time
+        </Typography>
+      </Box>
       <Box
         sx={{
           p: 2,
