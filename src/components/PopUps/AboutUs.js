@@ -55,33 +55,36 @@ const AboutUs = (props) => {
   function MyMapComponent() {
     const ref = useRef();
 
-    useEffect(() => {
-      const script = document.createElement("script");
-      script.src = "//code.jivosite.com/widget/SUfH4It6wH";
-      script.async = true;
-      script.id = "jivosite-script"; // Add an id attribute to the script element
+    // useEffect(() => {
+    //   const script = document.createElement("script");
+    //   script.src = "//code.jivosite.com/widget/SUfH4It6wH";
+    //   script.async = true;
+    //   script.id = "jivosite-script"; // Add an id attribute to the script element
 
-      if (props.open === true) {
-        document.body.appendChild(script);
-      } else {
-        const existingScript = document.getElementById("jivosite-script"); // Find the script element using its id
-        const existingElement = document.getElementById("jivo_container");
-        console.log("Element--->", existingElement);
-        console.log("Script---->", existingScript);
-        if (existingScript) {
-          // existingElement.remove();
-          existingScript.remove();
-        }
-      }
+    //   if (props.open === true) {
+    //     document.body.appendChild(script);
+    //   } else {
+    //     const existingScript = document.getElementById("jivosite-script"); // Find the script element using its id
+    //     const existingElement = document.getElementById("jivo_container");
+    //     console.log("Element--->", existingElement);
+    //     console.log("Script---->", existingScript);
+    //     if (existingScript) {
+    //       // existingElement.remove();
+    //       existingScript.remove();
+    //     }
+    //     if (existingElement) {
+    //       existingElement.remove();
+    //     }
+    //   }
 
-      return () => {
-        const existingScript = document.getElementById("jivosite-script"); // Find the script element using its id
-        const existingElement = document.getElementById("jivo_container");
-        if (existingScript) {
-          existingScript.remove();
-        }
-      };
-    }, [props.open]);
+    //   return () => {
+    //     const existingScript = document.getElementById("jivosite-script"); // Find the script element using its id
+    //     const existingElement = document.getElementById("jivo_container");
+    //     if (existingScript) {
+    //       existingScript.remove();
+    //     }
+    //   };
+    // }, [props.open]);
 
     useEffect(() => {
       const map = new window.google.maps.Map(ref.current, {
