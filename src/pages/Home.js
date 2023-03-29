@@ -430,7 +430,7 @@ const Home = (props) => {
         </Grid>
       </Grid>
 
-      <Box
+      {/* <Box
         display="flex"
         justifyContent="left"
         alignItems="center"
@@ -445,7 +445,7 @@ const Home = (props) => {
         <Typography variant="body2" fontWeight={500}>
           Enter your location to see delivery time
         </Typography>
-      </Box>
+      </Box> */}
       <Box
         sx={{
           p: 2,
