@@ -121,14 +121,7 @@ const Home = (props) => {
   };
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        console.log(lat, lng);
-      });
-    }
-    const openTime = new Date().setHours(10, 40, 0); // set opening time to 10:00am
+    const openTime = new Date().setHours(11, 30, 0); // set opening time to 10:00am
     const closeTime = new Date().setHours(23, 0, 0); // set closing time to 11:00pm
 
     const currentTime = new Date(); // get the current time
@@ -147,7 +140,7 @@ const Home = (props) => {
     } else {
       setAlertSnackbar({
         open: true,
-        text: "We are closed now! Delivery starts from 10:30am .",
+        text: "We are closed now! We open at 11:30am .",
         severity: "warning",
         variant: "filled",
         autoHideDuration: 10000,

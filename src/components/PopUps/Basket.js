@@ -82,6 +82,30 @@ const Basket = (props) => {
   const containerRef = React.useRef(null);
   const scrollRef = React.useRef(null);
 
+  useEffect(() => {
+    if (props.open === true) {
+      const openTime = new Date().setHours(11, 30, 0); // set opening time to 10:00am
+      const closeTime = new Date().setHours(23, 0, 0); // set closing time to 11:00pm
+
+      const currentTime = new Date(); // get the current time
+
+      if (
+        currentTime.getTime() >= openTime &&
+        currentTime.getTime() <= closeTime
+      ) {
+        return;
+      } else {
+        props.setAlertSnackbar({
+          open: true,
+          text: "We open at 11:30am .",
+          severity: "warning",
+          variant: "filled",
+          autoHideDuration: 10000,
+        });
+      }
+    }
+  }, [props.open]);
+
   var render = function (status) {
     if (status === Status.LOADING)
       return (
@@ -586,11 +610,21 @@ const Basket = (props) => {
                 {/* //////////////////////////////////////////////////////////////////////////////////// */}
 
                 {/* //////////////////////////Delivery&Contact setion//////////////////////////////////// */}
-                <DeliveryPickupToggle
-                  cart={props.cart}
-                  setCart={props.setCart}
-                  mb={1}
-                />
+                <Box
+                  sx={{
+                    ...cardStyle,
+                    px: 1,
+                  }}
+                >
+                  <DeliveryPickupToggle
+                    cart={props.cart}
+                    setCart={props.setCart}
+                    mb={1}
+                  />
+                  <Box px={1}>
+                    <Typography>Schedule delivery</Typography>
+                  </Box>{" "}
+                </Box>
                 <Box
                   id="contact-info"
                   sx={{
