@@ -11,7 +11,9 @@ body {
   color:#000;
   /* background-color: #292929; */
 }
-
+#jivo_container {
+  display: none !important;
+}
 
 .paystack-button {
   font-weight: bold;

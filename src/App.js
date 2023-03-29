@@ -34,7 +34,6 @@ import StaffLogin from "./pages/Staff";
 import StaffDashboard from "./pages/Staff/StaffDashboard";
 import StaffOrders from "./pages/Staff/StaffOrders";
 import StaffReports from "./pages/Staff/StaffReports";
-import JivoChatWidget from "./components/Buttons/JivoChatButton";
 
 let theme = createTheme({
   palette: {
@@ -286,7 +285,6 @@ const App = () => {
         <Route exact path="*" element={<NotFound />} />
       </Routes>
       <Footer />
-      <JivoChatWidget />
       <LoadingBackdrop open={loading} />
     </ThemeProvider>
   );
