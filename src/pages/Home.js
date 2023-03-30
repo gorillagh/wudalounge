@@ -263,59 +263,45 @@ const Home = (props) => {
           py: 1,
         }}
       >
-        <Grid
-          container
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Grid item xs={6} onClick={() => setOpenGoogleMap(true)}>
-            <Box
-              display="flex"
-              justifyContent="left"
-              alignItems="center"
-              color="primary.main"
-              sx={{ textDecoration: "underline" }}
-            >
-              {" "}
-              <Icon color="primary" fontSize="small">
-                location_on
-              </Icon>
-              <Typography variant="body2" fontWeight={500}>
-                Ring Rd E, Accra
-              </Typography>
-              {room ? (
-                <>
-                  <Typography variant="body2" fontWeight={500}>
-                    room:
-                  </Typography>
-                  <Typography variant="body2" fontWeight={500}>
-                    {room}
-                  </Typography>
-                </>
-              ) : (
-                ""
-              )}
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box
-              display="flex"
-              justifyContent="right"
-              alignItems="center"
-              color="primary.main"
-            >
-              <ActionButton
-                onClick={() => (document.location.href = "tel:+233240298910")}
-                text={<Icon fontSize="small">phone</Icon>}
-                variant="outlined"
-                fullWidth={false}
-                my={0}
-                size="small"
-              />
-            </Box>
-          </Grid>
-        </Grid>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Box
+            display="flex"
+            justifyContent="left"
+            alignItems="center"
+            color="primary.main"
+            sx={{ textDecoration: "underline" }}
+          >
+            {" "}
+            <Icon color="primary" fontSize="small">
+              location_on
+            </Icon>
+            <Typography variant="body2" fontWeight={500}>
+              Ring Rd E, Accra
+            </Typography>
+            {room ? (
+              <>
+                <Typography variant="body2" fontWeight={500}>
+                  room:
+                </Typography>
+                <Typography variant="body2" fontWeight={500}>
+                  {room}
+                </Typography>
+              </>
+            ) : (
+              ""
+            )}
+          </Box>
+          <Box color="primary.main">
+            <ActionButton
+              onClick={() => (document.location.href = "tel:+233240298910")}
+              text={<Icon fontSize="small">phone</Icon>}
+              variant="outlined"
+              fullWidth={false}
+              my={0}
+              size="small"
+            />
+          </Box>
+        </Box>
       </Container>
 
       <Grid
