@@ -337,7 +337,7 @@ function Navbar(props) {
           ))}
         </Box>
         {props.user ? (
-          <Box position="absolute" sx={{ top: "auto", bottom: 0 }}>
+          <Box mt={4}>
             <ListItem disablePadding>
               <ListItemButton
                 onClick={handleSignOut}
