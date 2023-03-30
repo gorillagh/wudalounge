@@ -260,7 +260,7 @@ const Home = (props) => {
         maxWidth="xl"
         sx={{
           bgcolor: "#fff",
-          py: 1,
+          py: 2,
         }}
       >
         <Box display="flex" alignItems="center" justifyContent="space-between">
