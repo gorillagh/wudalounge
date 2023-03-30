@@ -743,13 +743,13 @@ const Basket = (props) => {
                               display="flex"
                               alignItems="center"
                               mt={1}
-                              justifyContent="right"
+                              justifyContent="left"
                             >
                               <Icon fontSize="small">access_time</Icon>{" "}
                               <Typography
                                 ml={1}
-                                variant="body2"
-                                fontWeight={500}
+                                // variant="body2"
+                                // fontWeight={500}
                               >
                                 {orderDuration}mins{" "}
                               </Typography>

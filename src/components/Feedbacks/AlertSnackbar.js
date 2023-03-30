@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useRef } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Slide from "@mui/material/Slide";
@@ -8,6 +8,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 const AlertSnackbar = (props) => {
+  const slideRef = useRef(null);
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -16,7 +17,7 @@ const AlertSnackbar = (props) => {
     props.onClose();
   };
   return (
-    <Slide direction="down" in={props.open}>
+    <Slide direction="down" in={props.open} ref={slideRef}>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={props.open}
