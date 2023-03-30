@@ -140,7 +140,7 @@ const Home = (props) => {
     } else {
       setAlertSnackbar({
         open: true,
-        text: "We are closed now! We open at 11:30am .",
+        text: "Pickups and deliveries start at 11:30am .",
         severity: "warning",
         variant: "filled",
         autoHideDuration: 10000,
