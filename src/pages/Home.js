@@ -265,11 +265,12 @@ const Home = (props) => {
       >
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Box
+            onClick={() => setOpenGoogleMap(true)}
             display="flex"
             justifyContent="left"
             alignItems="center"
             color="primary.main"
-            sx={{ textDecoration: "underline" }}
+            sx={{ textDecoration: "underline", cursor: "pointer" }}
           >
             {" "}
             <Icon color="primary" fontSize="small">

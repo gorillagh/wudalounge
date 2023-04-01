@@ -33,7 +33,7 @@ const DishCard = (props) => {
                 <Grid
                   item
                   xs={7}
-                  md={4}
+                  // md={4}
                   sx={{
                     borderLeft: selected ? 4 : 0,
                     borderLeftColor: selected ? "primary.main" : "",
@@ -79,24 +79,31 @@ const DishCard = (props) => {
                   />
                 </Grid>
 
-                <Grid item xs={5} md={2}>
-                  <Badge
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    badgeContent={dishNumber}
-                    color="primary"
+                <Grid item xs={5}>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="right"
+                    width="100%"
                   >
-                    <Box height={{ xs: "100px", md: "120px" }}>
-                      <img
-                        style={{ borderRadius: "12px", height: "100%" }}
-                        alt="pork dish"
-                        src={d.image}
-                        width="100%"
-                      />
-                    </Box>
-                  </Badge>
+                    <Badge
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      badgeContent={dishNumber}
+                      color="primary"
+                    >
+                      <Box height={{ xs: "100px", md: "120px" }}>
+                        <img
+                          style={{ borderRadius: "12px", height: "100%" }}
+                          alt="pork dish"
+                          src={d.image}
+                          width="100%"
+                        />
+                      </Box>
+                    </Badge>
+                  </Box>
                 </Grid>
               </Grid>
               {i === props.dishes.length - 1 ? "" : <Divider sx={{ my: 2 }} />}
