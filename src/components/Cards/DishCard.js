@@ -94,7 +94,7 @@ const DishCard = (props) => {
                       badgeContent={dishNumber}
                       color="primary"
                     >
-                      <Box height={{ xs: "90px", md: "120px" }}>
+                      <Box height={{ xs: "100px", md: "120px" }}>
                         <img
                           style={{ borderRadius: "12px", height: "100%" }}
                           alt="pork dish"
