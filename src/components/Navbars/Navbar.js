@@ -25,7 +25,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import PersonIcon from "@mui/icons-material/Person";
-import logo from "../../images/logo-32x32.png";
+import logo from "../../images/tankos/logo-32x32.png";
 import Link from "../Links/Link";
 import { Avatar, Icon, ListItemIcon } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
@@ -93,45 +93,45 @@ function Navbar(props) {
   };
 
   const openSocialMedia = (platform) => {
-    let url, webUrl;
+    let url,
+      webUrl = "";
     switch (platform) {
       case "facebook":
-        url = "fb://profile/chanchoman1";
-        webUrl = "https://www.facebook.com/chanchoman1";
+        url = props.restaurantDetails.contact.socials.facebook.url;
+        webUrl = props.restaurantDetails.contact.socials.facebook.webUrl;
         break;
       case "instagram":
-        url = "instagram://user?username=governor_narh";
-        webUrl = "https://www.instagram.com/governor_narh";
+        url = props.restaurantDetails.contact.socials.instagram.url;
+        webUrl = props.restaurantDetails.contact.socials.instagram.webUrl;
         break;
       case "twitter":
-        url = "twitter://user?screen_name=governornarh";
-        webUrl = "https://www.twitter.com/governornarh";
+        url = props.restaurantDetails.contact.socials.twitter.url;
+        webUrl = props.restaurantDetails.contact.socials.twitter.webUrl;
         break;
       case "snapchat":
-        url = "snapchat://add/wudalounge";
-        webUrl = "https://www.snapchat.com/add/chancho";
+        url = props.restaurantDetails.contact.socials.snapchat.url;
+        webUrl = props.restaurantDetails.contact.socials.snapchat.webUrl;
         break;
       case "whatsapp":
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {
           const isWhatsAppInstalled = /WhatsApp/i.test(navigator.userAgent);
           if (isWhatsAppInstalled) {
-            url =
-              "whatsapp://send?text=Hello%20Wuda%20Lounge!&phone=+233244885739";
+            url = `whatsapp://send?text=Hello%20Wuda%20Lounge!&phone=${props.restaurantDetails.contact.socials.whatsapp.number}`;
           } else {
             const platform = /(android)/i.test(navigator.userAgent)
               ? "android"
               : "ios";
-            url = `https://wa.me/?text=Hello%20Wuda%20Lounge!&phone=+233244885739&app_absent=1${
-              platform === "android" ? "&fallback_url=" : ""
-            }${
+            url = `https://wa.me/?text=Hello%20Wuda%20Lounge!&phone=${
+              props.restaurantDetails.contact.socials.whatsapp.number
+            }&app_absent=1${platform === "android" ? "&fallback_url=" : ""}${
               platform === "android"
                 ? "market://details?id=com.whatsapp"
                 : "https://apps.apple.com/app/id310633997"
             }`;
           }
         } else {
-          url = "https://web.whatsapp.com/send?phone=+233244885739";
+          url = `https://web.whatsapp.com/send?phone=+${props.restaurantDetails.contact.socials.whatsapp.number}`;
         }
         break;
       default:
@@ -141,7 +141,7 @@ function Navbar(props) {
     // Open the URL in the app or web app, depending on the device and app availability
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       const appUrl = url;
-      const webUrl = webUrl;
+      // const webUrl = webUrl;
       const appWindow = window.open(appUrl, "_blank");
       setTimeout(() => {
         if (!appWindow || appWindow.closed || appWindow.closed === undefined) {
@@ -163,8 +163,12 @@ function Navbar(props) {
       // window.location.href = `boltfood://${
       //   platform === "android" ? "com.taxify.client" : "com.taxify.boltfood"
       // }?restaurant=${encodeURIComponent("afrik-gardens")}`;
-      window.location.href =
-        "https://food.bolt.eu/en-US/137/p/38734-veggie-box";
+      window.open(
+        props.restaurantDetails.contact.socials.boltFood.url,
+        "_blank"
+      );
+      // window.location.href =
+      //   "https://food.bolt.eu/en-US/137/p/38734-veggie-box";
     } else {
       alert("Please open this app on a mobile device to use Bolt Food.");
     }
@@ -178,9 +182,9 @@ function Navbar(props) {
         ).then((response) => response.blob());
         const fileObj = new File([file], "image.jpg", { type: file.type });
         await navigator.share({
-          title: "Wuda Lounge",
-          text: "Check out amazing dishes at Wuda Lounge",
-          url: "https://www.wudalounge.com",
+          title: props.restaurantDetails.name,
+          text: `Check out amazing dishes at ${props.restaurantDetails.name}`,
+          url: props.restaurantDetails.address.url,
           files: [fileObj],
         });
         console.log("Share successful");
@@ -199,7 +203,7 @@ function Navbar(props) {
         console.error("Clipboard write failed:", error);
         // Use a share dialog here if clipboard write fails
         window.open(
-          `mailto:?subject=Check out Wuda Lounge&body=${fallbackUrl}`
+          `mailto:?subject=Check out ${props.restaurantDetails.name}&body=${fallbackUrl}`
         );
       }
     }
@@ -267,11 +271,16 @@ function Navbar(props) {
         ) : (
           <Box sx={{ display: "flex" }}>
             <Typography component="a" href="/" sx={{ mr: 1 }}>
-              <img src={logo} alt="wuda lounge logo" width="30" height="30" />
+              <img
+                src={logo}
+                alt={`${props.restaurantDetails.name} logo`}
+                width="30"
+                height="30"
+              />
             </Typography>
             <Typography
               variant="h5"
-              noWrap
+              // noWrap
               sx={{
                 // fontFamily: "monospace",
                 fontWeight: 700,
@@ -279,7 +288,11 @@ function Navbar(props) {
                 textDecoration: "none",
               }}
             >
-              <Link text="Wuda Lounge" to="/" color="#000" />
+              <Link
+                text={`${props.restaurantDetails.name}`}
+                to="/"
+                color="#000"
+              />
             </Typography>
           </Box>
         )}
@@ -381,13 +394,17 @@ function Navbar(props) {
           >
             <Instagram sx={{ color: "#c13584" }} />
           </IconButton>
-          <IconButton
-            size="large"
-            color="#1da1f2"
-            onClick={() => openSocialMedia("twitter")}
-          >
-            <Twitter sx={{ color: "#1da1f2" }} />
-          </IconButton>
+          {props.restaurantDetails.contact.socials.twitter.url.length ? (
+            <IconButton
+              size="large"
+              color="#1da1f2"
+              onClick={() => openSocialMedia("twitter")}
+            >
+              <Twitter sx={{ color: "#1da1f2" }} />
+            </IconButton>
+          ) : (
+            ""
+          )}
           <IconButton
             size="large"
             color="#25D366"
@@ -441,11 +458,16 @@ function Navbar(props) {
               href="/"
               sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
             >
-              <img src={logo} alt="Wuda Lounge logo" width="40" height="30" />
+              <img
+                src={logo}
+                alt={`${props.restaurantDetails.name} logo`}
+                width="40"
+                height="30"
+              />
             </Typography>
             <Typography
               variant="h5"
-              noWrap
+              // noWrap
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
@@ -454,7 +476,11 @@ function Navbar(props) {
                 textDecoration: "none",
               }}
             >
-              <Link text="Wuda Lounge" to="/" color="#000" />
+              <Link
+                text={`${props.restaurantDetails.name}`}
+                to="/"
+                color="#000"
+              />
             </Typography>
 
             <Typography
@@ -462,11 +488,16 @@ function Navbar(props) {
               href="/"
               sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
             >
-              <img src={logo} alt="wuda lounge logo" width="30" height="30" />
+              <img
+                src={logo}
+                alt={`${props.restaurantDetails.name} logo`}
+                width="30"
+                height="30"
+              />
             </Typography>
             <Typography
               variant="h5"
-              noWrap
+              // noWrap
               sx={{
                 mr: 2,
                 display: { xs: "flex", md: "none" },
@@ -475,7 +506,11 @@ function Navbar(props) {
                 textDecoration: "none",
               }}
             >
-              <Link text="Wuda Lounge" to="/" color="#000" />
+              <Link
+                text={`${props.restaurantDetails.name}`}
+                to="/"
+                color="#000"
+              />
             </Typography>
             <Box
               sx={{

@@ -37,7 +37,11 @@ const Footer = (props) => {
       </Container> */}
       <Typography variant="body2" align="center" sx={{ my: 4 }}>
         {"© "}
-        <Link color="#f6a60b" text="Wuda Lounge" to="/" />{" "}
+        <Link
+          color="#f6a60b"
+          text={`${props.restaurantDetails.name}`}
+          to="/"
+        />{" "}
         {new Date().getFullYear()}
         {"."}
       </Typography>

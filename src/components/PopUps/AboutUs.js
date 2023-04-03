@@ -17,6 +17,7 @@ import {
 import ActionButton from "../Buttons/ActionButton";
 import Subtitle from "../Typography/Subtitle";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import { Carousel } from "react-responsive-carousel";
 
 const style = {
   position: "absolute",
@@ -88,12 +89,18 @@ const AboutUs = (props) => {
 
     useEffect(() => {
       const map = new window.google.maps.Map(ref.current, {
-        center: { lat: 5.569976708828936, lng: -0.18671566160150527 },
+        center: {
+          lat: props.restaurantDetails.address.googleAddress.lat,
+          lng: props.restaurantDetails.address.googleAddress.lng,
+        },
         zoom: 17,
         // gestureHandling: "greedy",
       });
       const marker = new window.google.maps.Marker({
-        position: { lat: 5.569976708828936, lng: -0.18671566160150527 },
+        position: {
+          lat: props.restaurantDetails.address.googleAddress.lat,
+          lng: props.restaurantDetails.address.googleAddress.lng,
+        },
         map,
       });
     });
@@ -156,7 +163,10 @@ const AboutUs = (props) => {
                   }}
                 >
                   <Box my={2} display="flex" justifyContent="space-between">
-                    <PageTitle my={0} title="Wuda Lounge" />
+                    <PageTitle
+                      my={0}
+                      title={`${props.restaurantDetails.name}`}
+                    />
                     <Icon
                       color="error"
                       fontSize="large"
@@ -168,26 +178,47 @@ const AboutUs = (props) => {
                 </AppBar>
                 <Toolbar sx={{ backgroundColor: "transparent", my: 2 }} />
               </Box>
-              <Box borderRadius="12px">
-                <img
-                  style={{ borderRadius: "12px" }}
-                  src="https://res.cloudinary.com/dkxrwzp2d/image/upload/v1675981586/IMG-0735_g5fyvp.jpg"
-                  alt="Wuda family"
-                  width="100%"
-                />
+
+              <Box>
+                <Carousel
+                  showIndicators={true}
+                  autoPlay={false}
+                  centerMode={false}
+                  infiniteLoop
+                  interval={4000}
+                  showArrows={false}
+                  showStatus={false}
+                  showThumbs={false}
+                  swipeable
+                  emulateTouch
+                >
+                  {props.restaurantDetails.about.photos.map((photo, index) => (
+                    <Box
+                      position="relative"
+                      key={index}
+                      display="flex"
+                      width="100%"
+                      height="40vh"
+                      borderRadius="12px"
+                    >
+                      <img
+                        src={photo}
+                        alt={`${props.restaurantDetails.name}`}
+                        width="100%"
+                        style={{
+                          borderRadius: "12px",
+                        }}
+                      />
+                    </Box>
+                  ))}
+                </Carousel>
               </Box>
-              <Typography variant="body2" my={1}>
-                Welcome to Wuda Lounge, a family-owned and operated restaurant
-                that offers delicious and fresh meals for dine-in and delivery.
-                We believe in using only the finest ingredients and preparing
-                each dish to perfection, ensuring that every bite is memorable.
-                From classic comfort foods to contemporary cuisine, we have
-                something for everyone.
-              </Typography>
-              <Typography variant="body2" my={1}>
-                Let us bring our passion for food to your door, and experience
-                the taste of Wuda Lounge in the comfort of your own home.
-              </Typography>
+
+              {props.restaurantDetails.about.texts.map((text, index) => (
+                <Typography variant="body2" my={1}>
+                  {text}
+                </Typography>
+              ))}
               {/* <Typography variant="body2" my={1}>
                 Welcome to Wuda Lounge, a family-owned and operated restaurant
                 that has been serving delicious meals for over 5 years. Our
@@ -232,7 +263,7 @@ const AboutUs = (props) => {
                   }
                 />
                 <Typography variant="body2" fontWeight={500} mb={1}>
-                  Opposite Police Headquaters Gate 1, Ring Rd E, Accra
+                  {props.restaurantDetails.address.description}
                 </Typography>
                 <Wrapper
                   render={render}
@@ -244,12 +275,11 @@ const AboutUs = (props) => {
               </Box>
               <Box>
                 <Subtitle title="Working hours" mb={1} />
-                <Typography fontWeight={500} variant="body2">
-                  Monday - Saturday: 10:00am - 11:30pm
-                </Typography>
-                <Typography fontWeight={500} variant="body2">
-                  Sunday: 1:00pm - 11:30pm
-                </Typography>
+                {props.restaurantDetails.workingHours.map((period, index) => (
+                  <Typography fontWeight={500} variant="body2">
+                    {period.day} : {period.start} - {period.close}
+                  </Typography>
+                ))}
               </Box>
               <Box my={4}>
                 <Subtitle title="Contact us" mb={1} />
@@ -258,7 +288,7 @@ const AboutUs = (props) => {
                     phone
                   </Icon>{" "}
                   <Typography ml={1} fontWeight={500}>
-                    +233240298910
+                    {props.restaurantDetails.contact.phoneNumber}
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center" my={1}>
@@ -266,7 +296,7 @@ const AboutUs = (props) => {
                     mail
                   </Icon>{" "}
                   <Typography ml={1} fontWeight={500}>
-                    support@wudalounge.com
+                    {props.restaurantDetails.contact.email}
                   </Typography>
                 </Box>
               </Box>

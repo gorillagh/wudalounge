@@ -121,7 +121,7 @@ const Home = (props) => {
   };
 
   useEffect(() => {
-    const openTime = new Date().setHours(11, 30, 0); // set opening time to 10:00am
+    const openTime = new Date().setHours(11, 0, 0); // set opening time to 10:00am
     const closeTime = new Date().setHours(23, 0, 0); // set closing time to 11:00pm
 
     const currentTime = new Date(); // get the current time
@@ -147,11 +147,23 @@ const Home = (props) => {
       });
     }
   }, []);
+  function showPosition(position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
 
+    window.alert(latitude, longitude);
+    // Use the latitude and longitude data to verify the customer's location
+  }
   useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-    const data = Object.fromEntries(query.entries());
-    setRoom(data.room);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      console.log("Geolocation is not supported by this browser");
+    }
+
+    // const query = new URLSearchParams(window.location.search);
+    // const data = Object.fromEntries(query.entries());
+    // setRoom(data.room);
     loadDishes();
   }, []);
 
@@ -233,6 +245,7 @@ const Home = (props) => {
   return (
     <Box>
       <Navbar
+        restaurantDetails={props.restaurantDetails}
         setUser={props.setUser}
         user={props.user}
         setOpenPhoneNumber={setOpenPhoneNumber}
@@ -277,7 +290,7 @@ const Home = (props) => {
               location_on
             </Icon>
             <Typography variant="body2" fontWeight={500}>
-              Ring Rd E, Accra
+              {props.restaurantDetails.address.shortDescription}
             </Typography>
             {room ? (
               <>
@@ -583,7 +596,11 @@ const Home = (props) => {
       ) : (
         ""
       )}
-      <AboutUs open={openAboutUs} onClose={() => setOpenAboutUs(false)} />
+      <AboutUs
+        restaurantDetails={props.restaurantDetails}
+        open={openAboutUs}
+        onClose={() => setOpenAboutUs(false)}
+      />
       <LoadingBackdrop open={loading} />
       <AlertSnackbar
         open={alertSnackbar.open}
@@ -595,7 +612,11 @@ const Home = (props) => {
         variant={alertSnackbar.variant}
         autoHideDuration={alertSnackbar.autoHideDuration}
       />
-      <GoogleMap open={openGoogleMap} onClose={() => setOpenGoogleMap(false)} />
+      <GoogleMap
+        restaurantDetails={props.restaurantDetails}
+        open={openGoogleMap}
+        onClose={() => setOpenGoogleMap(false)}
+      />
     </Box>
   );
 };

@@ -38,8 +38,12 @@ var render = function (status) {
 
 const GoogleMap = (props) => {
   const [loading, setLoading] = useState(false);
-  const [lng, setLng] = useState(-0.18671566160150527);
-  const [lat, setLat] = useState(5.569976708828936);
+  const [lng, setLng] = useState(
+    props.restaurantDetails.address.googleAddress.lng
+  );
+  const [lat, setLat] = useState(
+    props.restaurantDetails.address.googleAddress.lat
+  );
 
   function MyMapComponent() {
     const ref = useRef();
@@ -119,7 +123,7 @@ const GoogleMap = (props) => {
                 </Icon>
               </Box>
               <Typography variant="body2" px={2} fontWeight={500}>
-                Opposite Police Headquaters Gate 1, Ring Rd E, Accra
+                {props.restaurantDetails.address.description}
               </Typography>
               <Wrapper
                 render={render}
