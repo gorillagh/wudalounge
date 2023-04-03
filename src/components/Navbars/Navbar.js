@@ -276,6 +276,7 @@ function Navbar(props) {
                 alt={`${props.restaurantDetails.name} logo`}
                 width="30"
                 height="30"
+                style={{ borderRadius: "50%" }}
               />
             </Typography>
             <Box display="flex" flexDirection="column">
@@ -478,6 +479,7 @@ function Navbar(props) {
                 alt={`${props.restaurantDetails.name} logo`}
                 width="40"
                 height="30"
+                style={{ borderRadius: "50%" }}
               />
             </Typography>
 
@@ -525,6 +527,7 @@ function Navbar(props) {
                 alt={`${props.restaurantDetails.name} logo`}
                 width="30"
                 height="30"
+                style={{ borderRadius: "50%" }}
               />
             </Typography>
             <Box display="flex" flexDirection="column">
