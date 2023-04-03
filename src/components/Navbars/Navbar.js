@@ -278,22 +278,36 @@ function Navbar(props) {
                 height="30"
               />
             </Typography>
-            <Typography
-              variant="h5"
-              // noWrap
-              sx={{
-                // fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".1rem",
-                textDecoration: "none",
-              }}
-            >
-              <Link
-                text={`${props.restaurantDetails.name}`}
-                to="/"
-                color="#000"
-              />
-            </Typography>
+            <Box display="flex" flexDirection="column">
+              <Typography
+                variant="h5"
+                // noWrap
+                sx={{
+                  // fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  textDecoration: "none",
+                }}
+              >
+                <Link
+                  text={`${props.restaurantDetails.shortName}`}
+                  to="/"
+                  color="#000"
+                />
+              </Typography>
+              <Typography
+                variant="body2"
+                // noWrap
+                sx={{
+                  // fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  textDecoration: "none",
+                }}
+              >
+                {props.restaurantDetails.nameExtension}
+              </Typography>
+            </Box>
           </Box>
         )}
       </Box>
@@ -465,23 +479,39 @@ function Navbar(props) {
                 height="30"
               />
             </Typography>
-            <Typography
-              variant="h5"
-              // noWrap
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontWeight: 700,
-                letterSpacing: ".1rem",
-                textDecoration: "none",
-              }}
-            >
-              <Link
-                text={`${props.restaurantDetails.name}`}
-                to="/"
-                color="#000"
-              />
-            </Typography>
+
+            <Box display="flex" flexDirection="column">
+              <Typography
+                variant="h5"
+                // noWrap
+                sx={{
+                  mr: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  textDecoration: "none",
+                }}
+              >
+                <Link
+                  text={`${props.restaurantDetails.shortName}`}
+                  to="/"
+                  color="#000"
+                />
+              </Typography>
+              <Typography
+                variant="body2"
+                // noWrap
+                sx={{
+                  display: { xs: "none", md: "flex" },
+                  // fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  textDecoration: "none",
+                }}
+              >
+                {props.restaurantDetails.nameExtension}
+              </Typography>
+            </Box>
 
             <Typography
               component="a"
@@ -495,23 +525,38 @@ function Navbar(props) {
                 height="30"
               />
             </Typography>
-            <Typography
-              variant="h5"
-              // noWrap
-              sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                fontWeight: 700,
-                letterSpacing: ".1rem",
-                textDecoration: "none",
-              }}
-            >
-              <Link
-                text={`${props.restaurantDetails.name}`}
-                to="/"
-                color="#000"
-              />
-            </Typography>
+            <Box display="flex" flexDirection="column">
+              <Typography
+                variant="h5"
+                // noWrap
+                sx={{
+                  mr: 2,
+                  display: { xs: "flex", md: "none" },
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  textDecoration: "none",
+                }}
+              >
+                <Link
+                  text={`${props.restaurantDetails.shortName}`}
+                  to="/"
+                  color="#000"
+                />
+              </Typography>
+              <Typography
+                variant="body2"
+                // noWrap
+                sx={{
+                  mr: 2,
+                  display: { xs: "flex", md: "none" },
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  textDecoration: "none",
+                }}
+              >
+                {props.restaurantDetails.nameExtension}
+              </Typography>
+            </Box>
             <Box
               sx={{
                 flexGrow: 1,

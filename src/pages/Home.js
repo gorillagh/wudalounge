@@ -155,11 +155,11 @@ const Home = (props) => {
     // Use the latitude and longitude data to verify the customer's location
   }
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-      console.log("Geolocation is not supported by this browser");
-    }
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(showPosition);
+    // } else {
+    //   console.log("Geolocation is not supported by this browser");
+    // }
 
     // const query = new URLSearchParams(window.location.search);
     // const data = Object.fromEntries(query.entries());
@@ -307,7 +307,10 @@ const Home = (props) => {
           </Box>
           <Box color="primary.main">
             <ActionButton
-              onClick={() => (document.location.href = "tel:+233240298910")}
+              onClick={() =>
+                (document.location.href =
+                  props.restaurantDetails.contact.PhoneNumber)
+              }
               text={<Icon fontSize="small">phone</Icon>}
               variant="outlined"
               fullWidth={false}

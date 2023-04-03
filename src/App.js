@@ -36,6 +36,9 @@ import StaffOrders from "./pages/Staff/StaffOrders";
 import StaffReports from "./pages/Staff/StaffReports";
 
 const wudaLounge = {
+  name: "Wuda Lounge",
+  shortName: "Wuda",
+  nameExtension: "Lounge",
   contact: {
     email: "support@wudalounge.com",
     phoneNumber: "+233244885739",
@@ -144,6 +147,8 @@ const wudaLounge = {
 };
 const tankos = {
   name: "Tanko's Kitchen",
+  shortName: "Tanko's",
+  nameExtension: "Kitchen",
   address: {
     description:
       "Dansoman High Street, Accra, near Kojoshoes and adjacent Ensu Nyame Ye",
