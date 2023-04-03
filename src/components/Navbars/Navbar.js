@@ -300,6 +300,7 @@ function Navbar(props) {
                 // noWrap
                 sx={{
                   // fontFamily: "monospace",
+                  ml: 1,
                   fontWeight: 700,
                   letterSpacing: ".1rem",
                   textDecoration: "none",
@@ -504,6 +505,7 @@ function Navbar(props) {
                 sx={{
                   display: { xs: "none", md: "flex" },
                   // fontFamily: "monospace",
+                  ml: 1,
                   fontWeight: 700,
                   letterSpacing: ".1rem",
                   textDecoration: "none",
@@ -547,8 +549,9 @@ function Navbar(props) {
                 variant="body2"
                 // noWrap
                 sx={{
-                  mr: 2,
+                  ml: 1,
                   display: { xs: "flex", md: "none" },
+                  // fontFamily: "",
                   fontWeight: 700,
                   letterSpacing: ".1rem",
                   textDecoration: "none",
