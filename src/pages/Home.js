@@ -308,8 +308,7 @@ const Home = (props) => {
           <Box color="primary.main">
             <ActionButton
               onClick={() =>
-                (document.location.href =
-                  props.restaurantDetails.contact.PhoneNumber)
+                (document.location.href = `tel:${props.restaurantDetails.contact.PhoneNumber}`)
               }
               text={<Icon fontSize="small">phone</Icon>}
               variant="outlined"
