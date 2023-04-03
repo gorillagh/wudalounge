@@ -73,7 +73,7 @@ const BasketMapComponent = (props) => {
 
           // Do something with the distance and directions
           console.log(`Duration: ${duration}`);
-          props.setOrderDuration(duration + 25);
+          props.setOrderDuration(duration + props.orderDuration);
         }
       }
     );

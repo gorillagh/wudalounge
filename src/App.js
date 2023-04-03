@@ -39,6 +39,7 @@ const wudaLounge = {
   name: "Wuda Lounge",
   shortName: "Wuda",
   nameExtension: "Lounge",
+  orderDuration: 20,
   contact: {
     email: "support@wudalounge.com",
     phoneNumber: "+233244885739",
@@ -158,6 +159,7 @@ const tankos = {
   name: "Tanko's Kitchen",
   shortName: "Tanko's",
   nameExtension: "Kitchen",
+  orderDuration: 20,
   address: {
     description:
       "Dansoman High Street, Accra, near Kojoshoes and adjacent Ensu Nyame Ye",

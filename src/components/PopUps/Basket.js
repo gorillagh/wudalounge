@@ -73,7 +73,9 @@ const Basket = (props) => {
   const [finalTotalAfterDiscount, setFinalTotalAfterDiscount] = useState(0);
   const [openPaymentConfirmation, setOpenPaymentConfirmation] = useState(false);
   const [borderError, setBorderError] = useState("");
-  const [orderDuration, setOrderDuration] = useState(20);
+  const [orderDuration, setOrderDuration] = useState(
+    props.restaurantDetails.orderDuration
+  );
   const [lng, setLng] = useState(
     props.restaurantDetails.address.googleAddress.lng
   );
@@ -734,6 +736,9 @@ const Basket = (props) => {
                                   lng={lng}
                                   setLat={setLat}
                                   setLng={setLng}
+                                  orderDuration={
+                                    props.restaurantDetails.orderDuration
+                                  }
                                   setOrderDuration={setOrderDuration}
                                   user={props.user}
                                   setPinAddress={props.setPinAddress}
