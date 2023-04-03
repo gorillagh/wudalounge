@@ -105,7 +105,7 @@ const DishCard = (props) => {
                           style={{
                             borderRadius: "12px",
                             height: "100%",
-                            width: "100%",
+                            // width: "100%",
                           }}
                           alt="dish"
                           src={d.image}
