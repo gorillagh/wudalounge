@@ -54,10 +54,7 @@ const BasketMapComponent = (props) => {
     });
     directionsService.route(
       {
-        origin: new window.google.maps.LatLng(
-          5.569976708828936,
-          -0.18671566160150527
-        ),
+        origin: new window.google.maps.LatLng(props.lat, props.lng),
         // destination: new window.google.maps.LatLng(),
         destination: new window.google.maps.LatLng(lat, lng),
         travelMode: window.google.maps.TravelMode.DRIVING,

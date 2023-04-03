@@ -523,6 +523,7 @@ const Home = (props) => {
         ""
       )}
       <Basket
+        restaurantDetails={props.restaurantDetails}
         pinAddress={pinAddress}
         setPinAddress={setPinAddress}
         cart={cart}

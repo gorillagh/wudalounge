@@ -76,6 +76,15 @@ const wudaLounge = {
     description: "Opposite Police Headquaters Gate 1, Ring Rd E, Accra",
     shortDescription: "Ring Rd E, Accra",
   },
+  workingHours: [
+    { day: "Monday", start: "11:00", close: "23:00" },
+    { day: "Tuesday", start: "11:00", close: "23:00" },
+    { day: "Wednesday", start: "11:00", close: "23:00" },
+    { day: "Thursday", start: "11:00", close: "23:00" },
+    { day: "Friday", start: "11:00", close: "23:00" },
+    { day: "Saturday", start: "11:00", close: "23:00" },
+    { day: "Sunday", start: "13:00", close: "23:00" },
+  ],
   theme: {
     palette: {
       mode: "light",
@@ -311,7 +320,7 @@ const tankos = {
     },
   },
 };
-const restaurantDetails = tankos;
+const restaurantDetails = wudaLounge;
 
 let theme = createTheme({
   ...restaurantDetails.theme,
