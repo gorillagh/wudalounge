@@ -25,7 +25,7 @@ import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import PersonIcon from "@mui/icons-material/Person";
-import logo from "../../images/tankos/logo-32x32.png";
+import logo from "../../images/wuda/logo-32x32.png";
 import Link from "../Links/Link";
 import { Avatar, Icon, ListItemIcon } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";

@@ -322,7 +322,7 @@ const tankos = {
     },
   },
 };
-const restaurantDetails = tankos;
+const restaurantDetails = wudaLounge;
 
 let theme = createTheme({
   ...restaurantDetails.theme,
