@@ -23,6 +23,7 @@ const style = {
   bgcolor: "background.paper",
   borderRadius: "12px",
   py: 1,
+  height: "80vh",
 };
 
 var render = function (status) {
@@ -45,31 +46,24 @@ var render = function (status) {
 };
 
 const GoogleMap = (props) => {
-  const [selectedBranch, setSelectedBranch] = useState("tankosDansoman");
+  const [chosenBranch, setChosenBranch] = useState(props.selectedBranch.name);
   const [selectedRestaurant, setSelectedRestaurant] = useState(
-    props.restaurantDetails
+    props.selectedBranch
   );
   const [loading, setLoading] = useState(false);
   // const [lng, setLng] = useState(selectedRestaurant.address.googleAddress.lng);
   // const [lat, setLat] = useState(selectedRestaurant.address.googleAddress.lat);
 
   const handleBranchChange = (e) => {
-    setSelectedBranch(e.target.value);
-    switch (e.target.value) {
-      case "tankosDansoman":
-        setSelectedRestaurant(props.restaurants.tankosDansoman);
-        break;
-      case "tankosWeija":
-        setSelectedRestaurant(props.restaurants.tankosWeija);
-        break;
-      case "tankosKokrobite":
-        setSelectedRestaurant(props.restaurants.tankosKokrobite);
-        break;
-      default:
-        setSelectedRestaurant(props.restaurants.tankosDansoman);
-        break;
-    }
-    console.log(e.target.value);
+    setChosenBranch(e.target.value);
+    setSelectedRestaurant((prevState) => {
+      props.restaurantDetails.branches.map((branch, index) => {
+        if (e.target.value === branch.name) {
+          prevState = branch;
+        }
+      });
+      return prevState;
+    });
   };
 
   function MyMapComponent() {
@@ -119,10 +113,10 @@ const GoogleMap = (props) => {
     } else {
       if (
         window.confirm(
-          `Are you sure you want to change the branch to "${selectedBranch}" branch`
+          `Are you sure you want to change the branch to "${chosenBranch}" branch`
         )
       ) {
-        props.setRestaurantDetails(selectedRestaurant);
+        props.setSelectedBranch(selectedRestaurant);
         props.onClose();
       }
     }
@@ -176,20 +170,24 @@ const GoogleMap = (props) => {
                   size="small"
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={selectedBranch}
+                  value={chosenBranch}
                   onChange={handleBranchChange}
                   sx={{
                     fontWeight: 500,
                   }}
                 >
-                  {" "}
-                  <MenuItem value="tankosDansoman">Dansoman</MenuItem>
-                  <MenuItem value="tankosWeija">Weija</MenuItem>
-                  <MenuItem value="tankosKokrobite">Kokrobite</MenuItem>
+                  {props.restaurantDetails.branches.map((branch, index) => (
+                    <MenuItem value={branch.name}>
+                      {branch.name.toUpperCase()}
+                    </MenuItem>
+                  ))}
+
+                  {/* <MenuItem value="tankosWeija">Weija</MenuItem>
+                  <MenuItem value="tankosKokrobite">Kokrobite</MenuItem> */}
                 </Select>
               </Box>
               <Typography variant="body2" px={2} fontWeight={500}>
-                {selectedRestaurant.address.description}
+                {props.selectedBranch.address.description}
               </Typography>
               <Wrapper
                 render={render}

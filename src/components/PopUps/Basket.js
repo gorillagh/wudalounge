@@ -77,10 +77,10 @@ const Basket = (props) => {
     props.restaurantDetails.orderDuration
   );
   const [lng, setLng] = useState(
-    props.restaurantDetails.address.googleAddress.lng
+    props.selectedBranch.address.googleAddress.lng
   );
   const [lat, setLat] = useState(
-    props.restaurantDetails.address.googleAddress.lat
+    props.selectedBranch.address.googleAddress.lat
   );
 
   const [openAddressPin, setOpenAddressPin] = useState(false);
@@ -734,6 +734,7 @@ const Basket = (props) => {
                                 <BasketMapComponent
                                   lat={lat}
                                   lng={lng}
+                                  selectedBranch={props.selectedBranch}
                                   setLat={setLat}
                                   setLng={setLng}
                                   orderDuration={

@@ -90,16 +90,16 @@ const AboutUs = (props) => {
     useEffect(() => {
       const map = new window.google.maps.Map(ref.current, {
         center: {
-          lat: props.restaurantDetails.address.googleAddress.lat,
-          lng: props.restaurantDetails.address.googleAddress.lng,
+          lat: props.selectedBranch.address.googleAddress.lat,
+          lng: props.selectedBranch.address.googleAddress.lng,
         },
         zoom: 17,
         // gestureHandling: "greedy",
       });
       const marker = new window.google.maps.Marker({
         position: {
-          lat: props.restaurantDetails.address.googleAddress.lat,
-          lng: props.restaurantDetails.address.googleAddress.lng,
+          lat: props.selectedBranch.address.googleAddress.lat,
+          lng: props.selectedBranch.address.googleAddress.lng,
         },
         map,
       });
@@ -263,7 +263,7 @@ const AboutUs = (props) => {
                   }
                 />
                 <Typography variant="body2" fontWeight={500} mb={1}>
-                  {props.restaurantDetails.address.description}
+                  {props.selectedBranch.address.description}
                 </Typography>
                 <Wrapper
                   render={render}
@@ -275,7 +275,7 @@ const AboutUs = (props) => {
               </Box>
               <Box>
                 <Subtitle title="Working hours" mb={1} />
-                {props.restaurantDetails.workingHours.map((period, index) => (
+                {props.selectedBranch.workingHours.map((period, index) => (
                   <Typography fontWeight={500} variant="body2">
                     {period.day} : {period.start} - {period.close}
                   </Typography>

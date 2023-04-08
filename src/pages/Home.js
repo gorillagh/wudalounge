@@ -67,6 +67,9 @@ const userWelcome = [
 ];
 
 const Home = (props) => {
+  const [selectedBranch, setSelectedBranch] = useState(
+    props.restaurantDetails.branches[0]
+  );
   const [dishes, setDishes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -290,7 +293,7 @@ const Home = (props) => {
               location_on
             </Icon>
             <Typography variant="" fontWeight={500}>
-              {props.restaurantDetails.address.shortDescription}
+              {selectedBranch.address.shortDescription}
             </Typography>
             <Icon color="info">arrow_drop_down</Icon>
             {room ? (
@@ -524,6 +527,8 @@ const Home = (props) => {
         ""
       )}
       <Basket
+        selectedBranch={selectedBranch}
+        setSelectedBranch={setSelectedBranch}
         restaurantDetails={props.restaurantDetails}
         pinAddress={pinAddress}
         setPinAddress={setPinAddress}
@@ -602,6 +607,8 @@ const Home = (props) => {
       )}
       <AboutUs
         restaurantDetails={props.restaurantDetails}
+        selectedBranch={selectedBranch}
+        setSelectedBranch={setSelectedBranch}
         open={openAboutUs}
         onClose={() => setOpenAboutUs(false)}
       />
@@ -619,7 +626,8 @@ const Home = (props) => {
       <GoogleMap
         restaurantDetails={props.restaurantDetails}
         setRestaurantDetails={props.setRestaurantDetails}
-        restaurants={props.restaurants}
+        selectedBranch={selectedBranch}
+        setSelectedBranch={setSelectedBranch}
         open={openGoogleMap}
         onClose={() => setOpenGoogleMap(false)}
       />

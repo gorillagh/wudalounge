@@ -54,7 +54,10 @@ const BasketMapComponent = (props) => {
     });
     directionsService.route(
       {
-        origin: new window.google.maps.LatLng(props.lat, props.lng),
+        origin: new window.google.maps.LatLng(
+          props.selectedBranch.address.googleAddress.lat,
+          props.selectedBranch.address.googleAddress.lng
+        ),
         // destination: new window.google.maps.LatLng(),
         destination: new window.google.maps.LatLng(lat, lng),
         travelMode: window.google.maps.TravelMode.DRIVING,
