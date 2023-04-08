@@ -166,7 +166,7 @@ const Basket = (props) => {
                   Number(dish.extras[i].quantity);
           }
         }
-        if (dish && dish.dishQuantity && dish.price) {
+        if (dish && dish.dishQuantity && dish.price && dish.selectedSize) {
           total +=
             Number(dish.dishQuantity) *
             (Number(dish.price) +

@@ -80,7 +80,13 @@ const Search = (props) => {
   }, [props.value, inputValue]);
 
   const handleDishSelect = (dish) => {
-    props.setSelectedDish({ ...dish, dishQuantity: 1 });
+    console.log(dish);
+    props.setSelectedDish({
+      ...dish,
+      dishQuantity: 1,
+      selectedSize: dish.sizes.find((item) => item.size === "regular"),
+    });
+
     props.setOpenDishModal(true);
   };
   const scrollRef = React.useRef(null);
