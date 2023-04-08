@@ -289,9 +289,10 @@ const Home = (props) => {
             <Icon color="primary" fontSize="small">
               location_on
             </Icon>
-            <Typography variant="body2" fontWeight={500}>
+            <Typography variant="" fontWeight={500}>
               {props.restaurantDetails.address.shortDescription}
             </Typography>
+            <Icon color="info">arrow_drop_down</Icon>
             {room ? (
               <>
                 <Typography variant="body2" fontWeight={500}>
@@ -617,6 +618,8 @@ const Home = (props) => {
       />
       <GoogleMap
         restaurantDetails={props.restaurantDetails}
+        setRestaurantDetails={props.setRestaurantDetails}
+        restaurants={props.restaurants}
         open={openGoogleMap}
         onClose={() => setOpenGoogleMap(false)}
       />

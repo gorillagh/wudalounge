@@ -1,10 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import { CircularProgress, Icon, Typography, Zoom } from "@mui/material";
+import {
+  CircularProgress,
+  Icon,
+  MenuItem,
+  Select,
+  Typography,
+  Zoom,
+} from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
 import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import ActionButton from "../Buttons/ActionButton";
 
 const style = {
   position: "absolute",
@@ -37,13 +45,32 @@ var render = function (status) {
 };
 
 const GoogleMap = (props) => {
+  const [selectedBranch, setSelectedBranch] = useState("tankosDansoman");
+  const [selectedRestaurant, setSelectedRestaurant] = useState(
+    props.restaurantDetails
+  );
   const [loading, setLoading] = useState(false);
-  const [lng, setLng] = useState(
-    props.restaurantDetails.address.googleAddress.lng
-  );
-  const [lat, setLat] = useState(
-    props.restaurantDetails.address.googleAddress.lat
-  );
+  // const [lng, setLng] = useState(selectedRestaurant.address.googleAddress.lng);
+  // const [lat, setLat] = useState(selectedRestaurant.address.googleAddress.lat);
+
+  const handleBranchChange = (e) => {
+    setSelectedBranch(e.target.value);
+    switch (e.target.value) {
+      case "tankosDansoman":
+        setSelectedRestaurant(props.restaurants.tankosDansoman);
+        break;
+      case "tankosWeija":
+        setSelectedRestaurant(props.restaurants.tankosWeija);
+        break;
+      case "tankosKokrobite":
+        setSelectedRestaurant(props.restaurants.tankosKokrobite);
+        break;
+      default:
+        setSelectedRestaurant(props.restaurants.tankosDansoman);
+        break;
+    }
+    console.log(e.target.value);
+  };
 
   function MyMapComponent() {
     const ref = useRef();
@@ -65,19 +92,41 @@ const GoogleMap = (props) => {
       //   }
       // );
       const map = new window.google.maps.Map(ref.current, {
-        center: { lat, lng },
+        center: {
+          lat: selectedRestaurant.address.googleAddress.lat,
+          lng: selectedRestaurant.address.googleAddress.lng,
+        },
         zoom: 17,
         gestureHandling: "greedy",
       });
       const marker = new window.google.maps.Marker({
-        position: { lat, lng },
+        position: {
+          lat: selectedRestaurant.address.googleAddress.lat,
+          lng: selectedRestaurant.address.googleAddress.lng,
+        },
         map,
       });
     });
 
-    return <Box ref={ref} id="map" style={{ width: "100%", height: "70vh" }} />;
+    return <Box ref={ref} id="map" style={{ width: "100%", height: "50vh" }} />;
   }
   const containerRef = React.useRef(null);
+
+  const handleSetBranch = () => {
+    if (props.restaurantDetails === selectedRestaurant) {
+      props.onClose();
+      return;
+    } else {
+      if (
+        window.confirm(
+          `Are you sure you want to change the branch to "${selectedBranch}" branch`
+        )
+      ) {
+        props.setRestaurantDetails(selectedRestaurant);
+        props.onClose();
+      }
+    }
+  };
 
   return (
     <div>
@@ -112,7 +161,7 @@ const GoogleMap = (props) => {
                 alignItems="center"
                 p={2}
               >
-                <Subtitle title="Locate us" my={0} />
+                <Subtitle title="Select branch" my={0} />
 
                 <Icon
                   fontSize="large"
@@ -122,8 +171,25 @@ const GoogleMap = (props) => {
                   close
                 </Icon>
               </Box>
+              <Box p={2}>
+                <Select
+                  size="small"
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedBranch}
+                  onChange={handleBranchChange}
+                  sx={{
+                    fontWeight: 500,
+                  }}
+                >
+                  {" "}
+                  <MenuItem value="tankosDansoman">Dansoman</MenuItem>
+                  <MenuItem value="tankosWeija">Weija</MenuItem>
+                  <MenuItem value="tankosKokrobite">Kokrobite</MenuItem>
+                </Select>
+              </Box>
               <Typography variant="body2" px={2} fontWeight={500}>
-                {props.restaurantDetails.address.description}
+                {selectedRestaurant.address.description}
               </Typography>
               <Wrapper
                 render={render}
@@ -132,6 +198,13 @@ const GoogleMap = (props) => {
                 <MyMapComponent />
                 <LoadingBackdrop open={loading} />
               </Wrapper>
+              <Box p={2}>
+                <ActionButton
+                  text="Set branch"
+                  my={0}
+                  onClick={handleSetBranch}
+                />
+              </Box>
             </Box>
           </Box>
         </Zoom>
