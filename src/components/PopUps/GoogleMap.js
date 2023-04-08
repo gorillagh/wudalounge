@@ -23,7 +23,6 @@ const style = {
   bgcolor: "background.paper",
   borderRadius: "12px",
   py: 1,
-  height: "80vh",
 };
 
 var render = function (status) {
@@ -195,14 +194,14 @@ const GoogleMap = (props) => {
               >
                 <MyMapComponent />
                 <LoadingBackdrop open={loading} />
+                <Box p={2}>
+                  <ActionButton
+                    text="Set branch"
+                    my={0}
+                    onClick={handleSetBranch}
+                  />
+                </Box>
               </Wrapper>
-              <Box p={2}>
-                <ActionButton
-                  text="Set branch"
-                  my={0}
-                  onClick={handleSetBranch}
-                />
-              </Box>
             </Box>
           </Box>
         </Zoom>
