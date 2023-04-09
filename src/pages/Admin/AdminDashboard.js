@@ -492,7 +492,7 @@ const AdminDashboard = (props) => {
             <TextField
               fullWidth={false}
               size="small"
-              placeholder="Room number"
+              placeholder="Table number"
               onChange={(e) => setRoomValue(e.target.value)}
               value={roomValue}
             />

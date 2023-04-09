@@ -164,9 +164,9 @@ const Home = (props) => {
     //   console.log("Geolocation is not supported by this browser");
     // }
 
-    // const query = new URLSearchParams(window.location.search);
-    // const data = Object.fromEntries(query.entries());
-    // setRoom(data.room);
+    const query = new URLSearchParams(window.location.search);
+    const data = Object.fromEntries(query.entries());
+    setRoom(data.room);
     loadDishes();
   }, []);
 
@@ -248,6 +248,8 @@ const Home = (props) => {
   return (
     <Box>
       <Navbar
+        setOpenGoogleMap={setOpenGoogleMap}
+        selectedBranch={selectedBranch}
         restaurantDetails={props.restaurantDetails}
         setUser={props.setUser}
         user={props.user}
@@ -299,7 +301,7 @@ const Home = (props) => {
             {room ? (
               <>
                 <Typography variant="body2" fontWeight={500}>
-                  room:
+                  Table#:
                 </Typography>
                 <Typography variant="body2" fontWeight={500}>
                   {room}
@@ -312,7 +314,7 @@ const Home = (props) => {
           <Box color="primary.main">
             <ActionButton
               onClick={() =>
-                (document.location.href = `tel:${props.restaurantDetails.contact.phoneNumber}`)
+                (document.location.href = `tel:${selectedBranch.contact.phoneNumber}`)
               }
               text={<Icon fontSize="small">phone</Icon>}
               variant="outlined"

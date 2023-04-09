@@ -410,7 +410,7 @@ function Navbar(props) {
           >
             <Instagram sx={{ color: "#c13584" }} />
           </IconButton>
-          {props.restaurantDetails.contact.socials.twitter.url.length ? (
+          {props.restaurantDetails.socials.twitter.url.length ? (
             <IconButton
               size="large"
               color="#1da1f2"
@@ -697,6 +697,49 @@ function Navbar(props) {
             </Box>
           </Toolbar>
         </Container>
+        {/* <Container
+          maxWidth="xl"
+          sx={{
+            bgcolor: "#fff",
+            py: 2,
+          }}
+        >
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Box
+              onClick={() => props.setOpenGoogleMap(true)}
+              display="flex"
+              justifyContent="left"
+              alignItems="center"
+              color="primary.main"
+              sx={{ textDecoration: "underline", cursor: "pointer" }}
+            >
+              {" "}
+              <Icon color="primary" fontSize="small">
+                location_on
+              </Icon>
+              <Typography variant="" fontWeight={500}>
+                {props.selectedBranch.address.shortDescription}
+              </Typography>
+              <Icon color="info">arrow_drop_down</Icon>
+            </Box>
+            <Box color="primary.main">
+              <ActionButton
+                onClick={() =>
+                  (document.location.href = `tel:${props.selectedBranch.contact.phoneNumber}`)
+                }
+                text={<Icon fontSize="small">phone</Icon>}
+                variant="outlined"
+                fullWidth={false}
+                my={0}
+                size="small"
+              />
+            </Box>
+          </Box>
+        </Container> */}
       </AppBar>
       <Toolbar
         sx={{

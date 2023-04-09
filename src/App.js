@@ -227,6 +227,10 @@ const tankos = {
         { day: "Saturday", start: "11:00", close: "23:00" },
         { day: "Sunday", start: "13:00", close: "23:00" },
       ],
+      contact: {
+        email: "support@tankoskitchen.com",
+        phoneNumber: "+233547315747",
+      },
     },
     {
       name: "weija",
@@ -288,6 +292,10 @@ const tankos = {
         { day: "Saturday", start: "11:00", close: "23:00" },
         { day: "Sunday", start: "13:00", close: "23:00" },
       ],
+      contact: {
+        email: "support@tankoskitchen.com",
+        phoneNumber: "+233547315747",
+      },
     },
     {
       name: "kokrobite",
@@ -357,26 +365,27 @@ const tankos = {
         { day: "Saturday", start: "11:00", close: "23:00" },
         { day: "Sunday", start: "13:00", close: "23:00" },
       ],
+      contact: {
+        email: "support@tankoskitchen.com",
+        phoneNumber: "+233547315747",
+      },
     },
   ],
-  contact: {
-    email: "support@tankoskitchen.com",
-    phoneNumber: "+233547315747",
-    socials: {
-      facebook: {
-        url: "https://web.facebook.com/talatatankoskitchen",
-        webUrl: "fb://profile/talatatankoskitchen",
-      },
-      instagram: {
-        url: "https://www.instagram.com/tankos_kitchen",
-        webUrl: "instagram://user?username=tankos_kitchen",
-      },
-      twitter: { url: "", webUrl: "" },
-      snapchat: { url: "", webUrl: "" },
-      whatsapp: { number: "+233547315747" },
-      boltFood: {
-        url: "https://food.bolt.eu/en-US/137/p/38734-veggie-box",
-      },
+
+  socials: {
+    facebook: {
+      url: "https://web.facebook.com/talatatankoskitchen",
+      webUrl: "fb://profile/talatatankoskitchen",
+    },
+    instagram: {
+      url: "https://www.instagram.com/tankos_kitchen",
+      webUrl: "instagram://user?username=tankos_kitchen",
+    },
+    twitter: { url: "", webUrl: "" },
+    snapchat: { url: "", webUrl: "" },
+    whatsapp: { number: "+233547315747" },
+    boltFood: {
+      url: "https://food.bolt.eu/en-US/137/p/38734-veggie-box",
     },
   },
   about: {

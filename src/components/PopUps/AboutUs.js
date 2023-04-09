@@ -288,7 +288,7 @@ const AboutUs = (props) => {
                     phone
                   </Icon>{" "}
                   <Typography ml={1} fontWeight={500}>
-                    {props.restaurantDetails.contact.phoneNumber}
+                    {props.selectedBranch.contact.phoneNumber}
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center" my={1}>
@@ -296,7 +296,7 @@ const AboutUs = (props) => {
                     mail
                   </Icon>{" "}
                   <Typography ml={1} fontWeight={500}>
-                    {props.restaurantDetails.contact.email}
+                    {props.selectedBranch.contact.email}
                   </Typography>
                 </Box>
               </Box>
