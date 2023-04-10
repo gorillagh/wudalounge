@@ -706,13 +706,17 @@ function Navbar(props) {
               justifyContent="left"
               alignItems="center"
               color="primary.main"
-              sx={{ textDecoration: "underline", cursor: "pointer" }}
+              sx={{ cursor: "pointer" }}
             >
               {" "}
               <Icon color="primary" fontSize="small">
                 location_on
               </Icon>
-              <Typography variant="body2" fontWeight={500}>
+              <Typography
+                variant="body2"
+                sx={{ textDecoration: "underline" }}
+                fontWeight={500}
+              >
                 {props.selectedBranch.address.shortDescription}
               </Typography>
               <Icon color="info">arrow_drop_down</Icon>

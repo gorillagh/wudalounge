@@ -34,7 +34,6 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
     fontWeight: theme.typography.fontWeightRegular,
     fontSize: theme.typography.pxToRem(14),
     marginRight: theme.spacing(1),
-
     color: "#000",
     "&.Mui-selected": {
       color: "#E3581C",
