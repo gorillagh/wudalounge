@@ -274,7 +274,7 @@ const Home = (props) => {
         scrollTabValue={scrollTabValue}
         setScrollTabValue={setScrollTabValue}
       />
-      <Container
+      {/* <Container
         maxWidth="xl"
         sx={{
           bgcolor: "#fff",
@@ -324,7 +324,7 @@ const Home = (props) => {
             />
           </Box>
         </Box>
-      </Container>
+      </Container> */}
 
       <Grid
         container

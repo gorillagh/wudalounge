@@ -459,7 +459,7 @@ function Navbar(props) {
         elevation={0}
         sx={{
           // background: "rgba(0,0,0, 1)",
-          pb: 0.4,
+          pb: 0.6,
           background: "rgba(255, 255, 255, 0.8)",
           backdropFilter: "blur(8.8px)",
           WebkitBackdropFilter: "blur(8.8px)",
@@ -685,23 +685,14 @@ function Navbar(props) {
               >
                 <PersonIcon fontSize="medium" />
               </IconButton>
-              {/* {props.user === null && (
-                <Box sx={{ display: { xs: "none", md: "block" } }}>
-                  <NavbarButton
-                    href="/login"
-                    variant="contained"
-                    text="Login"
-                  />
-                </Box>
-              )} */}
             </Box>
           </Toolbar>
         </Container>
-        {/* <Container
+        <Container
           maxWidth="xl"
           sx={{
-            bgcolor: "#fff",
-            py: 2,
+            // bgcolor: "#fff",
+            py: 1,
           }}
         >
           <Box
@@ -721,7 +712,7 @@ function Navbar(props) {
               <Icon color="primary" fontSize="small">
                 location_on
               </Icon>
-              <Typography variant="" fontWeight={500}>
+              <Typography variant="body2" fontWeight={500}>
                 {props.selectedBranch.address.shortDescription}
               </Typography>
               <Icon color="info">arrow_drop_down</Icon>
@@ -739,11 +730,13 @@ function Navbar(props) {
               />
             </Box>
           </Box>
-        </Container> */}
+        </Container>
       </AppBar>
+
       <Toolbar
         sx={{
           background: "rgba(255, 255, 255, 0.85)",
+          py: 3,
         }}
       />
     </>
