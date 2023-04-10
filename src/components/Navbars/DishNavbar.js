@@ -70,7 +70,7 @@ const DishNavbar = (props) => {
           onChange={(e, v) => {
             props.setScrollTabValue(v);
             var scrollDiv = window.document.getElementById(v).offsetTop;
-            window.scrollTo({ top: scrollDiv - 130, behavior: "smooth" });
+            window.scrollTo({ top: scrollDiv - 165, behavior: "smooth" });
           }}
         >
           <StyledTab label="Pork" />
