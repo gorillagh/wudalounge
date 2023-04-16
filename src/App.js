@@ -42,7 +42,7 @@ const wudaLounge = {
   orderDuration: 20,
   branches: [
     {
-      name: "Ring Rd E, Accra",
+      name: "Osu",
       address: {
         googleAddress: { lng: -0.18671566160150527, lat: 5.569976708828936 },
         description: "Opposite Police Headquaters Gate 1, Ring Rd E, Accra",
@@ -57,30 +57,41 @@ const wudaLounge = {
         { day: "Saturday", start: "11:00", close: "23:00" },
         { day: "Sunday", start: "13:00", close: "23:00" },
       ],
+      contact: {
+        email: "support@wudalounge.com",
+        phoneNumber: "+233244885739",
+      },
     },
   ],
-  contact: {
-    email: "support@wudalounge.com",
-    phoneNumber: "+233244885739",
-    socials: {
-      facebook: {
-        url: "https://www.facebook.com/chanchoman1",
-        webUrl: "fb://profile/chanchoman1",
-      },
-      instagram: {
-        webUrl: "instagram://user?username=governor_narh",
-        url: "https://www.instagram.com/governor_narh",
-      },
-      twitter: {
-        webUrl: "twitter://user?screen_name=governornarh",
-        url: "https://www.twitter.com/governornarh",
-      },
-      snapchat: {
-        webUrl: "snapchat://add/wudalounge",
-        url: "https://www.snapchat.com/add/chancho",
-      },
-      whatsapp: { number: "+233244885739" },
+
+  socials: {
+    facebook: {
+      url: "https://www.facebook.com/chanchoman1",
+      webUrl: "fb://profile/chanchoman1",
     },
+    instagram: {
+      webUrl: "instagram://user?username=governor_narh",
+      url: "https://www.instagram.com/governor_narh",
+    },
+    twitter: {
+      webUrl: "twitter://user?screen_name=governornarh",
+      url: "https://www.twitter.com/governornarh",
+    },
+    snapchat: {
+      webUrl: "snapchat://add/wudalounge",
+      url: "https://www.snapchat.com/add/chancho",
+    },
+    whatsapp: { number: "+233244885739" },
+  },
+
+  menu: {
+    categories: [
+      { name: "chicken", description: "Chicken Dishes", dishes: [] },
+      { name: "pork", description: "Pork Dishes", dishes: [] },
+      { name: "tilapia", description: "Tilapia Dishes", dishes: [] },
+      { name: "drinks", description: "Drinks", dishes: [] },
+      { name: "special", description: "Special Picks", dishes: [] },
+    ],
   },
   about: {
     texts: [
@@ -371,7 +382,15 @@ const tankos = {
       },
     },
   ],
-
+  menu: {
+    categories: [
+      { name: "chicken", description: "Chicken Dishes", dishes: [] },
+      { name: "burger", description: "Burgers", dishes: [] },
+      { name: "smoothie", description: "Smoothies", dishes: [] },
+      { name: "juice", description: "Juices", dishes: [] },
+      { name: "tea", description: "Tea", dishes: [] },
+    ],
+  },
   socials: {
     facebook: {
       url: "https://web.facebook.com/talatatankoskitchen",

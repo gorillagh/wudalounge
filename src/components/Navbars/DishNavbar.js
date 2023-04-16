@@ -30,10 +30,10 @@ const StyledTabs = styled((props) => (
 
 const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
   ({ theme }) => ({
-    textTransform: "none",
+    textTransform: "capitalize",
     fontWeight: theme.typography.fontWeightRegular,
-    fontSize: theme.typography.pxToRem(14),
-    marginRight: theme.spacing(1),
+    fontSize: theme.typography.pxToRem(13.5),
+    marginRight: theme.spacing(0),
     color: "#000",
     "&.Mui-selected": {
       color: "#E3581C",
@@ -67,16 +67,23 @@ const DishNavbar = (props) => {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
           onChange={(e, v) => {
+            console.log(e.target.innerText.toLowerCase());
+            console.log(v);
             props.setScrollTabValue(v);
-            var scrollDiv = window.document.getElementById(v).offsetTop;
+            var scrollDiv = window.document.getElementById(
+              e.target.innerText.toLowerCase()
+            ).offsetTop;
             window.scrollTo({ top: scrollDiv - 165, behavior: "smooth" });
           }}
         >
-          <StyledTab label="Pork" />
+          {props.restaurantDetails.menu.categories.map((category, index) => (
+            <StyledTab label={category.name} />
+          ))}
+          {/* <StyledTab label="Pork" />
           <StyledTab label="Chicken" />
           <StyledTab label="Tilapia" />
           <StyledTab label="Drinks" />
-          <StyledTab label="Special Picks" />
+          <StyledTab label="Special Picks" /> */}
         </StyledTabs>
       </Container>
     </ShowOnScroll>

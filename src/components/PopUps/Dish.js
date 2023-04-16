@@ -490,7 +490,7 @@ const Dish = (props) => {
           </Box>
 
           {/*/////////////////////// Sizes /////////////////////////*/}
-          {props.dish && props.dish.sizes && props.dish.sizes.length > 0 && (
+          {props.dish && props.dish.sizes && props.dish.sizes.length > 1 && (
             <Box
               sx={{
                 px: 2,
@@ -560,13 +560,14 @@ const Dish = (props) => {
               py: 1,
               borderTopRightRadius: "12px",
               borderTopLeftRadius: "12px",
+              mt: 1,
             }}
           >
             <InputBase
               fullWidth
               multiline
               placeholder="Leave a note for the kitchen"
-              inputProps={{ "aria-label": "search google maps" }}
+              inputProps={{ "aria-label": "kitchen notes" }}
               value={kitchenNotes}
               onChange={(e) => setKitchenNotes(e.target.value)}
             />

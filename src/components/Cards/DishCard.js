@@ -38,6 +38,7 @@ const DishCard = (props) => {
                     borderLeft: selected ? 4 : 0,
                     borderLeftColor: selected ? "primary.main" : "",
                     boxSizing: "border-box",
+                    pr: 1,
                   }}
                 >
                   <Typography fontWeight={600}>{d.name}</Typography>

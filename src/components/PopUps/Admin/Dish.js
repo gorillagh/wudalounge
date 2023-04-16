@@ -15,8 +15,12 @@ import {
   FormControlLabel,
   FormGroup,
   FormLabel,
+  Grid,
   Icon,
   InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
   Slide,
   TextField,
   Toolbar,
@@ -62,10 +66,7 @@ const Dish = (props) => {
   const [dish, setDish] = useState({});
   const [dishSubs, setDishSubs] = useState({});
   const [subcategories, setSubcategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState({
-    name: "select",
-    _id: "select-101",
-  });
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategories, setSelectedSubcategories] = useState([]);
   const [selectedExtras, setSelectedExtras] = useState([]);
   const [sizes, setSizes] = useState([
@@ -221,7 +222,7 @@ const Dish = (props) => {
             props.onClose();
           }}
           sx={{
-            background: "rgba(255, 255, 255, 0.9)",
+            background: "rgba(255, 255, 255, 1)",
             backdropFilter: "blur(5.8px)",
             WebkitBackdropFilter: "blur(5.8px)",
             width: "100%",
@@ -307,88 +308,145 @@ const Dish = (props) => {
                   </label>
                 )}
               </Box>
+              {/* /////////////////////////////////////////// */}
               <Box px={2} component="form" onSubmit={handleSubmit} noValidate>
-                <Autocomplete
-                  sx={{ mb: 1, mt: 4 }}
-                  size="small"
-                  fullWidth
-                  onChange={(event, newValue) => {
-                    newValue &&
-                      newValue._id &&
-                      setDish((prevState) => ({
-                        ...prevState,
-                        category: newValue._id,
-                      }));
-                    setSelectedCategory(newValue);
-                  }}
-                  value={selectedCategory}
-                  id="controllable-states-demo"
-                  options={dishSubs && dishSubs.categories}
-                  getOptionLabel={(option) => option.name}
-                  renderInput={(params) => (
-                    <TextField required {...params} label="Category" />
-                  )}
-                />
-                <TextField
-                  spellCheck={false}
-                  size="small"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="dish-name"
-                  label="name"
-                  name="name"
-                  autoComplete="name"
-                  value={dish.name || ""}
-                  onChange={(e) =>
-                    setDish((prevState) => ({
-                      ...prevState,
-                      name: e.target.value.toLowerCase(),
-                    }))
-                  }
-                />
-                <TextField
-                  size="small"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="dish-description"
-                  label="description"
-                  name="description"
-                  autoComplete="description"
-                  value={dish.description || ""}
-                  multiline
-                  rows={2}
-                  onChange={(e) =>
-                    setDish((prevState) => ({
-                      ...prevState,
-                      description: e.target.value,
-                    }))
-                  }
-                />
-                <TextField
-                  type="number"
-                  size="small"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="dish-price"
-                  label="price"
-                  name="price"
-                  autoComplete="price"
-                  value={dish.price || ""}
-                  onChange={(e) =>
-                    setDish((prevState) => ({
-                      ...prevState,
-                      price: e.target.value,
-                    }))
-                  }
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">GHC</InputAdornment>
-                    ),
-                  }}
-                />
+                <Grid
+                  container
+                  spacing={1}
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid item xs={12} md={8}>
+                    <TextField
+                      spellCheck={false}
+                      size="small"
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="dish-name"
+                      label="name"
+                      name="name"
+                      autoComplete="name"
+                      value={dish.name || ""}
+                      onChange={(e) =>
+                        setDish((prevState) => ({
+                          ...prevState,
+                          name: e.target.value.toLowerCase(),
+                        }))
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <FormControl
+                      size="small"
+                      margin="normal"
+                      required
+                      fullWidth
+                    >
+                      <InputLabel id="demo-simple-select-label">
+                        Category
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={selectedCategory}
+                        label="Category"
+                        onChange={(event) => {
+                          let mcategory;
+                          dishSubs.categories.map((category) => {
+                            if (category.name === event.target.value) {
+                              console.log(category.name);
+                              mcategory = category;
+                            }
+                          });
+                          setDish((prevState) => ({
+                            ...prevState,
+                            category: mcategory,
+                          }));
+                          setSelectedCategory(event.target.value);
+                        }}
+                      >
+                        {dishSubs &&
+                          dishSubs.categories &&
+                          dishSubs.categories.map((category, index) => (
+                            <MenuItem
+                              key={index}
+                              value={category.name}
+                              data-category-id={category._id}
+                            >
+                              {category.name}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  spacing={1}
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid item xs={12} md={8}>
+                    <FormControl
+                      size="small"
+                      margin="normal"
+                      required
+                      fullWidth
+                    >
+                      {" "}
+                      <TextField
+                        id="dish-description"
+                        label="description"
+                        name="description"
+                        autoComplete="description"
+                        value={dish.description || ""}
+                        multiline
+                        rows={2}
+                        onChange={(e) =>
+                          setDish((prevState) => ({
+                            ...prevState,
+                            description: e.target.value,
+                          }))
+                        }
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <FormControl
+                      size="small"
+                      margin="normal"
+                      required
+                      fullWidth
+                    >
+                      <TextField
+                        type="number"
+                        size="small"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="dish-price"
+                        label="price"
+                        name="price"
+                        autoComplete="price"
+                        value={dish.price || ""}
+                        onChange={(e) =>
+                          setDish((prevState) => ({
+                            ...prevState,
+                            price: e.target.value,
+                          }))
+                        }
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              GHC
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </FormControl>
+                  </Grid>
+                </Grid>
 
                 <Autocomplete
                   sx={{ mt: 3 }}

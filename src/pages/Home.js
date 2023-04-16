@@ -71,12 +71,10 @@ const Home = (props) => {
     props.restaurantDetails.branches[0]
   );
   const [dishes, setDishes] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [menu, setMenu] = useState(props.restaurantDetails.menu);
   const [loading, setLoading] = useState(false);
   const [alertSnackbar, setAlertSnackbar] = useState({ open: false });
   const [cartTotalLoading, setCartTotalLoading] = useState(true);
-  const [porkDishes, setPorkDishes] = useState(null);
-  const [chickenDishes, setChickenDishes] = useState([]);
   const [selectedDish, setSelectedDish] = useState({});
   const [openDishModal, setOpenDishModal] = useState(false);
   const [cart, setCart] = useState({});
@@ -103,19 +101,34 @@ const Home = (props) => {
   const loadDishes = async () => {
     try {
       setLoading(true);
-      let pkDishes = [];
-      let ckDishes = [];
-
       const dbDishes = await getDishes();
       setDishes(dbDishes.data.dishes);
-      setCategories(dbDishes.data.categories);
-      dbDishes.data.dishes.map((dish, index) => {
-        dish.name = dish.name.charAt(0).toUpperCase() + dish.name.slice(1);
-        if (dish.category.name === "pork") pkDishes.push(dish);
-        if (dish.category.name === "chicken") ckDishes.push(dish);
+      setMenu((prevState) => {
+        prevState.categories.forEach((category) => {
+          const categoryDishes = [];
+          dbDishes.data.dishes.forEach((dish) => {
+            let words = dish.name.split(" ");
+            for (let i = 0; i < words.length; i++) {
+              words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+            }
+            dish.name = words.join(" ");
+            if (dish.category.name === category.name) {
+              // Check if dish is already in the categoryDishes array
+              const dishExists = categoryDishes.some(
+                (existingDish) => existingDish._id === dish._id
+              );
+              if (!dishExists) {
+                // Add the dish to the categoryDishes array if it's not already there
+                categoryDishes.push(dish);
+              }
+            }
+          });
+          category.dishes = categoryDishes;
+        });
+        console.log(prevState);
+        return prevState;
       });
-      setPorkDishes(pkDishes);
-      setChickenDishes(ckDishes);
+
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -271,6 +284,8 @@ const Home = (props) => {
         setOpenBasket={setOpenBasket}
       />
       <DishNavbar
+        selectedBranch={selectedBranch}
+        restaurantDetails={props.restaurantDetails}
         scrollTabValue={scrollTabValue}
         setScrollTabValue={setScrollTabValue}
       />
@@ -380,47 +395,56 @@ const Home = (props) => {
                 </List>
               </Box>
 
-              {dishes &&
-                dishes.map((dish, index) => (
-                  <Box
-                    position="relative"
-                    key={index}
-                    display="flex"
-                    width="100%"
-                    height="40vh"
-                  >
-                    <Box position="absolute" top={12} right={12}>
-                      {" "}
-                      <ActionButton
-                        my={0}
-                        size="small"
-                        fullWidth={false}
-                        text={`GHC${(
-                          dish.price -
-                          dish.price * discount
-                        ).toFixed(2)}`}
-                        rightIcon="add_shopping_cart"
-                        onClick={() => handleDishSelect(dish)}
+              {menu &&
+                menu.categories &&
+                menu.categories.map((category, index) =>
+                  category.dishes.map((dish, index) => (
+                    <Box
+                      position="relative"
+                      key={index}
+                      display="flex"
+                      width="100%"
+                      height="40vh"
+                    >
+                      <Box position="absolute" top={12} right={12}>
+                        {" "}
+                        <ActionButton
+                          my={0}
+                          size="small"
+                          fullWidth={false}
+                          text={`GHC${(
+                            dish.price -
+                            dish.price * discount
+                          ).toFixed(2)}`}
+                          rightIcon="add_shopping_cart"
+                          onClick={() => handleDishSelect(dish)}
+                        />
+                      </Box>
+
+                      <img
+                        src={dish.image}
+                        alt="dish"
+                        width="100%"
+                        style={{
+                          borderBottomLeftRadius: "12px",
+                          borderBottomRightRadius: "12px",
+                        }}
                       />
                     </Box>
-
-                    <img
-                      src={dish.image}
-                      alt="dish"
-                      width="100%"
-                      style={{
-                        borderBottomLeftRadius: "12px",
-                        borderBottomRightRadius: "12px",
-                      }}
-                    />
-                  </Box>
-                ))}
+                  ))
+                )}
 
               <Box p={2}>
                 <Subtitle
                   textAlign="left"
                   mt={0}
-                  title="Pork, Chicken and Tilapia dishes"
+                  title={
+                    menu &&
+                    menu.categories &&
+                    menu.categories.map((category) => (
+                      <span>{category.description}, </span>
+                    ))
+                  }
                 />
                 <List disablePadding>
                   {infoList.map((info, index) => (
@@ -437,23 +461,6 @@ const Home = (props) => {
           </Box>
         </Grid>
       </Grid>
-
-      {/* <Box
-        display="flex"
-        justifyContent="left"
-        alignItems="center"
-        color="primary.main"
-        p={2}
-        pt={0}
-      >
-        {" "}
-        <Icon color="primary" fontSize="small">
-          location_on
-        </Icon>
-        <Typography variant="body2" fontWeight={500}>
-          Enter your location to see delivery time
-        </Typography>
-      </Box> */}
       <Box
         sx={{
           p: 2,
@@ -466,35 +473,30 @@ const Home = (props) => {
           border: "1px solid rgba(255, 255, 255, 0.3)",
         }}
       >
-        <Subtitle id="0" mt={0} mb={3} title="Pork Dishes" fontWeight={700} />
-        {porkDishes ? (
-          <DishCard
-            dishes={porkDishes}
-            handleDishSelect={handleDishSelect}
-            discount={discount}
-            cart={cart}
-          />
-        ) : (
-          ""
-        )}
-        <Divider sx={{ my: 2 }} />
-        <Subtitle
-          id="1"
-          mt={4}
-          mb={3}
-          title="Chicken Dishes"
-          fontWeight={700}
-        />
-        {chickenDishes ? (
-          <DishCard
-            dishes={chickenDishes}
-            handleDishSelect={handleDishSelect}
-            discount={discount}
-            cart={cart}
-          />
-        ) : (
-          ""
-        )}
+        {menu &&
+          menu.categories &&
+          menu.categories.map((category, index) => {
+            if (category.dishes.length) {
+              return (
+                <Box key={index}>
+                  <Subtitle
+                    id={category.name}
+                    mt={0}
+                    mb={3}
+                    title={category.description}
+                    fontWeight={700}
+                  />
+                  <DishCard
+                    dishes={category.dishes}
+                    handleDishSelect={handleDishSelect}
+                    discount={discount}
+                    cart={cart}
+                  />
+                  <Divider sx={{ my: 3 }} />
+                </Box>
+              );
+            }
+          })}
       </Box>
 
       {selectedDish ? (

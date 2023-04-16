@@ -93,191 +93,214 @@ const PhoneNumber = (props) => {
   }, [props.user]);
 
   const handleGetCode = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    if (phoneNumber.length < 9 || phoneNumber.length > 13) {
-      setPhoneNumberError({
-        status: true,
-        message: "Please enter a valid phone number",
-      });
-      setLoading(false);
-      return;
-    }
-    if (
-      props.user &&
-      props.user.phoneNumber &&
-      phoneNumber === props.user.phoneNumber
-    ) {
-      setPhoneNumberVerified(true);
-      setLoading(false);
-      return;
-    }
-
-    const validatedPhoneNumber = `+233${phoneNumber.slice(-9)}`;
-
-    if (appVerifier) {
-      appVerifier.clear();
-      document.querySelector(
-        "#main-container"
-      ).innerHTML = `<div id="recaptcha-container"></div>`;
-    }
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      "recaptcha-container",
-      {
-        size: "invisible",
-      },
-      auth
-    );
-
-    setAppVerifier(window.recaptchaVerifier);
-    signInWithPhoneNumber(auth, validatedPhoneNumber, window.recaptchaVerifier)
-      .then((confirmationResult) => {
-        console.log("Verification code sent to ", phoneNumber);
-        window.confirmationResult = confirmationResult;
-        console.log(confirmationResult);
-        setCodeSent(true);
+    try {
+      e.preventDefault();
+      setLoading(true);
+      if (phoneNumber.length < 9 || phoneNumber.length > 13) {
+        setPhoneNumberError({
+          status: true,
+          message: "Please enter a valid phone number",
+        });
         setLoading(false);
-      })
-      .catch((error) => {
+        return;
+      }
+      if (
+        props.user &&
+        props.user.phoneNumber &&
+        phoneNumber === props.user.phoneNumber
+      ) {
+        setPhoneNumberVerified(true);
         setLoading(false);
+        return;
+      }
 
-        console.log("SMS not sent");
-        console.log(error);
-        if (
-          error.message === "Firebase: Error (auth/network-request-failed)."
-        ) {
-          props.setAlertSnackbar({
-            open: true,
-            text: "Check your internet connection and try again",
-            severity: "error",
-          });
-        }
-      });
-    return () => {
-      window.recaptchaVerifier.clear();
-    };
+      const validatedPhoneNumber = `+233${phoneNumber.slice(-9)}`;
+
+      if (appVerifier) {
+        appVerifier.clear();
+        document.querySelector(
+          "#main-container"
+        ).innerHTML = `<div id="recaptcha-container"></div>`;
+      }
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        "recaptcha-container",
+        {
+          size: "invisible",
+        },
+        auth
+      );
+
+      setAppVerifier(window.recaptchaVerifier);
+      signInWithPhoneNumber(
+        auth,
+        validatedPhoneNumber,
+        window.recaptchaVerifier
+      )
+        .then((confirmationResult) => {
+          console.log("Verification code sent to ", phoneNumber);
+          window.confirmationResult = confirmationResult;
+          console.log(confirmationResult);
+          setCodeSent(true);
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+
+          console.log("SMS not sent");
+          console.log(error);
+          if (
+            error.message === "Firebase: Error (auth/network-request-failed)."
+          ) {
+            props.setAlertSnackbar({
+              open: true,
+              text: "Check your internet connection and try again",
+              severity: "error",
+            });
+          }
+        });
+      return () => {
+        window.recaptchaVerifier.clear();
+      };
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    window.confirmationResult
-      .confirm(code)
-      .then(async (result) => {
-        // User signed in successfully.
-        const user = result.user;
-        const idTokenResult = await user.getIdTokenResult();
+    try {
+      e.preventDefault();
+      setLoading(true);
+      window.confirmationResult
+        .confirm(code)
+        .then(async (result) => {
+          // User signed in successfully.
+          const user = result.user;
+          const idTokenResult = await user.getIdTokenResult();
 
-        //Sent token to backend
+          //Sent token to backend
 
-        createOrUpdateUser(idTokenResult.token, { phoneNumber })
-          .then((res) => {
-            console.log(res.data);
-            let userInfo = {
-              _id: res.data._id,
-              phoneNumber: res.data.phoneNumber,
-              name: res.data.name,
-              email: res.data.email ? res.data.email : "",
-              addresses: res.data.addresses ? [...res.data.addresses] : [],
-              image: res.data.image ? res.data.image : "",
-              role: res.data.role,
-              token: idTokenResult.token,
-              favorites: res.data.favorites ? [...res.data.favorites] : [],
-            };
-            window.localStorage.setItem(
-              "wdUser",
-              JSON.stringify({ ...userInfo })
-            );
-            props.setUser({ ...userInfo });
-            // send response data to redux store
-            dispatch({
-              type: "LOGGED_IN_USER",
-              payload: { ...userInfo },
+          createOrUpdateUser(idTokenResult.token, { phoneNumber })
+            .then((res) => {
+              console.log(res.data);
+              let userInfo = {
+                _id: res.data._id,
+                phoneNumber: res.data.phoneNumber,
+                name: res.data.name,
+                email: res.data.email ? res.data.email : "",
+                addresses: res.data.addresses ? [...res.data.addresses] : [],
+                image: res.data.image ? res.data.image : "",
+                role: res.data.role,
+                token: idTokenResult.token,
+                favorites: res.data.favorites ? [...res.data.favorites] : [],
+              };
+              window.localStorage.setItem(
+                "wdUser",
+                JSON.stringify({ ...userInfo })
+              );
+              props.setUser({ ...userInfo });
+              // send response data to redux store
+              dispatch({
+                type: "LOGGED_IN_USER",
+                payload: { ...userInfo },
+              });
+              setPhoneNumber("");
+              setCode("");
+              setCodeSent(false);
+              setLoading(false);
+              props.setAlertSnackbar({
+                open: true,
+                text: `Verified (${userInfo.phoneNumber})`,
+                severity: "success",
+              });
+              setPhoneNumberVerified(true);
+            })
+            .catch((err) => {
+              if (err.status === 401) {
+                console.log(
+                  "Your session has expired. Please try log in again!"
+                );
+              } else console.log("Error: ", err);
             });
-            setPhoneNumber("");
-            setCode("");
-            setCodeSent(false);
-            setLoading(false);
-            props.setAlertSnackbar({
-              open: true,
-              text: `Verified (${userInfo.phoneNumber})`,
-              severity: "success",
-            });
-            setPhoneNumberVerified(true);
-          })
-          .catch((err) => {
-            if (err.status === 401) {
-              console.log("Your session has expired. Please try log in again!");
-            } else console.log("Error: ", err);
-          });
-      })
-      .catch((error) => {
-        // User couldn't sign in (bad verification code?)
-        console.log("Wrong verification code!");
-        setLoading(false);
-        setCodeError({ status: true, message: "Wrong verification code!" });
-        console.log(error.message);
-      });
-    return false;
+        })
+        .catch((error) => {
+          // User couldn't sign in (bad verification code?)
+          console.log("Wrong verification code!");
+          setLoading(false);
+          setCodeError({ status: true, message: "Wrong verification code!" });
+          console.log(error.message);
+        });
+      return false;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   const handleUpdateName = async (e) => {
-    e.preventDefault();
-    if (userName.length < 3) {
-      setUserNameError({
-        status: true,
-        message: "User name should be more than 3 letters",
-      });
-      return;
-    }
-    if (userName === props.user.name) {
-      setPhoneNumberVerified(false);
-      props.onClose();
-      if (props.user.addresses.length < 1) {
-        props.setOpenAddress(true);
+    try {
+      e.preventDefault();
+      if (userName.length < 3) {
+        setUserNameError({
+          status: true,
+          message: "User name should be more than 3 letters",
+        });
+        return;
       }
-      return;
-    }
-    await updateUser(props.user.token, { name: userName })
-      .then((res) => {
-        console.log(res.data);
-        let userInfo = {
-          _id: res.data._id,
-          phoneNumber: res.data.phoneNumber,
-          name: res.data.name,
-          email: res.data.email ? res.data.email : "",
-          image: res.data.image ? res.data.image : "",
-          addresses: res.data.addresses ? [...res.data.addresses] : [],
-          role: res.data.role,
-          token: props.user.token,
-          favorites: res.data.favorites ? [...res.data.favorites] : [],
-        };
-        props.setUser({ ...userInfo });
-        dispatch({
-          type: "LOGGED_IN_USER",
-          payload: { ...userInfo },
-        });
-        window.localStorage.setItem("wdUser", JSON.stringify({ ...userInfo }));
+      if (userName === props.user.name) {
         setPhoneNumberVerified(false);
-        props.setAlertSnackbar({
-          open: true,
-          text: `Added Name (${userInfo.name})`,
-          severity: "success",
-        });
         props.onClose();
-        setPhoneNumberVerified(false);
-        if (!userInfo.addresses.length) {
+        if (props.user.addresses.length < 1) {
           props.setOpenAddress(true);
         }
-      })
-      .catch((error) => {
-        console.log(error);
-        props.setAlertSnackbar({
-          open: true,
-          text: `An error occured while adding name. Please try again.`,
-          severity: "error",
+        return;
+      }
+      await updateUser(props.user.token, { name: userName })
+        .then((res) => {
+          console.log(res.data);
+          let userInfo = {
+            _id: res.data._id,
+            phoneNumber: res.data.phoneNumber,
+            name: res.data.name,
+            email: res.data.email ? res.data.email : "",
+            image: res.data.image ? res.data.image : "",
+            addresses: res.data.addresses ? [...res.data.addresses] : [],
+            role: res.data.role,
+            token: props.user.token,
+            favorites: res.data.favorites ? [...res.data.favorites] : [],
+          };
+          props.setUser({ ...userInfo });
+          dispatch({
+            type: "LOGGED_IN_USER",
+            payload: { ...userInfo },
+          });
+          window.localStorage.setItem(
+            "wdUser",
+            JSON.stringify({ ...userInfo })
+          );
+          setPhoneNumberVerified(false);
+          props.setAlertSnackbar({
+            open: true,
+            text: `Added Name (${userInfo.name})`,
+            severity: "success",
+          });
+          props.onClose();
+          setPhoneNumberVerified(false);
+          if (!userInfo.addresses.length) {
+            props.setOpenAddress(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          props.setAlertSnackbar({
+            open: true,
+            text: `An error occured while adding name. Please try again.`,
+            severity: "error",
+          });
         });
-      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const containerRef = React.useRef(null);
