@@ -25,7 +25,6 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import PersonIcon from "@mui/icons-material/Person";
-import logo from "../../images/tankos/logo-32x32.png";
 import Link from "../Links/Link";
 import { Avatar, Icon, ListItemIcon } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
@@ -272,7 +271,7 @@ function Navbar(props) {
           <Box sx={{ display: "flex" }}>
             <Typography component="a" href="/" sx={{ mr: 1 }}>
               <img
-                src={logo}
+                src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
                 alt={`${props.restaurantDetails.name} logo`}
                 width="30"
                 height="30"
@@ -475,7 +474,7 @@ function Navbar(props) {
               sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
             >
               <img
-                src={logo}
+                src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
                 alt={`${props.restaurantDetails.name} logo`}
                 width="40"
                 height="30"
@@ -523,7 +522,7 @@ function Navbar(props) {
               sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
             >
               <img
-                src={logo}
+                src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
                 alt={`${props.restaurantDetails.name} logo`}
                 width="30"
                 height="30"

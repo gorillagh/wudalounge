@@ -34,10 +34,13 @@ import StaffLogin from "./pages/Staff";
 import StaffDashboard from "./pages/Staff/StaffDashboard";
 import StaffOrders from "./pages/Staff/StaffOrders";
 import StaffReports from "./pages/Staff/StaffReports";
+import { Helmet } from "react-helmet";
 
 const wudaLounge = {
   name: "Wuda Lounge",
+  faviconUrl: "/wuda/favicon-32x32.png",
   shortName: "Wuda",
+  path: "wuda",
   nameExtension: "Lounge",
   orderDuration: 20,
   branches: [
@@ -175,6 +178,7 @@ const wudaLounge = {
 const tankos = {
   name: "Tanko's Kitchen",
   shortName: "Tanko's",
+  path: "tankos",
   nameExtension: "Kitchen",
   orderDuration: 20,
   branches: [
@@ -571,6 +575,31 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <ToastContainer style={{ fontSize: "12px", fontWeight: "bold" }} />
+      <Helmet>
+        <title>{restaurantDetails.name}</title>
+        <link
+          rel="icon"
+          type="image/png"
+          href={`/${restaurantDetails.path}/favicon-32x32.png`}
+          sizes="32x32"
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href={`/${restaurantDetails.path}/apple-touch-icon.png`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href={`/${restaurantDetails.path}/favicon-16x16.png`}
+        />
+        <link
+          rel="manifest"
+          href={`/${restaurantDetails.path}/site.webmanifest`}
+        />
+        <link rel="icon" href={`/${restaurantDetails.path}/favicon.ico`} />
+      </Helmet>
       <Routes>
         <Route
           exact
