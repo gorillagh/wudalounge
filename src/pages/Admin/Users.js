@@ -94,11 +94,11 @@ const Users = (props) => {
             justifyContent="space-between"
           >
             <Subtitle my={1} title="Users" />
-            {/* <IconButton size="small">
+            <IconButton size="small" onClick={loadUsers}>
               <Icon color="primary" fontSize="small">
                 refresh
               </Icon>
-            </IconButton> */}
+            </IconButton>
           </Box>
           <ActionButton
             text="Create"

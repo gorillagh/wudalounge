@@ -133,7 +133,18 @@ const Menu = (props) => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Subtitle my={1} title="Menu" />
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Subtitle my={1} title="Menu" />
+            <IconButton size="small" onClick={loadMenu}>
+              <Icon color="primary" fontSize="small">
+                refresh
+              </Icon>
+            </IconButton>
+          </Box>
           <MenuAdd
             setOpenDish={setOpenDish}
             setDishToEdit={setDishToEdit}

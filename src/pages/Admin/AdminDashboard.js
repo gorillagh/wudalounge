@@ -6,6 +6,7 @@ import {
   Box,
   Grid,
   Icon,
+  IconButton,
   MenuItem,
   Select,
   Skeleton,
@@ -108,11 +109,24 @@ const AdminDashboard = (props) => {
 
   return (
     <div>
-      <Subtitle
-        title={`Hello ${props.user.name.split(" ")[0]},`}
-        my={1}
-        mx={1}
-      />
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Subtitle
+          title={`Hello ${props.user.name.split(" ")[0]},`}
+          my={1}
+          mx={1}
+        />
+        <IconButton
+          size="small"
+          onClick={() => {
+            getBriefs();
+            getChartData();
+          }}
+        >
+          <Icon color="primary" fontSize="small">
+            refresh
+          </Icon>
+        </IconButton>
+      </Box>
 
       {briefsLoading ? (
         <Grid container justifyContent="space-between" spacing={1} px={1}>
