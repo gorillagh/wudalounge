@@ -25,7 +25,6 @@ import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import PersonIcon from "@mui/icons-material/Person";
-import logo from "../../images/tankos/logo-32x32.png";
 import Link from "../Links/Link";
 import { Avatar, Icon, ListItemIcon } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
@@ -149,8 +148,8 @@ function AdminNavbar(props) {
           <Box sx={{ display: "flex" }}>
             <Typography component="a" href="/" sx={{ mr: 1 }}>
               <img
-                src={logo}
-                alt="wuda lounge logo"
+                src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
+                alt={`${props.restaurantDetails.name} logo`}
                 width="30"
                 height="30"
                 style={{ borderRadius: "50%" }}
@@ -272,8 +271,8 @@ function AdminNavbar(props) {
               sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
             >
               <img
-                src={logo}
-                alt="Wuda Lounge logo"
+                src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
+                alt={`${props.restaurantDetails.name} logo`}
                 width="40"
                 height="30"
                 style={{ borderRadius: "50%" }}
@@ -299,8 +298,8 @@ function AdminNavbar(props) {
               sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
             >
               <img
-                src={logo}
-                alt="wuda lounge logo"
+                src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
+                alt={`${props.restaurantDetails.name} logo`}
                 width="30"
                 height="30"
                 style={{ borderRadius: "50%" }}

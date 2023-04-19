@@ -42,6 +42,7 @@ const wudaLounge = {
   shortName: "Wuda",
   path: "wuda",
   nameExtension: "Lounge",
+  website: "https://www.wudalounge.com",
   orderDuration: 20,
   branches: [
     {
@@ -180,6 +181,7 @@ const tankos = {
   shortName: "Tanko's",
   path: "tankos",
   nameExtension: "Kitchen",
+  website: "https://www.wudalounge.com",
   orderDuration: 20,
   branches: [
     {
@@ -231,7 +233,6 @@ const tankos = {
           ],
           types: ["restaurant", "point_of_interest", "food", "establishment"],
         },
-        url: "https://www.wudalounge.com",
       },
       workingHours: [
         { day: "Monday", start: "11:00", close: "23:00" },
@@ -295,7 +296,6 @@ const tankos = {
           ],
           types: ["food", "point_of_interest", "establishment"],
         },
-        url: "https://www.wudalounge.com",
       },
 
       workingHours: [
@@ -369,7 +369,6 @@ const tankos = {
           place_id: "ChIJ38MgKRe93w8R3Fxwsdqwb3E",
           types: ["establishment", "point_of_interest", "school", "university"],
         },
-        url: "https://www.wudalounge.com",
       },
       workingHours: [
         { day: "Monday", start: "11:00", close: "23:00" },

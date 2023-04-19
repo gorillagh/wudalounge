@@ -92,37 +92,38 @@ function Navbar(props) {
   };
 
   const openSocialMedia = (platform) => {
+    console.log(props.restaurantDetails.socials.facebook.url);
     let url,
       webUrl = "";
     switch (platform) {
       case "facebook":
-        url = props.restaurantDetails.contact.socials.facebook.url;
-        webUrl = props.restaurantDetails.contact.socials.facebook.webUrl;
+        url = props.restaurantDetails.socials.facebook.url;
+        webUrl = props.restaurantDetails.socials.facebook.webUrl;
         break;
       case "instagram":
-        url = props.restaurantDetails.contact.socials.instagram.url;
-        webUrl = props.restaurantDetails.contact.socials.instagram.webUrl;
+        url = props.restaurantDetails.socials.instagram.url;
+        webUrl = props.restaurantDetails.socials.instagram.webUrl;
         break;
       case "twitter":
-        url = props.restaurantDetails.contact.socials.twitter.url;
-        webUrl = props.restaurantDetails.contact.socials.twitter.webUrl;
+        url = props.restaurantDetails.socials.twitter.url;
+        webUrl = props.restaurantDetails.socials.twitter.webUrl;
         break;
       case "snapchat":
-        url = props.restaurantDetails.contact.socials.snapchat.url;
-        webUrl = props.restaurantDetails.contact.socials.snapchat.webUrl;
+        url = props.restaurantDetails.socials.snapchat.url;
+        webUrl = props.restaurantDetails.socials.snapchat.webUrl;
         break;
       case "whatsapp":
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {
           const isWhatsAppInstalled = /WhatsApp/i.test(navigator.userAgent);
           if (isWhatsAppInstalled) {
-            url = `whatsapp://send?text=Hello%20Wuda%20Lounge!&phone=${props.restaurantDetails.contact.socials.whatsapp.number}`;
+            url = `whatsapp://send?text=Hello%20Wuda%20Lounge!&phone=${props.restaurantDetails.socials.whatsapp.number}`;
           } else {
             const platform = /(android)/i.test(navigator.userAgent)
               ? "android"
               : "ios";
             url = `https://wa.me/?text=Hello%20Wuda%20Lounge!&phone=${
-              props.restaurantDetails.contact.socials.whatsapp.number
+              props.restaurantDetails.socials.whatsapp.number
             }&app_absent=1${platform === "android" ? "&fallback_url=" : ""}${
               platform === "android"
                 ? "market://details?id=com.whatsapp"
@@ -130,7 +131,7 @@ function Navbar(props) {
             }`;
           }
         } else {
-          url = `https://web.whatsapp.com/send?phone=+${props.restaurantDetails.contact.socials.whatsapp.number}`;
+          url = `https://web.whatsapp.com/send?phone=+${props.restaurantDetails.socials.whatsapp.number}`;
         }
         break;
       default:
@@ -162,10 +163,7 @@ function Navbar(props) {
       // window.location.href = `boltfood://${
       //   platform === "android" ? "com.taxify.client" : "com.taxify.boltfood"
       // }?restaurant=${encodeURIComponent("afrik-gardens")}`;
-      window.open(
-        props.restaurantDetails.contact.socials.boltFood.url,
-        "_blank"
-      );
+      window.open(props.restaurantDetails.socials.boltFood.url, "_blank");
       // window.location.href =
       //   "https://food.bolt.eu/en-US/137/p/38734-veggie-box";
     } else {
@@ -182,8 +180,8 @@ function Navbar(props) {
         const fileObj = new File([file], "image.jpg", { type: file.type });
         await navigator.share({
           title: props.restaurantDetails.name,
-          text: `Check out amazing dishes at ${props.restaurantDetails.name}`,
-          url: props.restaurantDetails.address.url,
+          text: `Check out amazing dishes at ${props.restaurantDetails.website}`,
+          url: props.restaurantDetails.website,
           files: [fileObj],
         });
         console.log("Share successful");
@@ -193,7 +191,7 @@ function Navbar(props) {
     } else {
       console.log("Share not supported, using fallback method");
       // Use another share method here, such as a third-party share dialog or clipboard copy
-      const fallbackUrl = "https://www.wudalounge.com";
+      const fallbackUrl = props.restaurantDetails.website;
       try {
         await navigator.clipboard.writeText(fallbackUrl);
         console.log("URL copied to clipboard");

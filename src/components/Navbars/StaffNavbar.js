@@ -25,7 +25,6 @@ import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import PersonIcon from "@mui/icons-material/Person";
-import logo from "../../images/tankos/logo-32x32.png";
 import Link from "../Links/Link";
 import { Avatar, Icon, ListItemIcon } from "@mui/material";
 import Subtitle from "../Typography/Subtitle";
@@ -138,7 +137,12 @@ function StaffNavbar(props) {
         ) : (
           <Box sx={{ display: "flex" }}>
             <Typography component="a" href="/" sx={{ mr: 1 }}>
-              <img src={logo} alt="wuda lounge logo" width="30" height="30" />
+              <img
+                src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
+                alt={`${props.restaurantDetails.name} logo`}
+                width="30"
+                height="30"
+              />
             </Typography>
             <Typography
               variant="h5"
@@ -241,7 +245,12 @@ function StaffNavbar(props) {
               href="/"
               sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
             >
-              <img src={logo} alt="Wuda Lounge logo" width="40" height="30" />
+              <img
+                src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
+                alt={`${props.restaurantDetails.name} logo`}
+                width="40"
+                height="30"
+              />
             </Typography>
             <Typography
               variant="h5"
@@ -262,7 +271,12 @@ function StaffNavbar(props) {
               href="/"
               sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
             >
-              <img src={logo} alt="wuda lounge logo" width="30" height="30" />
+              <img
+                src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
+                alt={`${props.restaurantDetails.name} logo`}
+                width="30"
+                height="30"
+              />
             </Typography>
             <Typography
               variant="h5"
