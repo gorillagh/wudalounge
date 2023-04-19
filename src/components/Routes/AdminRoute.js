@@ -52,6 +52,7 @@ const AdminRoute = (props) => {
   return ok ? (
     <Box>
       <AdminNavbar
+        restaurantDetails={props.restaurantDetails}
         setUser={props.setUser}
         user={props.user}
         setOpenSearch={setOpenSearch}

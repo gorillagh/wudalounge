@@ -95,6 +95,7 @@ const AdminDashboard = (props) => {
   };
 
   useEffect(() => {
+    console.log(props.restaurantDetails);
     getBriefs();
   }, []);
   useEffect(() => {

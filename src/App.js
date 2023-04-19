@@ -618,14 +618,28 @@ const App = () => {
         <Route
           exact
           path="/staff/login"
-          element={<StaffLogin setUser={setUser} user={user} />}
+          element={
+            <StaffLogin
+              restaurantDetails={restaurantDetails}
+              setUser={setUser}
+              user={user}
+            />
+          }
         />
         <Route
           exact
           path="/staff"
           element={
-            <StaffRoute setUser={setUser} user={user}>
-              <StaffDashboard setUser={setUser} user={user} />
+            <StaffRoute
+              restaurantDetails={restaurantDetails}
+              setUser={setUser}
+              user={user}
+            >
+              <StaffDashboard
+                restaurantDetails={restaurantDetails}
+                setUser={setUser}
+                user={user}
+              />
             </StaffRoute>
           }
         />
@@ -633,8 +647,16 @@ const App = () => {
           exact
           path="/staff/orders"
           element={
-            <StaffRoute setUser={setUser} user={user}>
-              <StaffOrders setUser={setUser} user={user} />
+            <StaffRoute
+              restaurantDetails={restaurantDetails}
+              setUser={setUser}
+              user={user}
+            >
+              <StaffOrders
+                restaurantDetails={restaurantDetails}
+                setUser={setUser}
+                user={user}
+              />
             </StaffRoute>
           }
         />
@@ -642,8 +664,16 @@ const App = () => {
           exact
           path="/staff/reports"
           element={
-            <StaffRoute setUser={setUser} user={user}>
-              <StaffReports setUser={setUser} user={user} />
+            <StaffRoute
+              restaurantDetails={restaurantDetails}
+              setUser={setUser}
+              user={user}
+            >
+              <StaffReports
+                restaurantDetails={restaurantDetails}
+                setUser={setUser}
+                user={user}
+              />
             </StaffRoute>
           }
         />
@@ -652,14 +682,28 @@ const App = () => {
         <Route
           exact
           path="/admin/login"
-          element={<AdminLogin setUser={setUser} user={user} />}
+          element={
+            <AdminLogin
+              restaurantDetails={restaurantDetails}
+              setUser={setUser}
+              user={user}
+            />
+          }
         />
         <Route
           exact
           path="/admin"
           element={
-            <AdminRoute setUser={setUser} user={user}>
-              <AdminDashboard setUser={setUser} user={user} />
+            <AdminRoute
+              restaurantDetails={restaurantDetails}
+              setUser={setUser}
+              user={user}
+            >
+              <AdminDashboard
+                restaurantDetails={restaurantDetails}
+                setUser={setUser}
+                user={user}
+              />
             </AdminRoute>
           }
         />
@@ -667,8 +711,16 @@ const App = () => {
           exact
           path="/admin/orders"
           element={
-            <AdminRoute setUser={setUser} user={user}>
-              <Orders setUser={setUser} user={user} />
+            <AdminRoute
+              restaurantDetails={restaurantDetails}
+              setUser={setUser}
+              user={user}
+            >
+              <Orders
+                restaurantDetails={restaurantDetails}
+                setUser={setUser}
+                user={user}
+              />
             </AdminRoute>
           }
         />
@@ -676,8 +728,16 @@ const App = () => {
           exact
           path="/admin/menu"
           element={
-            <AdminRoute setUser={setUser} user={user}>
-              <Menu setUser={setUser} user={user} />
+            <AdminRoute
+              restaurantDetails={restaurantDetails}
+              setUser={setUser}
+              user={user}
+            >
+              <Menu
+                restaurantDetails={restaurantDetails}
+                setUser={setUser}
+                user={user}
+              />
             </AdminRoute>
           }
         />
@@ -685,8 +745,16 @@ const App = () => {
           exact
           path="/admin/users"
           element={
-            <AdminRoute setUser={setUser} user={user}>
-              <Users setUser={setUser} user={user} />
+            <AdminRoute
+              restaurantDetails={restaurantDetails}
+              setUser={setUser}
+              user={user}
+            >
+              <Users
+                restaurantDetails={restaurantDetails}
+                setUser={setUser}
+                user={user}
+              />
             </AdminRoute>
           }
         />
@@ -694,8 +762,16 @@ const App = () => {
           exact
           path="/admin/reports"
           element={
-            <AdminRoute setUser={setUser} user={user}>
-              <Reports setUser={setUser} user={user} />
+            <AdminRoute
+              restaurantDetails={restaurantDetails}
+              setUser={setUser}
+              user={user}
+            >
+              <Reports
+                restaurantDetails={restaurantDetails}
+                setUser={setUser}
+                user={user}
+              />
             </AdminRoute>
           }
         />
@@ -703,8 +779,16 @@ const App = () => {
           exact
           path="/admin/company"
           element={
-            <AdminRoute setUser={setUser} user={user}>
-              <Company setUser={setUser} user={user} />
+            <AdminRoute
+              restaurantDetails={restaurantDetails}
+              setUser={setUser}
+              user={user}
+            >
+              <Company
+                restaurantDetails={restaurantDetails}
+                setUser={setUser}
+                user={user}
+              />
             </AdminRoute>
           }
         />
