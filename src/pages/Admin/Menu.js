@@ -271,6 +271,7 @@ const Menu = (props) => {
         <LoadingBackdrop open={loading} />
       </Box>
       <Dish
+        restaurantDetails={props.restaurantDetails}
         dishToEdit={dishToEdit}
         user={props.user}
         open={openDish}

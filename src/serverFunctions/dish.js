@@ -1,5 +1,5 @@
 import { api } from "./index";
 
-export const getDishes = async () => {
-  return await api.get("/dishes");
+export const getDishes = async (data) => {
+  return await api.post("/dishes", data);
 };

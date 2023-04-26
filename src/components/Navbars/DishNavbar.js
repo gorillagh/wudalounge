@@ -36,7 +36,7 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
     marginRight: theme.spacing(0),
     color: "#000",
     "&.Mui-selected": {
-      color: "#E3581C",
+      color: theme.palette.primary.main,
     },
     // "&.Mui-focusVisible": {
     //   backgroundColor: "rgba(100, 95, 228, 0.32)",
@@ -51,7 +51,7 @@ const DishNavbar = (props) => {
         maxWidth="xl"
         sx={{
           position: "fixed",
-          background: "rgba(255, 255, 255, 0.8)",
+          background: "rgba(255, 255, 255, 0.9)",
           backdropFilter: "blur(8.8px)",
           WebkitBackdropFilter: "blur(8.8px)",
           boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",

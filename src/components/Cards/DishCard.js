@@ -92,6 +92,10 @@ const DishCard = (props) => {
                         vertical: "top",
                         horizontal: "right",
                       }}
+                      sx={{
+                        width: "100%",
+                        boxSizing: "border-box",
+                      }}
                       badgeContent={dishNumber}
                       color="primary"
                     >
@@ -99,14 +103,13 @@ const DishCard = (props) => {
                         height={{
                           xs: "100px",
                           md: "120px",
-                          boxSizing: "border-box",
                         }}
                       >
                         <img
                           style={{
                             borderRadius: "12px",
                             height: "100%",
-                            // width: "100%",
+                            width: "100%",
                           }}
                           alt="dish"
                           src={d.image}

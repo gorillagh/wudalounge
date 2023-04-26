@@ -175,6 +175,7 @@ const Dish = (props) => {
 
     console.log(dish);
     try {
+      dish.restaurant = props.restaurantDetails.path;
       const res = await createMenu(props.user.token, "dish", dish);
       if (res.data === "ok") {
         setSizes([{ size: "regular", description: "", additionalAmount: 0 }]);

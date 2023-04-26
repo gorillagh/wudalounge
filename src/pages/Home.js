@@ -101,7 +101,9 @@ const Home = (props) => {
   const loadDishes = async () => {
     try {
       setLoading(true);
-      const dbDishes = await getDishes();
+      const dbDishes = await getDishes({
+        restaurant: props.restaurantDetails.path,
+      });
       setDishes(dbDishes.data.dishes);
       setMenu((prevState) => {
         prevState.categories.forEach((category) => {

@@ -271,12 +271,19 @@ function Navbar(props) {
               <img
                 src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
                 alt={`${props.restaurantDetails.name} logo`}
-                width="30"
-                height="30"
-                style={{ borderRadius: "50%" }}
+                width={props.restaurantDetails.nameEqualsLogo ? "120" : "30"}
+                height={props.restaurantDetails.nameEqualsLogo ? "50" : "30"}
+                style={{
+                  borderRadius: props.restaurantDetails.nameEqualsLogo
+                    ? "0"
+                    : "50%",
+                }}
               />
             </Typography>
-            <Box display="flex" flexDirection="column">
+            <Box
+              display={props.restaurantDetails.nameEqualsLogo ? "none" : "flex"}
+              flexDirection="column"
+            >
               <Typography
                 variant="h5"
                 // noWrap
@@ -321,7 +328,7 @@ function Navbar(props) {
                   sx={{ textAlign: "left" }}
                 >
                   <ListItemIcon>
-                    <Icon sx={{ color: "primary.light" }}>{item.icon}</Icon>
+                    <Icon sx={{ color: "primary.main" }}>{item.icon}</Icon>
                   </ListItemIcon>
                   <ListItemText key={index} primary={item.text} />
                 </ListItemButton>
@@ -338,7 +345,7 @@ function Navbar(props) {
                 onClick={() => props.setOpenPhoneNumber(true)}
               >
                 <ListItemIcon>
-                  <Icon sx={{ color: "primary.light" }}>person</Icon>
+                  <Icon sx={{ color: "primary.main" }}>person</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Sign In" />
               </ListItemButton>
@@ -355,7 +362,7 @@ function Navbar(props) {
                 sx={{ textAlign: "left" }}
               >
                 <ListItemIcon>
-                  <Icon sx={{ color: "#ea8255" }}>{item.icon}</Icon>
+                  <Icon sx={{ color: "primary.main" }}>{item.icon}</Icon>
                 </ListItemIcon>
                 <ListItemText key={index} primary={item.text} />
               </ListItemButton>
@@ -370,7 +377,7 @@ function Navbar(props) {
                 sx={{ textAlign: "left" }}
               >
                 <ListItemIcon>
-                  <Icon color="error">logout</Icon>
+                  <Icon sx={{ color: "primary.light" }}>logout</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Logout" />
               </ListItemButton>
@@ -382,7 +389,10 @@ function Navbar(props) {
       </List>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Box position="absolute" sx={{ top: "auto", bottom: 0 }}>
-          <Box display="flex" justifyContent="center">
+          <Box
+            display={props.restaurantDetails.socials.boltFood ? "flex" : "none"}
+            justifyContent="center"
+          >
             <ActionButton
               text="Find us on Bolt Food"
               backgroundColor="#34D186"
@@ -418,13 +428,17 @@ function Navbar(props) {
           ) : (
             ""
           )}
-          <IconButton
-            size="large"
-            color="#25D366"
-            onClick={() => openSocialMedia("whatsapp")}
-          >
-            <WhatsApp sx={{ color: "#25D366" }} />
-          </IconButton>
+          {props.restaurantDetails.socials.whatsapp ? (
+            <IconButton
+              size="large"
+              color="#25D366"
+              onClick={() => openSocialMedia("whatsapp")}
+            >
+              <WhatsApp sx={{ color: "#25D366" }} />
+            </IconButton>
+          ) : (
+            ""
+          )}
           {/* <IconButton
           size="large"
           sx={{
@@ -457,7 +471,7 @@ function Navbar(props) {
         sx={{
           // background: "rgba(0,0,0, 1)",
           pb: 0.6,
-          background: "rgba(255, 255, 255, 0.8)",
+          background: "rgba(255, 255, 255, 0.9)",
           backdropFilter: "blur(8.8px)",
           WebkitBackdropFilter: "blur(8.8px)",
           width: { md: "60%" },
@@ -474,13 +488,20 @@ function Navbar(props) {
               <img
                 src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
                 alt={`${props.restaurantDetails.name} logo`}
-                width="40"
-                height="30"
-                style={{ borderRadius: "50%" }}
+                width={props.restaurantDetails.nameEqualsLogo ? "120" : "30"}
+                height={props.restaurantDetails.nameEqualsLogo ? "50" : "30"}
+                style={{
+                  borderRadius: props.restaurantDetails.nameEqualsLogo
+                    ? "0"
+                    : "50%",
+                }}
               />
             </Typography>
 
-            <Box display="flex" flexDirection="column">
+            <Box
+              display={props.restaurantDetails.nameEqualsLogo ? "none" : "flex"}
+              flexDirection="column"
+            >
               <Typography
                 variant="h5"
                 // noWrap
@@ -522,12 +543,19 @@ function Navbar(props) {
               <img
                 src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
                 alt={`${props.restaurantDetails.name} logo`}
-                width="30"
-                height="30"
-                style={{ borderRadius: "50%" }}
+                width={props.restaurantDetails.nameEqualsLogo ? "120" : "30"}
+                height={props.restaurantDetails.nameEqualsLogo ? "50" : "30"}
+                style={{
+                  borderRadius: props.restaurantDetails.nameEqualsLogo
+                    ? "0"
+                    : "50%",
+                }}
               />
             </Typography>
-            <Box display="flex" flexDirection="column">
+            <Box
+              display={props.restaurantDetails.nameEqualsLogo ? "none" : "flex"}
+              flexDirection="column"
+            >
               <Typography
                 variant="h5"
                 // noWrap
@@ -711,7 +739,7 @@ function Navbar(props) {
               </Icon>
               <Typography
                 variant="body2"
-                sx={{ textDecoration: "underline" }}
+                // sx={{ textDecoration: "underline" }}
                 fontWeight={500}
               >
                 {props.selectedBranch.address.shortDescription}
@@ -719,7 +747,17 @@ function Navbar(props) {
               <Icon color="info">arrow_drop_down</Icon>
             </Box>
             <Box color="primary.main">
-              <ActionButton
+              <IconButton
+                size="small"
+                color="primary"
+                onClick={() =>
+                  (document.location.href = `tel:${props.selectedBranch.contact.phoneNumber}`)
+                }
+              >
+                <Icon fontSize="small">phone</Icon>
+              </IconButton>
+
+              {/* <ActionButton
                 onClick={() =>
                   (document.location.href = `tel:${props.selectedBranch.contact.phoneNumber}`)
                 }
@@ -728,7 +766,7 @@ function Navbar(props) {
                 fullWidth={false}
                 my={0}
                 size="small"
-              />
+              /> */}
             </Box>
           </Box>
         </Container>

@@ -332,7 +332,7 @@ const Profile = (props) => {
                       <TextField
                         fullWidth
                         disabled
-                        value="0240298910"
+                        value={props.user.phoneNumber}
                         size="small"
                         InputProps={{
                           startAdornment: (
