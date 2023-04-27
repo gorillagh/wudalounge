@@ -271,8 +271,8 @@ function Navbar(props) {
               <img
                 src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
                 alt={`${props.restaurantDetails.name} logo`}
-                width={props.restaurantDetails.nameEqualsLogo ? "120" : "30"}
-                height={props.restaurantDetails.nameEqualsLogo ? "50" : "30"}
+                width={props.restaurantDetails.nameEqualsLogo ? "130" : "30"}
+                height={props.restaurantDetails.nameEqualsLogo ? "60" : "30"}
                 style={{
                   borderRadius: props.restaurantDetails.nameEqualsLogo
                     ? "0"
@@ -483,13 +483,13 @@ function Navbar(props) {
             <Typography
               component="a"
               href="/"
-              sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+              sx={{ display: { xs: "none", md: "flex" }, mr: 1, py: 1 }}
             >
               <img
                 src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
                 alt={`${props.restaurantDetails.name} logo`}
-                width={props.restaurantDetails.nameEqualsLogo ? "120" : "30"}
-                height={props.restaurantDetails.nameEqualsLogo ? "50" : "30"}
+                width={props.restaurantDetails.nameEqualsLogo ? "130" : "30"}
+                height={props.restaurantDetails.nameEqualsLogo ? "60" : "30"}
                 style={{
                   borderRadius: props.restaurantDetails.nameEqualsLogo
                     ? "0"
@@ -538,13 +538,13 @@ function Navbar(props) {
             <Typography
               component="a"
               href="/"
-              sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+              sx={{ display: { xs: "flex", md: "none" }, mr: 1, py: 1 }}
             >
               <img
                 src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
                 alt={`${props.restaurantDetails.name} logo`}
-                width={props.restaurantDetails.nameEqualsLogo ? "120" : "30"}
-                height={props.restaurantDetails.nameEqualsLogo ? "50" : "30"}
+                width={props.restaurantDetails.nameEqualsLogo ? "130" : "30"}
+                height={props.restaurantDetails.nameEqualsLogo ? "60" : "30"}
                 style={{
                   borderRadius: props.restaurantDetails.nameEqualsLogo
                     ? "0"
@@ -775,7 +775,7 @@ function Navbar(props) {
       <Toolbar
         sx={{
           background: "rgba(255, 255, 255, 0.85)",
-          py: 3,
+          py: 4,
         }}
       />
     </>
