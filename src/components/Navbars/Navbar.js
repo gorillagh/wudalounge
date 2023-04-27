@@ -775,7 +775,7 @@ function Navbar(props) {
       <Toolbar
         sx={{
           background: "rgba(255, 255, 255, 1)",
-          py: 4,
+          py: 4.2,
         }}
       />
     </>
