@@ -52,18 +52,18 @@ const infoList = [
 ];
 
 const userWelcome = [
+  // {
+  //   text: "Hungry?",
+  //   icon: "thumb_up_off_alt",
+  // },
   {
-    text: "Hungry?",
-    icon: "thumb_up_off_alt",
-  },
-  {
-    text: "We have something for you ...",
+    text: "The way to a man's heart is through his stomach ...",
     icon: "mood",
   },
-  {
-    text: "Check out our dishes...",
-    icon: "touch_app",
-  },
+  // {
+  //   text: "Check out our dishes...",
+  //   icon: "touch_app",
+  // },
 ];
 
 const Home = (props) => {
@@ -104,6 +104,7 @@ const Home = (props) => {
       const dbDishes = await getDishes({
         restaurant: props.restaurantDetails.path,
       });
+      console.log(dbDishes.data);
       setDishes(dbDishes.data.dishes);
       setMenu((prevState) => {
         prevState.categories.forEach((category) => {
@@ -379,21 +380,34 @@ const Home = (props) => {
                   <Subtitle
                     color="secondary"
                     mt={0}
-                    title={`Hello ${
-                      props.user && props.user.name ? props.user.name : "there"
-                    },`}
+                    // title={`Hello ${
+                    //   props.user && props.user.name ? props.user.name : "there"
+                    // },`}
+                    title=<span>
+                      The way to your heart is through your stomach{" "}
+                      <Icon fontSize="small">mood</Icon>
+                    </span>
                     mr={1}
                   />
                 </Box>
                 <List sx={{ p: 0 }} disablePadding>
-                  {userWelcome.map((info, index) => (
+                  <ListItem disableGutters disablePadding>
+                    <ListItemText
+                      primary={`Hello ${
+                        props.user && props.user.name
+                          ? props.user.name.split(" ")[0]
+                          : "there"
+                      }, what would you like to eat`}
+                    />
+                  </ListItem>
+                  {/* {userWelcome.map((info, index) => (
                     <ListItem key={index} disableGutters disablePadding>
+                      <ListItemText primary={info.text} />
                       <Icon color="secondary" fontSize="small" sx={{ mr: 1.5 }}>
                         {info.icon}
                       </Icon>
-                      <ListItemText primary={info.text} />
                     </ListItem>
-                  ))}
+                  ))} */}
                 </List>
               </Box>
 
@@ -438,13 +452,17 @@ const Home = (props) => {
 
               <Box p={2}>
                 <Subtitle
+                  color="secondary"
                   textAlign="left"
                   mt={0}
                   title={
                     menu &&
                     menu.categories &&
-                    menu.categories.map((category) => (
-                      <span>{category.description}, </span>
+                    menu.categories.map((category, index) => (
+                      <span style={{ textTransform: "capitalize" }}>
+                        {category.name}
+                        {menu.categories.length === index + 1 ? "." : ","}{" "}
+                      </span>
                     ))
                   }
                 />

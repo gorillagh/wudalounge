@@ -67,11 +67,7 @@ const wudaLounge = {
         description: "Tilapia Dishes",
         dishes: [],
       },
-      {
-        name: "drinks",
-        description: "Drinks",
-        dishes: [],
-      },
+      { name: "juice", description: "Juices", dishes: [] },
       {
         name: "special",
         description: "Special Picks",

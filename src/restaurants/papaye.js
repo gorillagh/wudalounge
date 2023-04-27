@@ -212,8 +212,8 @@ const papaye = {
   ],
   menu: {
     categories: [
-      { name: "chicken", description: "Chicken", dishes: [] },
-      { name: "burger", description: "Burgers", dishes: [] },
+      { name: "chicken", description: "Chicken Dishes", dishes: [] },
+      { name: "burger", description: "Burger Dishes", dishes: [] },
       { name: "fish", description: "Fish", dishes: [] },
       { name: "extras", description: "Extras", dishes: [] },
       { name: "drink", description: "Drinks", dishes: [] },
