@@ -73,7 +73,7 @@ const DishNavbar = (props) => {
             var scrollDiv = window.document.getElementById(
               e.target.innerText.toLowerCase()
             ).offsetTop;
-            window.scrollTo({ top: scrollDiv - 165, behavior: "smooth" });
+            window.scrollTo({ top: scrollDiv - 180, behavior: "smooth" });
           }}
         >
           {props.restaurantDetails.menu.categories.map((category, index) => (

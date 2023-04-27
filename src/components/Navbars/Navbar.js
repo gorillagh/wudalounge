@@ -266,7 +266,7 @@ function Navbar(props) {
             </Box>
           </Box>
         ) : (
-          <Box sx={{ display: "flex" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography component="a" href="/" sx={{ mr: 1 }}>
               <img
                 src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
@@ -478,12 +478,12 @@ function Navbar(props) {
           left: { md: "20%" },
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth="xl" sx={{ py: 1 }}>
           <Toolbar disableGutters>
             <Typography
               component="a"
               href="/"
-              sx={{ display: { xs: "none", md: "flex" }, mr: 1, py: 1 }}
+              sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
             >
               <img
                 src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
@@ -538,7 +538,7 @@ function Navbar(props) {
             <Typography
               component="a"
               href="/"
-              sx={{ display: { xs: "flex", md: "none" }, mr: 1, py: 1 }}
+              sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
             >
               <img
                 src={`/${props.restaurantDetails.path}/favicon-32x32.png`}
@@ -774,7 +774,7 @@ function Navbar(props) {
 
       <Toolbar
         sx={{
-          background: "rgba(255, 255, 255, 0.85)",
+          background: "rgba(255, 255, 255, 1)",
           py: 4,
         }}
       />
