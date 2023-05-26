@@ -116,13 +116,15 @@ const Orders = (props) => {
     const channel = pusher.subscribe("orderUpdate");
 
     channel.bind("order-updated", (data) => {
-      console.log("New message received:", data);
-      fetchUserOrders();
+      if (data.orderedBy === props.user._id) {
+        console.log("New message received:", data);
+        fetchUserOrders();
+      }
       // Do something with the new message here
     });
 
     return () => {
-      pusher.unsubscribe("newOrder");
+      pusher.unsubscribe("orderUpdate");
       pusher.disconnect();
     };
   }, []);
