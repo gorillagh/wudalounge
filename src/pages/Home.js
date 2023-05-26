@@ -267,7 +267,7 @@ const Home = (props) => {
   };
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={LoadingBackdrop}>
       <Box>
         <Navbar
           setOpenGoogleMap={setOpenGoogleMap}

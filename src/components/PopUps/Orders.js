@@ -221,7 +221,14 @@ const Orders = (props) => {
                   }}
                 >
                   <Box my={2} display="flex" justifyContent="space-between">
-                    <PageTitle my={0} title="My Orders" />
+                    <Box display="flex">
+                      <PageTitle my={0} title="My Orders" />
+                      <IconButton size="small" onClick={fetchUserOrders}>
+                        <Icon color="primary" fontSize="small">
+                          refresh
+                        </Icon>
+                      </IconButton>
+                    </Box>
                     <Icon
                       color="error"
                       fontSize="large"
@@ -233,6 +240,7 @@ const Orders = (props) => {
                 </AppBar>
                 <Toolbar sx={{ backgroundColor: "transparent" }} />
               </Box>
+
               {orders && orders.length ? (
                 orders.map((order, index) => (
                   <Box
