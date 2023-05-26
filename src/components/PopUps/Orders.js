@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Pusher from "pusher-js";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Icon from "@mui/material/Icon";
@@ -106,6 +107,25 @@ const Orders = (props) => {
   useEffect(() => {
     if (props.open === true) fetchUserOrders();
   }, [props.open]);
+
+  useEffect(() => {
+    const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
+      cluster: process.env.REACT_APP_PUSHER_CLUSTER,
+      encrypted: true,
+    });
+    const channel = pusher.subscribe("orderUpdate");
+
+    channel.bind("order-updated", (data) => {
+      console.log("New message received:", data);
+      fetchUserOrders();
+      // Do something with the new message here
+    });
+
+    return () => {
+      pusher.unsubscribe("newOrder");
+      pusher.disconnect();
+    };
+  }, []);
 
   const formatDate = (date) => {
     const d = new Date(date);

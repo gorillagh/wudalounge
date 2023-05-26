@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, lazy, Suspense } from "react";
 import Box from "@mui/material/Box";
 
 import Subtitle from "../components/Typography/Subtitle";
@@ -16,10 +16,10 @@ import { getDishes } from "../serverFunctions/dish";
 import { Container } from "@mui/system";
 import Dish from "../components/PopUps/Dish";
 import DishCard from "../components/Cards/DishCard";
-import LoadingBackdrop from "../components/Feedbacks/LoadingBackdrop";
+// import LoadingBackdrop from "../components/Feedbacks/LoadingBackdrop";
 import DishNavbar from "../components/Navbars/DishNavbar";
 import ViewBasket from "../components/Navbars/ViewBasket";
-import Basket from "../components/PopUps/Basket";
+// import Basket from "../components/PopUps/Basket";
 
 import Address from "../components/PopUps/Address";
 import PhoneNumber from "../components/PopUps/PhoneNumber";
@@ -35,6 +35,11 @@ import Search from "../components/PopUps/Search";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import ActionButton from "../components/Buttons/ActionButton";
+
+const Basket = lazy(() => import("../components/PopUps/Basket"));
+const LoadingBackdrop = lazy(() =>
+  import("../components/Feedbacks/LoadingBackdrop")
+);
 
 const infoList = [
   {
@@ -262,37 +267,38 @@ const Home = (props) => {
   };
 
   return (
-    <Box>
-      <Navbar
-        setOpenGoogleMap={setOpenGoogleMap}
-        selectedBranch={selectedBranch}
-        restaurantDetails={props.restaurantDetails}
-        setUser={props.setUser}
-        user={props.user}
-        setOpenPhoneNumber={setOpenPhoneNumber}
-        setOpenProfile={setOpenProfile}
-        setOpenFavorites={setOpenFavorites}
-        setOpenOrders={setOpenOrders}
-        setOpenAccount={setOpenAccount}
-        setOpenAboutUs={setOpenAboutUs}
-        setOpenSearch={setOpenSearch}
-      />
-      <Search
-        open={openSearch}
-        onClose={() => setOpenSearch(false)}
-        dishes={dishes}
-        setOpenDishModal={setOpenDishModal}
-        setSelectedDish={setSelectedDish}
-        cart={cart}
-        setOpenBasket={setOpenBasket}
-      />
-      <DishNavbar
-        selectedBranch={selectedBranch}
-        restaurantDetails={props.restaurantDetails}
-        scrollTabValue={scrollTabValue}
-        setScrollTabValue={setScrollTabValue}
-      />
-      {/* <Container
+    <Suspense fallback={<div>Loading...</div>}>
+      <Box>
+        <Navbar
+          setOpenGoogleMap={setOpenGoogleMap}
+          selectedBranch={selectedBranch}
+          restaurantDetails={props.restaurantDetails}
+          setUser={props.setUser}
+          user={props.user}
+          setOpenPhoneNumber={setOpenPhoneNumber}
+          setOpenProfile={setOpenProfile}
+          setOpenFavorites={setOpenFavorites}
+          setOpenOrders={setOpenOrders}
+          setOpenAccount={setOpenAccount}
+          setOpenAboutUs={setOpenAboutUs}
+          setOpenSearch={setOpenSearch}
+        />
+        <Search
+          open={openSearch}
+          onClose={() => setOpenSearch(false)}
+          dishes={dishes}
+          setOpenDishModal={setOpenDishModal}
+          setSelectedDish={setSelectedDish}
+          cart={cart}
+          setOpenBasket={setOpenBasket}
+        />
+        <DishNavbar
+          selectedBranch={selectedBranch}
+          restaurantDetails={props.restaurantDetails}
+          scrollTabValue={scrollTabValue}
+          setScrollTabValue={setScrollTabValue}
+        />
+        {/* <Container
         maxWidth="xl"
         sx={{
           bgcolor: "#fff",
@@ -344,63 +350,63 @@ const Home = (props) => {
         </Box>
       </Container> */}
 
-      <Grid
-        container
-        justifyContent="left"
-        sx={{
-          position: "relative",
-          color: "#fff",
-          p: 0,
-          backgroundColor: "#000",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundImage: "url(/hero1.webp)",
-          borderBottomRightRadius: 8,
-          borderBottomLeftRadius: 8,
-          mb: 2,
-        }}
-      >
-        <Grid item xs={12}>
-          <Box>
-            <Carousel
-              showIndicators={true}
-              autoPlay
-              centerMode={false}
-              infiniteLoop
-              interval={4000}
-              showArrows={false}
-              showStatus={false}
-              showThumbs={false}
-              swipeable
-              emulateTouch
-            >
-              <Box textAlign="left" p={2}>
-                <Box display="flex">
-                  <Subtitle
-                    color="secondary"
-                    mt={0}
-                    // title={`Hello ${
-                    //   props.user && props.user.name ? props.user.name : "there"
-                    // },`}
-                    title=<span>
-                      The way to your heart is through your stomach{" "}
-                      <Icon fontSize="small">mood</Icon>
-                    </span>
-                    mr={1}
-                  />
-                </Box>
-                <List sx={{ p: 0 }} disablePadding>
-                  <ListItem disableGutters disablePadding>
-                    <ListItemText
-                      primary={`Hello ${
-                        props.user && props.user.name
-                          ? props.user.name.split(" ")[0]
-                          : "there"
-                      }, what would you like to eat`}
+        <Grid
+          container
+          justifyContent="left"
+          sx={{
+            position: "relative",
+            color: "#fff",
+            p: 0,
+            backgroundColor: "#000",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundImage: "url(/hero1.webp)",
+            borderBottomRightRadius: 8,
+            borderBottomLeftRadius: 8,
+            mb: 2,
+          }}
+        >
+          <Grid item xs={12}>
+            <Box>
+              <Carousel
+                showIndicators={true}
+                autoPlay
+                centerMode={false}
+                infiniteLoop
+                interval={4000}
+                showArrows={false}
+                showStatus={false}
+                showThumbs={false}
+                swipeable
+                emulateTouch
+              >
+                <Box textAlign="left" p={2}>
+                  <Box display="flex">
+                    <Subtitle
+                      color="secondary"
+                      mt={0}
+                      // title={`Hello ${
+                      //   props.user && props.user.name ? props.user.name : "there"
+                      // },`}
+                      title=<span>
+                        The way to your heart is through your stomach{" "}
+                        <Icon fontSize="small">mood</Icon>
+                      </span>
+                      mr={1}
                     />
-                  </ListItem>
-                  {/* {userWelcome.map((info, index) => (
+                  </Box>
+                  <List sx={{ p: 0 }} disablePadding>
+                    <ListItem disableGutters disablePadding>
+                      <ListItemText
+                        primary={`Hello ${
+                          props.user && props.user.name
+                            ? props.user.name.split(" ")[0]
+                            : "there"
+                        }, what would you like to eat`}
+                      />
+                    </ListItem>
+                    {/* {userWelcome.map((info, index) => (
                     <ListItem key={index} disableGutters disablePadding>
                       <ListItemText primary={info.text} />
                       <Icon color="secondary" fontSize="small" sx={{ mr: 1.5 }}>
@@ -408,254 +414,271 @@ const Home = (props) => {
                       </Icon>
                     </ListItem>
                   ))} */}
-                </List>
-              </Box>
+                  </List>
+                </Box>
 
-              {menu &&
-                menu.categories &&
-                menu.categories.map((category, index) =>
-                  category.dishes.map((dish, index) => (
-                    <Box
-                      position="relative"
-                      key={index}
-                      display="flex"
-                      width="100%"
-                      height="40vh"
-                    >
-                      <Box position="absolute" top={12} right={12}>
-                        {" "}
-                        <ActionButton
-                          my={0}
-                          size="small"
-                          fullWidth={false}
-                          text={`GHC${(
-                            dish.price -
-                            dish.price * discount
-                          ).toFixed(2)}`}
-                          rightIcon="add_shopping_cart"
-                          onClick={() => handleDishSelect(dish)}
+                {menu &&
+                  menu.categories &&
+                  menu.categories.map((category, index) =>
+                    category.dishes.map((dish, index) => (
+                      <Box
+                        position="relative"
+                        key={index}
+                        display="flex"
+                        width="100%"
+                        height="40vh"
+                      >
+                        <Box position="absolute" top={12} right={12}>
+                          {" "}
+                          <ActionButton
+                            my={0}
+                            size="small"
+                            fullWidth={false}
+                            text={`GHC${(
+                              dish.price -
+                              dish.price * discount
+                            ).toFixed(2)}`}
+                            rightIcon="add_shopping_cart"
+                            onClick={() => handleDishSelect(dish)}
+                          />
+                        </Box>
+
+                        <img
+                          src={dish.image}
+                          alt="dish"
+                          width="100%"
+                          style={{
+                            borderBottomLeftRadius: "12px",
+                            borderBottomRightRadius: "12px",
+                          }}
                         />
                       </Box>
-
-                      <img
-                        src={dish.image}
-                        alt="dish"
-                        width="100%"
-                        style={{
-                          borderBottomLeftRadius: "12px",
-                          borderBottomRightRadius: "12px",
-                        }}
-                      />
-                    </Box>
-                  ))
-                )}
-
-              <Box p={2}>
-                <Subtitle
-                  color="secondary"
-                  textAlign="left"
-                  mt={0}
-                  title={
-                    menu &&
-                    menu.categories &&
-                    menu.categories.map((category, index) => (
-                      <span style={{ textTransform: "capitalize" }}>
-                        {category.name}
-                        {menu.categories.length === index + 1 ? "." : ","}{" "}
-                      </span>
                     ))
-                  }
-                />
-                <List disablePadding>
-                  {infoList.map((info, index) => (
-                    <ListItem key={index} disableGutters disablePadding>
-                      <Icon color="secondary" fontSize="small" sx={{ mr: 1.5 }}>
-                        {info.icon}
-                      </Icon>
-                      <ListItemText primary={info.text} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
-            </Carousel>
-          </Box>
-        </Grid>
-      </Grid>
-      <Box
-        sx={{
-          p: 2,
-          // cursor: "pointer",
-          borderRadius: "12px",
-          background: "rgba(255,255,255, 0.6)",
+                  )}
 
-          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
-          webkitBackdropFilter: "blur(5px)",
-          border: "1px solid rgba(255, 255, 255, 0.3)",
-        }}
-      >
-        {menu &&
-          menu.categories &&
-          menu.categories.map((category, index) => {
-            if (category.dishes.length) {
-              return (
-                <Box key={index}>
+                <Box p={2}>
                   <Subtitle
-                    id={category.name}
+                    color="secondary"
+                    textAlign="left"
                     mt={0}
-                    mb={3}
-                    title={category.description}
-                    fontWeight={700}
+                    title={
+                      menu &&
+                      menu.categories &&
+                      menu.categories.map((category, index) => (
+                        <span style={{ textTransform: "capitalize" }}>
+                          {category.name}
+                          {menu.categories.length === index + 1
+                            ? "."
+                            : ","}{" "}
+                        </span>
+                      ))
+                    }
                   />
-                  <DishCard
-                    dishes={category.dishes}
-                    handleDishSelect={handleDishSelect}
-                    discount={discount}
-                    cart={cart}
-                  />
-                  <Divider sx={{ my: 3 }} />
+                  <List disablePadding>
+                    {infoList.map((info, index) => (
+                      <ListItem key={index} disableGutters disablePadding>
+                        <Icon
+                          color="secondary"
+                          fontSize="small"
+                          sx={{ mr: 1.5 }}
+                        >
+                          {info.icon}
+                        </Icon>
+                        <ListItemText primary={info.text} />
+                      </ListItem>
+                    ))}
+                  </List>
                 </Box>
-              );
-            }
-          })}
-      </Box>
+              </Carousel>
+            </Box>
+          </Grid>
+        </Grid>
+        <Box
+          sx={{
+            p: 2,
+            // cursor: "pointer",
+            borderRadius: "12px",
+            background: "rgba(255,255,255, 0.6)",
 
-      {selectedDish ? (
-        <Dish
-          id="#targetElementId"
-          open={openDishModal}
-          dish={selectedDish}
-          setDish={setSelectedDish}
-          discount={discount}
-          onClose={handleDishClose}
-          user={props.user && props.user}
-          setLoadUser={props.setLoadUser}
-          setUser={props.setUser && props.setUser}
+            boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+            webkitBackdropFilter: "blur(5px)",
+            border: "1px solid rgba(255, 255, 255, 0.3)",
+          }}
+        >
+          {menu &&
+            menu.categories &&
+            menu.categories.map((category, index) => {
+              if (category.dishes.length) {
+                return (
+                  <Box key={index}>
+                    <Subtitle
+                      id={category.name}
+                      mt={0}
+                      mb={3}
+                      title={category.description}
+                      fontWeight={700}
+                    />
+                    <DishCard
+                      dishes={category.dishes}
+                      handleDishSelect={handleDishSelect}
+                      discount={discount}
+                      cart={cart}
+                    />
+                    <Divider sx={{ my: 3 }} />
+                  </Box>
+                );
+              }
+            })}
+        </Box>
+
+        {selectedDish ? (
+          <Dish
+            id="#targetElementId"
+            open={openDishModal}
+            dish={selectedDish}
+            setDish={setSelectedDish}
+            discount={discount}
+            onClose={handleDishClose}
+            user={props.user && props.user}
+            setLoadUser={props.setLoadUser}
+            setUser={props.setUser && props.setUser}
+            cart={cart}
+            setCart={setCart}
+            setAlertSnackbar={setAlertSnackbar}
+            setOpenPhoneNumber={setOpenPhoneNumber}
+            // ref={targetRef}
+          />
+        ) : (
+          ""
+        )}
+        {cart && cart.dishes && cart.dishes.length ? (
+          <ViewBasket
+            cartTotal={cartTotal}
+            cartTotalLoading={cartTotalLoading}
+            discount={discount}
+            setOpenBasket={setOpenBasket}
+            onClick={() => {
+              setLoading(true);
+              setTimeout(() => {
+                // Step 5: Update loading state to false
+                setLoading(false);
+
+                // Step 7: Display modal content
+                setOpenBasket(true);
+              }, 1000);
+            }}
+            cart={cart}
+          />
+        ) : (
+          ""
+        )}
+        <Basket
+          selectedBranch={selectedBranch}
+          setSelectedBranch={setSelectedBranch}
+          restaurantDetails={props.restaurantDetails}
+          pinAddress={pinAddress}
+          setPinAddress={setPinAddress}
           cart={cart}
           setCart={setCart}
-          setAlertSnackbar={setAlertSnackbar}
-          setOpenPhoneNumber={setOpenPhoneNumber}
-          // ref={targetRef}
-        />
-      ) : (
-        ""
-      )}
-      {cart && cart.dishes && cart.dishes.length ? (
-        <ViewBasket
-          cartTotal={cartTotal}
-          cartTotalLoading={cartTotalLoading}
           discount={discount}
-          onClick={() => setOpenBasket(true)}
-          cart={cart}
+          open={openBasket}
+          onClose={() => setOpenBasket(false)}
+          cartTotal={cartTotal}
+          setCartTotal={setCartTotal}
+          setOpenDishModal={setOpenDishModal}
+          setSelectedDish={setSelectedDish}
+          setOpenAddress={setOpenAddress}
+          setOpenPhoneNumber={setOpenPhoneNumber}
+          user={props.user}
+          setAlertSnackbar={setAlertSnackbar}
+          setOpenOrders={setOpenOrders}
         />
-      ) : (
-        ""
-      )}
-      <Basket
-        selectedBranch={selectedBranch}
-        setSelectedBranch={setSelectedBranch}
-        restaurantDetails={props.restaurantDetails}
-        pinAddress={pinAddress}
-        setPinAddress={setPinAddress}
-        cart={cart}
-        setCart={setCart}
-        discount={discount}
-        open={openBasket}
-        onClose={() => setOpenBasket(false)}
-        cartTotal={cartTotal}
-        setCartTotal={setCartTotal}
-        setOpenDishModal={setOpenDishModal}
-        setSelectedDish={setSelectedDish}
-        setOpenAddress={setOpenAddress}
-        setOpenPhoneNumber={setOpenPhoneNumber}
-        user={props.user}
-        setAlertSnackbar={setAlertSnackbar}
-        setOpenOrders={setOpenOrders}
-      />
 
-      <PhoneNumber
-        open={openPhoneNumber}
-        onClose={() => setOpenPhoneNumber(false)}
-        user={props.user}
-        setUser={props.setUser}
-        setOpenAddress={setOpenAddress}
-        setAlertSnackbar={setAlertSnackbar}
-      />
-      {props.user ? (
-        <>
-          <Address
-            open={openAddress}
-            setPinAddress={setPinAddress}
-            onClose={() => setOpenAddress(false)}
-            user={props.user}
-            setUser={props.setUser}
-            setAlertSnackbar={setAlertSnackbar}
-          />
-          <Profile
-            open={openProfile}
-            onClose={() => setOpenProfile(false)}
-            user={props.user}
-            setUser={props.setUser}
-            setAlertSnackbar={setAlertSnackbar}
-          />
-          <Favorites
-            open={openFavorites}
-            onClose={() => setOpenFavorites(false)}
-            user={props.user}
-            favorites={favorites}
-            discount={discount}
-            setUser={props.setUser}
-            setAlertSnackbar={setAlertSnackbar}
-            setOpenDishModal={setOpenDishModal}
-            setSelectedDish={setSelectedDish}
-            cart={cart}
-            setCart={setCart}
-            setOpenBasket={setOpenBasket}
-          />
-          <Orders
-            open={openOrders}
-            onClose={() => setOpenOrders(false)}
-            user={props.user}
-            setCart={setCart}
-            setOpenBasket={setOpenBasket}
-            cart={cart}
-          />
-          <Account
-            open={openAccount}
-            onClose={() => setOpenAccount(false)}
-            user={props.user}
-            setOpenAddress={setOpenAddress}
-          />
-        </>
-      ) : (
-        ""
-      )}
-      <AboutUs
-        restaurantDetails={props.restaurantDetails}
-        selectedBranch={selectedBranch}
-        setSelectedBranch={setSelectedBranch}
-        open={openAboutUs}
-        onClose={() => setOpenAboutUs(false)}
-      />
-      <LoadingBackdrop open={loading} />
-      <AlertSnackbar
-        open={alertSnackbar.open}
-        onClose={() =>
-          setAlertSnackbar((prevState) => ({ ...prevState, open: false }))
-        }
-        text={alertSnackbar.text}
-        severity={alertSnackbar.severity}
-        variant={alertSnackbar.variant}
-        autoHideDuration={alertSnackbar.autoHideDuration}
-      />
-      <GoogleMap
-        restaurantDetails={props.restaurantDetails}
-        setRestaurantDetails={props.setRestaurantDetails}
-        selectedBranch={selectedBranch}
-        setSelectedBranch={setSelectedBranch}
-        open={openGoogleMap}
-        onClose={() => setOpenGoogleMap(false)}
-      />
-    </Box>
+        <PhoneNumber
+          open={openPhoneNumber}
+          onClose={() => setOpenPhoneNumber(false)}
+          user={props.user}
+          setUser={props.setUser}
+          setOpenAddress={setOpenAddress}
+          setAlertSnackbar={setAlertSnackbar}
+        />
+        {props.user ? (
+          <>
+            <Address
+              open={openAddress}
+              setPinAddress={setPinAddress}
+              onClose={() => setOpenAddress(false)}
+              user={props.user}
+              setUser={props.setUser}
+              setAlertSnackbar={setAlertSnackbar}
+            />
+            <Profile
+              open={openProfile}
+              onClose={() => setOpenProfile(false)}
+              user={props.user}
+              setUser={props.setUser}
+              setAlertSnackbar={setAlertSnackbar}
+            />
+            <Favorites
+              open={openFavorites}
+              onClose={() => setOpenFavorites(false)}
+              user={props.user}
+              favorites={favorites}
+              discount={discount}
+              setUser={props.setUser}
+              setAlertSnackbar={setAlertSnackbar}
+              setOpenDishModal={setOpenDishModal}
+              setSelectedDish={setSelectedDish}
+              cart={cart}
+              setCart={setCart}
+              setOpenBasket={setOpenBasket}
+            />
+            <Orders
+              open={openOrders}
+              onClose={() => setOpenOrders(false)}
+              user={props.user}
+              setCart={setCart}
+              setOpenBasket={setOpenBasket}
+              cart={cart}
+            />
+            <Account
+              open={openAccount}
+              onClose={() => setOpenAccount(false)}
+              user={props.user}
+              setOpenAddress={setOpenAddress}
+            />
+          </>
+        ) : (
+          ""
+        )}
+        <AboutUs
+          restaurantDetails={props.restaurantDetails}
+          selectedBranch={selectedBranch}
+          setSelectedBranch={setSelectedBranch}
+          open={openAboutUs}
+          onClose={() => setOpenAboutUs(false)}
+        />
+        <LoadingBackdrop open={loading} />
+        <AlertSnackbar
+          open={alertSnackbar.open}
+          onClose={() =>
+            setAlertSnackbar((prevState) => ({ ...prevState, open: false }))
+          }
+          text={alertSnackbar.text}
+          severity={alertSnackbar.severity}
+          variant={alertSnackbar.variant}
+          autoHideDuration={alertSnackbar.autoHideDuration}
+        />
+        <GoogleMap
+          restaurantDetails={props.restaurantDetails}
+          setRestaurantDetails={props.setRestaurantDetails}
+          selectedBranch={selectedBranch}
+          setSelectedBranch={setSelectedBranch}
+          open={openGoogleMap}
+          onClose={() => setOpenGoogleMap(false)}
+        />
+      </Box>
+    </Suspense>
   );
 };
 

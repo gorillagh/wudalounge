@@ -1,9 +1,12 @@
+import React, { useState, useEffect } from "react";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
-import React from "react";
+
 import ActionButton from "../Buttons/ActionButton";
 import CircularLoading from "../Feedbacks/CircularLoading";
+import loadingSpinner from "../../images/loadingSpinner.svg";
 
 const ViewBasket = (props) => {
+  const [loading, setLoading] = useState(false);
   return (
     <Box>
       <AppBar
@@ -21,7 +24,17 @@ const ViewBasket = (props) => {
         }}
       >
         <ActionButton
-          onClick={props.onClick}
+          // onClick={props.onClick}
+          onClick={() => {
+            setLoading(true);
+            setTimeout(() => {
+              // Step 5: Update loading state to false
+              setLoading(false);
+
+              // Step 7: Display modal content
+              props.setOpenBasket(true);
+            }, 1000);
+          }}
           disabled={props.cartTotalLoading}
           my={0}
           py={1}
@@ -33,21 +46,33 @@ const ViewBasket = (props) => {
                   <CircularLoading size={20} thickness={6} />
                 </Typography>
               ) : (
-                <Typography textAlign="center" fontWeight="bold">
-                  View basket GHC
-                  {props.cartTotal -
-                    props.cartTotal * props.discount +
-                    (props.cart.deliveryMode &&
-                    props.cart.deliveryMode === "delivery" &&
-                    props.cart.riderTip
-                      ? props.cart.riderTip
-                      : 0) +
-                    (props.cart.deliveryMode &&
-                    props.cart.deliveryMode === "delivery" &&
-                    props.cart.deliveryFee
-                      ? props.cart.deliveryFee
-                      : 0)}{" "}
-                </Typography>
+                <>
+                  <Typography textAlign="center" fontWeight="bold">
+                    View basket GHC
+                    {props.cartTotal -
+                      props.cartTotal * props.discount +
+                      (props.cart.deliveryMode &&
+                      props.cart.deliveryMode === "delivery" &&
+                      props.cart.riderTip
+                        ? props.cart.riderTip
+                        : 0) +
+                      (props.cart.deliveryMode &&
+                      props.cart.deliveryMode === "delivery" &&
+                      props.cart.deliveryFee
+                        ? props.cart.deliveryFee
+                        : 0)}{" "}
+                  </Typography>
+                  {loading ? (
+                    <img
+                      style={{ height: "25px", width: "25px" }}
+                      src={loadingSpinner}
+                      alt="loading-spinner"
+                      width="100%"
+                    />
+                  ) : (
+                    ""
+                  )}
+                </>
               )}
             </>
           }

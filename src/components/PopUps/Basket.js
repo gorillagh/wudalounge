@@ -256,26 +256,10 @@ const Basket = (props) => {
 
   return (
     <Modal
-      // hideBackdrop
       closeAfterTransition={true}
       open={props.open}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      // slots={{
-      //   backdrop: () => (
-      //
-      //       <Box
-      //         sx={{
-      //           background: "rgba(0, 0, 0, 0.05)",
-      //           backdropFilter: "blur(5.8px)",
-      //           "-webkit-backdrop-filter": "blur(5.8px)",
-      //           width: "100%",
-      //           height: "100%",
-      //         }}
-      //         onClick={props.onClose}
-      //       />
-      //   ),
-      // }}
       ref={containerRef}
       sx={{ width: { md: "60%" }, left: { md: "20%" } }}
     >
@@ -286,7 +270,6 @@ const Basket = (props) => {
         direction="left"
         mountOnEnter
         unmountOnExit
-        //   timeout={300}
       >
         <Box
           onClick={(e) => {
@@ -301,15 +284,7 @@ const Basket = (props) => {
             height: "100vh",
           }}
         >
-          <Box
-            ref={scrollRef}
-            sx={style}
-            //   onClick={() => {
-            //     if (props.cart && props.cart.dishes && props.cart.dishes.length)
-            //       return;
-            //     props.onClose();
-            //   }}
-          >
+          <Box ref={scrollRef} sx={style}>
             <Box>
               <AppBar
                 position="fixed"

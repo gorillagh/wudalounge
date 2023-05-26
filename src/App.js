@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, lazy, Suspense } from "react";
+
 import {
   ThemeProvider,
   createTheme,
@@ -12,17 +13,16 @@ import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { signOut } from "firebase/auth";
+import { currentUser } from "./serverFunctions/auth";
+
 import Home from "./pages/Home";
 
 import NotFound from "./pages/NotFound";
 
 import Footer from "./components/Footers/Footer";
 
-import { currentUser } from "./serverFunctions/auth";
-import LoadingBackdrop from "./components/Feedbacks/LoadingBackdrop";
 import AdminRoute from "./components/Routes/AdminRoute";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-import { getUser } from "./serverFunctions/user";
 import AdminLogin from "./pages/Admin";
 import Orders from "./pages/Admin/Orders";
 import Menu from "./pages/Admin/Menu";
@@ -38,7 +38,10 @@ import { Helmet } from "react-helmet";
 import wudaLounge from "./restaurants/wudaLounge";
 import tankos from "./restaurants/tankos";
 import papaye from "./restaurants/papaye";
-
+import LoadingBackdrop from "./components/Feedbacks/LoadingBackdrop";
+// const LoadingBackdrop = lazy(() =>
+//   import("./components/Feedbacks/LoadingBackdrop")
+// );
 const App = () => {
   const dispatch = useDispatch();
   const [user, setUser] = useState(null);
@@ -113,6 +116,7 @@ const App = () => {
   }, [dispatch, loadUser]);
 
   return (
+    // <Suspense fallback={<div>Loading...</div>}>
     <ThemeProvider theme={theme}>
       <ToastContainer style={{ fontSize: "12px", fontWeight: "bold" }} />
       <Helmet>
@@ -339,6 +343,7 @@ const App = () => {
       <Footer restaurantDetails={restaurantDetails} />
       <LoadingBackdrop open={loading} />
     </ThemeProvider>
+    // </Suspense>
   );
 };
 
