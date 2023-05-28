@@ -121,9 +121,11 @@ const Orders = (props) => {
       if (data.orderedBy === props.user._id) {
         console.log("New message received:", data);
         if (orders && orders.length) {
-          const index =
-            orders && orders.findIndex((order) => order._id === data._id);
           setOrders((prevState) => {
+            const index = prevState.findIndex(
+              (order) => order._id === data._id
+            );
+            console.log("index--->", index);
             prevState[index] = data;
             return { ...prevState };
           });
