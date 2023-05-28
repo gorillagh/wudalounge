@@ -26,6 +26,7 @@ import {
 } from "@mui/material";
 import ActionButton from "../Buttons/ActionButton";
 import IssueBox from "./IssueBox";
+import trackingRipple from "../../images/trackingRipple.svg";
 
 const style = {
   position: "absolute",
@@ -94,15 +95,6 @@ const Orders = (props) => {
   const [openIssueBox, setOpenIssueBox] = useState(false);
   const [beepColor, setBeepColor] = useState("#000");
 
-  const beeping = () => {
-    let colorIndex = 0;
-    const colors = ["#fff", "primary.light"];
-    setInterval(() => {
-      setBeepColor(colors[colorIndex]);
-      colorIndex = (colorIndex + 1) % colors.length;
-    }, 500);
-  };
-
   const fetchUserOrders = async () => {
     try {
       setLoading(true);
@@ -116,7 +108,6 @@ const Orders = (props) => {
   };
   useEffect(() => {
     if (props.open === true) fetchUserOrders();
-    beeping();
   }, [props.open]);
 
   useEffect(() => {
@@ -290,9 +281,12 @@ const Orders = (props) => {
                             justifyContent="space-between"
                             alignItems="center"
                           >
-                            <Icon sx={{ color: beepColor }} fontSize="small">
-                              fiber_manual_record
-                            </Icon>
+                            <img
+                              src={trackingRipple}
+                              alt="tracking"
+                              style={{ height: "30px", width: "30px" }}
+                            />
+
                             <Typography
                               color="info.main"
                               variant="body2"
