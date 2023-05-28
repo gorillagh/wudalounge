@@ -92,6 +92,16 @@ const Orders = (props) => {
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState(null);
   const [openIssueBox, setOpenIssueBox] = useState(false);
+  const [beepColor, setBeepColor] = useState("#000");
+
+  const beeping = () => {
+    let colorIndex = 0;
+    const colors = ["#fff", "primary.light"];
+    setInterval(() => {
+      setBeepColor(colors[colorIndex]);
+      colorIndex = (colorIndex + 1) % colors.length;
+    }, 500);
+  };
 
   const fetchUserOrders = async () => {
     try {
@@ -106,6 +116,7 @@ const Orders = (props) => {
   };
   useEffect(() => {
     if (props.open === true) fetchUserOrders();
+    beeping();
   }, [props.open]);
 
   useEffect(() => {
@@ -273,34 +284,44 @@ const Orders = (props) => {
                               )}{" "}
                           {formatDate(order.createdAt).time}
                         </Typography>
-                        <Chip
-                          size="small"
-                          label={
-                            <Typography variant="body2" fontWeight={500}>
-                              {order.orderStatus}
+                        {order.orderStatus === "dispatched" ? (
+                          <Box
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                          >
+                            <Icon sx={{ color: beepColor }} fontSize="small">
+                              fiber_manual_record
+                            </Icon>
+                            <Typography
+                              color="info.main"
+                              variant="body2"
+                              fontWeight="bold"
+                            >
+                              Track
                             </Typography>
-                          }
-                          // color={
-                          //   order.orderStatus === "processing"
-                          //     ? "secondary"
-                          //     : order.orderStatus === "dispatched"
-                          //     ? "primary"
-                          //     : order.orderStatus === "completed"
-                          //     ? "success"
-                          //     : "error"
-                          // }
-                          sx={{
-                            color: "#fff",
-                            backgroundColor:
-                              order.orderStatus === "processing"
-                                ? "secondary.light"
-                                : order.orderStatus === "dispatched"
-                                ? "primary.light"
-                                : order.orderStatus === "completed"
-                                ? "success.light"
-                                : "error.light",
-                          }}
-                        />
+                          </Box>
+                        ) : (
+                          <Chip
+                            size="small"
+                            label={
+                              <Typography variant="body2" fontWeight={500}>
+                                {order.orderStatus}
+                              </Typography>
+                            }
+                            sx={{
+                              color: "#fff",
+                              backgroundColor:
+                                order.orderStatus === "processing"
+                                  ? "secondary.light"
+                                  : order.orderStatus === "dispatched"
+                                  ? "primary.light"
+                                  : order.orderStatus === "completed"
+                                  ? "success.light"
+                                  : "error.light",
+                            }}
+                          />
+                        )}
                       </Box>
                       {order.dishes.map((dish, index) => (
                         <Grid key={index} container my={1} columnSpacing={1}>
@@ -442,16 +463,22 @@ const Orders = (props) => {
                             )}
                           </Grid>
                         </Grid>
-                        <Typography
-                          fontWeight={500}
-                          textAlign="right"
-                          variant="body2"
-                          color="error.dark"
-                          mt={1}
-                          onClick={() => setOpenIssueBox(true)}
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="center"
                         >
-                          Report an issue
-                        </Typography>
+                          <Typography
+                            fontWeight={500}
+                            textAlign="right"
+                            variant="body2"
+                            color="error.dark"
+                            mt={1}
+                            onClick={() => setOpenIssueBox(true)}
+                          >
+                            Report an issue
+                          </Typography>
+                        </Box>
                       </AccordionDetails>
                     </Accordion>
                   </Box>

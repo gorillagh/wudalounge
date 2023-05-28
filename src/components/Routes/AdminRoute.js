@@ -19,7 +19,7 @@ const AdminRoute = (props) => {
     if (user && user.token) {
       currentAdmin(user.token)
         .then((res) => {
-          setOk(true);
+          res && setOk(true);
           console.log("Current admin -->", res);
         })
         .catch((err) => {

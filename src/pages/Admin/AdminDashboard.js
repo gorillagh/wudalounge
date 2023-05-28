@@ -109,12 +109,13 @@ const AdminDashboard = (props) => {
 
   return (
     <div>
-      <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Subtitle
-          title={`Hello ${props.user.name.split(" ")[0]},`}
-          my={1}
-          mx={1}
-        />
+      <Box
+        p={1}
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Subtitle title={`Hello ${props.user.name.split(" ")[0]},`} my={1} />
         <IconButton
           size="small"
           onClick={() => {
