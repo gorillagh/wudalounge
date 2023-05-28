@@ -136,7 +136,7 @@ const Orders = (props) => {
       pusher.unsubscribe("orderUpdate");
       pusher.disconnect();
     };
-  }, []);
+  }, [orders]);
 
   const formatDate = (date) => {
     const d = new Date(date);
