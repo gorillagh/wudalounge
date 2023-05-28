@@ -120,7 +120,14 @@ const Orders = (props) => {
     channel.bind("order-updated", (data) => {
       if (data.orderedBy === props.user._id) {
         console.log("New message received:", data);
-        fetchUserOrders();
+        if (orders && orders.length) {
+          const index =
+            orders && orders.findIndex((order) => order._id === data._id);
+          setOrders((prevState) => {
+            prevState[index] = data;
+            return { ...prevState };
+          });
+        }
       }
       // Do something with the new message here
     });
