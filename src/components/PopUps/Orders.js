@@ -134,7 +134,7 @@ const Orders = (props) => {
 
     return () => {
       pusher.unsubscribe("orderUpdate");
-      pusher.disconnect();
+      // pusher.disconnect();
     };
   }, [orders]);
 
