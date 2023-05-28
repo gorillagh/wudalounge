@@ -25,7 +25,7 @@ const wudaLounge = {
       ],
       contact: {
         email: "support@wudalounge.com",
-        phoneNumber: "+233244885739",
+        phoneNumber: "+233240298910",
       },
     },
   ],
