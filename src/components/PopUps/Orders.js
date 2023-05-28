@@ -124,7 +124,7 @@ const Orders = (props) => {
             open: true,
             text: `Order (Id: ${data.reference.slice(-9)}) dispatched!`,
             severity: "success",
-            variant: "outlined",
+            variant: "filled",
             autoHideDuration: 5000,
           });
         }
