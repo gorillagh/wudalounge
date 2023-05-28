@@ -281,12 +281,6 @@ const Orders = (props) => {
                             justifyContent="space-between"
                             alignItems="center"
                           >
-                            <img
-                              src={trackingRipple}
-                              alt="tracking"
-                              style={{ height: "30px", width: "30px" }}
-                            />
-
                             <Typography
                               color="info.main"
                               variant="body2"
@@ -294,6 +288,11 @@ const Orders = (props) => {
                             >
                               Track
                             </Typography>
+                            <img
+                              src={trackingRipple}
+                              alt="tracking"
+                              style={{ height: "25px", width: "25px" }}
+                            />
                           </Box>
                         ) : (
                           <Chip
