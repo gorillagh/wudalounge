@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef, lazy, Suspense } from "react";
+import Pusher from "pusher-js";
+
 import Box from "@mui/material/Box";
 
 import Subtitle from "../components/Typography/Subtitle";
@@ -143,6 +145,34 @@ const Home = (props) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
+      cluster: process.env.REACT_APP_PUSHER_CLUSTER,
+      encrypted: true,
+    });
+    const channel = pusher.subscribe("orderUpdate");
+    channel.bind("order-updated", async (data) => {
+      if (data.orderedBy === props.user._id) {
+        console.log("New message received:", data);
+        if (data.orderStatus === "dispatched") {
+          setAlertSnackbar({
+            open: true,
+            text: `Order (Id: ${data.reference.slice(-9)}) dispatched!`,
+            severity: "success",
+            variant: "outlined",
+            autoHideDuration: 5000,
+          });
+        }
+      }
+      // Do something with the new message here
+    });
+
+    return () => {
+      pusher.unsubscribe("orderUpdate");
+      pusher.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const openTime = new Date().setHours(11, 0, 0); // set opening time to 10:00am

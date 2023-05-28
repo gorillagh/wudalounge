@@ -93,7 +93,6 @@ const Orders = (props) => {
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState(null);
   const [openIssueBox, setOpenIssueBox] = useState(false);
-  const [beepColor, setBeepColor] = useState("#000");
 
   const fetchUserOrders = async () => {
     try {
@@ -120,6 +119,7 @@ const Orders = (props) => {
     channel.bind("order-updated", async (data) => {
       if (data.orderedBy === props.user._id) {
         console.log("New message received:", data);
+
         if (orders && orders.length) {
           const orderIndex = orders.findIndex(
             (order) => order._id === data._id
@@ -300,7 +300,7 @@ const Orders = (props) => {
                               variant="body2"
                               fontWeight="bold"
                             >
-                              Track
+                              Track order
                             </Typography>
                             <img
                               src={trackingRipple}
