@@ -121,16 +121,19 @@ const Orders = (props) => {
       if (data.orderedBy === props.user._id) {
         console.log("New message received:", data);
         if (orders && orders.length) {
-          setOrders((prevState) => {
-            const index = prevState.findIndex(
-              (order) => order._id === data._id
-            );
-            console.log("index--->", index);
-            console.log(prevState[index]);
-            prevState[index] = data;
-            console.log("preve--->", prevState);
-            return { ...prevState };
-          });
+          const orderIndex = orders.findIndex(
+            (order) => order._id === data._id
+          );
+          if (orderIndex !== -1) {
+            // Create a copy of the order object and update its status
+            const updatedOrder = {
+              ...orders[orderIndex],
+              orderStatus: data.orderStatus,
+            };
+            const updatedOrders = [...orders];
+            updatedOrders[orderIndex] = updatedOrder;
+            setOrders(updatedOrders);
+          }
         }
       }
       // Do something with the new message here
