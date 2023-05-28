@@ -117,7 +117,7 @@ const Orders = (props) => {
     });
     const channel = pusher.subscribe("orderUpdate");
 
-    channel.bind("order-updated", (data) => {
+    channel.bind("order-updated", async (data) => {
       if (data.orderedBy === props.user._id) {
         console.log("New message received:", data);
         if (orders && orders.length) {
@@ -126,7 +126,9 @@ const Orders = (props) => {
               (order) => order._id === data._id
             );
             console.log("index--->", index);
+            console.log(prevState[index]);
             prevState[index] = data;
+            console.log("preve--->", prevState);
             return { ...prevState };
           });
         }
