@@ -119,15 +119,7 @@ const Orders = (props) => {
     channel.bind("order-updated", async (data) => {
       if (data.orderedBy === props.user._id) {
         console.log("New message received:", data);
-        if (data.orderStatus === "dispatched") {
-          props.setAlertSnackbar({
-            open: true,
-            text: `Order (Id: ${data.reference.slice(-9)}) dispatched!`,
-            severity: "success",
-            variant: "filled",
-            autoHideDuration: 5000,
-          });
-        }
+
         if (orders && orders.length) {
           const orderIndex = orders.findIndex(
             (order) => order._id === data._id
@@ -142,6 +134,15 @@ const Orders = (props) => {
             updatedOrders[orderIndex] = updatedOrder;
             setOrders(updatedOrders);
           }
+        }
+        if (data.orderStatus === "dispatched") {
+          props.setAlertSnackbar({
+            open: true,
+            text: `Order (Id: ${data.reference.slice(-9)}) dispatched!`,
+            severity: "success",
+            variant: "filled",
+            autoHideDuration: 5000,
+          });
         }
       }
       // Do something with the new message here
