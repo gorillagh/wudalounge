@@ -14,31 +14,32 @@ import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { signOut } from "firebase/auth";
 import { currentUser } from "./serverFunctions/auth";
-
-import Home from "./pages/Home";
-
-import NotFound from "./pages/NotFound";
-
-import Footer from "./components/Footers/Footer";
-
-import AdminRoute from "./components/Routes/AdminRoute";
-import AdminDashboard from "./pages/Admin/AdminDashboard";
-import AdminLogin from "./pages/Admin";
-import Orders from "./pages/Admin/Orders";
-import Menu from "./pages/Admin/Menu";
-import Users from "./pages/Admin/Users";
-import Reports from "./pages/Admin/Reports";
-import Company from "./pages/Admin/Company";
-import StaffRoute from "./components/Routes/StaffRoute";
-import StaffLogin from "./pages/Staff";
-import StaffDashboard from "./pages/Staff/StaffDashboard";
-import StaffOrders from "./pages/Staff/StaffOrders";
-import StaffReports from "./pages/Staff/StaffReports";
 import { Helmet } from "react-helmet";
 import wudaLounge from "./restaurants/wudaLounge";
 import tankos from "./restaurants/tankos";
 import papaye from "./restaurants/papaye";
 import LoadingBackdrop from "./components/Feedbacks/LoadingBackdrop";
+// import Home from "./pages/Home";
+
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+const Footer = lazy(() => import("./components/Footers/Footer"));
+
+const AdminRoute = lazy(() => import("./components/Routes/AdminRoute"));
+const AdminDashboard = lazy(() => import("./pages/Admin/AdminDashboard"));
+const AdminLogin = lazy(() => import("./pages/Admin"));
+const Orders = lazy(() => import("./pages/Admin/Orders"));
+const Menu = lazy(() => import("./pages/Admin/Menu"));
+const Users = lazy(() => import("./pages/Admin/Users"));
+const Reports = lazy(() => import("./pages/Admin/Reports"));
+const Company = lazy(() => import("./pages/Admin/Company"));
+const StaffRoute = lazy(() => import("./components/Routes/StaffRoute"));
+const StaffLogin = lazy(() => import("./pages/Staff"));
+const StaffDashboard = lazy(() => import("./pages/Staff/StaffDashboard"));
+const StaffOrders = lazy(() => import("./pages/Staff/StaffOrders"));
+const StaffReports = lazy(() => import("./pages/Staff/StaffReports"));
+
+const Home = lazy(() => import("./pages/Home"));
 // const LoadingBackdrop = lazy(() =>
 //   import("./components/Feedbacks/LoadingBackdrop")
 // );
@@ -116,234 +117,234 @@ const App = () => {
   }, [dispatch, loadUser]);
 
   return (
-    // <Suspense fallback={<div>Loading...</div>}>
-    <ThemeProvider theme={theme}>
-      <ToastContainer style={{ fontSize: "12px", fontWeight: "bold" }} />
-      <Helmet>
-        <title>{restaurantDetails.name}</title>
-        <link
-          rel="icon"
-          type="image/png"
-          href={`/${restaurantDetails.path}/favicon-32x32.png`}
-          sizes="32x32"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href={`/${restaurantDetails.path}/apple-touch-icon.png`}
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href={`/${restaurantDetails.path}/favicon-16x16.png`}
-        />
-        <link
-          rel="manifest"
-          href={`/${restaurantDetails.path}/site.webmanifest`}
-        />
-        <link rel="icon" href={`/${restaurantDetails.path}/favicon.ico`} />
-      </Helmet>
-      <Routes>
-        <Route
-          exact
-          path="/"
-          element={
-            <Home
-              restaurantDetails={restaurantDetails}
-              setRestaurantDetails={setRestaurantDetails}
-              user={user}
-              setLoadUser={setLoadUser}
-              setUser={setUser}
-            />
-          }
-        />
+    <Suspense fallback={<LoadingBackdrop />}>
+      <ThemeProvider theme={theme}>
+        <ToastContainer style={{ fontSize: "12px", fontWeight: "bold" }} />
+        <Helmet>
+          <title>{restaurantDetails.name}</title>
+          <link
+            rel="icon"
+            type="image/png"
+            href={`/${restaurantDetails.path}/favicon-32x32.png`}
+            sizes="32x32"
+          />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href={`/${restaurantDetails.path}/apple-touch-icon.png`}
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href={`/${restaurantDetails.path}/favicon-16x16.png`}
+          />
+          <link
+            rel="manifest"
+            href={`/${restaurantDetails.path}/site.webmanifest`}
+          />
+          <link rel="icon" href={`/${restaurantDetails.path}/favicon.ico`} />
+        </Helmet>
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={
+              <Home
+                restaurantDetails={restaurantDetails}
+                setRestaurantDetails={setRestaurantDetails}
+                user={user}
+                setLoadUser={setLoadUser}
+                setUser={setUser}
+              />
+            }
+          />
 
-        {/* ///////////////////////Staff/////////////////// */}
-        <Route
-          exact
-          path="/staff/login"
-          element={
-            <StaffLogin
-              restaurantDetails={restaurantDetails}
-              setUser={setUser}
-              user={user}
-            />
-          }
-        />
-        <Route
-          exact
-          path="/staff"
-          element={
-            <StaffRoute
-              restaurantDetails={restaurantDetails}
-              setUser={setUser}
-              user={user}
-            >
-              <StaffDashboard
+          {/* ///////////////////////Staff/////////////////// */}
+          <Route
+            exact
+            path="/staff/login"
+            element={
+              <StaffLogin
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
                 user={user}
               />
-            </StaffRoute>
-          }
-        />
-        <Route
-          exact
-          path="/staff/orders"
-          element={
-            <StaffRoute
-              restaurantDetails={restaurantDetails}
-              setUser={setUser}
-              user={user}
-            >
-              <StaffOrders
+            }
+          />
+          <Route
+            exact
+            path="/staff"
+            element={
+              <StaffRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
                 user={user}
-              />
-            </StaffRoute>
-          }
-        />
-        <Route
-          exact
-          path="/staff/reports"
-          element={
-            <StaffRoute
-              restaurantDetails={restaurantDetails}
-              setUser={setUser}
-              user={user}
-            >
-              <StaffReports
+              >
+                <StaffDashboard
+                  restaurantDetails={restaurantDetails}
+                  setUser={setUser}
+                  user={user}
+                />
+              </StaffRoute>
+            }
+          />
+          <Route
+            exact
+            path="/staff/orders"
+            element={
+              <StaffRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
                 user={user}
-              />
-            </StaffRoute>
-          }
-        />
+              >
+                <StaffOrders
+                  restaurantDetails={restaurantDetails}
+                  setUser={setUser}
+                  user={user}
+                />
+              </StaffRoute>
+            }
+          />
+          <Route
+            exact
+            path="/staff/reports"
+            element={
+              <StaffRoute
+                restaurantDetails={restaurantDetails}
+                setUser={setUser}
+                user={user}
+              >
+                <StaffReports
+                  restaurantDetails={restaurantDetails}
+                  setUser={setUser}
+                  user={user}
+                />
+              </StaffRoute>
+            }
+          />
 
-        {/* ///////////////Adim////////////////////////// */}
-        <Route
-          exact
-          path="/admin/login"
-          element={
-            <AdminLogin
-              restaurantDetails={restaurantDetails}
-              setUser={setUser}
-              user={user}
-            />
-          }
-        />
-        <Route
-          exact
-          path="/admin"
-          element={
-            <AdminRoute
-              restaurantDetails={restaurantDetails}
-              setUser={setUser}
-              user={user}
-            >
-              <AdminDashboard
+          {/* ///////////////Adim////////////////////////// */}
+          <Route
+            exact
+            path="/admin/login"
+            element={
+              <AdminLogin
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
                 user={user}
               />
-            </AdminRoute>
-          }
-        />
-        <Route
-          exact
-          path="/admin/orders"
-          element={
-            <AdminRoute
-              restaurantDetails={restaurantDetails}
-              setUser={setUser}
-              user={user}
-            >
-              <Orders
+            }
+          />
+          <Route
+            exact
+            path="/admin"
+            element={
+              <AdminRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
                 user={user}
-              />
-            </AdminRoute>
-          }
-        />
-        <Route
-          exact
-          path="/admin/menu"
-          element={
-            <AdminRoute
-              restaurantDetails={restaurantDetails}
-              setUser={setUser}
-              user={user}
-            >
-              <Menu
+              >
+                <AdminDashboard
+                  restaurantDetails={restaurantDetails}
+                  setUser={setUser}
+                  user={user}
+                />
+              </AdminRoute>
+            }
+          />
+          <Route
+            exact
+            path="/admin/orders"
+            element={
+              <AdminRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
                 user={user}
-              />
-            </AdminRoute>
-          }
-        />
-        <Route
-          exact
-          path="/admin/users"
-          element={
-            <AdminRoute
-              restaurantDetails={restaurantDetails}
-              setUser={setUser}
-              user={user}
-            >
-              <Users
+              >
+                <Orders
+                  restaurantDetails={restaurantDetails}
+                  setUser={setUser}
+                  user={user}
+                />
+              </AdminRoute>
+            }
+          />
+          <Route
+            exact
+            path="/admin/menu"
+            element={
+              <AdminRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
                 user={user}
-              />
-            </AdminRoute>
-          }
-        />
-        <Route
-          exact
-          path="/admin/reports"
-          element={
-            <AdminRoute
-              restaurantDetails={restaurantDetails}
-              setUser={setUser}
-              user={user}
-            >
-              <Reports
+              >
+                <Menu
+                  restaurantDetails={restaurantDetails}
+                  setUser={setUser}
+                  user={user}
+                />
+              </AdminRoute>
+            }
+          />
+          <Route
+            exact
+            path="/admin/users"
+            element={
+              <AdminRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
                 user={user}
-              />
-            </AdminRoute>
-          }
-        />
-        <Route
-          exact
-          path="/admin/company"
-          element={
-            <AdminRoute
-              restaurantDetails={restaurantDetails}
-              setUser={setUser}
-              user={user}
-            >
-              <Company
+              >
+                <Users
+                  restaurantDetails={restaurantDetails}
+                  setUser={setUser}
+                  user={user}
+                />
+              </AdminRoute>
+            }
+          />
+          <Route
+            exact
+            path="/admin/reports"
+            element={
+              <AdminRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
                 user={user}
-              />
-            </AdminRoute>
-          }
-        />
+              >
+                <Reports
+                  restaurantDetails={restaurantDetails}
+                  setUser={setUser}
+                  user={user}
+                />
+              </AdminRoute>
+            }
+          />
+          <Route
+            exact
+            path="/admin/company"
+            element={
+              <AdminRoute
+                restaurantDetails={restaurantDetails}
+                setUser={setUser}
+                user={user}
+              >
+                <Company
+                  restaurantDetails={restaurantDetails}
+                  setUser={setUser}
+                  user={user}
+                />
+              </AdminRoute>
+            }
+          />
 
-        <Route exact path="*" element={<NotFound />} />
-      </Routes>
-      <Footer restaurantDetails={restaurantDetails} />
-      <LoadingBackdrop open={loading} />
-    </ThemeProvider>
-    // </Suspense>
+          <Route exact path="*" element={<NotFound />} />
+        </Routes>
+        <Footer restaurantDetails={restaurantDetails} />
+        <LoadingBackdrop open={loading} />
+      </ThemeProvider>
+    </Suspense>
   );
 };
 

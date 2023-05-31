@@ -4,21 +4,19 @@ import Pusher from "pusher-js";
 import Box from "@mui/material/Box";
 
 import Subtitle from "../components/Typography/Subtitle";
-import {
-  Divider,
-  Grid,
-  Icon,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import Icon from "@mui/material/Icon";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Container from "@mui/material/Container";
 
 import { getDishes } from "../serverFunctions/dish";
-import { Container } from "@mui/system";
+
 import Dish from "../components/PopUps/Dish";
 import DishCard from "../components/Cards/DishCard";
-// import LoadingBackdrop from "../components/Feedbacks/LoadingBackdrop";
+import LoadingBackdrop from "../components/Feedbacks/LoadingBackdrop";
 import DishNavbar from "../components/Navbars/DishNavbar";
 import ViewBasket from "../components/Navbars/ViewBasket";
 // import Basket from "../components/PopUps/Basket";
@@ -32,16 +30,17 @@ import Profile from "../components/PopUps/Profile";
 import Favorites from "../components/PopUps/Favorites";
 import Account from "../components/PopUps/Account";
 import GoogleMap from "../components/PopUps/GoogleMap";
-import AboutUs from "../components/PopUps/AboutUs";
+// import AboutUs from "../components/PopUps/AboutUs";
 import Search from "../components/PopUps/Search";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import ActionButton from "../components/Buttons/ActionButton";
 
+const AboutUs = lazy(() => import("../components/PopUps/AboutUs"));
 const Basket = lazy(() => import("../components/PopUps/Basket"));
-const LoadingBackdrop = lazy(() =>
-  import("../components/Feedbacks/LoadingBackdrop")
-);
+// const LoadingBackdrop = lazy(() =>
+//   import("../components/Feedbacks/LoadingBackdrop")
+// );
 
 const infoList = [
   {
@@ -269,7 +268,7 @@ const Home = (props) => {
   };
 
   return (
-    <Suspense fallback={LoadingBackdrop}>
+    <Suspense fallback={<LoadingBackdrop />}>
       <Box>
         <Navbar
           setOpenGoogleMap={setOpenGoogleMap}
@@ -574,6 +573,7 @@ const Home = (props) => {
         ) : (
           ""
         )}
+
         <Basket
           selectedBranch={selectedBranch}
           setSelectedBranch={setSelectedBranch}
