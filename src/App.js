@@ -117,39 +117,40 @@ const App = () => {
   }, [dispatch, loadUser]);
 
   return (
-    <Suspense fallback={<LoadingBackdrop />}>
-      <ThemeProvider theme={theme}>
-        <ToastContainer style={{ fontSize: "12px", fontWeight: "bold" }} />
-        <Helmet>
-          <title>{restaurantDetails.name}</title>
-          <link
-            rel="icon"
-            type="image/png"
-            href={`/${restaurantDetails.path}/favicon-32x32.png`}
-            sizes="32x32"
-          />
-          <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href={`/${restaurantDetails.path}/apple-touch-icon.png`}
-          />
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href={`/${restaurantDetails.path}/favicon-16x16.png`}
-          />
-          <link
-            rel="manifest"
-            href={`/${restaurantDetails.path}/site.webmanifest`}
-          />
-          <link rel="icon" href={`/${restaurantDetails.path}/favicon.ico`} />
-        </Helmet>
-        <Routes>
-          <Route
-            exact
-            path="/"
-            element={
+    <ThemeProvider theme={theme}>
+      <ToastContainer style={{ fontSize: "12px", fontWeight: "bold" }} />
+      <Helmet>
+        <title>{restaurantDetails.name}</title>
+        <link
+          rel="icon"
+          type="image/png"
+          href={`/${restaurantDetails.path}/favicon-32x32.png`}
+          sizes="32x32"
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href={`/${restaurantDetails.path}/apple-touch-icon.png`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href={`/${restaurantDetails.path}/favicon-16x16.png`}
+        />
+        <link
+          rel="manifest"
+          href={`/${restaurantDetails.path}/site.webmanifest`}
+        />
+        <link rel="icon" href={`/${restaurantDetails.path}/favicon.ico`} />
+      </Helmet>
+
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={
+            <Suspense fallback={LoadingBackdrop}>
               <Home
                 restaurantDetails={restaurantDetails}
                 setRestaurantDetails={setRestaurantDetails}
@@ -157,25 +158,29 @@ const App = () => {
                 setLoadUser={setLoadUser}
                 setUser={setUser}
               />
-            }
-          />
+            </Suspense>
+          }
+        />
 
-          {/* ///////////////////////Staff/////////////////// */}
-          <Route
-            exact
-            path="/staff/login"
-            element={
+        {/* ///////////////////////Staff/////////////////// */}
+        <Route
+          exact
+          path="/staff/login"
+          element={
+            <Suspense fallback={LoadingBackdrop}>
               <StaffLogin
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
                 user={user}
               />
-            }
-          />
-          <Route
-            exact
-            path="/staff"
-            element={
+            </Suspense>
+          }
+        />
+        <Route
+          exact
+          path="/staff"
+          element={
+            <Suspense fallback={LoadingBackdrop}>
               <StaffRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
@@ -187,12 +192,14 @@ const App = () => {
                   user={user}
                 />
               </StaffRoute>
-            }
-          />
-          <Route
-            exact
-            path="/staff/orders"
-            element={
+            </Suspense>
+          }
+        />
+        <Route
+          exact
+          path="/staff/orders"
+          element={
+            <Suspense fallback={LoadingBackdrop}>
               <StaffRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
@@ -204,42 +211,46 @@ const App = () => {
                   user={user}
                 />
               </StaffRoute>
-            }
-          />
-          <Route
-            exact
-            path="/staff/reports"
-            element={
-              <StaffRoute
+            </Suspense>
+          }
+        />
+        <Route
+          exact
+          path="/staff/reports"
+          element={
+            <StaffRoute
+              restaurantDetails={restaurantDetails}
+              setUser={setUser}
+              user={user}
+            >
+              <StaffReports
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
                 user={user}
-              >
-                <StaffReports
-                  restaurantDetails={restaurantDetails}
-                  setUser={setUser}
-                  user={user}
-                />
-              </StaffRoute>
-            }
-          />
+              />
+            </StaffRoute>
+          }
+        />
 
-          {/* ///////////////Adim////////////////////////// */}
-          <Route
-            exact
-            path="/admin/login"
-            element={
+        {/* ///////////////Adim////////////////////////// */}
+        <Route
+          exact
+          path="/admin/login"
+          element={
+            <Suspense fallback={LoadingBackdrop}>
               <AdminLogin
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
                 user={user}
               />
-            }
-          />
-          <Route
-            exact
-            path="/admin"
-            element={
+            </Suspense>
+          }
+        />
+        <Route
+          exact
+          path="/admin"
+          element={
+            <Suspense fallback={LoadingBackdrop}>
               <AdminRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
@@ -251,12 +262,14 @@ const App = () => {
                   user={user}
                 />
               </AdminRoute>
-            }
-          />
-          <Route
-            exact
-            path="/admin/orders"
-            element={
+            </Suspense>
+          }
+        />
+        <Route
+          exact
+          path="/admin/orders"
+          element={
+            <Suspense fallback={LoadingBackdrop}>
               <AdminRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
@@ -268,12 +281,14 @@ const App = () => {
                   user={user}
                 />
               </AdminRoute>
-            }
-          />
-          <Route
-            exact
-            path="/admin/menu"
-            element={
+            </Suspense>
+          }
+        />
+        <Route
+          exact
+          path="/admin/menu"
+          element={
+            <Suspense fallback={LoadingBackdrop}>
               <AdminRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
@@ -285,12 +300,14 @@ const App = () => {
                   user={user}
                 />
               </AdminRoute>
-            }
-          />
-          <Route
-            exact
-            path="/admin/users"
-            element={
+            </Suspense>
+          }
+        />
+        <Route
+          exact
+          path="/admin/users"
+          element={
+            <Suspense fallback={LoadingBackdrop}>
               <AdminRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
@@ -302,12 +319,14 @@ const App = () => {
                   user={user}
                 />
               </AdminRoute>
-            }
-          />
-          <Route
-            exact
-            path="/admin/reports"
-            element={
+            </Suspense>
+          }
+        />
+        <Route
+          exact
+          path="/admin/reports"
+          element={
+            <Suspense fallback={LoadingBackdrop}>
               <AdminRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
@@ -319,12 +338,14 @@ const App = () => {
                   user={user}
                 />
               </AdminRoute>
-            }
-          />
-          <Route
-            exact
-            path="/admin/company"
-            element={
+            </Suspense>
+          }
+        />
+        <Route
+          exact
+          path="/admin/company"
+          element={
+            <Suspense fallback={LoadingBackdrop}>
               <AdminRoute
                 restaurantDetails={restaurantDetails}
                 setUser={setUser}
@@ -336,15 +357,23 @@ const App = () => {
                   user={user}
                 />
               </AdminRoute>
-            }
-          />
+            </Suspense>
+          }
+        />
 
-          <Route exact path="*" element={<NotFound />} />
-        </Routes>
-        <Footer restaurantDetails={restaurantDetails} />
-        <LoadingBackdrop open={loading} />
-      </ThemeProvider>
-    </Suspense>
+        <Route
+          exact
+          path="*"
+          element={
+            <Suspense fallback={LoadingBackdrop}>
+              <NotFound />
+            </Suspense>
+          }
+        />
+      </Routes>
+      <Footer restaurantDetails={restaurantDetails} />
+      <LoadingBackdrop open={loading} />
+    </ThemeProvider>
   );
 };
 

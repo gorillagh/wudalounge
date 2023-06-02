@@ -522,7 +522,7 @@ const AdminDashboard = (props) => {
           </Box>
         </Grid>
       </Grid>
-      <LoadingBackdrop open={loading} />
+      {/* <LoadingBackdrop open={loading} /> */}
     </div>
   );
 };
