@@ -13,7 +13,7 @@ import Subtitle from "../Typography/Subtitle";
 import LoadingBackdrop from "../Feedbacks/LoadingBackdrop";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import ActionButton from "../Buttons/ActionButton";
-import MyMapComponent from "../MyMapComponent";
+import OrderTrackingMap from "../OrderTrackingMap";
 
 const style = {
   position: "absolute",
@@ -50,10 +50,13 @@ const OrderTracking = (props) => {
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState(null);
   const [addressLoading, setAddressLoading] = useState(false);
+  const [estimatedTime, setEstimatedTime] = useState(null);
+  const [timeRemaining, setTimeRemaining] = useState(null);
+  const [calculatedDistance, setCalculatedDistance] = useState(null);
 
   useEffect(() => {
-    setAddress(props.pinAddress);
-  }, [props.pinAddress]);
+    console.log("selected order==>", props.order);
+  }, []);
 
   const containerRef = React.useRef(null);
 
@@ -96,7 +99,11 @@ const OrderTracking = (props) => {
                     boxShadow: "0 8px 16px 0 rgba(0, 0, 0, 0.2)",
                   },
                 }}
-                onClick={props.onClose}
+                onClick={() => {
+                  setCalculatedDistance(null);
+                  setEstimatedTime(null);
+                  props.onClose();
+                }}
               >
                 <Icon sx={{ color: "#000" }}>close</Icon>
               </IconButton>
@@ -104,16 +111,63 @@ const OrderTracking = (props) => {
                 render={render}
                 apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
               >
-                <MyMapComponent
-                  address={address}
-                  setAddress={setAddress}
-                  setPinAddress={props.setPinAddress}
-                  pinAddress={props.pinAddress}
+                <OrderTrackingMap
+                  order={props.order}
                   lat={props.lat}
                   lng={props.lng}
-                  addressLoading={addressLoading}
-                  setAddressLoading={setAddressLoading}
+                  user={props.user}
+                  selectedBranch={props.selectedBranch}
+                  setEstimatedTime={setEstimatedTime}
+                  setCalculatedDistance={setCalculatedDistance}
                 />
+                <Box borderTopRightRadius="12px" borderTopLeftRadius="12px">
+                  <AppBar
+                    position="fixed"
+                    color="inherit"
+                    sx={{
+                      boxShadow: "4px 4px 8px 5px rgba(0, 0, 0, 0.2)",
+                      top: "auto",
+                      bottom: 0,
+                      p: 2,
+                      // background: "rgba(255, 255, 255, 0.5)",
+                      // backdropFilter: "blur(8.8px)",
+                      // WebkitBackdropFilter: "blur(8.8px)",
+                      width: { md: "60%" },
+                      left: { md: "20%" },
+                      borderTopRightRadius: "12px",
+                      borderTopLeftRadius: "12px",
+                    }}
+                  >
+                    {estimatedTime && calculatedDistance ? (
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
+                        <Subtitle
+                          title={`Arrives in ${estimatedTime}`}
+                          my={0}
+                        />
+                        {/* <Subtitle title={calculatedDistance} my={0} /> */}
+
+                        <IconButton size="small" color="primary">
+                          <Box
+                            display="flex"
+                            flexDirection="column"
+                            alignItems="center"
+                          >
+                            <Icon>phone</Icon>
+                            <Typography variant="body2" fontWeight={500}>
+                              Call courier
+                            </Typography>
+                          </Box>
+                        </IconButton>
+                      </Box>
+                    ) : (
+                      ""
+                    )}
+                  </AppBar>
+                </Box>
                 <LoadingBackdrop open={loading} />
               </Wrapper>
             </Box>

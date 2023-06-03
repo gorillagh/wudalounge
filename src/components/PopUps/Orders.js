@@ -27,6 +27,7 @@ import {
 import ActionButton from "../Buttons/ActionButton";
 import IssueBox from "./IssueBox";
 import trackingRipple from "../../images/trackingRipple.svg";
+import OrderTracking from "./OrderTracking";
 
 const style = {
   position: "absolute",
@@ -93,6 +94,8 @@ const Orders = (props) => {
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState(null);
   const [openIssueBox, setOpenIssueBox] = useState(false);
+  const [openOrderTracking, setOpenOrderTracking] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const fetchUserOrders = async () => {
     try {
@@ -303,6 +306,11 @@ const Orders = (props) => {
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => {
+                              setSelectedOrder(order);
+                              setOpenOrderTracking(true);
+                            }}
                           >
                             <Typography
                               color="info.main"
@@ -509,6 +517,15 @@ const Orders = (props) => {
               open={openIssueBox}
               onClose={() => setOpenIssueBox(false)}
             />
+            {selectedOrder && (
+              <OrderTracking
+                open={openOrderTracking}
+                onClose={() => setOpenOrderTracking(false)}
+                order={selectedOrder}
+                user={props.user}
+                selectedBranch={props.selectedBranch}
+              />
+            )}
             <LoadingBackdrop open={loading} />
           </Box>
         </Zoom>

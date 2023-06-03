@@ -643,6 +643,7 @@ const Home = (props) => {
               setOpenBasket={setOpenBasket}
               cart={cart}
               setAlertSnackbar={setAlertSnackbar}
+              selectedBranch={selectedBranch}
             />
             <Account
               open={openAccount}

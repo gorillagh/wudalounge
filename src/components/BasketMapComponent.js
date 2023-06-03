@@ -33,7 +33,6 @@ var render = function (status) {
 const BasketMapComponent = (props) => {
   const mapRef = useRef();
   const loadMapDetails = async (lat, lng) => {
-    const directionsService = new window.google.maps.DirectionsService();
     const map = new window.google.maps.Map(mapRef.current, {
       center: {
         lat,
@@ -52,6 +51,8 @@ const BasketMapComponent = (props) => {
       },
       map,
     });
+
+    const directionsService = new window.google.maps.DirectionsService();
     directionsService.route(
       {
         origin: new window.google.maps.LatLng(
