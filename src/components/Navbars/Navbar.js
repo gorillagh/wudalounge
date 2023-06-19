@@ -570,7 +570,7 @@ function Navbar(props) {
                 <Link
                   text={`${props.restaurantDetails.shortName}`}
                   to="/"
-                  color="#000"
+                  color={props.restaurantDetails.theme.palette.primary.main}
                 />
               </Typography>
               <Typography
@@ -582,6 +582,7 @@ function Navbar(props) {
                   // fontFamily: "",
                   fontWeight: 700,
                   letterSpacing: ".1rem",
+                  color: props.restaurantDetails.theme.palette.primary.main,
                   textDecoration: "none",
                 }}
               >

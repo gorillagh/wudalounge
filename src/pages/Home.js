@@ -362,13 +362,24 @@ const Home = (props) => {
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
-            backgroundImage: "url(/hero1.webp)",
+            backgroundImage: `url(${props.restaurantDetails.backgroundPic})`,
             borderBottomRightRadius: 8,
             borderBottomLeftRadius: 8,
             mb: 2,
+
+            "::before": {
+              content: '""',
+              position: "absolute",
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.5)", // Adjust the opacity (0.5) to make it darker
+              zIndex: 1,
+            },
           }}
         >
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ position: "relative", zIndex: 1 }}>
             <Box>
               <Carousel
                 showIndicators={true}

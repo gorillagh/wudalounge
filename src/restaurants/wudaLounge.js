@@ -5,6 +5,8 @@ const wudaLounge = {
   path: "wuda",
   nameExtension: "Lounge",
   website: "https://www.wudalounge.com",
+  backgroundPic:
+    "https://images.unsplash.com/photo-1503220178855-e31ec372b8ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
   orderDuration: 20,
   branches: [
     {
@@ -48,6 +50,9 @@ const wudaLounge = {
       url: "https://www.snapchat.com/add/chancho",
     },
     whatsapp: { number: "+233244885739" },
+    boltFood: {
+      url: "https://food.bolt.eu/en-US/137/p/38734-veggie-box",
+    },
   },
 
   menu: {

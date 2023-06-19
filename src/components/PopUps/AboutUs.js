@@ -56,37 +56,6 @@ const AboutUs = (props) => {
   function MyMapComponent() {
     const ref = useRef();
 
-    // useEffect(() => {
-    //   const script = document.createElement("script");
-    //   script.src = "//code.jivosite.com/widget/SUfH4It6wH";
-    //   script.async = true;
-    //   script.id = "jivosite-script"; // Add an id attribute to the script element
-
-    //   if (props.open === true) {
-    //     document.body.appendChild(script);
-    //   } else {
-    //     const existingScript = document.getElementById("jivosite-script"); // Find the script element using its id
-    //     const existingElement = document.getElementById("jivo_container");
-    //     console.log("Element--->", existingElement);
-    //     console.log("Script---->", existingScript);
-    //     if (existingScript) {
-    //       // existingElement.remove();
-    //       existingScript.remove();
-    //     }
-    //     if (existingElement) {
-    //       existingElement.remove();
-    //     }
-    //   }
-
-    //   return () => {
-    //     const existingScript = document.getElementById("jivosite-script"); // Find the script element using its id
-    //     const existingElement = document.getElementById("jivo_container");
-    //     if (existingScript) {
-    //       existingScript.remove();
-    //     }
-    //   };
-    // }, [props.open]);
-
     useEffect(() => {
       const map = new window.google.maps.Map(ref.current, {
         center: {
@@ -219,39 +188,7 @@ const AboutUs = (props) => {
                   {text}
                 </Typography>
               ))}
-              {/* <Typography variant="body2" my={1}>
-                Welcome to Wuda Lounge, a family-owned and operated restaurant
-                that has been serving delicious meals for over 5 years. Our
-                passion for food, hospitality, and community has driven us to
-                create a warm and inviting atmosphere where everyone feels at
-                home.
-              </Typography>
-              <Typography variant="body2" my={1}>
-                Our menu features a wide variety of dishes made with only the
-                freshest and finest ingredients, sourced from local suppliers
-                and farmers. From classic comfort foods to contemporary cuisine,
-                we have something to suit everyone's taste buds. Our chef and
-                kitchen staff take great pride in preparing each dish to
-                perfection, ensuring that every bite is as good as the last.
-              </Typography>
-              <Typography variant="body2" my={1}>
-                In addition to dining in, we also offer food delivery services
-                to make sure our customers can enjoy their favorite meals in the
-                comfort of their own homes. Our delivery drivers are prompt,
-                friendly, and committed to delivering your food hot and fresh.
-              </Typography>
-              <Typography variant="body2" my={1}>
-                We believe that food should not only taste great, but also do
-                good for the community and the environment. That's why we have
-                implemented eco-friendly practices in our kitchen and have made
-                a commitment to supporting local non-profit organizations.
-              </Typography>
-              <Typography variant="body2" my={1}>
-                Whether you're in the mood for a quick lunch, a romantic dinner
-                for two, or a family gathering, Wuda Lounge is the perfect place
-                to be. We look forward to serving you and making your dining
-                experience a memorable one.
-              </Typography> */}
+
               <Box my={4}>
                 <Subtitle
                   title="Locate us"

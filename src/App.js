@@ -18,6 +18,7 @@ import { Helmet } from "react-helmet";
 import wudaLounge from "./restaurants/wudaLounge";
 import tankos from "./restaurants/tankos";
 import papaye from "./restaurants/papaye";
+import veggieBox from "./restaurants/veggieBox";
 import LoadingBackdrop from "./components/Feedbacks/LoadingBackdrop";
 // import Home from "./pages/Home";
 
@@ -48,7 +49,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [loadUser, setLoadUser] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [restaurantDetails, setRestaurantDetails] = useState(wudaLounge);
+  const [restaurantDetails, setRestaurantDetails] = useState(veggieBox);
   let theme = createTheme({
     ...restaurantDetails.theme,
   });
