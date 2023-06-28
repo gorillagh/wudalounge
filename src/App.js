@@ -49,7 +49,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [loadUser, setLoadUser] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [restaurantDetails, setRestaurantDetails] = useState(veggieBox);
+  const [restaurantDetails, setRestaurantDetails] = useState(wudaLounge);
   let theme = createTheme({
     ...restaurantDetails.theme,
   });
